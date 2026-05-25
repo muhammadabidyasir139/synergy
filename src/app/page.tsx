@@ -8,9 +8,12 @@ export default function Home() {
       <Navbar />
       
       <main className={styles.main}>
-        {/* Background glow effects */}
-        <div className={styles.glowTop}></div>
-        <div className={styles.glowBottom}></div>
+        {/* Floating animated background orbs */}
+        <div className={styles.orbContainer}>
+          <div className={`${styles.orb} ${styles.orb1}`}></div>
+          <div className={`${styles.orb} ${styles.orb2}`}></div>
+          <div className={`${styles.orb} ${styles.orb3}`}></div>
+        </div>
 
         {/* Hero Section */}
         <section className={styles.hero}>

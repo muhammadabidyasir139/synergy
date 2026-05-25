@@ -1,44 +1,45 @@
 :root {
-  /* Light Mode Variables */
-  --bg-color: #f8fafc;
-  --text-color: #0f172a;
-  --text-muted: #64748b;
+  /* Light Mode Variables - Crisp & Clean */
+  --bg-color: #fafafa;
+  --text-color: #09090b;
+  --text-muted: #71717a;
   
-  /* Brand Colors */
-  --primary: #06b6d4; /* AI/Blockchain Cyan */
-  --primary-hover: #0891b2;
-  --secondary: #fbbf24; /* Sharia Gold */
-  --secondary-hover: #f59e0b;
+  /* Brand Colors - Trustworthy Blue & Navy (Corporate/Finance) */
+  --primary: #2563eb; /* Royal Blue */
+  --primary-hover: #1d4ed8;
+  --secondary: #1e3a8a; /* Deep Navy */
+  --secondary-hover: #172554;
   
   --surface-bg: #ffffff;
-  --border-color: #e2e8f0;
+  --border-color: #e4e4e7;
 
   /* Glassmorphism */
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.3);
 
   /* Nav */
-  --nav-bg: rgba(255, 255, 255, 0.8);
+  --nav-bg: rgba(250, 250, 250, 0.8);
 }
 
 .dark {
-  /* Dark Mode Variables */
-  --bg-color: #020617; /* Deep space blue */
-  --text-color: #f8fafc;
-  --text-muted: #94a3b8;
+  /* Dark Mode Variables - Deep Space */
+  --bg-color: #09090b; /* Very dark, almost black */
+  --text-color: #f4f4f5;
+  --text-muted: #a1a1aa;
   
-  --primary: #22d3ee;
-  --primary-hover: #06b6d4;
-  --secondary: #fbbf24;
-  --secondary-hover: #f59e0b;
+  /* Glowing Brand Colors */
+  --primary: #3b82f6; /* Brighter Blue */
+  --primary-hover: #60a5fa;
+  --secondary: #1e40af; /* Bright Navy */
+  --secondary-hover: #1e3a8a;
   
-  --surface-bg: #0f172a;
-  --border-color: #1e293b;
+  --surface-bg: #18181b;
+  --border-color: #27272a;
 
-  --glass-bg: rgba(15, 23, 42, 0.6);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(24, 24, 27, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.08);
 
-  --nav-bg: rgba(2, 6, 23, 0.8);
+  --nav-bg: rgba(9, 9, 11, 0.8);
 }
 
 html {

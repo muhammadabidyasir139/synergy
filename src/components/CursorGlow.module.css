@@ -1,0 +1,32 @@
+.cursorGlow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -2; /* Keep it behind everything */
+  
+  /* Fallback position if variables aren't set yet */
+  --cursor-x: 50vw;
+  --cursor-y: 50vh;
+  
+  /* The radial gradient uses rgba of the Royal Blue color (#2563eb = 37, 99, 235) */
+  background: radial-gradient(
+    600px circle at var(--cursor-x) var(--cursor-y),
+    rgba(37, 99, 235, 0.08),
+    transparent 40%
+  );
+  
+  transition: opacity 0.5s ease;
+}
+
+/* In Dark Mode, make the glow slightly more visible */
+:global(.dark) .cursorGlow {
+  background: radial-gradient(
+    600px circle at var(--cursor-x) var(--cursor-y),
+    rgba(37, 99, 235, 0.12),
+    rgba(30, 58, 138, 0.05) 20%,
+    transparent 40%
+  );
+}
