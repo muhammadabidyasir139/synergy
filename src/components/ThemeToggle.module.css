@@ -1,0 +1,16 @@
+.toggleBtn {
+  background: var(--surface-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.toggleBtn:hover {
+  background: var(--border-color);
+}

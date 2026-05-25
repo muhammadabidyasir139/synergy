@@ -1,0 +1,43 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import styles from "./ThemeToggle.module.css";
+
+export default function ThemeToggle() {
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    // Check initial preference
+    const isDarkMode = document.documentElement.classList.contains("dark") || 
+                       (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    
+    setIsDark(isDarkMode);
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    if (isDark) {
+      document.documentElement.classList.remove("dark");
+      localStorage.theme = "light";
+      setIsDark(false);
+    } else {
+      document.documentElement.classList.add("dark");
+      localStorage.theme = "dark";
+      setIsDark(true);
+    }
+  };
+
+  return (
+    <button 
+      onClick={toggleTheme} 
+      className={styles.toggleBtn}
+      aria-label="Toggle Dark Mode"
+    >
+      {isDark ? "☀️ Light" : "🌙 Dark"}
+    </button>
+  );
+}
