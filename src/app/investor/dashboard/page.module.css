@@ -1,0 +1,461 @@
+/* ── Investor Dashboard Home ── */
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+/* Welcome Banner */
+.welcomeBanner {
+  padding: 2rem 2.25rem;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #1d4ed8, #0ea5e9);
+  color: #ffffff;
+  box-shadow: 0 8px 30px rgba(29, 78, 216, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.bannerContent h1 {
+  font-size: 1.7rem;
+  font-weight: 800;
+  margin-bottom: 0.4rem;
+}
+
+.bannerContent p {
+  font-size: 0.9rem;
+  opacity: 0.88;
+  line-height: 1.6;
+}
+
+.bannerContent p strong {
+  font-weight: 800;
+}
+
+.exploreCta {
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  padding: 0.65rem 1.25rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+}
+
+.exploreCta:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+/* Metrics Grid */
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem;
+}
+
+.metricCard {
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  background: var(--surface-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  transition: all 0.25s ease;
+}
+
+.metricCard:hover {
+  transform: translateY(-4px);
+  border-color: #1d4ed8;
+  box-shadow: 0 8px 20px rgba(29, 78, 216, 0.08);
+}
+
+.metricHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.metricLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.metricIcon {
+  font-size: 1.3rem;
+  width: 36px;
+  height: 36px;
+  background: rgba(29, 78, 216, 0.07);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.metricValue {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--text-color);
+}
+
+.metricFooter {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.73rem;
+}
+
+.trendUp {
+  color: #10b981;
+  font-weight: 700;
+}
+
+.trendText {
+  color: var(--text-muted);
+}
+
+/* Mid row */
+.midRow {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  .midRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Shared Card */
+.card {
+  border-radius: 18px;
+  border: 1px solid var(--border-color);
+  background: var(--surface-bg);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.cardHeader h3 {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text-color);
+}
+
+.cardSubtitle {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+}
+
+/* Chart */
+.chart {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0;
+  position: relative;
+}
+
+.chartY {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.barGroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.bar {
+  width: 55%;
+  border-radius: 6px 6px 0 0;
+  background: linear-gradient(to top, #1d4ed8, #0ea5e9);
+  position: relative;
+  transition: all 0.3s ease;
+  min-height: 8px;
+  cursor: pointer;
+}
+
+.bar:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 0 12px rgba(14, 165, 233, 0.3);
+}
+
+.tooltip {
+  position: absolute;
+  top: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text-color);
+  color: var(--bg-color);
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.15s ease;
+}
+
+.bar:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.barLabel {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.legendDot {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.dotBlue {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: linear-gradient(135deg, #1d4ed8, #0ea5e9);
+  display: inline-block;
+}
+
+/* Notifications */
+.badge {
+  padding: 0.25rem 0.6rem;
+  border-radius: 30px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: rgba(14, 165, 233, 0.1);
+  color: #0ea5e9;
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  white-space: nowrap;
+}
+
+.notifList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.notifItem {
+  display: flex;
+  gap: 0.7rem;
+  padding: 0.85rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+}
+
+.notifWarn {
+  background: rgba(245, 158, 11, 0.06);
+  border-color: rgba(245, 158, 11, 0.15) !important;
+}
+
+.notifProfit {
+  background: rgba(16, 185, 129, 0.06);
+  border-color: rgba(16, 185, 129, 0.15) !important;
+}
+
+.notifInfo {
+  background: rgba(29, 78, 216, 0.04);
+  border-color: rgba(29, 78, 216, 0.1) !important;
+}
+
+.notifIcon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.notifContent {
+  flex: 1;
+}
+
+.notifMsg {
+  font-size: 0.8rem;
+  color: var(--text-color);
+  font-weight: 500;
+  line-height: 1.5;
+  margin-bottom: 0.4rem;
+}
+
+.notifMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+
+.dismissBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #0ea5e9;
+  font-weight: 700;
+  font-size: 0.68rem;
+  padding: 0;
+  font-family: inherit;
+}
+
+.dismissBtn:hover {
+  text-decoration: underline;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.emptyState span {
+  font-size: 1.75rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* Table */
+.tableWrap {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+.table th {
+  padding: 0.85rem 1rem;
+  border-bottom: 2px solid var(--border-color);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.mono {
+  font-family: monospace;
+  font-weight: 700;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.roiCell {
+  color: #10b981;
+  font-weight: 700;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border-radius: 30px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.statusOngoing {
+  background: rgba(14, 165, 233, 0.1);
+  color: #0ea5e9;
+}
+
+.statusCompleted {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.statusFailed {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.viewAllBtn {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #1d4ed8;
+  white-space: nowrap;
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  background: rgba(29, 78, 216, 0.07);
+  transition: background 0.2s ease;
+}
+
+.viewAllBtn:hover {
+  background: rgba(29, 78, 216, 0.12);
+}
+
+.dark .viewAllBtn {
+  color: #60a5fa;
+  background: rgba(96, 165, 250, 0.07);
+}
+
+@media (max-width: 768px) {
+  .welcomeBanner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .metricsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

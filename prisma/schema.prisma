@@ -1,0 +1,604 @@
+// Synergy - Platform Pembiayaan UMKM Syariah
+// Prisma ORM Schema — MySQL
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+// ─────────────────────────────────────────
+//  ENUMS
+// ─────────────────────────────────────────
+
+enum Role {
+  ADMIN
+  INVESTOR
+  UMKM
+}
+
+enum UserStatus {
+  PENDING_VERIFICATION
+  ACTIVE
+  SUSPENDED
+  BANNED
+}
+
+enum KycStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum AkadType {
+  MUSYARAKAH
+  MURABAHAH
+}
+
+enum AkadStatus {
+  PENDING       // waiting for admin approval
+  ACTIVE        // both parties signed, smart contract live
+  COMPLETED     // finished
+  CANCELLED
+}
+
+enum FundingStatus {
+  PENDING       // awaiting admin review
+  APPROVED      // approved, campaign created
+  REJECTED
+  ACTIVE        // campaign open for investment
+  COMPLETED     // funding target reached
+  FAILED        // campaign ended without reaching target
+}
+
+enum InvestmentStatus {
+  ONGOING
+  COMPLETED
+  FAILED
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  INVESTMENT
+  PROFIT_SHARING
+  PLATFORM_FEE
+  REFUND
+}
+
+enum TransactionStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  FLAGGED
+  BLOCKED
+}
+
+enum ProfitSharingStatus {
+  PENDING
+  PAID
+  OVERDUE
+}
+
+enum NotificationType {
+  SYSTEM
+  KYC
+  INVESTMENT
+  PROFIT_SHARING
+  RISK_ALERT
+  FRAUD_ALERT
+  AKAD
+  BROADCAST
+}
+
+enum FraudStatus {
+  DETECTED
+  CONFIRMED
+  IGNORED
+}
+
+enum OtpPurpose {
+  LOGIN
+  REGISTER
+  EMAIL_VERIFY
+  PHONE_VERIFY
+  TRANSACTION
+}
+
+// ─────────────────────────────────────────
+//  USERS & PROFILES
+// ─────────────────────────────────────────
+
+model User {
+  id              String     @id @default(cuid())
+  email           String?    @unique
+  phoneNumber     String     @unique
+  passwordHash    String?
+  role            Role
+  status          UserStatus @default(PENDING_VERIFICATION)
+  kycStatus       KycStatus  @default(PENDING)
+  isEmailVerified Boolean    @default(false)
+  isPhoneVerified Boolean    @default(false)
+  lastLoginAt     DateTime?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  adminProfile      AdminProfile?
+  investorProfile   InvestorProfile?
+  umkmProfile       UmkmProfile?
+  wallet            Wallet?
+  kycDocuments      KycDocument[]
+  notifications     Notification[]
+  sentNotifications Notification[]   @relation("NotificationSender")
+  otpVerifications  OtpVerification[]
+  auditLogs         AuditLog[]
+
+  @@map("users")
+}
+
+model AdminProfile {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  fullName     String
+  isSuperAdmin Boolean  @default(false)
+  department   String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("admin_profiles")
+}
+
+model InvestorProfile {
+  id             String    @id @default(cuid())
+  userId         String    @unique
+  fullName       String
+  dateOfBirth    DateTime?
+  address        String?
+  city           String?
+  province       String?
+  investmentGoal String?
+  riskTolerance  RiskLevel @default(MEDIUM)
+  totalInvested  Decimal   @default(0) @db.Decimal(18, 2)
+  totalProfit    Decimal   @default(0) @db.Decimal(18, 2)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  investments Investment[]
+
+  @@map("investor_profiles")
+}
+
+model UmkmProfile {
+  id                  String    @id @default(cuid())
+  userId              String    @unique
+  ownerName           String
+  businessName        String
+  businessCategory    String
+  businessDescription String?   @db.Text
+  location            String?
+  city                String?
+  province            String?
+  establishedDate     DateTime?
+  employeeCount       Int?
+  monthlyRevenue      Decimal?  @db.Decimal(18, 2)
+  website             String?
+  socialMedia         String?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  creditScores        CreditScore[]
+  businessData        BusinessData[]
+  fundingApplications FundingApplication[]
+  campaigns           Campaign[]
+  businessUpdates     BusinessUpdate[]
+
+  @@map("umkm_profiles")
+}
+
+// ─────────────────────────────────────────
+//  KYC
+// ─────────────────────────────────────────
+
+model KycDocument {
+  id           String    @id @default(cuid())
+  userId       String
+  documentType String    // KTP, SIUP, NPWP, AKTA_USAHA, etc.
+  documentUrl  String
+  status       KycStatus @default(PENDING)
+  reviewedBy   String?
+  reviewedAt   DateTime?
+  rejectReason String?   @db.Text
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("kyc_documents")
+}
+
+// ─────────────────────────────────────────
+//  AI CREDIT SCORING
+// ─────────────────────────────────────────
+
+model CreditScore {
+  id              String    @id @default(cuid())
+  umkmProfileId   String
+  score           Float     // 0–100
+  riskLevel       RiskLevel
+  modelVersion    String    @default("1.0")
+  features        Json      // raw input features fed to XGBoost
+  insights        Json?     // why the score is high/low
+  recommendations Json?     // improvement suggestions
+  triggeredBy     String?   // userId of whoever triggered re-scoring
+  predictedAt     DateTime  @default(now())
+
+  umkmProfile UmkmProfile @relation(fields: [umkmProfileId], references: [id], onDelete: Cascade)
+
+  @@map("credit_scores")
+}
+
+// ─────────────────────────────────────────
+//  BUSINESS DATA (input for AI scoring)
+// ─────────────────────────────────────────
+
+model BusinessData {
+  id             String   @id @default(cuid())
+  umkmProfileId  String
+  reportDate     DateTime
+  dailyRevenue   Decimal? @db.Decimal(18, 2)
+  dailyExpense   Decimal? @db.Decimal(18, 2)
+  monthlyRevenue Decimal? @db.Decimal(18, 2)
+  monthlyExpense Decimal? @db.Decimal(18, 2)
+  // MANUAL | API_ECOMMERCE | API_POS
+  dataSource     String   @default("MANUAL")
+  rawData        Json?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  umkmProfile UmkmProfile @relation(fields: [umkmProfileId], references: [id], onDelete: Cascade)
+
+  @@map("business_data")
+}
+
+// ─────────────────────────────────────────
+//  FUNDING APPLICATIONS & CAMPAIGNS
+// ─────────────────────────────────────────
+
+model FundingApplication {
+  id              String        @id @default(cuid())
+  umkmProfileId   String
+  akadType        AkadType
+  requestedAmount Decimal       @db.Decimal(18, 2)
+  durationMonths  Int
+  purpose         String        @db.Text
+  status          FundingStatus @default(PENDING)
+  reviewedBy      String?
+  reviewedAt      DateTime?
+  rejectReason    String?       @db.Text
+  creditScoreId   String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  umkmProfile UmkmProfile @relation(fields: [umkmProfileId], references: [id], onDelete: Cascade)
+  campaign    Campaign?
+
+  @@map("funding_applications")
+}
+
+model Campaign {
+  id                   String        @id @default(cuid())
+  umkmProfileId        String
+  fundingApplicationId String?       @unique
+  title                String
+  story                String        @db.Text
+  targetAmount         Decimal       @db.Decimal(18, 2)
+  collectedAmount      Decimal       @default(0) @db.Decimal(18, 2)
+  akadType             AkadType
+  durationMonths       Int
+  estimatedRoi         Float         // % annualised
+  status               FundingStatus @default(ACTIVE)
+  startDate            DateTime      @default(now())
+  endDate              DateTime?
+  investorCount        Int           @default(0)
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+
+  umkmProfile        UmkmProfile         @relation(fields: [umkmProfileId], references: [id], onDelete: Cascade)
+  fundingApplication FundingApplication? @relation(fields: [fundingApplicationId], references: [id])
+  investments        Investment[]
+  akads              Akad[]
+
+  @@map("campaigns")
+}
+
+// ─────────────────────────────────────────
+//  INVESTMENTS
+// ─────────────────────────────────────────
+
+model Investment {
+  id                  String           @id @default(cuid())
+  investorProfileId   String
+  campaignId          String
+  amount              Decimal          @db.Decimal(18, 2)
+  akadType            AkadType
+  status              InvestmentStatus @default(ONGOING)
+  totalProfitReceived Decimal          @default(0) @db.Decimal(18, 2)
+  confirmedAt         DateTime?
+  completedAt         DateTime?
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+
+  investorProfile InvestorProfile @relation(fields: [investorProfileId], references: [id], onDelete: Cascade)
+  campaign        Campaign        @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  akad            Akad?
+  profitSharings  ProfitSharing[]
+
+  @@map("investments")
+}
+
+// ─────────────────────────────────────────
+//  AKAD (Sharia Contracts)
+// ─────────────────────────────────────────
+
+model Akad {
+  id               String     @id @default(cuid())
+  campaignId       String
+  investmentId     String?    @unique
+  akadType         AkadType
+  status           AkadStatus @default(PENDING)
+  principalAmount  Decimal    @db.Decimal(18, 2)
+  nisbahUmkm       Float      // profit share % for UMKM  (e.g. 60.0)
+  nisbahInvestor   Float      // profit share % for investor (e.g. 40.0)
+  platformFeeRate  Float      @default(2.5) // platform cut %
+  durationMonths   Int
+  startDate        DateTime?
+  endDate          DateTime?
+  approvedBy       String?
+  approvedAt       DateTime?
+  umkmSignedAt     DateTime?
+  investorSignedAt DateTime?
+
+  // Blockchain
+  blockchainHash   String?    @unique
+  contractAddress  String?    @unique
+  blockchainStatus String?    // PENDING | CONFIRMED | FAILED
+  deployedAt       DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  campaign               Campaign               @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  investment             Investment?            @relation(fields: [investmentId], references: [id])
+  profitSharings         ProfitSharing[]
+  blockchainTransactions BlockchainTransaction[]
+
+  @@map("akads")
+}
+
+// ─────────────────────────────────────────
+//  PROFIT SHARING (Bagi Hasil)
+// ─────────────────────────────────────────
+
+model ProfitSharing {
+  id            String              @id @default(cuid())
+  akadId        String
+  investmentId  String
+  periodStart   DateTime
+  periodEnd     DateTime
+  dueDate       DateTime
+  grossRevenue  Decimal             @db.Decimal(18, 2)
+  investorShare Decimal             @db.Decimal(18, 2)
+  umkmShare     Decimal             @db.Decimal(18, 2)
+  platformFee   Decimal             @db.Decimal(18, 2)
+  status        ProfitSharingStatus @default(PENDING)
+  paidAt        DateTime?
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+
+  akad       Akad       @relation(fields: [akadId], references: [id], onDelete: Cascade)
+  investment Investment @relation(fields: [investmentId], references: [id], onDelete: Cascade)
+
+  @@map("profit_sharings")
+}
+
+// ─────────────────────────────────────────
+//  WALLET & TRANSACTIONS
+// ─────────────────────────────────────────
+
+model Wallet {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  balance       Decimal  @default(0) @db.Decimal(18, 2)
+  lockedBalance Decimal  @default(0) @db.Decimal(18, 2) // in active investments
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+
+  @@map("wallets")
+}
+
+model Transaction {
+  id                String            @id @default(cuid())
+  walletId          String
+  type              TransactionType
+  amount            Decimal           @db.Decimal(18, 2)
+  balanceBefore     Decimal           @db.Decimal(18, 2)
+  balanceAfter      Decimal           @db.Decimal(18, 2)
+  status            TransactionStatus @default(PENDING)
+  reference         String?           // external payment gateway ref
+  description       String?
+  relatedEntityId   String?
+  relatedEntityType String?           // Investment | Akad | ProfitSharing
+  isFlagged         Boolean           @default(false)
+  flagReason        String?           @db.Text
+  processedAt       DateTime?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  wallet     Wallet      @relation(fields: [walletId], references: [id], onDelete: Cascade)
+  fraudAlert FraudAlert?
+
+  @@map("transactions")
+}
+
+// ─────────────────────────────────────────
+//  BLOCKCHAIN
+// ─────────────────────────────────────────
+
+model BlockchainTransaction {
+  id              String   @id @default(cuid())
+  akadId          String?
+  txHash          String   @unique
+  blockNumber     BigInt?
+  contractAddress String?
+  // DEPLOY | PROFIT_SHARING | COMPLETION | VALIDATION
+  eventType       String
+  // PENDING | CONFIRMED | FAILED
+  status          String
+  gasUsed         BigInt?
+  timestamp       DateTime
+  rawData         Json?
+  createdAt       DateTime @default(now())
+
+  akad Akad? @relation(fields: [akadId], references: [id])
+
+  @@map("blockchain_transactions")
+}
+
+// ─────────────────────────────────────────
+//  FRAUD DETECTION
+// ─────────────────────────────────────────
+
+model FraudAlert {
+  id            String      @id @default(cuid())
+  transactionId String?     @unique
+  // ANOMALY | MORAL_HAZARD | UNUSUAL_PATTERN | REPORT_INCONSISTENCY
+  alertType     String
+  // LOW | MEDIUM | HIGH | CRITICAL
+  severity      String
+  description   String      @db.Text
+  status        FraudStatus @default(DETECTED)
+  reviewedBy    String?
+  reviewedAt    DateTime?
+  actionTaken   String?     @db.Text
+  metadata      Json?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  transaction Transaction? @relation(fields: [transactionId], references: [id])
+
+  @@map("fraud_alerts")
+}
+
+// ─────────────────────────────────────────
+//  NOTIFICATIONS
+// ─────────────────────────────────────────
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  senderId  String?
+  type      NotificationType
+  title     String
+  message   String           @db.Text
+  isRead    Boolean          @default(false)
+  readAt    DateTime?
+  data      Json?
+  createdAt DateTime         @default(now())
+
+  user   User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sender User? @relation("NotificationSender", fields: [senderId], references: [id])
+
+  @@map("notifications")
+}
+
+// ─────────────────────────────────────────
+//  BUSINESS UPDATES (UMKM monitoring reports)
+// ─────────────────────────────────────────
+
+model BusinessUpdate {
+  id               String   @id @default(cuid())
+  umkmProfileId    String
+  periodDate       DateTime
+  revenue          Decimal  @db.Decimal(18, 2)
+  expenses         Decimal  @db.Decimal(18, 2)
+  fundUsageSummary String?  @db.Text
+  attachments      Json?    // array of file URLs
+  createdAt        DateTime @default(now())
+
+  umkmProfile UmkmProfile @relation(fields: [umkmProfileId], references: [id], onDelete: Cascade)
+
+  @@map("business_updates")
+}
+
+// ─────────────────────────────────────────
+//  OTP VERIFICATION
+// ─────────────────────────────────────────
+
+model OtpVerification {
+  id        String     @id @default(cuid())
+  userId    String
+  otp       String
+  purpose   OtpPurpose
+  expiresAt DateTime
+  isUsed    Boolean    @default(false)
+  usedAt    DateTime?
+  createdAt DateTime   @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("otp_verifications")
+}
+
+// ─────────────────────────────────────────
+//  AUDIT LOG
+// ─────────────────────────────────────────
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  action     String   // e.g. USER_KYC_APPROVED, AKAD_DEPLOYED
+  entityType String?
+  entityId   String?
+  oldData    Json?
+  newData    Json?
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@map("audit_logs")
+}
+
+// ─────────────────────────────────────────
+//  SYSTEM CONFIGURATION
+// ─────────────────────────────────────────
+
+model SystemConfig {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String   @db.Text
+  description String?
+  updatedBy   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("system_configs")
+}

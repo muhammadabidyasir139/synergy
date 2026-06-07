@@ -1,0 +1,132 @@
+.page { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.summaryRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.summaryCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--surface-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+}
+
+.sumIcon { font-size: 1.75rem; flex-shrink: 0; }
+.sumVal { font-size: 1.1rem; font-weight: 800; color: var(--text-color); }
+.sumLabel { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; margin-top: 0.15rem; }
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filterTabs { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+.tab {
+  padding: 0.45rem 0.9rem;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border: 1.5px solid var(--border-color);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.tab:hover { border-color: #1d4ed8; color: var(--text-color); }
+
+.tabActive {
+  background: linear-gradient(135deg, #1d4ed8, #0ea5e9) !important;
+  border-color: transparent !important;
+  color: #ffffff !important;
+  box-shadow: 0 3px 10px rgba(29, 78, 216, 0.2);
+}
+
+.exportBtn {
+  padding: 0.5rem 1rem;
+  background: var(--surface-bg);
+  border: 1.5px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.exportBtn:hover { border-color: #1d4ed8; color: #1d4ed8; }
+.dark .exportBtn:hover { color: #60a5fa; }
+
+.exportMsg {
+  padding: 0.75rem 1rem;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #10b981;
+}
+
+.tableCard {
+  background: var(--surface-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  padding: 1.5rem;
+}
+
+.tableWrap { overflow-x: auto; }
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.83rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.table th {
+  padding: 0.8rem 1rem;
+  border-bottom: 2px solid var(--border-color);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.table td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+.table tr:last-child td { border-bottom: none; }
+.table tr:hover td { background: rgba(29, 78, 216, 0.015); }
+
+.mono { font-family: monospace; font-weight: 700; }
+.bold { font-weight: 700; }
+.profitCell { color: #10b981; font-weight: 700; }
+.feeCell { color: #ef4444; font-weight: 600; }
+.dash { color: var(--text-muted); font-style: italic; }
+
+.statusBadge {
+  padding: 0.22rem 0.55rem;
+  border-radius: 30px;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.statusPaid { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+.statusPending { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+.statusOverdue { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
