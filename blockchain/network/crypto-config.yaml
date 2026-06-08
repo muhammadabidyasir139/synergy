@@ -1,0 +1,22 @@
+OrdererOrgs:
+  - Name: Orderer
+    Domain: synergy.com
+    Specs:
+      - Hostname: orderer
+
+PeerOrgs:
+  - Name: InvestorOrg
+    Domain: investororg.synergy.com
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+    Users:
+      Count: 1
+
+  - Name: UmkmOrg
+    Domain: umkmorg.synergy.com
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+    Users:
+      Count: 1
