@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createDataUsaha, getDataUsaha } from "../../actions/dataUsaha";
 import styles from "../page.module.css";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -23,12 +24,11 @@ export default function DataUsaha() {
 
   const [form, setForm] = useState({ tanggal: "", omzet: "", pengeluaran: "", keterangan: "" });
 
-  const [history, setHistory] = useState<DataEntry[]>([
-    { id: "DE-021", tanggal: "5 Jun 2026", omzet: "Rp 1.250.000", pengeluaran: "Rp 780.000", laba: "Rp 470.000", sumber: "Manual" },
-    { id: "DE-020", tanggal: "4 Jun 2026", omzet: "Rp 980.000", pengeluaran: "Rp 620.000", laba: "Rp 360.000", sumber: "API" },
-    { id: "DE-019", tanggal: "3 Jun 2026", omzet: "Rp 1.540.000", pengeluaran: "Rp 890.000", laba: "Rp 650.000", sumber: "Manual" },
-    { id: "DE-018", tanggal: "2 Jun 2026", omzet: "Rp 870.000", pengeluaran: "Rp 510.000", laba: "Rp 360.000", sumber: "API" },
-  ]);
+  const [history, setHistory] = useState<DataEntry[]>([]);
+
+  useEffect(() => {
+    getDataUsaha().then(setHistory).catch(console.error);
+  }, []);
 
   const [apiConnected, setApiConnected] = useState({ tokopedia: false, shopee: false, pos: true });
 
@@ -47,22 +47,19 @@ export default function DataUsaha() {
     }).then((result) => {
       if (result.isConfirmed) {
         setIsSaving(true);
-        setTimeout(() => {
-          const omzetNum = parseInt(form.omzet.replace(/\D/g, "")) || 0;
-          const pengeluaranNum = parseInt(form.pengeluaran.replace(/\D/g, "")) || 0;
-          const laba = omzetNum - pengeluaranNum;
-          const newEntry: DataEntry = {
-            id: `DE-${Date.now()}`,
-            tanggal: form.tanggal || new Date().toLocaleDateString("id-ID"),
-            omzet: `Rp ${omzetNum.toLocaleString("id-ID")}`,
-            pengeluaran: `Rp ${pengeluaranNum.toLocaleString("id-ID")}`,
-            laba: `Rp ${laba.toLocaleString("id-ID")}`,
-            sumber: "Manual",
-          };
-          setHistory((prev) => [newEntry, ...prev]);
+        const omzetNum = parseInt(form.omzet.replace(/\D/g, "")) || 0;
+        const pengeluaranNum = parseInt(form.pengeluaran.replace(/\D/g, "")) || 0;
+        
+        createDataUsaha({
+          tanggal: form.tanggal || new Date().toISOString().split("T")[0],
+          omzet: omzetNum,
+          pengeluaran: pengeluaranNum,
+          keterangan: form.keterangan
+        }).then(() => {
           setForm({ tanggal: "", omzet: "", pengeluaran: "", keterangan: "" });
           setIsSaving(false);
           setSaved(true);
+          getDataUsaha().then(setHistory);
 
           MySwal.fire({
             title: "Berhasil!",
@@ -72,7 +69,14 @@ export default function DataUsaha() {
           });
 
           setTimeout(() => setSaved(false), 3000);
-        }, 1000);
+        }).catch((err) => {
+          setIsSaving(false);
+          MySwal.fire({
+            title: "Gagal",
+            text: err.message || "Gagal menyimpan data usaha.",
+            icon: "error"
+          });
+        });
       }
     });
   };

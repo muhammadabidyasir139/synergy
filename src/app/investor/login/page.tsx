@@ -14,7 +14,7 @@ export default function InvestorLoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handlePhoneSubmit = (e: React.FormEvent) => {
+  const handlePhoneSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     if (phone.length < 10) {
@@ -22,10 +22,23 @@ export default function InvestorLoginPage() {
       return;
     }
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      const res = await fetch("/api/investor/auth/request-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? "Gagal mengirim OTP.");
+        return;
+      }
       setStep("otp");
-    }, 1200);
+    } catch {
+      setError("Tidak dapat terhubung ke server.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleOtpChange = (index: number, value: string) => {
@@ -46,7 +59,7 @@ export default function InvestorLoginPage() {
     }
   };
 
-  const handleOtpSubmit = (e: React.FormEvent) => {
+  const handleOtpSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     const code = otp.join("");
@@ -55,18 +68,41 @@ export default function InvestorLoginPage() {
       return;
     }
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      const res = await fetch("/api/investor/auth/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone, otp: code }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? "OTP tidak valid.");
+        return;
+      }
       if (typeof window !== "undefined") {
-        sessionStorage.setItem("synergy_investor_session", "true");
+        sessionStorage.setItem("synergy_investor_session", JSON.stringify(data.session));
       }
       router.replace("/investor/dashboard");
-    }, 1200);
+    } catch {
+      setError("Tidak dapat terhubung ke server.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleResendOtp = () => {
+  const handleResendOtp = async () => {
     setOtp(["", "", "", "", "", ""]);
-    setError("OTP baru telah dikirim ke " + phone);
+    setError("");
+    try {
+      await fetch("/api/investor/auth/request-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone }),
+      });
+      setError("OTP baru telah dikirim ke +" + phone);
+    } catch {
+      setError("Gagal mengirim ulang OTP.");
+    }
   };
 
   return (
@@ -110,11 +146,7 @@ export default function InvestorLoginPage() {
               {error && <p className={styles.errorMsg}>{error}</p>}
 
               <button type="submit" className={styles.submitBtn} disabled={isLoading}>
-                {isLoading ? (
-                  <span className={styles.btnSpinner}></span>
-                ) : (
-                  "Kirim OTP Verifikasi"
-                )}
+                {isLoading ? <span className={styles.btnSpinner}></span> : "Kirim OTP Verifikasi"}
               </button>
             </form>
           </>
@@ -123,8 +155,7 @@ export default function InvestorLoginPage() {
             <div className={styles.cardHeader}>
               <h2 className={styles.cardTitle}>Verifikasi OTP</h2>
               <p className={styles.cardDesc}>
-                Kode OTP telah dikirim ke{" "}
-                <strong>+62 {phone}</strong>. Masukkan 6 digit kode di bawah.
+                Kode OTP telah dikirim ke <strong>+62 {phone}</strong>. Masukkan 6 digit kode di bawah.
               </p>
             </div>
 
@@ -149,11 +180,7 @@ export default function InvestorLoginPage() {
               {error && <p className={styles.errorMsg}>{error}</p>}
 
               <button type="submit" className={styles.submitBtn} disabled={isLoading}>
-                {isLoading ? (
-                  <span className={styles.btnSpinner}></span>
-                ) : (
-                  "Verifikasi & Masuk"
-                )}
+                {isLoading ? <span className={styles.btnSpinner}></span> : "Verifikasi & Masuk"}
               </button>
 
               <div className={styles.resendRow}>

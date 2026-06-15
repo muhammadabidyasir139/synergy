@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPengajuan, getPengajuans } from "../../actions/pengajuan";
 import styles from "../page.module.css";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -33,26 +34,11 @@ export default function PengajuanPendanaan() {
   const nisbah = form.jenis === "Musyarakah" ? "70:30 (UMKM:Investor)" : "Fixed margin 1.5%/bulan";
   const estimasiReturn = form.jenis === "Musyarakah" ? "15-25% p.a." : "18% p.a. (fixed)";
 
-  const [pengajuanList, setPengajuanList] = useState<Pengajuan[]>([
-    {
-      id: "PJN-015",
-      jenis: "Musyarakah",
-      jumlah: "Rp 100.000.000",
-      durasi: "12 bulan",
-      deskripsi: "Pengembangan stok barang dagangan dan renovasi toko.",
-      status: "Approved",
-      tanggal: "1 Apr 2026",
-    },
-    {
-      id: "PJN-010",
-      jenis: "Murabahah",
-      jumlah: "Rp 50.000.000",
-      durasi: "6 bulan",
-      deskripsi: "Pembelian peralatan toko baru.",
-      status: "Approved",
-      tanggal: "10 Jan 2026",
-    },
-  ]);
+  const [pengajuanList, setPengajuanList] = useState<Pengajuan[]>([]);
+
+  useEffect(() => {
+    getPengajuans().then(setPengajuanList).catch(console.error);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,20 +55,16 @@ export default function PengajuanPendanaan() {
     }).then((result) => {
       if (result.isConfirmed) {
         setIsSubmitting(true);
-        setTimeout(() => {
-          const newEntry: Pengajuan = {
-            id: `PJN-${Date.now()}`,
-            jenis: form.jenis,
-            jumlah: `Rp ${parseInt(form.jumlah || "0").toLocaleString("id-ID")}`,
-            durasi: `${form.durasi} bulan`,
-            deskripsi: form.deskripsi,
-            status: "Pending",
-            tanggal: new Date().toLocaleDateString("id-ID"),
-          };
-          setPengajuanList((prev) => [newEntry, ...prev]);
+        createPengajuan({
+          jumlah: parseInt(form.jumlah || "0"),
+          jenis: form.jenis as "Musyarakah" | "Murabahah",
+          durasi: parseInt(form.durasi || "12"),
+          tujuan: form.tujuan + " - " + form.deskripsi
+        }).then(() => {
           setIsSubmitting(false);
           setSubmitted(true);
           setForm({ jumlah: "", jenis: "Musyarakah", durasi: "12", tujuan: "", deskripsi: "" });
+          getPengajuans().then(setPengajuanList);
 
           MySwal.fire({
             title: "Berhasil!",
@@ -93,7 +75,14 @@ export default function PengajuanPendanaan() {
             setSubmitted(false);
             setActiveTab("history");
           });
-        }, 1500);
+        }).catch((err) => {
+          setIsSubmitting(false);
+          MySwal.fire({
+            title: "Gagal",
+            text: err.message || "Gagal mengirim pengajuan.",
+            icon: "error"
+          });
+        });
       }
     });
   };

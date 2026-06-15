@@ -1,89 +1,101 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 
-const umkmList = [
-  { id: "INV-021", umkm: "Toko Sembako Berkah", city: "Jakarta" },
-  { id: "INV-019", umkm: "Kopi Nusantara Mandiri", city: "Bandung" },
-];
+interface MonitoringData {
+  investmentId: string;
+  umkmProfileId: string;
+  businessName: string;
+  city: string;
+  targetProgress: number;
+  revenueChart: { month: string; revenue: number }[];
+  updates: { date: string; title: string; body: string; revenue: number }[];
+}
 
-const revenueData: Record<string, { month: string; revenue: number }[]> = {
-  "INV-021": [
-    { month: "Jan", revenue: 18.5 }, { month: "Feb", revenue: 21.2 }, { month: "Mar", revenue: 20.1 },
-    { month: "Apr", revenue: 24.3 }, { month: "Mei", revenue: 27.0 }, { month: "Jun", revenue: 25.4 },
-  ],
-  "INV-019": [
-    { month: "Jan", revenue: 12.1 }, { month: "Feb", revenue: 13.8 }, { month: "Mar", revenue: 11.5 },
-    { month: "Apr", revenue: 15.2 }, { month: "Mei", revenue: 14.1 }, { month: "Jun", revenue: 16.8 },
-  ],
-};
-
-const updates: Record<string, { date: string; title: string; body: string; type: "good" | "neutral" | "warn" }[]> = {
-  "INV-021": [
-    { date: "05 Jun 2026", title: "Omzet Meningkat 12%", body: "Bulan Mei mencatat omzet tertinggi Rp 27 Jt, didukung promosi Eid dan pelanggan tetap.", type: "good" },
-    { date: "04 Mei 2026", title: "Laporan Penggunaan Dana Q1", body: "Dana digunakan untuk restocking barang pokok. Stok tersedia untuk 3 bulan ke depan.", type: "neutral" },
-  ],
-  "INV-019": [
-    { date: "01 Jun 2026", title: "Penurunan Omzet 7.6%", body: "Terjadi penurunan karena renovasi gerai. Operasional kembali normal mulai pekan ketiga Mei.", type: "warn" },
-    { date: "15 Apr 2026", title: "Ekspansi Menu Baru", body: "Menu es kopi premium diluncurkan, respons pasar sangat positif. Target omzet Jun dinaikkan 20%.", type: "good" },
-  ],
-};
+function getInvestorId() {
+  if (typeof window === "undefined") return "";
+  try { return JSON.parse(sessionStorage.getItem("synergy_investor_session") ?? "{}").investorProfileId ?? ""; }
+  catch { return ""; }
+}
 
 export default function MonitoringPage() {
-  const [selected, setSelected] = useState("INV-021");
-  const data = revenueData[selected];
-  const maxRev = Math.max(...data.map((d) => d.revenue));
-  const upd = updates[selected];
-  const selectedUmkm = umkmList.find((u) => u.id === selected)!;
-  const lastRevenue = data[data.length - 1].revenue;
-  const prevRevenue = data[data.length - 2].revenue;
-  const trend = ((lastRevenue - prevRevenue) / prevRevenue) * 100;
+  const [data, setData] = useState<MonitoringData[]>([]);
+  const [selected, setSelected] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const id = getInvestorId();
+    if (!id) return;
+    fetch("/api/investor/monitoring", { headers: { "x-investor-id": id } })
+      .then((r) => r.json())
+      .then((d: MonitoringData[]) => {
+        setData(d);
+        if (d.length > 0) setSelected(d[0].investmentId);
+      })
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  const current = data.find((d) => d.investmentId === selected);
+
+  if (isLoading) return <div style={{ padding: "2rem" }}>Memuat data monitoring...</div>;
+
+  if (data.length === 0) return (
+    <div style={{ padding: "2rem" }}>
+      <p>Anda belum memiliki investasi aktif untuk dipantau.</p>
+    </div>
+  );
+
+  if (!current) return null;
+
+  const chartData = current.revenueChart;
+  const maxRev = Math.max(...chartData.map((d) => d.revenue), 1);
+  const lastRev = chartData[chartData.length - 1]?.revenue ?? 0;
+  const prevRev = chartData[chartData.length - 2]?.revenue ?? lastRev;
+  const trend = prevRev > 0 ? ((lastRev - prevRev) / prevRev) * 100 : 0;
 
   return (
     <div className={styles.page}>
-      {/* UMKM Selector */}
       <div className={styles.selectorRow}>
         <span className={styles.selectorLabel}>Pilih UMKM yang Dipantau:</span>
         <div className={styles.selectorBtns}>
-          {umkmList.map((u) => (
-            <button
-              key={u.id}
-              className={`${styles.selectorBtn} ${selected === u.id ? styles.selectorBtnActive : ""}`}
-              onClick={() => setSelected(u.id)}
-            >
-              🏢 {u.umkm}
+          {data.map((u) => (
+            <button key={u.investmentId}
+              className={`${styles.selectorBtn} ${selected === u.investmentId ? styles.selectorBtnActive : ""}`}
+              onClick={() => setSelected(u.investmentId)}>
+              🏢 {u.businessName}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Summary Stats */}
       <div className={styles.statsRow}>
         <div className={styles.statCard}>
-          <span className={styles.statLabel}>Omzet Terkini (Jun)</span>
-          <span className={styles.statVal}>Rp {lastRevenue} Jt</span>
+          <span className={styles.statLabel}>Omzet Terkini</span>
+          <span className={styles.statVal}>Rp {lastRev.toFixed(1)} Jt</span>
           <span className={trend > 0 ? styles.trendUp : styles.trendDown}>
             {trend > 0 ? "▲" : "▼"} {Math.abs(trend).toFixed(1)}% vs bulan lalu
           </span>
         </div>
         <div className={styles.statCard}>
           <span className={styles.statLabel}>Progress Target</span>
-          <span className={styles.statVal}>84%</span>
-          <span className={styles.trendUp}>On Track</span>
+          <span className={styles.statVal}>{current.targetProgress}%</span>
+          <span className={current.targetProgress >= 80 ? styles.trendUp : styles.trendNeutral}>
+            {current.targetProgress >= 80 ? "On Track" : "Dalam Proses"}
+          </span>
         </div>
         <div className={styles.statCard}>
           <span className={styles.statLabel}>Update Terakhir</span>
-          <span className={styles.statVal}>{upd[0].date}</span>
+          <span className={styles.statVal}>{current.updates[0]?.date ?? "–"}</span>
           <span className={styles.trendNeutral}>Laporan Bulanan</span>
         </div>
       </div>
 
-      {/* Revenue Chart */}
       <div className={styles.chartCard}>
         <div className={styles.chartHeader}>
-          <h3>Grafik Omzet – {selectedUmkm.umkm} (Juta Rp)</h3>
-          <span className={styles.cityTag}>{selectedUmkm.city}</span>
+          <h3>Grafik Omzet – {current.businessName} (Juta Rp)</h3>
+          <span className={styles.cityTag}>{current.city}</span>
         </div>
         <div className={styles.chart}>
           <div className={styles.chartY}>
@@ -91,12 +103,12 @@ export default function MonitoringPage() {
             <span>{Math.ceil((maxRev + 2) / 2)}</span>
             <span>0</span>
           </div>
-          {data.map((d) => {
+          {chartData.map((d) => {
             const h = (d.revenue / (maxRev + 2)) * 100;
             return (
               <div key={d.month} className={styles.barGroup}>
                 <div className={styles.bar} style={{ height: `${h}%` }}>
-                  <div className={styles.tooltip}>Rp {d.revenue} Jt</div>
+                  <div className={styles.tooltip}>Rp {d.revenue.toFixed(1)} Jt</div>
                 </div>
                 <span className={styles.barLabel}>{d.month}</span>
               </div>
@@ -105,22 +117,24 @@ export default function MonitoringPage() {
         </div>
       </div>
 
-      {/* Business Updates */}
       <div className={styles.updatesCard}>
         <h3 className={styles.updatesTitle}>Update Terbaru dari UMKM</h3>
         <div className={styles.updatesList}>
-          {upd.map((u, i) => (
-            <div key={i} className={`${styles.updateItem} ${u.type === "good" ? styles.updateGood : u.type === "warn" ? styles.updateWarn : styles.updateNeutral}`}>
-              <span className={styles.updateIcon}>
-                {u.type === "good" ? "📈" : u.type === "warn" ? "⚠️" : "📋"}
-              </span>
-              <div>
-                <p className={styles.updateTitle}>{u.title}</p>
-                <p className={styles.updateDate}>{u.date}</p>
-                <p className={styles.updateBody}>{u.body}</p>
+          {current.updates.map((u, i) => {
+            const isGood = u.revenue > (prevRev ?? 0);
+            const type = u.title.toLowerCase().includes("turun") ? "warn" : isGood ? "good" : "neutral";
+            return (
+              <div key={i} className={`${styles.updateItem} ${type === "good" ? styles.updateGood : type === "warn" ? styles.updateWarn : styles.updateNeutral}`}>
+                <span className={styles.updateIcon}>{type === "good" ? "📈" : type === "warn" ? "⚠️" : "📋"}</span>
+                <div>
+                  <p className={styles.updateTitle}>{u.title}</p>
+                  <p className={styles.updateDate}>{u.date}</p>
+                  <p className={styles.updateBody}>{u.body}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
+          {current.updates.length === 0 && <p style={{ padding: "1rem", color: "var(--text-muted)" }}>Belum ada update.</p>}
         </div>
       </div>
     </div>
