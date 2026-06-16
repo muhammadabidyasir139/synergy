@@ -29,6 +29,7 @@ model User {
   otpVerifications  OtpVerification[]
   umkmProfile       UmkmProfile?
   wallet            Wallet?
+  beritas           Berita[]
 
   @@map("users")
 }
@@ -418,6 +419,25 @@ model SystemConfig {
   updatedAt   DateTime @updatedAt
 
   @@map("system_configs")
+}
+
+model Berita {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  excerpt     String    @db.Text
+  content     String    @db.LongText
+  coverImage  String?
+  category    String?
+  authorId    String
+  isPublished Boolean   @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  author      User      @relation(fields: [authorId], references: [id])
+
+  @@index([authorId], map: "beritas_authorId_fkey")
+  @@map("beritas")
 }
 
 enum Role {

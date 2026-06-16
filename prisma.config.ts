@@ -10,6 +10,9 @@ const __dirname = dirname(__filename);
 dotenv.config({ path: resolve(__dirname, ".env") });
 
 export default defineConfig({
+  migrations: {
+    seed: "npx tsx ./prisma/seed.ts",
+  },
   datasource: {
     url: env("DATABASE_URL"),
     // shadowDatabaseUrl is needed for `prisma migrate dev` when the DB user

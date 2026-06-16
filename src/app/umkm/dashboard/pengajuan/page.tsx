@@ -37,7 +37,7 @@ export default function PengajuanPendanaan() {
   const [pengajuanList, setPengajuanList] = useState<Pengajuan[]>([]);
 
   useEffect(() => {
-    getPengajuans().then(setPengajuanList).catch(console.error);
+    getPengajuans().then((data) => setPengajuanList(data as Pengajuan[])).catch(console.error);
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -64,7 +64,7 @@ export default function PengajuanPendanaan() {
           setIsSubmitting(false);
           setSubmitted(true);
           setForm({ jumlah: "", jenis: "Musyarakah", durasi: "12", tujuan: "", deskripsi: "" });
-          getPengajuans().then(setPengajuanList);
+          getPengajuans().then((data) => setPengajuanList(data as Pengajuan[]));
 
           MySwal.fire({
             title: "Berhasil!",

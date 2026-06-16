@@ -22,23 +22,18 @@ export default function InvestorLoginPage() {
       return;
     }
     setIsLoading(true);
-    try {
-      const res = await fetch("/api/investor/auth/request-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error ?? "Gagal mengirim OTP.");
-        return;
+    
+    // Simulate login without OTP
+    setTimeout(() => {
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("synergy_investor_session", JSON.stringify({
+           user: { id: "inv_mock", role: "investor", phone },
+           token: "mock_token"
+        }));
       }
-      setStep("otp");
-    } catch {
-      setError("Tidak dapat terhubung ke server.");
-    } finally {
       setIsLoading(false);
-    }
+      router.replace("/investor/dashboard");
+    }, 1000);
   };
 
   const handleOtpChange = (index: number, value: string) => {
@@ -121,7 +116,7 @@ export default function InvestorLoginPage() {
             <div className={styles.cardHeader}>
               <h2 className={styles.cardTitle}>Masuk sebagai Investor</h2>
               <p className={styles.cardDesc}>
-                Masukkan nomor HP terdaftar. Kami akan mengirimkan kode OTP untuk verifikasi.
+                Masukkan nomor HP terdaftar untuk melanjutkan.
               </p>
             </div>
 
@@ -146,7 +141,7 @@ export default function InvestorLoginPage() {
               {error && <p className={styles.errorMsg}>{error}</p>}
 
               <button type="submit" className={styles.submitBtn} disabled={isLoading}>
-                {isLoading ? <span className={styles.btnSpinner}></span> : "Kirim OTP Verifikasi"}
+                {isLoading ? <span className={styles.btnSpinner}></span> : "Masuk"}
               </button>
             </form>
           </>

@@ -118,6 +118,11 @@ export type AuditLog = $Result.DefaultSelection<Prisma.$AuditLogPayload>
  * 
  */
 export type SystemConfig = $Result.DefaultSelection<Prisma.$SystemConfigPayload>
+/**
+ * Model Berita
+ * 
+ */
+export type Berita = $Result.DefaultSelection<Prisma.$BeritaPayload>
 
 /**
  * Enums
@@ -653,6 +658,16 @@ export class PrismaClient<
     * ```
     */
   get systemConfig(): Prisma.SystemConfigDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.berita`: Exposes CRUD operations for the **Berita** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Beritas
+    * const beritas = await prisma.berita.findMany()
+    * ```
+    */
+  get berita(): Prisma.BeritaDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1107,7 +1122,8 @@ export namespace Prisma {
     BusinessUpdate: 'BusinessUpdate',
     OtpVerification: 'OtpVerification',
     AuditLog: 'AuditLog',
-    SystemConfig: 'SystemConfig'
+    SystemConfig: 'SystemConfig',
+    Berita: 'Berita'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1123,7 +1139,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "adminProfile" | "investorProfile" | "umkmProfile" | "kycDocument" | "creditScore" | "businessData" | "fundingApplication" | "campaign" | "investment" | "akad" | "profitSharing" | "wallet" | "transaction" | "blockchainTransaction" | "fraudAlert" | "notification" | "businessUpdate" | "otpVerification" | "auditLog" | "systemConfig"
+      modelProps: "user" | "adminProfile" | "investorProfile" | "umkmProfile" | "kycDocument" | "creditScore" | "businessData" | "fundingApplication" | "campaign" | "investment" | "akad" | "profitSharing" | "wallet" | "transaction" | "blockchainTransaction" | "fraudAlert" | "notification" | "businessUpdate" | "otpVerification" | "auditLog" | "systemConfig" | "berita"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2513,6 +2529,72 @@ export namespace Prisma {
           }
         }
       }
+      Berita: {
+        payload: Prisma.$BeritaPayload<ExtArgs>
+        fields: Prisma.BeritaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BeritaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BeritaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BeritaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BeritaPayload>
+          }
+          findFirst: {
+            args: Prisma.BeritaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BeritaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BeritaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BeritaPayload>
+          }
+          findMany: {
+            args: Prisma.BeritaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BeritaPayload>[]
+          }
+          create: {
+            args: Prisma.BeritaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BeritaPayload>
+          }
+          createMany: {
+            args: Prisma.BeritaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.BeritaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BeritaPayload>
+          }
+          update: {
+            args: Prisma.BeritaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BeritaPayload>
+          }
+          deleteMany: {
+            args: Prisma.BeritaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BeritaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.BeritaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BeritaPayload>
+          }
+          aggregate: {
+            args: Prisma.BeritaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBerita>
+          }
+          groupBy: {
+            args: Prisma.BeritaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BeritaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BeritaCountArgs<ExtArgs>
+            result: $Utils.Optional<BeritaCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2642,6 +2724,7 @@ export namespace Prisma {
     otpVerification?: OtpVerificationOmit
     auditLog?: AuditLogOmit
     systemConfig?: SystemConfigOmit
+    berita?: BeritaOmit
   }
 
   /* Types for Logging */
@@ -2722,19 +2805,21 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
-    kycDocuments: number
-    notifications: number
-    sentNotifications: number
-    otpVerifications: number
     auditLogs: number
+    kycDocuments: number
+    sentNotifications: number
+    notifications: number
+    otpVerifications: number
+    beritas: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    kycDocuments?: boolean | UserCountOutputTypeCountKycDocumentsArgs
-    notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
-    sentNotifications?: boolean | UserCountOutputTypeCountSentNotificationsArgs
-    otpVerifications?: boolean | UserCountOutputTypeCountOtpVerificationsArgs
     auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
+    kycDocuments?: boolean | UserCountOutputTypeCountKycDocumentsArgs
+    sentNotifications?: boolean | UserCountOutputTypeCountSentNotificationsArgs
+    notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+    otpVerifications?: boolean | UserCountOutputTypeCountOtpVerificationsArgs
+    beritas?: boolean | UserCountOutputTypeCountBeritasArgs
   }
 
   // Custom InputTypes
@@ -2751,6 +2836,13 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
+  export type UserCountOutputTypeCountAuditLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AuditLogWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
   export type UserCountOutputTypeCountKycDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: KycDocumentWhereInput
   }
@@ -2758,14 +2850,14 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountSentNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NotificationWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountSentNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NotificationWhereInput
   }
 
@@ -2779,8 +2871,8 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountAuditLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AuditLogWhereInput
+  export type UserCountOutputTypeCountBeritasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BeritaWhereInput
   }
 
 
@@ -2820,19 +2912,19 @@ export namespace Prisma {
    */
 
   export type UmkmProfileCountOutputType = {
-    creditScores: number
     businessData: number
-    fundingApplications: number
-    campaigns: number
     businessUpdates: number
+    campaigns: number
+    creditScores: number
+    fundingApplications: number
   }
 
   export type UmkmProfileCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    creditScores?: boolean | UmkmProfileCountOutputTypeCountCreditScoresArgs
     businessData?: boolean | UmkmProfileCountOutputTypeCountBusinessDataArgs
-    fundingApplications?: boolean | UmkmProfileCountOutputTypeCountFundingApplicationsArgs
-    campaigns?: boolean | UmkmProfileCountOutputTypeCountCampaignsArgs
     businessUpdates?: boolean | UmkmProfileCountOutputTypeCountBusinessUpdatesArgs
+    campaigns?: boolean | UmkmProfileCountOutputTypeCountCampaignsArgs
+    creditScores?: boolean | UmkmProfileCountOutputTypeCountCreditScoresArgs
+    fundingApplications?: boolean | UmkmProfileCountOutputTypeCountFundingApplicationsArgs
   }
 
   // Custom InputTypes
@@ -2849,13 +2941,6 @@ export namespace Prisma {
   /**
    * UmkmProfileCountOutputType without action
    */
-  export type UmkmProfileCountOutputTypeCountCreditScoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CreditScoreWhereInput
-  }
-
-  /**
-   * UmkmProfileCountOutputType without action
-   */
   export type UmkmProfileCountOutputTypeCountBusinessDataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BusinessDataWhereInput
   }
@@ -2863,8 +2948,8 @@ export namespace Prisma {
   /**
    * UmkmProfileCountOutputType without action
    */
-  export type UmkmProfileCountOutputTypeCountFundingApplicationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FundingApplicationWhereInput
+  export type UmkmProfileCountOutputTypeCountBusinessUpdatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BusinessUpdateWhereInput
   }
 
   /**
@@ -2877,8 +2962,15 @@ export namespace Prisma {
   /**
    * UmkmProfileCountOutputType without action
    */
-  export type UmkmProfileCountOutputTypeCountBusinessUpdatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: BusinessUpdateWhereInput
+  export type UmkmProfileCountOutputTypeCountCreditScoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CreditScoreWhereInput
+  }
+
+  /**
+   * UmkmProfileCountOutputType without action
+   */
+  export type UmkmProfileCountOutputTypeCountFundingApplicationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FundingApplicationWhereInput
   }
 
 
@@ -2887,13 +2979,13 @@ export namespace Prisma {
    */
 
   export type CampaignCountOutputType = {
-    investments: number
     akads: number
+    investments: number
   }
 
   export type CampaignCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    investments?: boolean | CampaignCountOutputTypeCountInvestmentsArgs
     akads?: boolean | CampaignCountOutputTypeCountAkadsArgs
+    investments?: boolean | CampaignCountOutputTypeCountInvestmentsArgs
   }
 
   // Custom InputTypes
@@ -2910,15 +3002,15 @@ export namespace Prisma {
   /**
    * CampaignCountOutputType without action
    */
-  export type CampaignCountOutputTypeCountInvestmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: InvestmentWhereInput
+  export type CampaignCountOutputTypeCountAkadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AkadWhereInput
   }
 
   /**
    * CampaignCountOutputType without action
    */
-  export type CampaignCountOutputTypeCountAkadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AkadWhereInput
+  export type CampaignCountOutputTypeCountInvestmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvestmentWhereInput
   }
 
 
@@ -2958,13 +3050,13 @@ export namespace Prisma {
    */
 
   export type AkadCountOutputType = {
-    profitSharings: number
     blockchainTransactions: number
+    profitSharings: number
   }
 
   export type AkadCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    profitSharings?: boolean | AkadCountOutputTypeCountProfitSharingsArgs
     blockchainTransactions?: boolean | AkadCountOutputTypeCountBlockchainTransactionsArgs
+    profitSharings?: boolean | AkadCountOutputTypeCountProfitSharingsArgs
   }
 
   // Custom InputTypes
@@ -2981,15 +3073,15 @@ export namespace Prisma {
   /**
    * AkadCountOutputType without action
    */
-  export type AkadCountOutputTypeCountProfitSharingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ProfitSharingWhereInput
+  export type AkadCountOutputTypeCountBlockchainTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BlockchainTransactionWhereInput
   }
 
   /**
    * AkadCountOutputType without action
    */
-  export type AkadCountOutputTypeCountBlockchainTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: BlockchainTransactionWhereInput
+  export type AkadCountOutputTypeCountProfitSharingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProfitSharingWhereInput
   }
 
 
@@ -3249,14 +3341,15 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     adminProfile?: boolean | User$adminProfileArgs<ExtArgs>
+    auditLogs?: boolean | User$auditLogsArgs<ExtArgs>
     investorProfile?: boolean | User$investorProfileArgs<ExtArgs>
+    kycDocuments?: boolean | User$kycDocumentsArgs<ExtArgs>
+    sentNotifications?: boolean | User$sentNotificationsArgs<ExtArgs>
+    notifications?: boolean | User$notificationsArgs<ExtArgs>
+    otpVerifications?: boolean | User$otpVerificationsArgs<ExtArgs>
     umkmProfile?: boolean | User$umkmProfileArgs<ExtArgs>
     wallet?: boolean | User$walletArgs<ExtArgs>
-    kycDocuments?: boolean | User$kycDocumentsArgs<ExtArgs>
-    notifications?: boolean | User$notificationsArgs<ExtArgs>
-    sentNotifications?: boolean | User$sentNotificationsArgs<ExtArgs>
-    otpVerifications?: boolean | User$otpVerificationsArgs<ExtArgs>
-    auditLogs?: boolean | User$auditLogsArgs<ExtArgs>
+    beritas?: boolean | User$beritasArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3280,14 +3373,15 @@ export namespace Prisma {
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "phoneNumber" | "passwordHash" | "role" | "status" | "kycStatus" | "isEmailVerified" | "isPhoneVerified" | "lastLoginAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     adminProfile?: boolean | User$adminProfileArgs<ExtArgs>
+    auditLogs?: boolean | User$auditLogsArgs<ExtArgs>
     investorProfile?: boolean | User$investorProfileArgs<ExtArgs>
+    kycDocuments?: boolean | User$kycDocumentsArgs<ExtArgs>
+    sentNotifications?: boolean | User$sentNotificationsArgs<ExtArgs>
+    notifications?: boolean | User$notificationsArgs<ExtArgs>
+    otpVerifications?: boolean | User$otpVerificationsArgs<ExtArgs>
     umkmProfile?: boolean | User$umkmProfileArgs<ExtArgs>
     wallet?: boolean | User$walletArgs<ExtArgs>
-    kycDocuments?: boolean | User$kycDocumentsArgs<ExtArgs>
-    notifications?: boolean | User$notificationsArgs<ExtArgs>
-    sentNotifications?: boolean | User$sentNotificationsArgs<ExtArgs>
-    otpVerifications?: boolean | User$otpVerificationsArgs<ExtArgs>
-    auditLogs?: boolean | User$auditLogsArgs<ExtArgs>
+    beritas?: boolean | User$beritasArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -3295,14 +3389,15 @@ export namespace Prisma {
     name: "User"
     objects: {
       adminProfile: Prisma.$AdminProfilePayload<ExtArgs> | null
+      auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
       investorProfile: Prisma.$InvestorProfilePayload<ExtArgs> | null
+      kycDocuments: Prisma.$KycDocumentPayload<ExtArgs>[]
+      sentNotifications: Prisma.$NotificationPayload<ExtArgs>[]
+      notifications: Prisma.$NotificationPayload<ExtArgs>[]
+      otpVerifications: Prisma.$OtpVerificationPayload<ExtArgs>[]
       umkmProfile: Prisma.$UmkmProfilePayload<ExtArgs> | null
       wallet: Prisma.$WalletPayload<ExtArgs> | null
-      kycDocuments: Prisma.$KycDocumentPayload<ExtArgs>[]
-      notifications: Prisma.$NotificationPayload<ExtArgs>[]
-      sentNotifications: Prisma.$NotificationPayload<ExtArgs>[]
-      otpVerifications: Prisma.$OtpVerificationPayload<ExtArgs>[]
-      auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
+      beritas: Prisma.$BeritaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3658,14 +3753,15 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     adminProfile<T extends User$adminProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$adminProfileArgs<ExtArgs>>): Prisma__AdminProfileClient<$Result.GetResult<Prisma.$AdminProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    auditLogs<T extends User$auditLogsArgs<ExtArgs> = {}>(args?: Subset<T, User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     investorProfile<T extends User$investorProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$investorProfileArgs<ExtArgs>>): Prisma__InvestorProfileClient<$Result.GetResult<Prisma.$InvestorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    kycDocuments<T extends User$kycDocumentsArgs<ExtArgs> = {}>(args?: Subset<T, User$kycDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KycDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    sentNotifications<T extends User$sentNotificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$sentNotificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    otpVerifications<T extends User$otpVerificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$otpVerificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OtpVerificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     umkmProfile<T extends User$umkmProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$umkmProfileArgs<ExtArgs>>): Prisma__UmkmProfileClient<$Result.GetResult<Prisma.$UmkmProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     wallet<T extends User$walletArgs<ExtArgs> = {}>(args?: Subset<T, User$walletArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    kycDocuments<T extends User$kycDocumentsArgs<ExtArgs> = {}>(args?: Subset<T, User$kycDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KycDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    sentNotifications<T extends User$sentNotificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$sentNotificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    otpVerifications<T extends User$otpVerificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$otpVerificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OtpVerificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    auditLogs<T extends User$auditLogsArgs<ExtArgs> = {}>(args?: Subset<T, User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    beritas<T extends User$beritasArgs<ExtArgs> = {}>(args?: Subset<T, User$beritasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BeritaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4074,6 +4170,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.auditLogs
+   */
+  export type User$auditLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLog
+     */
+    select?: AuditLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLog
+     */
+    omit?: AuditLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogInclude<ExtArgs> | null
+    where?: AuditLogWhereInput
+    orderBy?: AuditLogOrderByWithRelationInput | AuditLogOrderByWithRelationInput[]
+    cursor?: AuditLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AuditLogScalarFieldEnum | AuditLogScalarFieldEnum[]
+  }
+
+  /**
    * User.investorProfile
    */
   export type User$investorProfileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4090,44 +4210,6 @@ export namespace Prisma {
      */
     include?: InvestorProfileInclude<ExtArgs> | null
     where?: InvestorProfileWhereInput
-  }
-
-  /**
-   * User.umkmProfile
-   */
-  export type User$umkmProfileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UmkmProfile
-     */
-    select?: UmkmProfileSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the UmkmProfile
-     */
-    omit?: UmkmProfileOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UmkmProfileInclude<ExtArgs> | null
-    where?: UmkmProfileWhereInput
-  }
-
-  /**
-   * User.wallet
-   */
-  export type User$walletArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Wallet
-     */
-    select?: WalletSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Wallet
-     */
-    omit?: WalletOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WalletInclude<ExtArgs> | null
-    where?: WalletWhereInput
   }
 
   /**
@@ -4155,9 +4237,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.notifications
+   * User.sentNotifications
    */
-  export type User$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$sentNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Notification
      */
@@ -4179,9 +4261,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.sentNotifications
+   * User.notifications
    */
-  export type User$sentNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Notification
      */
@@ -4227,27 +4309,65 @@ export namespace Prisma {
   }
 
   /**
-   * User.auditLogs
+   * User.umkmProfile
    */
-  export type User$auditLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$umkmProfileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the AuditLog
+     * Select specific fields to fetch from the UmkmProfile
      */
-    select?: AuditLogSelect<ExtArgs> | null
+    select?: UmkmProfileSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the AuditLog
+     * Omit specific fields from the UmkmProfile
      */
-    omit?: AuditLogOmit<ExtArgs> | null
+    omit?: UmkmProfileOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AuditLogInclude<ExtArgs> | null
-    where?: AuditLogWhereInput
-    orderBy?: AuditLogOrderByWithRelationInput | AuditLogOrderByWithRelationInput[]
-    cursor?: AuditLogWhereUniqueInput
+    include?: UmkmProfileInclude<ExtArgs> | null
+    where?: UmkmProfileWhereInput
+  }
+
+  /**
+   * User.wallet
+   */
+  export type User$walletArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wallet
+     */
+    select?: WalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wallet
+     */
+    omit?: WalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletInclude<ExtArgs> | null
+    where?: WalletWhereInput
+  }
+
+  /**
+   * User.beritas
+   */
+  export type User$beritasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Berita
+     */
+    select?: BeritaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Berita
+     */
+    omit?: BeritaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BeritaInclude<ExtArgs> | null
+    where?: BeritaWhereInput
+    orderBy?: BeritaOrderByWithRelationInput | BeritaOrderByWithRelationInput[]
+    cursor?: BeritaWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: AuditLogScalarFieldEnum | AuditLogScalarFieldEnum[]
+    distinct?: BeritaScalarFieldEnum | BeritaScalarFieldEnum[]
   }
 
   /**
@@ -5491,8 +5611,8 @@ export namespace Prisma {
     totalProfit?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     investments?: boolean | InvestorProfile$investmentsArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | InvestorProfileCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["investorProfile"]>
 
@@ -5516,16 +5636,16 @@ export namespace Prisma {
 
   export type InvestorProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "fullName" | "dateOfBirth" | "address" | "city" | "province" | "investmentGoal" | "riskTolerance" | "totalInvested" | "totalProfit" | "createdAt" | "updatedAt", ExtArgs["result"]["investorProfile"]>
   export type InvestorProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     investments?: boolean | InvestorProfile$investmentsArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | InvestorProfileCountOutputTypeDefaultArgs<ExtArgs>
   }
 
   export type $InvestorProfilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "InvestorProfile"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       investments: Prisma.$InvestmentPayload<ExtArgs>[]
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5881,8 +6001,8 @@ export namespace Prisma {
    */
   export interface Prisma__InvestorProfileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     investments<T extends InvestorProfile$investmentsArgs<ExtArgs> = {}>(args?: Subset<T, InvestorProfile$investmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvestmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6605,12 +6725,12 @@ export namespace Prisma {
     socialMedia?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    creditScores?: boolean | UmkmProfile$creditScoresArgs<ExtArgs>
     businessData?: boolean | UmkmProfile$businessDataArgs<ExtArgs>
-    fundingApplications?: boolean | UmkmProfile$fundingApplicationsArgs<ExtArgs>
-    campaigns?: boolean | UmkmProfile$campaignsArgs<ExtArgs>
     businessUpdates?: boolean | UmkmProfile$businessUpdatesArgs<ExtArgs>
+    campaigns?: boolean | UmkmProfile$campaignsArgs<ExtArgs>
+    creditScores?: boolean | UmkmProfile$creditScoresArgs<ExtArgs>
+    fundingApplications?: boolean | UmkmProfile$fundingApplicationsArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | UmkmProfileCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["umkmProfile"]>
 
@@ -6637,24 +6757,24 @@ export namespace Prisma {
 
   export type UmkmProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "ownerName" | "businessName" | "businessCategory" | "businessDescription" | "location" | "city" | "province" | "establishedDate" | "employeeCount" | "monthlyRevenue" | "website" | "socialMedia" | "createdAt" | "updatedAt", ExtArgs["result"]["umkmProfile"]>
   export type UmkmProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    creditScores?: boolean | UmkmProfile$creditScoresArgs<ExtArgs>
     businessData?: boolean | UmkmProfile$businessDataArgs<ExtArgs>
-    fundingApplications?: boolean | UmkmProfile$fundingApplicationsArgs<ExtArgs>
-    campaigns?: boolean | UmkmProfile$campaignsArgs<ExtArgs>
     businessUpdates?: boolean | UmkmProfile$businessUpdatesArgs<ExtArgs>
+    campaigns?: boolean | UmkmProfile$campaignsArgs<ExtArgs>
+    creditScores?: boolean | UmkmProfile$creditScoresArgs<ExtArgs>
+    fundingApplications?: boolean | UmkmProfile$fundingApplicationsArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | UmkmProfileCountOutputTypeDefaultArgs<ExtArgs>
   }
 
   export type $UmkmProfilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "UmkmProfile"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
-      creditScores: Prisma.$CreditScorePayload<ExtArgs>[]
       businessData: Prisma.$BusinessDataPayload<ExtArgs>[]
-      fundingApplications: Prisma.$FundingApplicationPayload<ExtArgs>[]
-      campaigns: Prisma.$CampaignPayload<ExtArgs>[]
       businessUpdates: Prisma.$BusinessUpdatePayload<ExtArgs>[]
+      campaigns: Prisma.$CampaignPayload<ExtArgs>[]
+      creditScores: Prisma.$CreditScorePayload<ExtArgs>[]
+      fundingApplications: Prisma.$FundingApplicationPayload<ExtArgs>[]
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7013,12 +7133,12 @@ export namespace Prisma {
    */
   export interface Prisma__UmkmProfileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    creditScores<T extends UmkmProfile$creditScoresArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfile$creditScoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CreditScorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     businessData<T extends UmkmProfile$businessDataArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfile$businessDataArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BusinessDataPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    fundingApplications<T extends UmkmProfile$fundingApplicationsArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfile$fundingApplicationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FundingApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    campaigns<T extends UmkmProfile$campaignsArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfile$campaignsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     businessUpdates<T extends UmkmProfile$businessUpdatesArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfile$businessUpdatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BusinessUpdatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    campaigns<T extends UmkmProfile$campaignsArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfile$campaignsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    creditScores<T extends UmkmProfile$creditScoresArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfile$creditScoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CreditScorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    fundingApplications<T extends UmkmProfile$fundingApplicationsArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfile$fundingApplicationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FundingApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7412,30 +7532,6 @@ export namespace Prisma {
   }
 
   /**
-   * UmkmProfile.creditScores
-   */
-  export type UmkmProfile$creditScoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CreditScore
-     */
-    select?: CreditScoreSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CreditScore
-     */
-    omit?: CreditScoreOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CreditScoreInclude<ExtArgs> | null
-    where?: CreditScoreWhereInput
-    orderBy?: CreditScoreOrderByWithRelationInput | CreditScoreOrderByWithRelationInput[]
-    cursor?: CreditScoreWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: CreditScoreScalarFieldEnum | CreditScoreScalarFieldEnum[]
-  }
-
-  /**
    * UmkmProfile.businessData
    */
   export type UmkmProfile$businessDataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7460,27 +7556,27 @@ export namespace Prisma {
   }
 
   /**
-   * UmkmProfile.fundingApplications
+   * UmkmProfile.businessUpdates
    */
-  export type UmkmProfile$fundingApplicationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UmkmProfile$businessUpdatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the FundingApplication
+     * Select specific fields to fetch from the BusinessUpdate
      */
-    select?: FundingApplicationSelect<ExtArgs> | null
+    select?: BusinessUpdateSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the FundingApplication
+     * Omit specific fields from the BusinessUpdate
      */
-    omit?: FundingApplicationOmit<ExtArgs> | null
+    omit?: BusinessUpdateOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: FundingApplicationInclude<ExtArgs> | null
-    where?: FundingApplicationWhereInput
-    orderBy?: FundingApplicationOrderByWithRelationInput | FundingApplicationOrderByWithRelationInput[]
-    cursor?: FundingApplicationWhereUniqueInput
+    include?: BusinessUpdateInclude<ExtArgs> | null
+    where?: BusinessUpdateWhereInput
+    orderBy?: BusinessUpdateOrderByWithRelationInput | BusinessUpdateOrderByWithRelationInput[]
+    cursor?: BusinessUpdateWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: FundingApplicationScalarFieldEnum | FundingApplicationScalarFieldEnum[]
+    distinct?: BusinessUpdateScalarFieldEnum | BusinessUpdateScalarFieldEnum[]
   }
 
   /**
@@ -7508,27 +7604,51 @@ export namespace Prisma {
   }
 
   /**
-   * UmkmProfile.businessUpdates
+   * UmkmProfile.creditScores
    */
-  export type UmkmProfile$businessUpdatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UmkmProfile$creditScoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the BusinessUpdate
+     * Select specific fields to fetch from the CreditScore
      */
-    select?: BusinessUpdateSelect<ExtArgs> | null
+    select?: CreditScoreSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the BusinessUpdate
+     * Omit specific fields from the CreditScore
      */
-    omit?: BusinessUpdateOmit<ExtArgs> | null
+    omit?: CreditScoreOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BusinessUpdateInclude<ExtArgs> | null
-    where?: BusinessUpdateWhereInput
-    orderBy?: BusinessUpdateOrderByWithRelationInput | BusinessUpdateOrderByWithRelationInput[]
-    cursor?: BusinessUpdateWhereUniqueInput
+    include?: CreditScoreInclude<ExtArgs> | null
+    where?: CreditScoreWhereInput
+    orderBy?: CreditScoreOrderByWithRelationInput | CreditScoreOrderByWithRelationInput[]
+    cursor?: CreditScoreWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: BusinessUpdateScalarFieldEnum | BusinessUpdateScalarFieldEnum[]
+    distinct?: CreditScoreScalarFieldEnum | CreditScoreScalarFieldEnum[]
+  }
+
+  /**
+   * UmkmProfile.fundingApplications
+   */
+  export type UmkmProfile$fundingApplicationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FundingApplication
+     */
+    select?: FundingApplicationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FundingApplication
+     */
+    omit?: FundingApplicationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FundingApplicationInclude<ExtArgs> | null
+    where?: FundingApplicationWhereInput
+    orderBy?: FundingApplicationOrderByWithRelationInput | FundingApplicationOrderByWithRelationInput[]
+    cursor?: FundingApplicationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FundingApplicationScalarFieldEnum | FundingApplicationScalarFieldEnum[]
   }
 
   /**
@@ -10858,8 +10978,8 @@ export namespace Prisma {
     creditScoreId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
     campaign?: boolean | FundingApplication$campaignArgs<ExtArgs>
+    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["fundingApplication"]>
 
 
@@ -10882,15 +11002,15 @@ export namespace Prisma {
 
   export type FundingApplicationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "umkmProfileId" | "akadType" | "requestedAmount" | "durationMonths" | "purpose" | "status" | "reviewedBy" | "reviewedAt" | "rejectReason" | "creditScoreId" | "createdAt" | "updatedAt", ExtArgs["result"]["fundingApplication"]>
   export type FundingApplicationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
     campaign?: boolean | FundingApplication$campaignArgs<ExtArgs>
+    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
   }
 
   export type $FundingApplicationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "FundingApplication"
     objects: {
-      umkmProfile: Prisma.$UmkmProfilePayload<ExtArgs>
       campaign: Prisma.$CampaignPayload<ExtArgs> | null
+      umkmProfile: Prisma.$UmkmProfilePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -11246,8 +11366,8 @@ export namespace Prisma {
    */
   export interface Prisma__FundingApplicationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    umkmProfile<T extends UmkmProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfileDefaultArgs<ExtArgs>>): Prisma__UmkmProfileClient<$Result.GetResult<Prisma.$UmkmProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     campaign<T extends FundingApplication$campaignArgs<ExtArgs> = {}>(args?: Subset<T, FundingApplication$campaignArgs<ExtArgs>>): Prisma__CampaignClient<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    umkmProfile<T extends UmkmProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfileDefaultArgs<ExtArgs>>): Prisma__UmkmProfileClient<$Result.GetResult<Prisma.$UmkmProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11977,10 +12097,10 @@ export namespace Prisma {
     investorCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
-    fundingApplication?: boolean | Campaign$fundingApplicationArgs<ExtArgs>
-    investments?: boolean | Campaign$investmentsArgs<ExtArgs>
     akads?: boolean | Campaign$akadsArgs<ExtArgs>
+    fundingApplication?: boolean | Campaign$fundingApplicationArgs<ExtArgs>
+    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
+    investments?: boolean | Campaign$investmentsArgs<ExtArgs>
     _count?: boolean | CampaignCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["campaign"]>
 
@@ -12007,20 +12127,20 @@ export namespace Prisma {
 
   export type CampaignOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "umkmProfileId" | "fundingApplicationId" | "title" | "story" | "targetAmount" | "collectedAmount" | "akadType" | "durationMonths" | "estimatedRoi" | "status" | "startDate" | "endDate" | "investorCount" | "createdAt" | "updatedAt", ExtArgs["result"]["campaign"]>
   export type CampaignInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
-    fundingApplication?: boolean | Campaign$fundingApplicationArgs<ExtArgs>
-    investments?: boolean | Campaign$investmentsArgs<ExtArgs>
     akads?: boolean | Campaign$akadsArgs<ExtArgs>
+    fundingApplication?: boolean | Campaign$fundingApplicationArgs<ExtArgs>
+    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
+    investments?: boolean | Campaign$investmentsArgs<ExtArgs>
     _count?: boolean | CampaignCountOutputTypeDefaultArgs<ExtArgs>
   }
 
   export type $CampaignPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Campaign"
     objects: {
-      umkmProfile: Prisma.$UmkmProfilePayload<ExtArgs>
-      fundingApplication: Prisma.$FundingApplicationPayload<ExtArgs> | null
-      investments: Prisma.$InvestmentPayload<ExtArgs>[]
       akads: Prisma.$AkadPayload<ExtArgs>[]
+      fundingApplication: Prisma.$FundingApplicationPayload<ExtArgs> | null
+      umkmProfile: Prisma.$UmkmProfilePayload<ExtArgs>
+      investments: Prisma.$InvestmentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -12379,10 +12499,10 @@ export namespace Prisma {
    */
   export interface Prisma__CampaignClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    umkmProfile<T extends UmkmProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfileDefaultArgs<ExtArgs>>): Prisma__UmkmProfileClient<$Result.GetResult<Prisma.$UmkmProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    fundingApplication<T extends Campaign$fundingApplicationArgs<ExtArgs> = {}>(args?: Subset<T, Campaign$fundingApplicationArgs<ExtArgs>>): Prisma__FundingApplicationClient<$Result.GetResult<Prisma.$FundingApplicationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    investments<T extends Campaign$investmentsArgs<ExtArgs> = {}>(args?: Subset<T, Campaign$investmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvestmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     akads<T extends Campaign$akadsArgs<ExtArgs> = {}>(args?: Subset<T, Campaign$akadsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AkadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    fundingApplication<T extends Campaign$fundingApplicationArgs<ExtArgs> = {}>(args?: Subset<T, Campaign$fundingApplicationArgs<ExtArgs>>): Prisma__FundingApplicationClient<$Result.GetResult<Prisma.$FundingApplicationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    umkmProfile<T extends UmkmProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfileDefaultArgs<ExtArgs>>): Prisma__UmkmProfileClient<$Result.GetResult<Prisma.$UmkmProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    investments<T extends Campaign$investmentsArgs<ExtArgs> = {}>(args?: Subset<T, Campaign$investmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvestmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12776,6 +12896,30 @@ export namespace Prisma {
   }
 
   /**
+   * Campaign.akads
+   */
+  export type Campaign$akadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Akad
+     */
+    select?: AkadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Akad
+     */
+    omit?: AkadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AkadInclude<ExtArgs> | null
+    where?: AkadWhereInput
+    orderBy?: AkadOrderByWithRelationInput | AkadOrderByWithRelationInput[]
+    cursor?: AkadWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AkadScalarFieldEnum | AkadScalarFieldEnum[]
+  }
+
+  /**
    * Campaign.fundingApplication
    */
   export type Campaign$fundingApplicationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -12816,30 +12960,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: InvestmentScalarFieldEnum | InvestmentScalarFieldEnum[]
-  }
-
-  /**
-   * Campaign.akads
-   */
-  export type Campaign$akadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Akad
-     */
-    select?: AkadSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Akad
-     */
-    omit?: AkadOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AkadInclude<ExtArgs> | null
-    where?: AkadWhereInput
-    orderBy?: AkadOrderByWithRelationInput | AkadOrderByWithRelationInput[]
-    cursor?: AkadWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: AkadScalarFieldEnum | AkadScalarFieldEnum[]
   }
 
   /**
@@ -13111,9 +13231,9 @@ export namespace Prisma {
     completedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    investorProfile?: boolean | InvestorProfileDefaultArgs<ExtArgs>
-    campaign?: boolean | CampaignDefaultArgs<ExtArgs>
     akad?: boolean | Investment$akadArgs<ExtArgs>
+    campaign?: boolean | CampaignDefaultArgs<ExtArgs>
+    investorProfile?: boolean | InvestorProfileDefaultArgs<ExtArgs>
     profitSharings?: boolean | Investment$profitSharingsArgs<ExtArgs>
     _count?: boolean | InvestmentCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["investment"]>
@@ -13136,9 +13256,9 @@ export namespace Prisma {
 
   export type InvestmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "investorProfileId" | "campaignId" | "amount" | "akadType" | "status" | "totalProfitReceived" | "confirmedAt" | "completedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["investment"]>
   export type InvestmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    investorProfile?: boolean | InvestorProfileDefaultArgs<ExtArgs>
-    campaign?: boolean | CampaignDefaultArgs<ExtArgs>
     akad?: boolean | Investment$akadArgs<ExtArgs>
+    campaign?: boolean | CampaignDefaultArgs<ExtArgs>
+    investorProfile?: boolean | InvestorProfileDefaultArgs<ExtArgs>
     profitSharings?: boolean | Investment$profitSharingsArgs<ExtArgs>
     _count?: boolean | InvestmentCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -13146,9 +13266,9 @@ export namespace Prisma {
   export type $InvestmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Investment"
     objects: {
-      investorProfile: Prisma.$InvestorProfilePayload<ExtArgs>
-      campaign: Prisma.$CampaignPayload<ExtArgs>
       akad: Prisma.$AkadPayload<ExtArgs> | null
+      campaign: Prisma.$CampaignPayload<ExtArgs>
+      investorProfile: Prisma.$InvestorProfilePayload<ExtArgs>
       profitSharings: Prisma.$ProfitSharingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -13503,9 +13623,9 @@ export namespace Prisma {
    */
   export interface Prisma__InvestmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    investorProfile<T extends InvestorProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InvestorProfileDefaultArgs<ExtArgs>>): Prisma__InvestorProfileClient<$Result.GetResult<Prisma.$InvestorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    campaign<T extends CampaignDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CampaignDefaultArgs<ExtArgs>>): Prisma__CampaignClient<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     akad<T extends Investment$akadArgs<ExtArgs> = {}>(args?: Subset<T, Investment$akadArgs<ExtArgs>>): Prisma__AkadClient<$Result.GetResult<Prisma.$AkadPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    campaign<T extends CampaignDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CampaignDefaultArgs<ExtArgs>>): Prisma__CampaignClient<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    investorProfile<T extends InvestorProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InvestorProfileDefaultArgs<ExtArgs>>): Prisma__InvestorProfileClient<$Result.GetResult<Prisma.$InvestorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     profitSharings<T extends Investment$profitSharingsArgs<ExtArgs> = {}>(args?: Subset<T, Investment$profitSharingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProfitSharingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -14308,8 +14428,8 @@ export namespace Prisma {
     updatedAt?: boolean
     campaign?: boolean | CampaignDefaultArgs<ExtArgs>
     investment?: boolean | Akad$investmentArgs<ExtArgs>
-    profitSharings?: boolean | Akad$profitSharingsArgs<ExtArgs>
     blockchainTransactions?: boolean | Akad$blockchainTransactionsArgs<ExtArgs>
+    profitSharings?: boolean | Akad$profitSharingsArgs<ExtArgs>
     _count?: boolean | AkadCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["akad"]>
 
@@ -14344,8 +14464,8 @@ export namespace Prisma {
   export type AkadInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     campaign?: boolean | CampaignDefaultArgs<ExtArgs>
     investment?: boolean | Akad$investmentArgs<ExtArgs>
-    profitSharings?: boolean | Akad$profitSharingsArgs<ExtArgs>
     blockchainTransactions?: boolean | Akad$blockchainTransactionsArgs<ExtArgs>
+    profitSharings?: boolean | Akad$profitSharingsArgs<ExtArgs>
     _count?: boolean | AkadCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -14354,8 +14474,8 @@ export namespace Prisma {
     objects: {
       campaign: Prisma.$CampaignPayload<ExtArgs>
       investment: Prisma.$InvestmentPayload<ExtArgs> | null
-      profitSharings: Prisma.$ProfitSharingPayload<ExtArgs>[]
       blockchainTransactions: Prisma.$BlockchainTransactionPayload<ExtArgs>[]
+      profitSharings: Prisma.$ProfitSharingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -14722,8 +14842,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     campaign<T extends CampaignDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CampaignDefaultArgs<ExtArgs>>): Prisma__CampaignClient<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     investment<T extends Akad$investmentArgs<ExtArgs> = {}>(args?: Subset<T, Akad$investmentArgs<ExtArgs>>): Prisma__InvestmentClient<$Result.GetResult<Prisma.$InvestmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    profitSharings<T extends Akad$profitSharingsArgs<ExtArgs> = {}>(args?: Subset<T, Akad$profitSharingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProfitSharingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     blockchainTransactions<T extends Akad$blockchainTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, Akad$blockchainTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlockchainTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    profitSharings<T extends Akad$profitSharingsArgs<ExtArgs> = {}>(args?: Subset<T, Akad$profitSharingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProfitSharingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15142,30 +15262,6 @@ export namespace Prisma {
   }
 
   /**
-   * Akad.profitSharings
-   */
-  export type Akad$profitSharingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProfitSharing
-     */
-    select?: ProfitSharingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProfitSharing
-     */
-    omit?: ProfitSharingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProfitSharingInclude<ExtArgs> | null
-    where?: ProfitSharingWhereInput
-    orderBy?: ProfitSharingOrderByWithRelationInput | ProfitSharingOrderByWithRelationInput[]
-    cursor?: ProfitSharingWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ProfitSharingScalarFieldEnum | ProfitSharingScalarFieldEnum[]
-  }
-
-  /**
    * Akad.blockchainTransactions
    */
   export type Akad$blockchainTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -15187,6 +15283,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BlockchainTransactionScalarFieldEnum | BlockchainTransactionScalarFieldEnum[]
+  }
+
+  /**
+   * Akad.profitSharings
+   */
+  export type Akad$profitSharingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProfitSharing
+     */
+    select?: ProfitSharingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProfitSharing
+     */
+    omit?: ProfitSharingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProfitSharingInclude<ExtArgs> | null
+    where?: ProfitSharingWhereInput
+    orderBy?: ProfitSharingOrderByWithRelationInput | ProfitSharingOrderByWithRelationInput[]
+    cursor?: ProfitSharingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProfitSharingScalarFieldEnum | ProfitSharingScalarFieldEnum[]
   }
 
   /**
@@ -16501,8 +16621,8 @@ export namespace Prisma {
     lockedBalance?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     transactions?: boolean | Wallet$transactionsArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | WalletCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["wallet"]>
 
@@ -16519,16 +16639,16 @@ export namespace Prisma {
 
   export type WalletOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "balance" | "lockedBalance" | "createdAt" | "updatedAt", ExtArgs["result"]["wallet"]>
   export type WalletInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     transactions?: boolean | Wallet$transactionsArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | WalletCountOutputTypeDefaultArgs<ExtArgs>
   }
 
   export type $WalletPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Wallet"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       transactions: Prisma.$TransactionPayload<ExtArgs>[]
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -16877,8 +16997,8 @@ export namespace Prisma {
    */
   export interface Prisma__WalletClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     transactions<T extends Wallet$transactionsArgs<ExtArgs> = {}>(args?: Subset<T, Wallet$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17598,8 +17718,8 @@ export namespace Prisma {
     processedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    wallet?: boolean | WalletDefaultArgs<ExtArgs>
     fraudAlert?: boolean | Transaction$fraudAlertArgs<ExtArgs>
+    wallet?: boolean | WalletDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["transaction"]>
 
 
@@ -17625,15 +17745,15 @@ export namespace Prisma {
 
   export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "walletId" | "type" | "amount" | "balanceBefore" | "balanceAfter" | "status" | "reference" | "description" | "relatedEntityId" | "relatedEntityType" | "isFlagged" | "flagReason" | "processedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["transaction"]>
   export type TransactionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    wallet?: boolean | WalletDefaultArgs<ExtArgs>
     fraudAlert?: boolean | Transaction$fraudAlertArgs<ExtArgs>
+    wallet?: boolean | WalletDefaultArgs<ExtArgs>
   }
 
   export type $TransactionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Transaction"
     objects: {
-      wallet: Prisma.$WalletPayload<ExtArgs>
       fraudAlert: Prisma.$FraudAlertPayload<ExtArgs> | null
+      wallet: Prisma.$WalletPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -17992,8 +18112,8 @@ export namespace Prisma {
    */
   export interface Prisma__TransactionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    wallet<T extends WalletDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WalletDefaultArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     fraudAlert<T extends Transaction$fraudAlertArgs<ExtArgs> = {}>(args?: Subset<T, Transaction$fraudAlertArgs<ExtArgs>>): Prisma__FraudAlertClient<$Result.GetResult<Prisma.$FraudAlertPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    wallet<T extends WalletDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WalletDefaultArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -20703,8 +20823,8 @@ export namespace Prisma {
     readAt?: boolean
     data?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     sender?: boolean | Notification$senderArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["notification"]>
 
 
@@ -20724,15 +20844,15 @@ export namespace Prisma {
 
   export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "senderId" | "type" | "title" | "message" | "isRead" | "readAt" | "data" | "createdAt", ExtArgs["result"]["notification"]>
   export type NotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     sender?: boolean | Notification$senderArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $NotificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Notification"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       sender: Prisma.$UserPayload<ExtArgs> | null
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -21085,8 +21205,8 @@ export namespace Prisma {
    */
   export interface Prisma__NotificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     sender<T extends Notification$senderArgs<ExtArgs> = {}>(args?: Subset<T, Notification$senderArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -25389,6 +25509,1017 @@ export namespace Prisma {
 
 
   /**
+   * Model Berita
+   */
+
+  export type AggregateBerita = {
+    _count: BeritaCountAggregateOutputType | null
+    _min: BeritaMinAggregateOutputType | null
+    _max: BeritaMaxAggregateOutputType | null
+  }
+
+  export type BeritaMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    slug: string | null
+    excerpt: string | null
+    content: string | null
+    coverImage: string | null
+    category: string | null
+    authorId: string | null
+    isPublished: boolean | null
+    publishedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BeritaMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    slug: string | null
+    excerpt: string | null
+    content: string | null
+    coverImage: string | null
+    category: string | null
+    authorId: string | null
+    isPublished: boolean | null
+    publishedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BeritaCountAggregateOutputType = {
+    id: number
+    title: number
+    slug: number
+    excerpt: number
+    content: number
+    coverImage: number
+    category: number
+    authorId: number
+    isPublished: number
+    publishedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BeritaMinAggregateInputType = {
+    id?: true
+    title?: true
+    slug?: true
+    excerpt?: true
+    content?: true
+    coverImage?: true
+    category?: true
+    authorId?: true
+    isPublished?: true
+    publishedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BeritaMaxAggregateInputType = {
+    id?: true
+    title?: true
+    slug?: true
+    excerpt?: true
+    content?: true
+    coverImage?: true
+    category?: true
+    authorId?: true
+    isPublished?: true
+    publishedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BeritaCountAggregateInputType = {
+    id?: true
+    title?: true
+    slug?: true
+    excerpt?: true
+    content?: true
+    coverImage?: true
+    category?: true
+    authorId?: true
+    isPublished?: true
+    publishedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BeritaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Berita to aggregate.
+     */
+    where?: BeritaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Beritas to fetch.
+     */
+    orderBy?: BeritaOrderByWithRelationInput | BeritaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BeritaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Beritas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Beritas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Beritas
+    **/
+    _count?: true | BeritaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BeritaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BeritaMaxAggregateInputType
+  }
+
+  export type GetBeritaAggregateType<T extends BeritaAggregateArgs> = {
+        [P in keyof T & keyof AggregateBerita]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBerita[P]>
+      : GetScalarType<T[P], AggregateBerita[P]>
+  }
+
+
+
+
+  export type BeritaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BeritaWhereInput
+    orderBy?: BeritaOrderByWithAggregationInput | BeritaOrderByWithAggregationInput[]
+    by: BeritaScalarFieldEnum[] | BeritaScalarFieldEnum
+    having?: BeritaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BeritaCountAggregateInputType | true
+    _min?: BeritaMinAggregateInputType
+    _max?: BeritaMaxAggregateInputType
+  }
+
+  export type BeritaGroupByOutputType = {
+    id: string
+    title: string
+    slug: string
+    excerpt: string
+    content: string
+    coverImage: string | null
+    category: string | null
+    authorId: string
+    isPublished: boolean
+    publishedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: BeritaCountAggregateOutputType | null
+    _min: BeritaMinAggregateOutputType | null
+    _max: BeritaMaxAggregateOutputType | null
+  }
+
+  type GetBeritaGroupByPayload<T extends BeritaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BeritaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BeritaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BeritaGroupByOutputType[P]>
+            : GetScalarType<T[P], BeritaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BeritaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    excerpt?: boolean
+    content?: boolean
+    coverImage?: boolean
+    category?: boolean
+    authorId?: boolean
+    isPublished?: boolean
+    publishedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["berita"]>
+
+
+
+  export type BeritaSelectScalar = {
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    excerpt?: boolean
+    content?: boolean
+    coverImage?: boolean
+    category?: boolean
+    authorId?: boolean
+    isPublished?: boolean
+    publishedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BeritaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "excerpt" | "content" | "coverImage" | "category" | "authorId" | "isPublished" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["berita"]>
+  export type BeritaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $BeritaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Berita"
+    objects: {
+      author: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      slug: string
+      excerpt: string
+      content: string
+      coverImage: string | null
+      category: string | null
+      authorId: string
+      isPublished: boolean
+      publishedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["berita"]>
+    composites: {}
+  }
+
+  type BeritaGetPayload<S extends boolean | null | undefined | BeritaDefaultArgs> = $Result.GetResult<Prisma.$BeritaPayload, S>
+
+  type BeritaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BeritaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BeritaCountAggregateInputType | true
+    }
+
+  export interface BeritaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Berita'], meta: { name: 'Berita' } }
+    /**
+     * Find zero or one Berita that matches the filter.
+     * @param {BeritaFindUniqueArgs} args - Arguments to find a Berita
+     * @example
+     * // Get one Berita
+     * const berita = await prisma.berita.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BeritaFindUniqueArgs>(args: SelectSubset<T, BeritaFindUniqueArgs<ExtArgs>>): Prisma__BeritaClient<$Result.GetResult<Prisma.$BeritaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Berita that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BeritaFindUniqueOrThrowArgs} args - Arguments to find a Berita
+     * @example
+     * // Get one Berita
+     * const berita = await prisma.berita.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BeritaFindUniqueOrThrowArgs>(args: SelectSubset<T, BeritaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BeritaClient<$Result.GetResult<Prisma.$BeritaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Berita that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BeritaFindFirstArgs} args - Arguments to find a Berita
+     * @example
+     * // Get one Berita
+     * const berita = await prisma.berita.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BeritaFindFirstArgs>(args?: SelectSubset<T, BeritaFindFirstArgs<ExtArgs>>): Prisma__BeritaClient<$Result.GetResult<Prisma.$BeritaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Berita that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BeritaFindFirstOrThrowArgs} args - Arguments to find a Berita
+     * @example
+     * // Get one Berita
+     * const berita = await prisma.berita.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BeritaFindFirstOrThrowArgs>(args?: SelectSubset<T, BeritaFindFirstOrThrowArgs<ExtArgs>>): Prisma__BeritaClient<$Result.GetResult<Prisma.$BeritaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Beritas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BeritaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Beritas
+     * const beritas = await prisma.berita.findMany()
+     * 
+     * // Get first 10 Beritas
+     * const beritas = await prisma.berita.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const beritaWithIdOnly = await prisma.berita.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BeritaFindManyArgs>(args?: SelectSubset<T, BeritaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BeritaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Berita.
+     * @param {BeritaCreateArgs} args - Arguments to create a Berita.
+     * @example
+     * // Create one Berita
+     * const Berita = await prisma.berita.create({
+     *   data: {
+     *     // ... data to create a Berita
+     *   }
+     * })
+     * 
+     */
+    create<T extends BeritaCreateArgs>(args: SelectSubset<T, BeritaCreateArgs<ExtArgs>>): Prisma__BeritaClient<$Result.GetResult<Prisma.$BeritaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Beritas.
+     * @param {BeritaCreateManyArgs} args - Arguments to create many Beritas.
+     * @example
+     * // Create many Beritas
+     * const berita = await prisma.berita.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BeritaCreateManyArgs>(args?: SelectSubset<T, BeritaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Berita.
+     * @param {BeritaDeleteArgs} args - Arguments to delete one Berita.
+     * @example
+     * // Delete one Berita
+     * const Berita = await prisma.berita.delete({
+     *   where: {
+     *     // ... filter to delete one Berita
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BeritaDeleteArgs>(args: SelectSubset<T, BeritaDeleteArgs<ExtArgs>>): Prisma__BeritaClient<$Result.GetResult<Prisma.$BeritaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Berita.
+     * @param {BeritaUpdateArgs} args - Arguments to update one Berita.
+     * @example
+     * // Update one Berita
+     * const berita = await prisma.berita.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BeritaUpdateArgs>(args: SelectSubset<T, BeritaUpdateArgs<ExtArgs>>): Prisma__BeritaClient<$Result.GetResult<Prisma.$BeritaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Beritas.
+     * @param {BeritaDeleteManyArgs} args - Arguments to filter Beritas to delete.
+     * @example
+     * // Delete a few Beritas
+     * const { count } = await prisma.berita.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BeritaDeleteManyArgs>(args?: SelectSubset<T, BeritaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Beritas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BeritaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Beritas
+     * const berita = await prisma.berita.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BeritaUpdateManyArgs>(args: SelectSubset<T, BeritaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Berita.
+     * @param {BeritaUpsertArgs} args - Arguments to update or create a Berita.
+     * @example
+     * // Update or create a Berita
+     * const berita = await prisma.berita.upsert({
+     *   create: {
+     *     // ... data to create a Berita
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Berita we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BeritaUpsertArgs>(args: SelectSubset<T, BeritaUpsertArgs<ExtArgs>>): Prisma__BeritaClient<$Result.GetResult<Prisma.$BeritaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Beritas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BeritaCountArgs} args - Arguments to filter Beritas to count.
+     * @example
+     * // Count the number of Beritas
+     * const count = await prisma.berita.count({
+     *   where: {
+     *     // ... the filter for the Beritas we want to count
+     *   }
+     * })
+    **/
+    count<T extends BeritaCountArgs>(
+      args?: Subset<T, BeritaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BeritaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Berita.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BeritaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BeritaAggregateArgs>(args: Subset<T, BeritaAggregateArgs>): Prisma.PrismaPromise<GetBeritaAggregateType<T>>
+
+    /**
+     * Group by Berita.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BeritaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BeritaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BeritaGroupByArgs['orderBy'] }
+        : { orderBy?: BeritaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BeritaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBeritaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Berita model
+   */
+  readonly fields: BeritaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Berita.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BeritaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Berita model
+   */
+  interface BeritaFieldRefs {
+    readonly id: FieldRef<"Berita", 'String'>
+    readonly title: FieldRef<"Berita", 'String'>
+    readonly slug: FieldRef<"Berita", 'String'>
+    readonly excerpt: FieldRef<"Berita", 'String'>
+    readonly content: FieldRef<"Berita", 'String'>
+    readonly coverImage: FieldRef<"Berita", 'String'>
+    readonly category: FieldRef<"Berita", 'String'>
+    readonly authorId: FieldRef<"Berita", 'String'>
+    readonly isPublished: FieldRef<"Berita", 'Boolean'>
+    readonly publishedAt: FieldRef<"Berita", 'DateTime'>
+    readonly createdAt: FieldRef<"Berita", 'DateTime'>
+    readonly updatedAt: FieldRef<"Berita", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Berita findUnique
+   */
+  export type BeritaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Berita
+     */
+    select?: BeritaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Berita
+     */
+    omit?: BeritaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BeritaInclude<ExtArgs> | null
+    /**
+     * Filter, which Berita to fetch.
+     */
+    where: BeritaWhereUniqueInput
+  }
+
+  /**
+   * Berita findUniqueOrThrow
+   */
+  export type BeritaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Berita
+     */
+    select?: BeritaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Berita
+     */
+    omit?: BeritaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BeritaInclude<ExtArgs> | null
+    /**
+     * Filter, which Berita to fetch.
+     */
+    where: BeritaWhereUniqueInput
+  }
+
+  /**
+   * Berita findFirst
+   */
+  export type BeritaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Berita
+     */
+    select?: BeritaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Berita
+     */
+    omit?: BeritaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BeritaInclude<ExtArgs> | null
+    /**
+     * Filter, which Berita to fetch.
+     */
+    where?: BeritaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Beritas to fetch.
+     */
+    orderBy?: BeritaOrderByWithRelationInput | BeritaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Beritas.
+     */
+    cursor?: BeritaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Beritas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Beritas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Beritas.
+     */
+    distinct?: BeritaScalarFieldEnum | BeritaScalarFieldEnum[]
+  }
+
+  /**
+   * Berita findFirstOrThrow
+   */
+  export type BeritaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Berita
+     */
+    select?: BeritaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Berita
+     */
+    omit?: BeritaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BeritaInclude<ExtArgs> | null
+    /**
+     * Filter, which Berita to fetch.
+     */
+    where?: BeritaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Beritas to fetch.
+     */
+    orderBy?: BeritaOrderByWithRelationInput | BeritaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Beritas.
+     */
+    cursor?: BeritaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Beritas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Beritas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Beritas.
+     */
+    distinct?: BeritaScalarFieldEnum | BeritaScalarFieldEnum[]
+  }
+
+  /**
+   * Berita findMany
+   */
+  export type BeritaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Berita
+     */
+    select?: BeritaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Berita
+     */
+    omit?: BeritaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BeritaInclude<ExtArgs> | null
+    /**
+     * Filter, which Beritas to fetch.
+     */
+    where?: BeritaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Beritas to fetch.
+     */
+    orderBy?: BeritaOrderByWithRelationInput | BeritaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Beritas.
+     */
+    cursor?: BeritaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Beritas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Beritas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Beritas.
+     */
+    distinct?: BeritaScalarFieldEnum | BeritaScalarFieldEnum[]
+  }
+
+  /**
+   * Berita create
+   */
+  export type BeritaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Berita
+     */
+    select?: BeritaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Berita
+     */
+    omit?: BeritaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BeritaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Berita.
+     */
+    data: XOR<BeritaCreateInput, BeritaUncheckedCreateInput>
+  }
+
+  /**
+   * Berita createMany
+   */
+  export type BeritaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Beritas.
+     */
+    data: BeritaCreateManyInput | BeritaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Berita update
+   */
+  export type BeritaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Berita
+     */
+    select?: BeritaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Berita
+     */
+    omit?: BeritaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BeritaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Berita.
+     */
+    data: XOR<BeritaUpdateInput, BeritaUncheckedUpdateInput>
+    /**
+     * Choose, which Berita to update.
+     */
+    where: BeritaWhereUniqueInput
+  }
+
+  /**
+   * Berita updateMany
+   */
+  export type BeritaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Beritas.
+     */
+    data: XOR<BeritaUpdateManyMutationInput, BeritaUncheckedUpdateManyInput>
+    /**
+     * Filter which Beritas to update
+     */
+    where?: BeritaWhereInput
+    /**
+     * Limit how many Beritas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Berita upsert
+   */
+  export type BeritaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Berita
+     */
+    select?: BeritaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Berita
+     */
+    omit?: BeritaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BeritaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Berita to update in case it exists.
+     */
+    where: BeritaWhereUniqueInput
+    /**
+     * In case the Berita found by the `where` argument doesn't exist, create a new Berita with this data.
+     */
+    create: XOR<BeritaCreateInput, BeritaUncheckedCreateInput>
+    /**
+     * In case the Berita was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BeritaUpdateInput, BeritaUncheckedUpdateInput>
+  }
+
+  /**
+   * Berita delete
+   */
+  export type BeritaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Berita
+     */
+    select?: BeritaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Berita
+     */
+    omit?: BeritaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BeritaInclude<ExtArgs> | null
+    /**
+     * Filter which Berita to delete.
+     */
+    where: BeritaWhereUniqueInput
+  }
+
+  /**
+   * Berita deleteMany
+   */
+  export type BeritaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Beritas to delete
+     */
+    where?: BeritaWhereInput
+    /**
+     * Limit how many Beritas to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Berita without action
+   */
+  export type BeritaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Berita
+     */
+    select?: BeritaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Berita
+     */
+    omit?: BeritaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BeritaInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -25771,6 +26902,24 @@ export namespace Prisma {
   export type SystemConfigScalarFieldEnum = (typeof SystemConfigScalarFieldEnum)[keyof typeof SystemConfigScalarFieldEnum]
 
 
+  export const BeritaScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    slug: 'slug',
+    excerpt: 'excerpt',
+    content: 'content',
+    coverImage: 'coverImage',
+    category: 'category',
+    authorId: 'authorId',
+    isPublished: 'isPublished',
+    publishedAt: 'publishedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BeritaScalarFieldEnum = (typeof BeritaScalarFieldEnum)[keyof typeof BeritaScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -26053,6 +27202,20 @@ export namespace Prisma {
   export type SystemConfigOrderByRelevanceFieldEnum = (typeof SystemConfigOrderByRelevanceFieldEnum)[keyof typeof SystemConfigOrderByRelevanceFieldEnum]
 
 
+  export const BeritaOrderByRelevanceFieldEnum: {
+    id: 'id',
+    title: 'title',
+    slug: 'slug',
+    excerpt: 'excerpt',
+    content: 'content',
+    coverImage: 'coverImage',
+    category: 'category',
+    authorId: 'authorId'
+  };
+
+  export type BeritaOrderByRelevanceFieldEnum = (typeof BeritaOrderByRelevanceFieldEnum)[keyof typeof BeritaOrderByRelevanceFieldEnum]
+
+
   /**
    * Field references
    */
@@ -26239,14 +27402,15 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     adminProfile?: XOR<AdminProfileNullableScalarRelationFilter, AdminProfileWhereInput> | null
+    auditLogs?: AuditLogListRelationFilter
     investorProfile?: XOR<InvestorProfileNullableScalarRelationFilter, InvestorProfileWhereInput> | null
+    kycDocuments?: KycDocumentListRelationFilter
+    sentNotifications?: NotificationListRelationFilter
+    notifications?: NotificationListRelationFilter
+    otpVerifications?: OtpVerificationListRelationFilter
     umkmProfile?: XOR<UmkmProfileNullableScalarRelationFilter, UmkmProfileWhereInput> | null
     wallet?: XOR<WalletNullableScalarRelationFilter, WalletWhereInput> | null
-    kycDocuments?: KycDocumentListRelationFilter
-    notifications?: NotificationListRelationFilter
-    sentNotifications?: NotificationListRelationFilter
-    otpVerifications?: OtpVerificationListRelationFilter
-    auditLogs?: AuditLogListRelationFilter
+    beritas?: BeritaListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -26263,14 +27427,15 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     adminProfile?: AdminProfileOrderByWithRelationInput
+    auditLogs?: AuditLogOrderByRelationAggregateInput
     investorProfile?: InvestorProfileOrderByWithRelationInput
+    kycDocuments?: KycDocumentOrderByRelationAggregateInput
+    sentNotifications?: NotificationOrderByRelationAggregateInput
+    notifications?: NotificationOrderByRelationAggregateInput
+    otpVerifications?: OtpVerificationOrderByRelationAggregateInput
     umkmProfile?: UmkmProfileOrderByWithRelationInput
     wallet?: WalletOrderByWithRelationInput
-    kycDocuments?: KycDocumentOrderByRelationAggregateInput
-    notifications?: NotificationOrderByRelationAggregateInput
-    sentNotifications?: NotificationOrderByRelationAggregateInput
-    otpVerifications?: OtpVerificationOrderByRelationAggregateInput
-    auditLogs?: AuditLogOrderByRelationAggregateInput
+    beritas?: BeritaOrderByRelationAggregateInput
     _relevance?: UserOrderByRelevanceInput
   }
 
@@ -26291,14 +27456,15 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     adminProfile?: XOR<AdminProfileNullableScalarRelationFilter, AdminProfileWhereInput> | null
+    auditLogs?: AuditLogListRelationFilter
     investorProfile?: XOR<InvestorProfileNullableScalarRelationFilter, InvestorProfileWhereInput> | null
+    kycDocuments?: KycDocumentListRelationFilter
+    sentNotifications?: NotificationListRelationFilter
+    notifications?: NotificationListRelationFilter
+    otpVerifications?: OtpVerificationListRelationFilter
     umkmProfile?: XOR<UmkmProfileNullableScalarRelationFilter, UmkmProfileWhereInput> | null
     wallet?: XOR<WalletNullableScalarRelationFilter, WalletWhereInput> | null
-    kycDocuments?: KycDocumentListRelationFilter
-    notifications?: NotificationListRelationFilter
-    sentNotifications?: NotificationListRelationFilter
-    otpVerifications?: OtpVerificationListRelationFilter
-    auditLogs?: AuditLogListRelationFilter
+    beritas?: BeritaListRelationFilter
   }, "id" | "email" | "phoneNumber">
 
   export type UserOrderByWithAggregationInput = {
@@ -26420,8 +27586,8 @@ export namespace Prisma {
     totalProfit?: DecimalFilter<"InvestorProfile"> | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFilter<"InvestorProfile"> | Date | string
     updatedAt?: DateTimeFilter<"InvestorProfile"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     investments?: InvestmentListRelationFilter
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type InvestorProfileOrderByWithRelationInput = {
@@ -26438,8 +27604,8 @@ export namespace Prisma {
     totalProfit?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    user?: UserOrderByWithRelationInput
     investments?: InvestmentOrderByRelationAggregateInput
+    user?: UserOrderByWithRelationInput
     _relevance?: InvestorProfileOrderByRelevanceInput
   }
 
@@ -26460,8 +27626,8 @@ export namespace Prisma {
     totalProfit?: DecimalFilter<"InvestorProfile"> | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFilter<"InvestorProfile"> | Date | string
     updatedAt?: DateTimeFilter<"InvestorProfile"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     investments?: InvestmentListRelationFilter
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId">
 
   export type InvestorProfileOrderByWithAggregationInput = {
@@ -26524,12 +27690,12 @@ export namespace Prisma {
     socialMedia?: StringNullableFilter<"UmkmProfile"> | string | null
     createdAt?: DateTimeFilter<"UmkmProfile"> | Date | string
     updatedAt?: DateTimeFilter<"UmkmProfile"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    creditScores?: CreditScoreListRelationFilter
     businessData?: BusinessDataListRelationFilter
-    fundingApplications?: FundingApplicationListRelationFilter
-    campaigns?: CampaignListRelationFilter
     businessUpdates?: BusinessUpdateListRelationFilter
+    campaigns?: CampaignListRelationFilter
+    creditScores?: CreditScoreListRelationFilter
+    fundingApplications?: FundingApplicationListRelationFilter
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type UmkmProfileOrderByWithRelationInput = {
@@ -26549,12 +27715,12 @@ export namespace Prisma {
     socialMedia?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    user?: UserOrderByWithRelationInput
-    creditScores?: CreditScoreOrderByRelationAggregateInput
     businessData?: BusinessDataOrderByRelationAggregateInput
-    fundingApplications?: FundingApplicationOrderByRelationAggregateInput
-    campaigns?: CampaignOrderByRelationAggregateInput
     businessUpdates?: BusinessUpdateOrderByRelationAggregateInput
+    campaigns?: CampaignOrderByRelationAggregateInput
+    creditScores?: CreditScoreOrderByRelationAggregateInput
+    fundingApplications?: FundingApplicationOrderByRelationAggregateInput
+    user?: UserOrderByWithRelationInput
     _relevance?: UmkmProfileOrderByRelevanceInput
   }
 
@@ -26578,12 +27744,12 @@ export namespace Prisma {
     socialMedia?: StringNullableFilter<"UmkmProfile"> | string | null
     createdAt?: DateTimeFilter<"UmkmProfile"> | Date | string
     updatedAt?: DateTimeFilter<"UmkmProfile"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    creditScores?: CreditScoreListRelationFilter
     businessData?: BusinessDataListRelationFilter
-    fundingApplications?: FundingApplicationListRelationFilter
-    campaigns?: CampaignListRelationFilter
     businessUpdates?: BusinessUpdateListRelationFilter
+    campaigns?: CampaignListRelationFilter
+    creditScores?: CreditScoreListRelationFilter
+    fundingApplications?: FundingApplicationListRelationFilter
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId">
 
   export type UmkmProfileOrderByWithAggregationInput = {
@@ -26901,8 +28067,8 @@ export namespace Prisma {
     creditScoreId?: StringNullableFilter<"FundingApplication"> | string | null
     createdAt?: DateTimeFilter<"FundingApplication"> | Date | string
     updatedAt?: DateTimeFilter<"FundingApplication"> | Date | string
-    umkmProfile?: XOR<UmkmProfileScalarRelationFilter, UmkmProfileWhereInput>
     campaign?: XOR<CampaignNullableScalarRelationFilter, CampaignWhereInput> | null
+    umkmProfile?: XOR<UmkmProfileScalarRelationFilter, UmkmProfileWhereInput>
   }
 
   export type FundingApplicationOrderByWithRelationInput = {
@@ -26919,8 +28085,8 @@ export namespace Prisma {
     creditScoreId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    umkmProfile?: UmkmProfileOrderByWithRelationInput
     campaign?: CampaignOrderByWithRelationInput
+    umkmProfile?: UmkmProfileOrderByWithRelationInput
     _relevance?: FundingApplicationOrderByRelevanceInput
   }
 
@@ -26941,8 +28107,8 @@ export namespace Prisma {
     creditScoreId?: StringNullableFilter<"FundingApplication"> | string | null
     createdAt?: DateTimeFilter<"FundingApplication"> | Date | string
     updatedAt?: DateTimeFilter<"FundingApplication"> | Date | string
-    umkmProfile?: XOR<UmkmProfileScalarRelationFilter, UmkmProfileWhereInput>
     campaign?: XOR<CampaignNullableScalarRelationFilter, CampaignWhereInput> | null
+    umkmProfile?: XOR<UmkmProfileScalarRelationFilter, UmkmProfileWhereInput>
   }, "id">
 
   export type FundingApplicationOrderByWithAggregationInput = {
@@ -27005,10 +28171,10 @@ export namespace Prisma {
     investorCount?: IntFilter<"Campaign"> | number
     createdAt?: DateTimeFilter<"Campaign"> | Date | string
     updatedAt?: DateTimeFilter<"Campaign"> | Date | string
-    umkmProfile?: XOR<UmkmProfileScalarRelationFilter, UmkmProfileWhereInput>
-    fundingApplication?: XOR<FundingApplicationNullableScalarRelationFilter, FundingApplicationWhereInput> | null
-    investments?: InvestmentListRelationFilter
     akads?: AkadListRelationFilter
+    fundingApplication?: XOR<FundingApplicationNullableScalarRelationFilter, FundingApplicationWhereInput> | null
+    umkmProfile?: XOR<UmkmProfileScalarRelationFilter, UmkmProfileWhereInput>
+    investments?: InvestmentListRelationFilter
   }
 
   export type CampaignOrderByWithRelationInput = {
@@ -27028,10 +28194,10 @@ export namespace Prisma {
     investorCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    umkmProfile?: UmkmProfileOrderByWithRelationInput
-    fundingApplication?: FundingApplicationOrderByWithRelationInput
-    investments?: InvestmentOrderByRelationAggregateInput
     akads?: AkadOrderByRelationAggregateInput
+    fundingApplication?: FundingApplicationOrderByWithRelationInput
+    umkmProfile?: UmkmProfileOrderByWithRelationInput
+    investments?: InvestmentOrderByRelationAggregateInput
     _relevance?: CampaignOrderByRelevanceInput
   }
 
@@ -27055,10 +28221,10 @@ export namespace Prisma {
     investorCount?: IntFilter<"Campaign"> | number
     createdAt?: DateTimeFilter<"Campaign"> | Date | string
     updatedAt?: DateTimeFilter<"Campaign"> | Date | string
-    umkmProfile?: XOR<UmkmProfileScalarRelationFilter, UmkmProfileWhereInput>
-    fundingApplication?: XOR<FundingApplicationNullableScalarRelationFilter, FundingApplicationWhereInput> | null
-    investments?: InvestmentListRelationFilter
     akads?: AkadListRelationFilter
+    fundingApplication?: XOR<FundingApplicationNullableScalarRelationFilter, FundingApplicationWhereInput> | null
+    umkmProfile?: XOR<UmkmProfileScalarRelationFilter, UmkmProfileWhereInput>
+    investments?: InvestmentListRelationFilter
   }, "id" | "fundingApplicationId">
 
   export type CampaignOrderByWithAggregationInput = {
@@ -27122,9 +28288,9 @@ export namespace Prisma {
     completedAt?: DateTimeNullableFilter<"Investment"> | Date | string | null
     createdAt?: DateTimeFilter<"Investment"> | Date | string
     updatedAt?: DateTimeFilter<"Investment"> | Date | string
-    investorProfile?: XOR<InvestorProfileScalarRelationFilter, InvestorProfileWhereInput>
-    campaign?: XOR<CampaignScalarRelationFilter, CampaignWhereInput>
     akad?: XOR<AkadNullableScalarRelationFilter, AkadWhereInput> | null
+    campaign?: XOR<CampaignScalarRelationFilter, CampaignWhereInput>
+    investorProfile?: XOR<InvestorProfileScalarRelationFilter, InvestorProfileWhereInput>
     profitSharings?: ProfitSharingListRelationFilter
   }
 
@@ -27140,9 +28306,9 @@ export namespace Prisma {
     completedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    investorProfile?: InvestorProfileOrderByWithRelationInput
-    campaign?: CampaignOrderByWithRelationInput
     akad?: AkadOrderByWithRelationInput
+    campaign?: CampaignOrderByWithRelationInput
+    investorProfile?: InvestorProfileOrderByWithRelationInput
     profitSharings?: ProfitSharingOrderByRelationAggregateInput
     _relevance?: InvestmentOrderByRelevanceInput
   }
@@ -27162,9 +28328,9 @@ export namespace Prisma {
     completedAt?: DateTimeNullableFilter<"Investment"> | Date | string | null
     createdAt?: DateTimeFilter<"Investment"> | Date | string
     updatedAt?: DateTimeFilter<"Investment"> | Date | string
-    investorProfile?: XOR<InvestorProfileScalarRelationFilter, InvestorProfileWhereInput>
-    campaign?: XOR<CampaignScalarRelationFilter, CampaignWhereInput>
     akad?: XOR<AkadNullableScalarRelationFilter, AkadWhereInput> | null
+    campaign?: XOR<CampaignScalarRelationFilter, CampaignWhereInput>
+    investorProfile?: XOR<InvestorProfileScalarRelationFilter, InvestorProfileWhereInput>
     profitSharings?: ProfitSharingListRelationFilter
   }, "id">
 
@@ -27232,8 +28398,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Akad"> | Date | string
     campaign?: XOR<CampaignScalarRelationFilter, CampaignWhereInput>
     investment?: XOR<InvestmentNullableScalarRelationFilter, InvestmentWhereInput> | null
-    profitSharings?: ProfitSharingListRelationFilter
     blockchainTransactions?: BlockchainTransactionListRelationFilter
+    profitSharings?: ProfitSharingListRelationFilter
   }
 
   export type AkadOrderByWithRelationInput = {
@@ -27261,8 +28427,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     campaign?: CampaignOrderByWithRelationInput
     investment?: InvestmentOrderByWithRelationInput
-    profitSharings?: ProfitSharingOrderByRelationAggregateInput
     blockchainTransactions?: BlockchainTransactionOrderByRelationAggregateInput
+    profitSharings?: ProfitSharingOrderByRelationAggregateInput
     _relevance?: AkadOrderByRelevanceInput
   }
 
@@ -27294,8 +28460,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Akad"> | Date | string
     campaign?: XOR<CampaignScalarRelationFilter, CampaignWhereInput>
     investment?: XOR<InvestmentNullableScalarRelationFilter, InvestmentWhereInput> | null
-    profitSharings?: ProfitSharingListRelationFilter
     blockchainTransactions?: BlockchainTransactionListRelationFilter
+    profitSharings?: ProfitSharingListRelationFilter
   }, "id" | "investmentId" | "blockchainHash" | "contractAddress">
 
   export type AkadOrderByWithAggregationInput = {
@@ -27472,8 +28638,8 @@ export namespace Prisma {
     lockedBalance?: DecimalFilter<"Wallet"> | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFilter<"Wallet"> | Date | string
     updatedAt?: DateTimeFilter<"Wallet"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     transactions?: TransactionListRelationFilter
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type WalletOrderByWithRelationInput = {
@@ -27483,8 +28649,8 @@ export namespace Prisma {
     lockedBalance?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    user?: UserOrderByWithRelationInput
     transactions?: TransactionOrderByRelationAggregateInput
+    user?: UserOrderByWithRelationInput
     _relevance?: WalletOrderByRelevanceInput
   }
 
@@ -27498,8 +28664,8 @@ export namespace Prisma {
     lockedBalance?: DecimalFilter<"Wallet"> | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFilter<"Wallet"> | Date | string
     updatedAt?: DateTimeFilter<"Wallet"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     transactions?: TransactionListRelationFilter
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId">
 
   export type WalletOrderByWithAggregationInput = {
@@ -27548,8 +28714,8 @@ export namespace Prisma {
     processedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
-    wallet?: XOR<WalletScalarRelationFilter, WalletWhereInput>
     fraudAlert?: XOR<FraudAlertNullableScalarRelationFilter, FraudAlertWhereInput> | null
+    wallet?: XOR<WalletScalarRelationFilter, WalletWhereInput>
   }
 
   export type TransactionOrderByWithRelationInput = {
@@ -27569,8 +28735,8 @@ export namespace Prisma {
     processedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    wallet?: WalletOrderByWithRelationInput
     fraudAlert?: FraudAlertOrderByWithRelationInput
+    wallet?: WalletOrderByWithRelationInput
     _relevance?: TransactionOrderByRelevanceInput
   }
 
@@ -27594,8 +28760,8 @@ export namespace Prisma {
     processedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
-    wallet?: XOR<WalletScalarRelationFilter, WalletWhereInput>
     fraudAlert?: XOR<FraudAlertNullableScalarRelationFilter, FraudAlertWhereInput> | null
+    wallet?: XOR<WalletScalarRelationFilter, WalletWhereInput>
   }, "id">
 
   export type TransactionOrderByWithAggregationInput = {
@@ -27837,8 +29003,8 @@ export namespace Prisma {
     readAt?: DateTimeNullableFilter<"Notification"> | Date | string | null
     data?: JsonNullableFilter<"Notification">
     createdAt?: DateTimeFilter<"Notification"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     sender?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type NotificationOrderByWithRelationInput = {
@@ -27852,8 +29018,8 @@ export namespace Prisma {
     readAt?: SortOrderInput | SortOrder
     data?: SortOrderInput | SortOrder
     createdAt?: SortOrder
-    user?: UserOrderByWithRelationInput
     sender?: UserOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
     _relevance?: NotificationOrderByRelevanceInput
   }
 
@@ -27871,8 +29037,8 @@ export namespace Prisma {
     readAt?: DateTimeNullableFilter<"Notification"> | Date | string | null
     data?: JsonNullableFilter<"Notification">
     createdAt?: DateTimeFilter<"Notification"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     sender?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type NotificationOrderByWithAggregationInput = {
@@ -28195,6 +29361,97 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"SystemConfig"> | Date | string
   }
 
+  export type BeritaWhereInput = {
+    AND?: BeritaWhereInput | BeritaWhereInput[]
+    OR?: BeritaWhereInput[]
+    NOT?: BeritaWhereInput | BeritaWhereInput[]
+    id?: StringFilter<"Berita"> | string
+    title?: StringFilter<"Berita"> | string
+    slug?: StringFilter<"Berita"> | string
+    excerpt?: StringFilter<"Berita"> | string
+    content?: StringFilter<"Berita"> | string
+    coverImage?: StringNullableFilter<"Berita"> | string | null
+    category?: StringNullableFilter<"Berita"> | string | null
+    authorId?: StringFilter<"Berita"> | string
+    isPublished?: BoolFilter<"Berita"> | boolean
+    publishedAt?: DateTimeNullableFilter<"Berita"> | Date | string | null
+    createdAt?: DateTimeFilter<"Berita"> | Date | string
+    updatedAt?: DateTimeFilter<"Berita"> | Date | string
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type BeritaOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    excerpt?: SortOrder
+    content?: SortOrder
+    coverImage?: SortOrderInput | SortOrder
+    category?: SortOrderInput | SortOrder
+    authorId?: SortOrder
+    isPublished?: SortOrder
+    publishedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    author?: UserOrderByWithRelationInput
+    _relevance?: BeritaOrderByRelevanceInput
+  }
+
+  export type BeritaWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    slug?: string
+    AND?: BeritaWhereInput | BeritaWhereInput[]
+    OR?: BeritaWhereInput[]
+    NOT?: BeritaWhereInput | BeritaWhereInput[]
+    title?: StringFilter<"Berita"> | string
+    excerpt?: StringFilter<"Berita"> | string
+    content?: StringFilter<"Berita"> | string
+    coverImage?: StringNullableFilter<"Berita"> | string | null
+    category?: StringNullableFilter<"Berita"> | string | null
+    authorId?: StringFilter<"Berita"> | string
+    isPublished?: BoolFilter<"Berita"> | boolean
+    publishedAt?: DateTimeNullableFilter<"Berita"> | Date | string | null
+    createdAt?: DateTimeFilter<"Berita"> | Date | string
+    updatedAt?: DateTimeFilter<"Berita"> | Date | string
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "slug">
+
+  export type BeritaOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    excerpt?: SortOrder
+    content?: SortOrder
+    coverImage?: SortOrderInput | SortOrder
+    category?: SortOrderInput | SortOrder
+    authorId?: SortOrder
+    isPublished?: SortOrder
+    publishedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BeritaCountOrderByAggregateInput
+    _max?: BeritaMaxOrderByAggregateInput
+    _min?: BeritaMinOrderByAggregateInput
+  }
+
+  export type BeritaScalarWhereWithAggregatesInput = {
+    AND?: BeritaScalarWhereWithAggregatesInput | BeritaScalarWhereWithAggregatesInput[]
+    OR?: BeritaScalarWhereWithAggregatesInput[]
+    NOT?: BeritaScalarWhereWithAggregatesInput | BeritaScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Berita"> | string
+    title?: StringWithAggregatesFilter<"Berita"> | string
+    slug?: StringWithAggregatesFilter<"Berita"> | string
+    excerpt?: StringWithAggregatesFilter<"Berita"> | string
+    content?: StringWithAggregatesFilter<"Berita"> | string
+    coverImage?: StringNullableWithAggregatesFilter<"Berita"> | string | null
+    category?: StringNullableWithAggregatesFilter<"Berita"> | string | null
+    authorId?: StringWithAggregatesFilter<"Berita"> | string
+    isPublished?: BoolWithAggregatesFilter<"Berita"> | boolean
+    publishedAt?: DateTimeNullableWithAggregatesFilter<"Berita"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Berita"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Berita"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email?: string | null
@@ -28209,14 +29466,15 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     adminProfile?: AdminProfileCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+    kycDocuments?: KycDocumentCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    otpVerifications?: OtpVerificationCreateNestedManyWithoutUserInput
     umkmProfile?: UmkmProfileCreateNestedOneWithoutUserInput
     wallet?: WalletCreateNestedOneWithoutUserInput
-    kycDocuments?: KycDocumentCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
-    otpVerifications?: OtpVerificationCreateNestedManyWithoutUserInput
-    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    beritas?: BeritaCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -28233,14 +29491,15 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     adminProfile?: AdminProfileUncheckedCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+    kycDocuments?: KycDocumentUncheckedCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    otpVerifications?: OtpVerificationUncheckedCreateNestedManyWithoutUserInput
     umkmProfile?: UmkmProfileUncheckedCreateNestedOneWithoutUserInput
     wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
-    kycDocuments?: KycDocumentUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
-    otpVerifications?: OtpVerificationUncheckedCreateNestedManyWithoutUserInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    beritas?: BeritaUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUpdateInput = {
@@ -28257,14 +29516,15 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     adminProfile?: AdminProfileUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+    kycDocuments?: KycDocumentUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    otpVerifications?: OtpVerificationUpdateManyWithoutUserNestedInput
     umkmProfile?: UmkmProfileUpdateOneWithoutUserNestedInput
     wallet?: WalletUpdateOneWithoutUserNestedInput
-    kycDocuments?: KycDocumentUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
-    otpVerifications?: OtpVerificationUpdateManyWithoutUserNestedInput
-    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    beritas?: BeritaUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -28281,14 +29541,15 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     adminProfile?: AdminProfileUncheckedUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
+    kycDocuments?: KycDocumentUncheckedUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    otpVerifications?: OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
     umkmProfile?: UmkmProfileUncheckedUpdateOneWithoutUserNestedInput
     wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
-    kycDocuments?: KycDocumentUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
-    otpVerifications?: OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
-    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    beritas?: BeritaUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -28418,8 +29679,8 @@ export namespace Prisma {
     totalProfit?: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutInvestorProfileInput
     investments?: InvestmentCreateNestedManyWithoutInvestorProfileInput
+    user: UserCreateNestedOneWithoutInvestorProfileInput
   }
 
   export type InvestorProfileUncheckedCreateInput = {
@@ -28452,8 +29713,8 @@ export namespace Prisma {
     totalProfit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutInvestorProfileNestedInput
     investments?: InvestmentUpdateManyWithoutInvestorProfileNestedInput
+    user?: UserUpdateOneRequiredWithoutInvestorProfileNestedInput
   }
 
   export type InvestorProfileUncheckedUpdateInput = {
@@ -28536,12 +29797,12 @@ export namespace Prisma {
     socialMedia?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutUmkmProfileInput
-    creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
     businessData?: BusinessDataCreateNestedManyWithoutUmkmProfileInput
-    fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
-    campaigns?: CampaignCreateNestedManyWithoutUmkmProfileInput
     businessUpdates?: BusinessUpdateCreateNestedManyWithoutUmkmProfileInput
+    campaigns?: CampaignCreateNestedManyWithoutUmkmProfileInput
+    creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
+    fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
+    user: UserCreateNestedOneWithoutUmkmProfileInput
   }
 
   export type UmkmProfileUncheckedCreateInput = {
@@ -28561,11 +29822,11 @@ export namespace Prisma {
     socialMedia?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
     businessData?: BusinessDataUncheckedCreateNestedManyWithoutUmkmProfileInput
-    fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
-    campaigns?: CampaignUncheckedCreateNestedManyWithoutUmkmProfileInput
     businessUpdates?: BusinessUpdateUncheckedCreateNestedManyWithoutUmkmProfileInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutUmkmProfileInput
+    creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
+    fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileUpdateInput = {
@@ -28584,12 +29845,12 @@ export namespace Prisma {
     socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
-    creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
     businessData?: BusinessDataUpdateManyWithoutUmkmProfileNestedInput
-    fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
-    campaigns?: CampaignUpdateManyWithoutUmkmProfileNestedInput
     businessUpdates?: BusinessUpdateUpdateManyWithoutUmkmProfileNestedInput
+    campaigns?: CampaignUpdateManyWithoutUmkmProfileNestedInput
+    creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
+    fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
+    user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
   }
 
   export type UmkmProfileUncheckedUpdateInput = {
@@ -28609,11 +29870,11 @@ export namespace Prisma {
     socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
     businessData?: BusinessDataUncheckedUpdateManyWithoutUmkmProfileNestedInput
-    fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
-    campaigns?: CampaignUncheckedUpdateManyWithoutUmkmProfileNestedInput
     businessUpdates?: BusinessUpdateUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
   }
 
   export type UmkmProfileCreateManyInput = {
@@ -28962,8 +30223,8 @@ export namespace Prisma {
     creditScoreId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    umkmProfile: UmkmProfileCreateNestedOneWithoutFundingApplicationsInput
     campaign?: CampaignCreateNestedOneWithoutFundingApplicationInput
+    umkmProfile: UmkmProfileCreateNestedOneWithoutFundingApplicationsInput
   }
 
   export type FundingApplicationUncheckedCreateInput = {
@@ -28996,8 +30257,8 @@ export namespace Prisma {
     creditScoreId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    umkmProfile?: UmkmProfileUpdateOneRequiredWithoutFundingApplicationsNestedInput
     campaign?: CampaignUpdateOneWithoutFundingApplicationNestedInput
+    umkmProfile?: UmkmProfileUpdateOneRequiredWithoutFundingApplicationsNestedInput
   }
 
   export type FundingApplicationUncheckedUpdateInput = {
@@ -29079,10 +30340,10 @@ export namespace Prisma {
     investorCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    umkmProfile: UmkmProfileCreateNestedOneWithoutCampaignsInput
-    fundingApplication?: FundingApplicationCreateNestedOneWithoutCampaignInput
-    investments?: InvestmentCreateNestedManyWithoutCampaignInput
     akads?: AkadCreateNestedManyWithoutCampaignInput
+    fundingApplication?: FundingApplicationCreateNestedOneWithoutCampaignInput
+    umkmProfile: UmkmProfileCreateNestedOneWithoutCampaignsInput
+    investments?: InvestmentCreateNestedManyWithoutCampaignInput
   }
 
   export type CampaignUncheckedCreateInput = {
@@ -29102,8 +30363,8 @@ export namespace Prisma {
     investorCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    investments?: InvestmentUncheckedCreateNestedManyWithoutCampaignInput
     akads?: AkadUncheckedCreateNestedManyWithoutCampaignInput
+    investments?: InvestmentUncheckedCreateNestedManyWithoutCampaignInput
   }
 
   export type CampaignUpdateInput = {
@@ -29121,10 +30382,10 @@ export namespace Prisma {
     investorCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    umkmProfile?: UmkmProfileUpdateOneRequiredWithoutCampaignsNestedInput
-    fundingApplication?: FundingApplicationUpdateOneWithoutCampaignNestedInput
-    investments?: InvestmentUpdateManyWithoutCampaignNestedInput
     akads?: AkadUpdateManyWithoutCampaignNestedInput
+    fundingApplication?: FundingApplicationUpdateOneWithoutCampaignNestedInput
+    umkmProfile?: UmkmProfileUpdateOneRequiredWithoutCampaignsNestedInput
+    investments?: InvestmentUpdateManyWithoutCampaignNestedInput
   }
 
   export type CampaignUncheckedUpdateInput = {
@@ -29144,8 +30405,8 @@ export namespace Prisma {
     investorCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    investments?: InvestmentUncheckedUpdateManyWithoutCampaignNestedInput
     akads?: AkadUncheckedUpdateManyWithoutCampaignNestedInput
+    investments?: InvestmentUncheckedUpdateManyWithoutCampaignNestedInput
   }
 
   export type CampaignCreateManyInput = {
@@ -29213,9 +30474,9 @@ export namespace Prisma {
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    investorProfile: InvestorProfileCreateNestedOneWithoutInvestmentsInput
-    campaign: CampaignCreateNestedOneWithoutInvestmentsInput
     akad?: AkadCreateNestedOneWithoutInvestmentInput
+    campaign: CampaignCreateNestedOneWithoutInvestmentsInput
+    investorProfile: InvestorProfileCreateNestedOneWithoutInvestmentsInput
     profitSharings?: ProfitSharingCreateNestedManyWithoutInvestmentInput
   }
 
@@ -29245,9 +30506,9 @@ export namespace Prisma {
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    investorProfile?: InvestorProfileUpdateOneRequiredWithoutInvestmentsNestedInput
-    campaign?: CampaignUpdateOneRequiredWithoutInvestmentsNestedInput
     akad?: AkadUpdateOneWithoutInvestmentNestedInput
+    campaign?: CampaignUpdateOneRequiredWithoutInvestmentsNestedInput
+    investorProfile?: InvestorProfileUpdateOneRequiredWithoutInvestmentsNestedInput
     profitSharings?: ProfitSharingUpdateManyWithoutInvestmentNestedInput
   }
 
@@ -29330,8 +30591,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     campaign: CampaignCreateNestedOneWithoutAkadsInput
     investment?: InvestmentCreateNestedOneWithoutAkadInput
-    profitSharings?: ProfitSharingCreateNestedManyWithoutAkadInput
     blockchainTransactions?: BlockchainTransactionCreateNestedManyWithoutAkadInput
+    profitSharings?: ProfitSharingCreateNestedManyWithoutAkadInput
   }
 
   export type AkadUncheckedCreateInput = {
@@ -29357,8 +30618,8 @@ export namespace Prisma {
     deployedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    profitSharings?: ProfitSharingUncheckedCreateNestedManyWithoutAkadInput
     blockchainTransactions?: BlockchainTransactionUncheckedCreateNestedManyWithoutAkadInput
+    profitSharings?: ProfitSharingUncheckedCreateNestedManyWithoutAkadInput
   }
 
   export type AkadUpdateInput = {
@@ -29384,8 +30645,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaign?: CampaignUpdateOneRequiredWithoutAkadsNestedInput
     investment?: InvestmentUpdateOneWithoutAkadNestedInput
-    profitSharings?: ProfitSharingUpdateManyWithoutAkadNestedInput
     blockchainTransactions?: BlockchainTransactionUpdateManyWithoutAkadNestedInput
+    profitSharings?: ProfitSharingUpdateManyWithoutAkadNestedInput
   }
 
   export type AkadUncheckedUpdateInput = {
@@ -29411,8 +30672,8 @@ export namespace Prisma {
     deployedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    profitSharings?: ProfitSharingUncheckedUpdateManyWithoutAkadNestedInput
     blockchainTransactions?: BlockchainTransactionUncheckedUpdateManyWithoutAkadNestedInput
+    profitSharings?: ProfitSharingUncheckedUpdateManyWithoutAkadNestedInput
   }
 
   export type AkadCreateManyInput = {
@@ -29611,8 +30872,8 @@ export namespace Prisma {
     lockedBalance?: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutWalletInput
     transactions?: TransactionCreateNestedManyWithoutWalletInput
+    user: UserCreateNestedOneWithoutWalletInput
   }
 
   export type WalletUncheckedCreateInput = {
@@ -29631,8 +30892,8 @@ export namespace Prisma {
     lockedBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutWalletNestedInput
     transactions?: TransactionUpdateManyWithoutWalletNestedInput
+    user?: UserUpdateOneRequiredWithoutWalletNestedInput
   }
 
   export type WalletUncheckedUpdateInput = {
@@ -29687,8 +30948,8 @@ export namespace Prisma {
     processedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    wallet: WalletCreateNestedOneWithoutTransactionsInput
     fraudAlert?: FraudAlertCreateNestedOneWithoutTransactionInput
+    wallet: WalletCreateNestedOneWithoutTransactionsInput
   }
 
   export type TransactionUncheckedCreateInput = {
@@ -29727,8 +30988,8 @@ export namespace Prisma {
     processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    wallet?: WalletUpdateOneRequiredWithoutTransactionsNestedInput
     fraudAlert?: FraudAlertUpdateOneWithoutTransactionNestedInput
+    wallet?: WalletUpdateOneRequiredWithoutTransactionsNestedInput
   }
 
   export type TransactionUncheckedUpdateInput = {
@@ -30017,8 +31278,8 @@ export namespace Prisma {
     readAt?: Date | string | null
     data?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
-    user: UserCreateNestedOneWithoutNotificationsInput
     sender?: UserCreateNestedOneWithoutSentNotificationsInput
+    user: UserCreateNestedOneWithoutNotificationsInput
   }
 
   export type NotificationUncheckedCreateInput = {
@@ -30043,8 +31304,8 @@ export namespace Prisma {
     readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     data?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutNotificationsNestedInput
     sender?: UserUpdateOneWithoutSentNotificationsNestedInput
+    user?: UserUpdateOneRequiredWithoutNotificationsNestedInput
   }
 
   export type NotificationUncheckedUpdateInput = {
@@ -30409,6 +31670,110 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BeritaCreateInput = {
+    id?: string
+    title: string
+    slug: string
+    excerpt: string
+    content: string
+    coverImage?: string | null
+    category?: string | null
+    isPublished?: boolean
+    publishedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    author: UserCreateNestedOneWithoutBeritasInput
+  }
+
+  export type BeritaUncheckedCreateInput = {
+    id?: string
+    title: string
+    slug: string
+    excerpt: string
+    content: string
+    coverImage?: string | null
+    category?: string | null
+    authorId: string
+    isPublished?: boolean
+    publishedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BeritaUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    excerpt?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    author?: UserUpdateOneRequiredWithoutBeritasNestedInput
+  }
+
+  export type BeritaUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    excerpt?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BeritaCreateManyInput = {
+    id?: string
+    title: string
+    slug: string
+    excerpt: string
+    content: string
+    coverImage?: string | null
+    category?: string | null
+    authorId: string
+    isPublished?: boolean
+    publishedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BeritaUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    excerpt?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BeritaUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    excerpt?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -30492,19 +31857,15 @@ export namespace Prisma {
     isNot?: AdminProfileWhereInput | null
   }
 
+  export type AuditLogListRelationFilter = {
+    every?: AuditLogWhereInput
+    some?: AuditLogWhereInput
+    none?: AuditLogWhereInput
+  }
+
   export type InvestorProfileNullableScalarRelationFilter = {
     is?: InvestorProfileWhereInput | null
     isNot?: InvestorProfileWhereInput | null
-  }
-
-  export type UmkmProfileNullableScalarRelationFilter = {
-    is?: UmkmProfileWhereInput | null
-    isNot?: UmkmProfileWhereInput | null
-  }
-
-  export type WalletNullableScalarRelationFilter = {
-    is?: WalletWhereInput | null
-    isNot?: WalletWhereInput | null
   }
 
   export type KycDocumentListRelationFilter = {
@@ -30525,15 +31886,29 @@ export namespace Prisma {
     none?: OtpVerificationWhereInput
   }
 
-  export type AuditLogListRelationFilter = {
-    every?: AuditLogWhereInput
-    some?: AuditLogWhereInput
-    none?: AuditLogWhereInput
+  export type UmkmProfileNullableScalarRelationFilter = {
+    is?: UmkmProfileWhereInput | null
+    isNot?: UmkmProfileWhereInput | null
+  }
+
+  export type WalletNullableScalarRelationFilter = {
+    is?: WalletWhereInput | null
+    isNot?: WalletWhereInput | null
+  }
+
+  export type BeritaListRelationFilter = {
+    every?: BeritaWhereInput
+    some?: BeritaWhereInput
+    none?: BeritaWhereInput
   }
 
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type AuditLogOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type KycDocumentOrderByRelationAggregateInput = {
@@ -30548,7 +31923,7 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type AuditLogOrderByRelationAggregateInput = {
+  export type BeritaOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -30886,28 +32261,10 @@ export namespace Prisma {
     not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
   }
 
-  export type CreditScoreListRelationFilter = {
-    every?: CreditScoreWhereInput
-    some?: CreditScoreWhereInput
-    none?: CreditScoreWhereInput
-  }
-
   export type BusinessDataListRelationFilter = {
     every?: BusinessDataWhereInput
     some?: BusinessDataWhereInput
     none?: BusinessDataWhereInput
-  }
-
-  export type FundingApplicationListRelationFilter = {
-    every?: FundingApplicationWhereInput
-    some?: FundingApplicationWhereInput
-    none?: FundingApplicationWhereInput
-  }
-
-  export type CampaignListRelationFilter = {
-    every?: CampaignWhereInput
-    some?: CampaignWhereInput
-    none?: CampaignWhereInput
   }
 
   export type BusinessUpdateListRelationFilter = {
@@ -30916,15 +32273,29 @@ export namespace Prisma {
     none?: BusinessUpdateWhereInput
   }
 
-  export type CreditScoreOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type CampaignListRelationFilter = {
+    every?: CampaignWhereInput
+    some?: CampaignWhereInput
+    none?: CampaignWhereInput
+  }
+
+  export type CreditScoreListRelationFilter = {
+    every?: CreditScoreWhereInput
+    some?: CreditScoreWhereInput
+    none?: CreditScoreWhereInput
+  }
+
+  export type FundingApplicationListRelationFilter = {
+    every?: FundingApplicationWhereInput
+    some?: FundingApplicationWhereInput
+    none?: FundingApplicationWhereInput
   }
 
   export type BusinessDataOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type FundingApplicationOrderByRelationAggregateInput = {
+  export type BusinessUpdateOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -30932,7 +32303,11 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type BusinessUpdateOrderByRelationAggregateInput = {
+  export type CreditScoreOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type FundingApplicationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -31453,15 +32828,15 @@ export namespace Prisma {
     _max?: NestedEnumFundingStatusFilter<$PrismaModel>
   }
 
-  export type FundingApplicationNullableScalarRelationFilter = {
-    is?: FundingApplicationWhereInput | null
-    isNot?: FundingApplicationWhereInput | null
-  }
-
   export type AkadListRelationFilter = {
     every?: AkadWhereInput
     some?: AkadWhereInput
     none?: AkadWhereInput
+  }
+
+  export type FundingApplicationNullableScalarRelationFilter = {
+    is?: FundingApplicationWhereInput | null
+    isNot?: FundingApplicationWhereInput | null
   }
 
   export type AkadOrderByRelationAggregateInput = {
@@ -31554,9 +32929,9 @@ export namespace Prisma {
     not?: NestedEnumInvestmentStatusFilter<$PrismaModel> | $Enums.InvestmentStatus
   }
 
-  export type InvestorProfileScalarRelationFilter = {
-    is?: InvestorProfileWhereInput
-    isNot?: InvestorProfileWhereInput
+  export type AkadNullableScalarRelationFilter = {
+    is?: AkadWhereInput | null
+    isNot?: AkadWhereInput | null
   }
 
   export type CampaignScalarRelationFilter = {
@@ -31564,9 +32939,9 @@ export namespace Prisma {
     isNot?: CampaignWhereInput
   }
 
-  export type AkadNullableScalarRelationFilter = {
-    is?: AkadWhereInput | null
-    isNot?: AkadWhereInput | null
+  export type InvestorProfileScalarRelationFilter = {
+    is?: InvestorProfileWhereInput
+    isNot?: InvestorProfileWhereInput
   }
 
   export type ProfitSharingListRelationFilter = {
@@ -31941,14 +33316,14 @@ export namespace Prisma {
     not?: NestedEnumTransactionStatusFilter<$PrismaModel> | $Enums.TransactionStatus
   }
 
-  export type WalletScalarRelationFilter = {
-    is?: WalletWhereInput
-    isNot?: WalletWhereInput
-  }
-
   export type FraudAlertNullableScalarRelationFilter = {
     is?: FraudAlertWhereInput | null
     isNot?: FraudAlertWhereInput | null
+  }
+
+  export type WalletScalarRelationFilter = {
+    is?: WalletWhereInput
+    isNot?: WalletWhereInput
   }
 
   export type TransactionOrderByRelevanceInput = {
@@ -32445,16 +33820,102 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type BeritaOrderByRelevanceInput = {
+    fields: BeritaOrderByRelevanceFieldEnum | BeritaOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type BeritaCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    excerpt?: SortOrder
+    content?: SortOrder
+    coverImage?: SortOrder
+    category?: SortOrder
+    authorId?: SortOrder
+    isPublished?: SortOrder
+    publishedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BeritaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    excerpt?: SortOrder
+    content?: SortOrder
+    coverImage?: SortOrder
+    category?: SortOrder
+    authorId?: SortOrder
+    isPublished?: SortOrder
+    publishedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BeritaMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    excerpt?: SortOrder
+    content?: SortOrder
+    coverImage?: SortOrder
+    category?: SortOrder
+    authorId?: SortOrder
+    isPublished?: SortOrder
+    publishedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type AdminProfileCreateNestedOneWithoutUserInput = {
     create?: XOR<AdminProfileCreateWithoutUserInput, AdminProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: AdminProfileCreateOrConnectWithoutUserInput
     connect?: AdminProfileWhereUniqueInput
   }
 
+  export type AuditLogCreateNestedManyWithoutUserInput = {
+    create?: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput> | AuditLogCreateWithoutUserInput[] | AuditLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AuditLogCreateOrConnectWithoutUserInput | AuditLogCreateOrConnectWithoutUserInput[]
+    createMany?: AuditLogCreateManyUserInputEnvelope
+    connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+  }
+
   export type InvestorProfileCreateNestedOneWithoutUserInput = {
     create?: XOR<InvestorProfileCreateWithoutUserInput, InvestorProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: InvestorProfileCreateOrConnectWithoutUserInput
     connect?: InvestorProfileWhereUniqueInput
+  }
+
+  export type KycDocumentCreateNestedManyWithoutUserInput = {
+    create?: XOR<KycDocumentCreateWithoutUserInput, KycDocumentUncheckedCreateWithoutUserInput> | KycDocumentCreateWithoutUserInput[] | KycDocumentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: KycDocumentCreateOrConnectWithoutUserInput | KycDocumentCreateOrConnectWithoutUserInput[]
+    createMany?: KycDocumentCreateManyUserInputEnvelope
+    connect?: KycDocumentWhereUniqueInput | KycDocumentWhereUniqueInput[]
+  }
+
+  export type NotificationCreateNestedManyWithoutSenderInput = {
+    create?: XOR<NotificationCreateWithoutSenderInput, NotificationUncheckedCreateWithoutSenderInput> | NotificationCreateWithoutSenderInput[] | NotificationUncheckedCreateWithoutSenderInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutSenderInput | NotificationCreateOrConnectWithoutSenderInput[]
+    createMany?: NotificationCreateManySenderInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type NotificationCreateNestedManyWithoutUserInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type OtpVerificationCreateNestedManyWithoutUserInput = {
+    create?: XOR<OtpVerificationCreateWithoutUserInput, OtpVerificationUncheckedCreateWithoutUserInput> | OtpVerificationCreateWithoutUserInput[] | OtpVerificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OtpVerificationCreateOrConnectWithoutUserInput | OtpVerificationCreateOrConnectWithoutUserInput[]
+    createMany?: OtpVerificationCreateManyUserInputEnvelope
+    connect?: OtpVerificationWhereUniqueInput | OtpVerificationWhereUniqueInput[]
   }
 
   export type UmkmProfileCreateNestedOneWithoutUserInput = {
@@ -32469,39 +33930,11 @@ export namespace Prisma {
     connect?: WalletWhereUniqueInput
   }
 
-  export type KycDocumentCreateNestedManyWithoutUserInput = {
-    create?: XOR<KycDocumentCreateWithoutUserInput, KycDocumentUncheckedCreateWithoutUserInput> | KycDocumentCreateWithoutUserInput[] | KycDocumentUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: KycDocumentCreateOrConnectWithoutUserInput | KycDocumentCreateOrConnectWithoutUserInput[]
-    createMany?: KycDocumentCreateManyUserInputEnvelope
-    connect?: KycDocumentWhereUniqueInput | KycDocumentWhereUniqueInput[]
-  }
-
-  export type NotificationCreateNestedManyWithoutUserInput = {
-    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
-    createMany?: NotificationCreateManyUserInputEnvelope
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-  }
-
-  export type NotificationCreateNestedManyWithoutSenderInput = {
-    create?: XOR<NotificationCreateWithoutSenderInput, NotificationUncheckedCreateWithoutSenderInput> | NotificationCreateWithoutSenderInput[] | NotificationUncheckedCreateWithoutSenderInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutSenderInput | NotificationCreateOrConnectWithoutSenderInput[]
-    createMany?: NotificationCreateManySenderInputEnvelope
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-  }
-
-  export type OtpVerificationCreateNestedManyWithoutUserInput = {
-    create?: XOR<OtpVerificationCreateWithoutUserInput, OtpVerificationUncheckedCreateWithoutUserInput> | OtpVerificationCreateWithoutUserInput[] | OtpVerificationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: OtpVerificationCreateOrConnectWithoutUserInput | OtpVerificationCreateOrConnectWithoutUserInput[]
-    createMany?: OtpVerificationCreateManyUserInputEnvelope
-    connect?: OtpVerificationWhereUniqueInput | OtpVerificationWhereUniqueInput[]
-  }
-
-  export type AuditLogCreateNestedManyWithoutUserInput = {
-    create?: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput> | AuditLogCreateWithoutUserInput[] | AuditLogUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AuditLogCreateOrConnectWithoutUserInput | AuditLogCreateOrConnectWithoutUserInput[]
-    createMany?: AuditLogCreateManyUserInputEnvelope
-    connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+  export type BeritaCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<BeritaCreateWithoutAuthorInput, BeritaUncheckedCreateWithoutAuthorInput> | BeritaCreateWithoutAuthorInput[] | BeritaUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: BeritaCreateOrConnectWithoutAuthorInput | BeritaCreateOrConnectWithoutAuthorInput[]
+    createMany?: BeritaCreateManyAuthorInputEnvelope
+    connect?: BeritaWhereUniqueInput | BeritaWhereUniqueInput[]
   }
 
   export type AdminProfileUncheckedCreateNestedOneWithoutUserInput = {
@@ -32510,10 +33943,45 @@ export namespace Prisma {
     connect?: AdminProfileWhereUniqueInput
   }
 
+  export type AuditLogUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput> | AuditLogCreateWithoutUserInput[] | AuditLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AuditLogCreateOrConnectWithoutUserInput | AuditLogCreateOrConnectWithoutUserInput[]
+    createMany?: AuditLogCreateManyUserInputEnvelope
+    connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+  }
+
   export type InvestorProfileUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<InvestorProfileCreateWithoutUserInput, InvestorProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: InvestorProfileCreateOrConnectWithoutUserInput
     connect?: InvestorProfileWhereUniqueInput
+  }
+
+  export type KycDocumentUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<KycDocumentCreateWithoutUserInput, KycDocumentUncheckedCreateWithoutUserInput> | KycDocumentCreateWithoutUserInput[] | KycDocumentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: KycDocumentCreateOrConnectWithoutUserInput | KycDocumentCreateOrConnectWithoutUserInput[]
+    createMany?: KycDocumentCreateManyUserInputEnvelope
+    connect?: KycDocumentWhereUniqueInput | KycDocumentWhereUniqueInput[]
+  }
+
+  export type NotificationUncheckedCreateNestedManyWithoutSenderInput = {
+    create?: XOR<NotificationCreateWithoutSenderInput, NotificationUncheckedCreateWithoutSenderInput> | NotificationCreateWithoutSenderInput[] | NotificationUncheckedCreateWithoutSenderInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutSenderInput | NotificationCreateOrConnectWithoutSenderInput[]
+    createMany?: NotificationCreateManySenderInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type NotificationUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type OtpVerificationUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<OtpVerificationCreateWithoutUserInput, OtpVerificationUncheckedCreateWithoutUserInput> | OtpVerificationCreateWithoutUserInput[] | OtpVerificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OtpVerificationCreateOrConnectWithoutUserInput | OtpVerificationCreateOrConnectWithoutUserInput[]
+    createMany?: OtpVerificationCreateManyUserInputEnvelope
+    connect?: OtpVerificationWhereUniqueInput | OtpVerificationWhereUniqueInput[]
   }
 
   export type UmkmProfileUncheckedCreateNestedOneWithoutUserInput = {
@@ -32528,39 +33996,11 @@ export namespace Prisma {
     connect?: WalletWhereUniqueInput
   }
 
-  export type KycDocumentUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<KycDocumentCreateWithoutUserInput, KycDocumentUncheckedCreateWithoutUserInput> | KycDocumentCreateWithoutUserInput[] | KycDocumentUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: KycDocumentCreateOrConnectWithoutUserInput | KycDocumentCreateOrConnectWithoutUserInput[]
-    createMany?: KycDocumentCreateManyUserInputEnvelope
-    connect?: KycDocumentWhereUniqueInput | KycDocumentWhereUniqueInput[]
-  }
-
-  export type NotificationUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
-    createMany?: NotificationCreateManyUserInputEnvelope
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-  }
-
-  export type NotificationUncheckedCreateNestedManyWithoutSenderInput = {
-    create?: XOR<NotificationCreateWithoutSenderInput, NotificationUncheckedCreateWithoutSenderInput> | NotificationCreateWithoutSenderInput[] | NotificationUncheckedCreateWithoutSenderInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutSenderInput | NotificationCreateOrConnectWithoutSenderInput[]
-    createMany?: NotificationCreateManySenderInputEnvelope
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-  }
-
-  export type OtpVerificationUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<OtpVerificationCreateWithoutUserInput, OtpVerificationUncheckedCreateWithoutUserInput> | OtpVerificationCreateWithoutUserInput[] | OtpVerificationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: OtpVerificationCreateOrConnectWithoutUserInput | OtpVerificationCreateOrConnectWithoutUserInput[]
-    createMany?: OtpVerificationCreateManyUserInputEnvelope
-    connect?: OtpVerificationWhereUniqueInput | OtpVerificationWhereUniqueInput[]
-  }
-
-  export type AuditLogUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput> | AuditLogCreateWithoutUserInput[] | AuditLogUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AuditLogCreateOrConnectWithoutUserInput | AuditLogCreateOrConnectWithoutUserInput[]
-    createMany?: AuditLogCreateManyUserInputEnvelope
-    connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+  export type BeritaUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<BeritaCreateWithoutAuthorInput, BeritaUncheckedCreateWithoutAuthorInput> | BeritaCreateWithoutAuthorInput[] | BeritaUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: BeritaCreateOrConnectWithoutAuthorInput | BeritaCreateOrConnectWithoutAuthorInput[]
+    createMany?: BeritaCreateManyAuthorInputEnvelope
+    connect?: BeritaWhereUniqueInput | BeritaWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -32605,6 +34045,20 @@ export namespace Prisma {
     update?: XOR<XOR<AdminProfileUpdateToOneWithWhereWithoutUserInput, AdminProfileUpdateWithoutUserInput>, AdminProfileUncheckedUpdateWithoutUserInput>
   }
 
+  export type AuditLogUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput> | AuditLogCreateWithoutUserInput[] | AuditLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AuditLogCreateOrConnectWithoutUserInput | AuditLogCreateOrConnectWithoutUserInput[]
+    upsert?: AuditLogUpsertWithWhereUniqueWithoutUserInput | AuditLogUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AuditLogCreateManyUserInputEnvelope
+    set?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+    disconnect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+    delete?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+    connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+    update?: AuditLogUpdateWithWhereUniqueWithoutUserInput | AuditLogUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AuditLogUpdateManyWithWhereWithoutUserInput | AuditLogUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
+  }
+
   export type InvestorProfileUpdateOneWithoutUserNestedInput = {
     create?: XOR<InvestorProfileCreateWithoutUserInput, InvestorProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: InvestorProfileCreateOrConnectWithoutUserInput
@@ -32613,6 +34067,62 @@ export namespace Prisma {
     delete?: InvestorProfileWhereInput | boolean
     connect?: InvestorProfileWhereUniqueInput
     update?: XOR<XOR<InvestorProfileUpdateToOneWithWhereWithoutUserInput, InvestorProfileUpdateWithoutUserInput>, InvestorProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type KycDocumentUpdateManyWithoutUserNestedInput = {
+    create?: XOR<KycDocumentCreateWithoutUserInput, KycDocumentUncheckedCreateWithoutUserInput> | KycDocumentCreateWithoutUserInput[] | KycDocumentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: KycDocumentCreateOrConnectWithoutUserInput | KycDocumentCreateOrConnectWithoutUserInput[]
+    upsert?: KycDocumentUpsertWithWhereUniqueWithoutUserInput | KycDocumentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: KycDocumentCreateManyUserInputEnvelope
+    set?: KycDocumentWhereUniqueInput | KycDocumentWhereUniqueInput[]
+    disconnect?: KycDocumentWhereUniqueInput | KycDocumentWhereUniqueInput[]
+    delete?: KycDocumentWhereUniqueInput | KycDocumentWhereUniqueInput[]
+    connect?: KycDocumentWhereUniqueInput | KycDocumentWhereUniqueInput[]
+    update?: KycDocumentUpdateWithWhereUniqueWithoutUserInput | KycDocumentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: KycDocumentUpdateManyWithWhereWithoutUserInput | KycDocumentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: KycDocumentScalarWhereInput | KycDocumentScalarWhereInput[]
+  }
+
+  export type NotificationUpdateManyWithoutSenderNestedInput = {
+    create?: XOR<NotificationCreateWithoutSenderInput, NotificationUncheckedCreateWithoutSenderInput> | NotificationCreateWithoutSenderInput[] | NotificationUncheckedCreateWithoutSenderInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutSenderInput | NotificationCreateOrConnectWithoutSenderInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutSenderInput | NotificationUpsertWithWhereUniqueWithoutSenderInput[]
+    createMany?: NotificationCreateManySenderInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutSenderInput | NotificationUpdateWithWhereUniqueWithoutSenderInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutSenderInput | NotificationUpdateManyWithWhereWithoutSenderInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type NotificationUpdateManyWithoutUserNestedInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutUserInput | NotificationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type OtpVerificationUpdateManyWithoutUserNestedInput = {
+    create?: XOR<OtpVerificationCreateWithoutUserInput, OtpVerificationUncheckedCreateWithoutUserInput> | OtpVerificationCreateWithoutUserInput[] | OtpVerificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OtpVerificationCreateOrConnectWithoutUserInput | OtpVerificationCreateOrConnectWithoutUserInput[]
+    upsert?: OtpVerificationUpsertWithWhereUniqueWithoutUserInput | OtpVerificationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: OtpVerificationCreateManyUserInputEnvelope
+    set?: OtpVerificationWhereUniqueInput | OtpVerificationWhereUniqueInput[]
+    disconnect?: OtpVerificationWhereUniqueInput | OtpVerificationWhereUniqueInput[]
+    delete?: OtpVerificationWhereUniqueInput | OtpVerificationWhereUniqueInput[]
+    connect?: OtpVerificationWhereUniqueInput | OtpVerificationWhereUniqueInput[]
+    update?: OtpVerificationUpdateWithWhereUniqueWithoutUserInput | OtpVerificationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: OtpVerificationUpdateManyWithWhereWithoutUserInput | OtpVerificationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: OtpVerificationScalarWhereInput | OtpVerificationScalarWhereInput[]
   }
 
   export type UmkmProfileUpdateOneWithoutUserNestedInput = {
@@ -32635,63 +34145,31 @@ export namespace Prisma {
     update?: XOR<XOR<WalletUpdateToOneWithWhereWithoutUserInput, WalletUpdateWithoutUserInput>, WalletUncheckedUpdateWithoutUserInput>
   }
 
-  export type KycDocumentUpdateManyWithoutUserNestedInput = {
-    create?: XOR<KycDocumentCreateWithoutUserInput, KycDocumentUncheckedCreateWithoutUserInput> | KycDocumentCreateWithoutUserInput[] | KycDocumentUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: KycDocumentCreateOrConnectWithoutUserInput | KycDocumentCreateOrConnectWithoutUserInput[]
-    upsert?: KycDocumentUpsertWithWhereUniqueWithoutUserInput | KycDocumentUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: KycDocumentCreateManyUserInputEnvelope
-    set?: KycDocumentWhereUniqueInput | KycDocumentWhereUniqueInput[]
-    disconnect?: KycDocumentWhereUniqueInput | KycDocumentWhereUniqueInput[]
-    delete?: KycDocumentWhereUniqueInput | KycDocumentWhereUniqueInput[]
-    connect?: KycDocumentWhereUniqueInput | KycDocumentWhereUniqueInput[]
-    update?: KycDocumentUpdateWithWhereUniqueWithoutUserInput | KycDocumentUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: KycDocumentUpdateManyWithWhereWithoutUserInput | KycDocumentUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: KycDocumentScalarWhereInput | KycDocumentScalarWhereInput[]
+  export type BeritaUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<BeritaCreateWithoutAuthorInput, BeritaUncheckedCreateWithoutAuthorInput> | BeritaCreateWithoutAuthorInput[] | BeritaUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: BeritaCreateOrConnectWithoutAuthorInput | BeritaCreateOrConnectWithoutAuthorInput[]
+    upsert?: BeritaUpsertWithWhereUniqueWithoutAuthorInput | BeritaUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: BeritaCreateManyAuthorInputEnvelope
+    set?: BeritaWhereUniqueInput | BeritaWhereUniqueInput[]
+    disconnect?: BeritaWhereUniqueInput | BeritaWhereUniqueInput[]
+    delete?: BeritaWhereUniqueInput | BeritaWhereUniqueInput[]
+    connect?: BeritaWhereUniqueInput | BeritaWhereUniqueInput[]
+    update?: BeritaUpdateWithWhereUniqueWithoutAuthorInput | BeritaUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: BeritaUpdateManyWithWhereWithoutAuthorInput | BeritaUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: BeritaScalarWhereInput | BeritaScalarWhereInput[]
   }
 
-  export type NotificationUpdateManyWithoutUserNestedInput = {
-    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
-    upsert?: NotificationUpsertWithWhereUniqueWithoutUserInput | NotificationUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: NotificationCreateManyUserInputEnvelope
-    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  export type AdminProfileUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<AdminProfileCreateWithoutUserInput, AdminProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: AdminProfileCreateOrConnectWithoutUserInput
+    upsert?: AdminProfileUpsertWithoutUserInput
+    disconnect?: AdminProfileWhereInput | boolean
+    delete?: AdminProfileWhereInput | boolean
+    connect?: AdminProfileWhereUniqueInput
+    update?: XOR<XOR<AdminProfileUpdateToOneWithWhereWithoutUserInput, AdminProfileUpdateWithoutUserInput>, AdminProfileUncheckedUpdateWithoutUserInput>
   }
 
-  export type NotificationUpdateManyWithoutSenderNestedInput = {
-    create?: XOR<NotificationCreateWithoutSenderInput, NotificationUncheckedCreateWithoutSenderInput> | NotificationCreateWithoutSenderInput[] | NotificationUncheckedCreateWithoutSenderInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutSenderInput | NotificationCreateOrConnectWithoutSenderInput[]
-    upsert?: NotificationUpsertWithWhereUniqueWithoutSenderInput | NotificationUpsertWithWhereUniqueWithoutSenderInput[]
-    createMany?: NotificationCreateManySenderInputEnvelope
-    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    update?: NotificationUpdateWithWhereUniqueWithoutSenderInput | NotificationUpdateWithWhereUniqueWithoutSenderInput[]
-    updateMany?: NotificationUpdateManyWithWhereWithoutSenderInput | NotificationUpdateManyWithWhereWithoutSenderInput[]
-    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
-  }
-
-  export type OtpVerificationUpdateManyWithoutUserNestedInput = {
-    create?: XOR<OtpVerificationCreateWithoutUserInput, OtpVerificationUncheckedCreateWithoutUserInput> | OtpVerificationCreateWithoutUserInput[] | OtpVerificationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: OtpVerificationCreateOrConnectWithoutUserInput | OtpVerificationCreateOrConnectWithoutUserInput[]
-    upsert?: OtpVerificationUpsertWithWhereUniqueWithoutUserInput | OtpVerificationUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: OtpVerificationCreateManyUserInputEnvelope
-    set?: OtpVerificationWhereUniqueInput | OtpVerificationWhereUniqueInput[]
-    disconnect?: OtpVerificationWhereUniqueInput | OtpVerificationWhereUniqueInput[]
-    delete?: OtpVerificationWhereUniqueInput | OtpVerificationWhereUniqueInput[]
-    connect?: OtpVerificationWhereUniqueInput | OtpVerificationWhereUniqueInput[]
-    update?: OtpVerificationUpdateWithWhereUniqueWithoutUserInput | OtpVerificationUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: OtpVerificationUpdateManyWithWhereWithoutUserInput | OtpVerificationUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: OtpVerificationScalarWhereInput | OtpVerificationScalarWhereInput[]
-  }
-
-  export type AuditLogUpdateManyWithoutUserNestedInput = {
+  export type AuditLogUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput> | AuditLogCreateWithoutUserInput[] | AuditLogUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AuditLogCreateOrConnectWithoutUserInput | AuditLogCreateOrConnectWithoutUserInput[]
     upsert?: AuditLogUpsertWithWhereUniqueWithoutUserInput | AuditLogUpsertWithWhereUniqueWithoutUserInput[]
@@ -32705,16 +34183,6 @@ export namespace Prisma {
     deleteMany?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
   }
 
-  export type AdminProfileUncheckedUpdateOneWithoutUserNestedInput = {
-    create?: XOR<AdminProfileCreateWithoutUserInput, AdminProfileUncheckedCreateWithoutUserInput>
-    connectOrCreate?: AdminProfileCreateOrConnectWithoutUserInput
-    upsert?: AdminProfileUpsertWithoutUserInput
-    disconnect?: AdminProfileWhereInput | boolean
-    delete?: AdminProfileWhereInput | boolean
-    connect?: AdminProfileWhereUniqueInput
-    update?: XOR<XOR<AdminProfileUpdateToOneWithWhereWithoutUserInput, AdminProfileUpdateWithoutUserInput>, AdminProfileUncheckedUpdateWithoutUserInput>
-  }
-
   export type InvestorProfileUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<InvestorProfileCreateWithoutUserInput, InvestorProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: InvestorProfileCreateOrConnectWithoutUserInput
@@ -32723,6 +34191,62 @@ export namespace Prisma {
     delete?: InvestorProfileWhereInput | boolean
     connect?: InvestorProfileWhereUniqueInput
     update?: XOR<XOR<InvestorProfileUpdateToOneWithWhereWithoutUserInput, InvestorProfileUpdateWithoutUserInput>, InvestorProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type KycDocumentUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<KycDocumentCreateWithoutUserInput, KycDocumentUncheckedCreateWithoutUserInput> | KycDocumentCreateWithoutUserInput[] | KycDocumentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: KycDocumentCreateOrConnectWithoutUserInput | KycDocumentCreateOrConnectWithoutUserInput[]
+    upsert?: KycDocumentUpsertWithWhereUniqueWithoutUserInput | KycDocumentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: KycDocumentCreateManyUserInputEnvelope
+    set?: KycDocumentWhereUniqueInput | KycDocumentWhereUniqueInput[]
+    disconnect?: KycDocumentWhereUniqueInput | KycDocumentWhereUniqueInput[]
+    delete?: KycDocumentWhereUniqueInput | KycDocumentWhereUniqueInput[]
+    connect?: KycDocumentWhereUniqueInput | KycDocumentWhereUniqueInput[]
+    update?: KycDocumentUpdateWithWhereUniqueWithoutUserInput | KycDocumentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: KycDocumentUpdateManyWithWhereWithoutUserInput | KycDocumentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: KycDocumentScalarWhereInput | KycDocumentScalarWhereInput[]
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutSenderNestedInput = {
+    create?: XOR<NotificationCreateWithoutSenderInput, NotificationUncheckedCreateWithoutSenderInput> | NotificationCreateWithoutSenderInput[] | NotificationUncheckedCreateWithoutSenderInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutSenderInput | NotificationCreateOrConnectWithoutSenderInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutSenderInput | NotificationUpsertWithWhereUniqueWithoutSenderInput[]
+    createMany?: NotificationCreateManySenderInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutSenderInput | NotificationUpdateWithWhereUniqueWithoutSenderInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutSenderInput | NotificationUpdateManyWithWhereWithoutSenderInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutUserInput | NotificationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type OtpVerificationUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<OtpVerificationCreateWithoutUserInput, OtpVerificationUncheckedCreateWithoutUserInput> | OtpVerificationCreateWithoutUserInput[] | OtpVerificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OtpVerificationCreateOrConnectWithoutUserInput | OtpVerificationCreateOrConnectWithoutUserInput[]
+    upsert?: OtpVerificationUpsertWithWhereUniqueWithoutUserInput | OtpVerificationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: OtpVerificationCreateManyUserInputEnvelope
+    set?: OtpVerificationWhereUniqueInput | OtpVerificationWhereUniqueInput[]
+    disconnect?: OtpVerificationWhereUniqueInput | OtpVerificationWhereUniqueInput[]
+    delete?: OtpVerificationWhereUniqueInput | OtpVerificationWhereUniqueInput[]
+    connect?: OtpVerificationWhereUniqueInput | OtpVerificationWhereUniqueInput[]
+    update?: OtpVerificationUpdateWithWhereUniqueWithoutUserInput | OtpVerificationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: OtpVerificationUpdateManyWithWhereWithoutUserInput | OtpVerificationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: OtpVerificationScalarWhereInput | OtpVerificationScalarWhereInput[]
   }
 
   export type UmkmProfileUncheckedUpdateOneWithoutUserNestedInput = {
@@ -32745,74 +34269,18 @@ export namespace Prisma {
     update?: XOR<XOR<WalletUpdateToOneWithWhereWithoutUserInput, WalletUpdateWithoutUserInput>, WalletUncheckedUpdateWithoutUserInput>
   }
 
-  export type KycDocumentUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<KycDocumentCreateWithoutUserInput, KycDocumentUncheckedCreateWithoutUserInput> | KycDocumentCreateWithoutUserInput[] | KycDocumentUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: KycDocumentCreateOrConnectWithoutUserInput | KycDocumentCreateOrConnectWithoutUserInput[]
-    upsert?: KycDocumentUpsertWithWhereUniqueWithoutUserInput | KycDocumentUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: KycDocumentCreateManyUserInputEnvelope
-    set?: KycDocumentWhereUniqueInput | KycDocumentWhereUniqueInput[]
-    disconnect?: KycDocumentWhereUniqueInput | KycDocumentWhereUniqueInput[]
-    delete?: KycDocumentWhereUniqueInput | KycDocumentWhereUniqueInput[]
-    connect?: KycDocumentWhereUniqueInput | KycDocumentWhereUniqueInput[]
-    update?: KycDocumentUpdateWithWhereUniqueWithoutUserInput | KycDocumentUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: KycDocumentUpdateManyWithWhereWithoutUserInput | KycDocumentUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: KycDocumentScalarWhereInput | KycDocumentScalarWhereInput[]
-  }
-
-  export type NotificationUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
-    upsert?: NotificationUpsertWithWhereUniqueWithoutUserInput | NotificationUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: NotificationCreateManyUserInputEnvelope
-    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
-  }
-
-  export type NotificationUncheckedUpdateManyWithoutSenderNestedInput = {
-    create?: XOR<NotificationCreateWithoutSenderInput, NotificationUncheckedCreateWithoutSenderInput> | NotificationCreateWithoutSenderInput[] | NotificationUncheckedCreateWithoutSenderInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutSenderInput | NotificationCreateOrConnectWithoutSenderInput[]
-    upsert?: NotificationUpsertWithWhereUniqueWithoutSenderInput | NotificationUpsertWithWhereUniqueWithoutSenderInput[]
-    createMany?: NotificationCreateManySenderInputEnvelope
-    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    update?: NotificationUpdateWithWhereUniqueWithoutSenderInput | NotificationUpdateWithWhereUniqueWithoutSenderInput[]
-    updateMany?: NotificationUpdateManyWithWhereWithoutSenderInput | NotificationUpdateManyWithWhereWithoutSenderInput[]
-    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
-  }
-
-  export type OtpVerificationUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<OtpVerificationCreateWithoutUserInput, OtpVerificationUncheckedCreateWithoutUserInput> | OtpVerificationCreateWithoutUserInput[] | OtpVerificationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: OtpVerificationCreateOrConnectWithoutUserInput | OtpVerificationCreateOrConnectWithoutUserInput[]
-    upsert?: OtpVerificationUpsertWithWhereUniqueWithoutUserInput | OtpVerificationUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: OtpVerificationCreateManyUserInputEnvelope
-    set?: OtpVerificationWhereUniqueInput | OtpVerificationWhereUniqueInput[]
-    disconnect?: OtpVerificationWhereUniqueInput | OtpVerificationWhereUniqueInput[]
-    delete?: OtpVerificationWhereUniqueInput | OtpVerificationWhereUniqueInput[]
-    connect?: OtpVerificationWhereUniqueInput | OtpVerificationWhereUniqueInput[]
-    update?: OtpVerificationUpdateWithWhereUniqueWithoutUserInput | OtpVerificationUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: OtpVerificationUpdateManyWithWhereWithoutUserInput | OtpVerificationUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: OtpVerificationScalarWhereInput | OtpVerificationScalarWhereInput[]
-  }
-
-  export type AuditLogUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput> | AuditLogCreateWithoutUserInput[] | AuditLogUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AuditLogCreateOrConnectWithoutUserInput | AuditLogCreateOrConnectWithoutUserInput[]
-    upsert?: AuditLogUpsertWithWhereUniqueWithoutUserInput | AuditLogUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: AuditLogCreateManyUserInputEnvelope
-    set?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
-    disconnect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
-    delete?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
-    connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
-    update?: AuditLogUpdateWithWhereUniqueWithoutUserInput | AuditLogUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: AuditLogUpdateManyWithWhereWithoutUserInput | AuditLogUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
+  export type BeritaUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<BeritaCreateWithoutAuthorInput, BeritaUncheckedCreateWithoutAuthorInput> | BeritaCreateWithoutAuthorInput[] | BeritaUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: BeritaCreateOrConnectWithoutAuthorInput | BeritaCreateOrConnectWithoutAuthorInput[]
+    upsert?: BeritaUpsertWithWhereUniqueWithoutAuthorInput | BeritaUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: BeritaCreateManyAuthorInputEnvelope
+    set?: BeritaWhereUniqueInput | BeritaWhereUniqueInput[]
+    disconnect?: BeritaWhereUniqueInput | BeritaWhereUniqueInput[]
+    delete?: BeritaWhereUniqueInput | BeritaWhereUniqueInput[]
+    connect?: BeritaWhereUniqueInput | BeritaWhereUniqueInput[]
+    update?: BeritaUpdateWithWhereUniqueWithoutAuthorInput | BeritaUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: BeritaUpdateManyWithWhereWithoutAuthorInput | BeritaUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: BeritaScalarWhereInput | BeritaScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutAdminProfileInput = {
@@ -32829,17 +34297,17 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAdminProfileInput, UserUpdateWithoutAdminProfileInput>, UserUncheckedUpdateWithoutAdminProfileInput>
   }
 
-  export type UserCreateNestedOneWithoutInvestorProfileInput = {
-    create?: XOR<UserCreateWithoutInvestorProfileInput, UserUncheckedCreateWithoutInvestorProfileInput>
-    connectOrCreate?: UserCreateOrConnectWithoutInvestorProfileInput
-    connect?: UserWhereUniqueInput
-  }
-
   export type InvestmentCreateNestedManyWithoutInvestorProfileInput = {
     create?: XOR<InvestmentCreateWithoutInvestorProfileInput, InvestmentUncheckedCreateWithoutInvestorProfileInput> | InvestmentCreateWithoutInvestorProfileInput[] | InvestmentUncheckedCreateWithoutInvestorProfileInput[]
     connectOrCreate?: InvestmentCreateOrConnectWithoutInvestorProfileInput | InvestmentCreateOrConnectWithoutInvestorProfileInput[]
     createMany?: InvestmentCreateManyInvestorProfileInputEnvelope
     connect?: InvestmentWhereUniqueInput | InvestmentWhereUniqueInput[]
+  }
+
+  export type UserCreateNestedOneWithoutInvestorProfileInput = {
+    create?: XOR<UserCreateWithoutInvestorProfileInput, UserUncheckedCreateWithoutInvestorProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInvestorProfileInput
+    connect?: UserWhereUniqueInput
   }
 
   export type InvestmentUncheckedCreateNestedManyWithoutInvestorProfileInput = {
@@ -32861,14 +34329,6 @@ export namespace Prisma {
     divide?: Decimal | DecimalJsLike | number | string
   }
 
-  export type UserUpdateOneRequiredWithoutInvestorProfileNestedInput = {
-    create?: XOR<UserCreateWithoutInvestorProfileInput, UserUncheckedCreateWithoutInvestorProfileInput>
-    connectOrCreate?: UserCreateOrConnectWithoutInvestorProfileInput
-    upsert?: UserUpsertWithoutInvestorProfileInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInvestorProfileInput, UserUpdateWithoutInvestorProfileInput>, UserUncheckedUpdateWithoutInvestorProfileInput>
-  }
-
   export type InvestmentUpdateManyWithoutInvestorProfileNestedInput = {
     create?: XOR<InvestmentCreateWithoutInvestorProfileInput, InvestmentUncheckedCreateWithoutInvestorProfileInput> | InvestmentCreateWithoutInvestorProfileInput[] | InvestmentUncheckedCreateWithoutInvestorProfileInput[]
     connectOrCreate?: InvestmentCreateOrConnectWithoutInvestorProfileInput | InvestmentCreateOrConnectWithoutInvestorProfileInput[]
@@ -32881,6 +34341,14 @@ export namespace Prisma {
     update?: InvestmentUpdateWithWhereUniqueWithoutInvestorProfileInput | InvestmentUpdateWithWhereUniqueWithoutInvestorProfileInput[]
     updateMany?: InvestmentUpdateManyWithWhereWithoutInvestorProfileInput | InvestmentUpdateManyWithWhereWithoutInvestorProfileInput[]
     deleteMany?: InvestmentScalarWhereInput | InvestmentScalarWhereInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutInvestorProfileNestedInput = {
+    create?: XOR<UserCreateWithoutInvestorProfileInput, UserUncheckedCreateWithoutInvestorProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInvestorProfileInput
+    upsert?: UserUpsertWithoutInvestorProfileInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInvestorProfileInput, UserUpdateWithoutInvestorProfileInput>, UserUncheckedUpdateWithoutInvestorProfileInput>
   }
 
   export type InvestmentUncheckedUpdateManyWithoutInvestorProfileNestedInput = {
@@ -32897,38 +34365,11 @@ export namespace Prisma {
     deleteMany?: InvestmentScalarWhereInput | InvestmentScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutUmkmProfileInput = {
-    create?: XOR<UserCreateWithoutUmkmProfileInput, UserUncheckedCreateWithoutUmkmProfileInput>
-    connectOrCreate?: UserCreateOrConnectWithoutUmkmProfileInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type CreditScoreCreateNestedManyWithoutUmkmProfileInput = {
-    create?: XOR<CreditScoreCreateWithoutUmkmProfileInput, CreditScoreUncheckedCreateWithoutUmkmProfileInput> | CreditScoreCreateWithoutUmkmProfileInput[] | CreditScoreUncheckedCreateWithoutUmkmProfileInput[]
-    connectOrCreate?: CreditScoreCreateOrConnectWithoutUmkmProfileInput | CreditScoreCreateOrConnectWithoutUmkmProfileInput[]
-    createMany?: CreditScoreCreateManyUmkmProfileInputEnvelope
-    connect?: CreditScoreWhereUniqueInput | CreditScoreWhereUniqueInput[]
-  }
-
   export type BusinessDataCreateNestedManyWithoutUmkmProfileInput = {
     create?: XOR<BusinessDataCreateWithoutUmkmProfileInput, BusinessDataUncheckedCreateWithoutUmkmProfileInput> | BusinessDataCreateWithoutUmkmProfileInput[] | BusinessDataUncheckedCreateWithoutUmkmProfileInput[]
     connectOrCreate?: BusinessDataCreateOrConnectWithoutUmkmProfileInput | BusinessDataCreateOrConnectWithoutUmkmProfileInput[]
     createMany?: BusinessDataCreateManyUmkmProfileInputEnvelope
     connect?: BusinessDataWhereUniqueInput | BusinessDataWhereUniqueInput[]
-  }
-
-  export type FundingApplicationCreateNestedManyWithoutUmkmProfileInput = {
-    create?: XOR<FundingApplicationCreateWithoutUmkmProfileInput, FundingApplicationUncheckedCreateWithoutUmkmProfileInput> | FundingApplicationCreateWithoutUmkmProfileInput[] | FundingApplicationUncheckedCreateWithoutUmkmProfileInput[]
-    connectOrCreate?: FundingApplicationCreateOrConnectWithoutUmkmProfileInput | FundingApplicationCreateOrConnectWithoutUmkmProfileInput[]
-    createMany?: FundingApplicationCreateManyUmkmProfileInputEnvelope
-    connect?: FundingApplicationWhereUniqueInput | FundingApplicationWhereUniqueInput[]
-  }
-
-  export type CampaignCreateNestedManyWithoutUmkmProfileInput = {
-    create?: XOR<CampaignCreateWithoutUmkmProfileInput, CampaignUncheckedCreateWithoutUmkmProfileInput> | CampaignCreateWithoutUmkmProfileInput[] | CampaignUncheckedCreateWithoutUmkmProfileInput[]
-    connectOrCreate?: CampaignCreateOrConnectWithoutUmkmProfileInput | CampaignCreateOrConnectWithoutUmkmProfileInput[]
-    createMany?: CampaignCreateManyUmkmProfileInputEnvelope
-    connect?: CampaignWhereUniqueInput | CampaignWhereUniqueInput[]
   }
 
   export type BusinessUpdateCreateNestedManyWithoutUmkmProfileInput = {
@@ -32938,11 +34379,31 @@ export namespace Prisma {
     connect?: BusinessUpdateWhereUniqueInput | BusinessUpdateWhereUniqueInput[]
   }
 
-  export type CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput = {
+  export type CampaignCreateNestedManyWithoutUmkmProfileInput = {
+    create?: XOR<CampaignCreateWithoutUmkmProfileInput, CampaignUncheckedCreateWithoutUmkmProfileInput> | CampaignCreateWithoutUmkmProfileInput[] | CampaignUncheckedCreateWithoutUmkmProfileInput[]
+    connectOrCreate?: CampaignCreateOrConnectWithoutUmkmProfileInput | CampaignCreateOrConnectWithoutUmkmProfileInput[]
+    createMany?: CampaignCreateManyUmkmProfileInputEnvelope
+    connect?: CampaignWhereUniqueInput | CampaignWhereUniqueInput[]
+  }
+
+  export type CreditScoreCreateNestedManyWithoutUmkmProfileInput = {
     create?: XOR<CreditScoreCreateWithoutUmkmProfileInput, CreditScoreUncheckedCreateWithoutUmkmProfileInput> | CreditScoreCreateWithoutUmkmProfileInput[] | CreditScoreUncheckedCreateWithoutUmkmProfileInput[]
     connectOrCreate?: CreditScoreCreateOrConnectWithoutUmkmProfileInput | CreditScoreCreateOrConnectWithoutUmkmProfileInput[]
     createMany?: CreditScoreCreateManyUmkmProfileInputEnvelope
     connect?: CreditScoreWhereUniqueInput | CreditScoreWhereUniqueInput[]
+  }
+
+  export type FundingApplicationCreateNestedManyWithoutUmkmProfileInput = {
+    create?: XOR<FundingApplicationCreateWithoutUmkmProfileInput, FundingApplicationUncheckedCreateWithoutUmkmProfileInput> | FundingApplicationCreateWithoutUmkmProfileInput[] | FundingApplicationUncheckedCreateWithoutUmkmProfileInput[]
+    connectOrCreate?: FundingApplicationCreateOrConnectWithoutUmkmProfileInput | FundingApplicationCreateOrConnectWithoutUmkmProfileInput[]
+    createMany?: FundingApplicationCreateManyUmkmProfileInputEnvelope
+    connect?: FundingApplicationWhereUniqueInput | FundingApplicationWhereUniqueInput[]
+  }
+
+  export type UserCreateNestedOneWithoutUmkmProfileInput = {
+    create?: XOR<UserCreateWithoutUmkmProfileInput, UserUncheckedCreateWithoutUmkmProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUmkmProfileInput
+    connect?: UserWhereUniqueInput
   }
 
   export type BusinessDataUncheckedCreateNestedManyWithoutUmkmProfileInput = {
@@ -32952,11 +34413,11 @@ export namespace Prisma {
     connect?: BusinessDataWhereUniqueInput | BusinessDataWhereUniqueInput[]
   }
 
-  export type FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput = {
-    create?: XOR<FundingApplicationCreateWithoutUmkmProfileInput, FundingApplicationUncheckedCreateWithoutUmkmProfileInput> | FundingApplicationCreateWithoutUmkmProfileInput[] | FundingApplicationUncheckedCreateWithoutUmkmProfileInput[]
-    connectOrCreate?: FundingApplicationCreateOrConnectWithoutUmkmProfileInput | FundingApplicationCreateOrConnectWithoutUmkmProfileInput[]
-    createMany?: FundingApplicationCreateManyUmkmProfileInputEnvelope
-    connect?: FundingApplicationWhereUniqueInput | FundingApplicationWhereUniqueInput[]
+  export type BusinessUpdateUncheckedCreateNestedManyWithoutUmkmProfileInput = {
+    create?: XOR<BusinessUpdateCreateWithoutUmkmProfileInput, BusinessUpdateUncheckedCreateWithoutUmkmProfileInput> | BusinessUpdateCreateWithoutUmkmProfileInput[] | BusinessUpdateUncheckedCreateWithoutUmkmProfileInput[]
+    connectOrCreate?: BusinessUpdateCreateOrConnectWithoutUmkmProfileInput | BusinessUpdateCreateOrConnectWithoutUmkmProfileInput[]
+    createMany?: BusinessUpdateCreateManyUmkmProfileInputEnvelope
+    connect?: BusinessUpdateWhereUniqueInput | BusinessUpdateWhereUniqueInput[]
   }
 
   export type CampaignUncheckedCreateNestedManyWithoutUmkmProfileInput = {
@@ -32966,11 +34427,18 @@ export namespace Prisma {
     connect?: CampaignWhereUniqueInput | CampaignWhereUniqueInput[]
   }
 
-  export type BusinessUpdateUncheckedCreateNestedManyWithoutUmkmProfileInput = {
-    create?: XOR<BusinessUpdateCreateWithoutUmkmProfileInput, BusinessUpdateUncheckedCreateWithoutUmkmProfileInput> | BusinessUpdateCreateWithoutUmkmProfileInput[] | BusinessUpdateUncheckedCreateWithoutUmkmProfileInput[]
-    connectOrCreate?: BusinessUpdateCreateOrConnectWithoutUmkmProfileInput | BusinessUpdateCreateOrConnectWithoutUmkmProfileInput[]
-    createMany?: BusinessUpdateCreateManyUmkmProfileInputEnvelope
-    connect?: BusinessUpdateWhereUniqueInput | BusinessUpdateWhereUniqueInput[]
+  export type CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput = {
+    create?: XOR<CreditScoreCreateWithoutUmkmProfileInput, CreditScoreUncheckedCreateWithoutUmkmProfileInput> | CreditScoreCreateWithoutUmkmProfileInput[] | CreditScoreUncheckedCreateWithoutUmkmProfileInput[]
+    connectOrCreate?: CreditScoreCreateOrConnectWithoutUmkmProfileInput | CreditScoreCreateOrConnectWithoutUmkmProfileInput[]
+    createMany?: CreditScoreCreateManyUmkmProfileInputEnvelope
+    connect?: CreditScoreWhereUniqueInput | CreditScoreWhereUniqueInput[]
+  }
+
+  export type FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput = {
+    create?: XOR<FundingApplicationCreateWithoutUmkmProfileInput, FundingApplicationUncheckedCreateWithoutUmkmProfileInput> | FundingApplicationCreateWithoutUmkmProfileInput[] | FundingApplicationUncheckedCreateWithoutUmkmProfileInput[]
+    connectOrCreate?: FundingApplicationCreateOrConnectWithoutUmkmProfileInput | FundingApplicationCreateOrConnectWithoutUmkmProfileInput[]
+    createMany?: FundingApplicationCreateManyUmkmProfileInputEnvelope
+    connect?: FundingApplicationWhereUniqueInput | FundingApplicationWhereUniqueInput[]
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -32989,28 +34457,6 @@ export namespace Prisma {
     divide?: Decimal | DecimalJsLike | number | string
   }
 
-  export type UserUpdateOneRequiredWithoutUmkmProfileNestedInput = {
-    create?: XOR<UserCreateWithoutUmkmProfileInput, UserUncheckedCreateWithoutUmkmProfileInput>
-    connectOrCreate?: UserCreateOrConnectWithoutUmkmProfileInput
-    upsert?: UserUpsertWithoutUmkmProfileInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUmkmProfileInput, UserUpdateWithoutUmkmProfileInput>, UserUncheckedUpdateWithoutUmkmProfileInput>
-  }
-
-  export type CreditScoreUpdateManyWithoutUmkmProfileNestedInput = {
-    create?: XOR<CreditScoreCreateWithoutUmkmProfileInput, CreditScoreUncheckedCreateWithoutUmkmProfileInput> | CreditScoreCreateWithoutUmkmProfileInput[] | CreditScoreUncheckedCreateWithoutUmkmProfileInput[]
-    connectOrCreate?: CreditScoreCreateOrConnectWithoutUmkmProfileInput | CreditScoreCreateOrConnectWithoutUmkmProfileInput[]
-    upsert?: CreditScoreUpsertWithWhereUniqueWithoutUmkmProfileInput | CreditScoreUpsertWithWhereUniqueWithoutUmkmProfileInput[]
-    createMany?: CreditScoreCreateManyUmkmProfileInputEnvelope
-    set?: CreditScoreWhereUniqueInput | CreditScoreWhereUniqueInput[]
-    disconnect?: CreditScoreWhereUniqueInput | CreditScoreWhereUniqueInput[]
-    delete?: CreditScoreWhereUniqueInput | CreditScoreWhereUniqueInput[]
-    connect?: CreditScoreWhereUniqueInput | CreditScoreWhereUniqueInput[]
-    update?: CreditScoreUpdateWithWhereUniqueWithoutUmkmProfileInput | CreditScoreUpdateWithWhereUniqueWithoutUmkmProfileInput[]
-    updateMany?: CreditScoreUpdateManyWithWhereWithoutUmkmProfileInput | CreditScoreUpdateManyWithWhereWithoutUmkmProfileInput[]
-    deleteMany?: CreditScoreScalarWhereInput | CreditScoreScalarWhereInput[]
-  }
-
   export type BusinessDataUpdateManyWithoutUmkmProfileNestedInput = {
     create?: XOR<BusinessDataCreateWithoutUmkmProfileInput, BusinessDataUncheckedCreateWithoutUmkmProfileInput> | BusinessDataCreateWithoutUmkmProfileInput[] | BusinessDataUncheckedCreateWithoutUmkmProfileInput[]
     connectOrCreate?: BusinessDataCreateOrConnectWithoutUmkmProfileInput | BusinessDataCreateOrConnectWithoutUmkmProfileInput[]
@@ -33023,34 +34469,6 @@ export namespace Prisma {
     update?: BusinessDataUpdateWithWhereUniqueWithoutUmkmProfileInput | BusinessDataUpdateWithWhereUniqueWithoutUmkmProfileInput[]
     updateMany?: BusinessDataUpdateManyWithWhereWithoutUmkmProfileInput | BusinessDataUpdateManyWithWhereWithoutUmkmProfileInput[]
     deleteMany?: BusinessDataScalarWhereInput | BusinessDataScalarWhereInput[]
-  }
-
-  export type FundingApplicationUpdateManyWithoutUmkmProfileNestedInput = {
-    create?: XOR<FundingApplicationCreateWithoutUmkmProfileInput, FundingApplicationUncheckedCreateWithoutUmkmProfileInput> | FundingApplicationCreateWithoutUmkmProfileInput[] | FundingApplicationUncheckedCreateWithoutUmkmProfileInput[]
-    connectOrCreate?: FundingApplicationCreateOrConnectWithoutUmkmProfileInput | FundingApplicationCreateOrConnectWithoutUmkmProfileInput[]
-    upsert?: FundingApplicationUpsertWithWhereUniqueWithoutUmkmProfileInput | FundingApplicationUpsertWithWhereUniqueWithoutUmkmProfileInput[]
-    createMany?: FundingApplicationCreateManyUmkmProfileInputEnvelope
-    set?: FundingApplicationWhereUniqueInput | FundingApplicationWhereUniqueInput[]
-    disconnect?: FundingApplicationWhereUniqueInput | FundingApplicationWhereUniqueInput[]
-    delete?: FundingApplicationWhereUniqueInput | FundingApplicationWhereUniqueInput[]
-    connect?: FundingApplicationWhereUniqueInput | FundingApplicationWhereUniqueInput[]
-    update?: FundingApplicationUpdateWithWhereUniqueWithoutUmkmProfileInput | FundingApplicationUpdateWithWhereUniqueWithoutUmkmProfileInput[]
-    updateMany?: FundingApplicationUpdateManyWithWhereWithoutUmkmProfileInput | FundingApplicationUpdateManyWithWhereWithoutUmkmProfileInput[]
-    deleteMany?: FundingApplicationScalarWhereInput | FundingApplicationScalarWhereInput[]
-  }
-
-  export type CampaignUpdateManyWithoutUmkmProfileNestedInput = {
-    create?: XOR<CampaignCreateWithoutUmkmProfileInput, CampaignUncheckedCreateWithoutUmkmProfileInput> | CampaignCreateWithoutUmkmProfileInput[] | CampaignUncheckedCreateWithoutUmkmProfileInput[]
-    connectOrCreate?: CampaignCreateOrConnectWithoutUmkmProfileInput | CampaignCreateOrConnectWithoutUmkmProfileInput[]
-    upsert?: CampaignUpsertWithWhereUniqueWithoutUmkmProfileInput | CampaignUpsertWithWhereUniqueWithoutUmkmProfileInput[]
-    createMany?: CampaignCreateManyUmkmProfileInputEnvelope
-    set?: CampaignWhereUniqueInput | CampaignWhereUniqueInput[]
-    disconnect?: CampaignWhereUniqueInput | CampaignWhereUniqueInput[]
-    delete?: CampaignWhereUniqueInput | CampaignWhereUniqueInput[]
-    connect?: CampaignWhereUniqueInput | CampaignWhereUniqueInput[]
-    update?: CampaignUpdateWithWhereUniqueWithoutUmkmProfileInput | CampaignUpdateWithWhereUniqueWithoutUmkmProfileInput[]
-    updateMany?: CampaignUpdateManyWithWhereWithoutUmkmProfileInput | CampaignUpdateManyWithWhereWithoutUmkmProfileInput[]
-    deleteMany?: CampaignScalarWhereInput | CampaignScalarWhereInput[]
   }
 
   export type BusinessUpdateUpdateManyWithoutUmkmProfileNestedInput = {
@@ -33067,7 +34485,21 @@ export namespace Prisma {
     deleteMany?: BusinessUpdateScalarWhereInput | BusinessUpdateScalarWhereInput[]
   }
 
-  export type CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput = {
+  export type CampaignUpdateManyWithoutUmkmProfileNestedInput = {
+    create?: XOR<CampaignCreateWithoutUmkmProfileInput, CampaignUncheckedCreateWithoutUmkmProfileInput> | CampaignCreateWithoutUmkmProfileInput[] | CampaignUncheckedCreateWithoutUmkmProfileInput[]
+    connectOrCreate?: CampaignCreateOrConnectWithoutUmkmProfileInput | CampaignCreateOrConnectWithoutUmkmProfileInput[]
+    upsert?: CampaignUpsertWithWhereUniqueWithoutUmkmProfileInput | CampaignUpsertWithWhereUniqueWithoutUmkmProfileInput[]
+    createMany?: CampaignCreateManyUmkmProfileInputEnvelope
+    set?: CampaignWhereUniqueInput | CampaignWhereUniqueInput[]
+    disconnect?: CampaignWhereUniqueInput | CampaignWhereUniqueInput[]
+    delete?: CampaignWhereUniqueInput | CampaignWhereUniqueInput[]
+    connect?: CampaignWhereUniqueInput | CampaignWhereUniqueInput[]
+    update?: CampaignUpdateWithWhereUniqueWithoutUmkmProfileInput | CampaignUpdateWithWhereUniqueWithoutUmkmProfileInput[]
+    updateMany?: CampaignUpdateManyWithWhereWithoutUmkmProfileInput | CampaignUpdateManyWithWhereWithoutUmkmProfileInput[]
+    deleteMany?: CampaignScalarWhereInput | CampaignScalarWhereInput[]
+  }
+
+  export type CreditScoreUpdateManyWithoutUmkmProfileNestedInput = {
     create?: XOR<CreditScoreCreateWithoutUmkmProfileInput, CreditScoreUncheckedCreateWithoutUmkmProfileInput> | CreditScoreCreateWithoutUmkmProfileInput[] | CreditScoreUncheckedCreateWithoutUmkmProfileInput[]
     connectOrCreate?: CreditScoreCreateOrConnectWithoutUmkmProfileInput | CreditScoreCreateOrConnectWithoutUmkmProfileInput[]
     upsert?: CreditScoreUpsertWithWhereUniqueWithoutUmkmProfileInput | CreditScoreUpsertWithWhereUniqueWithoutUmkmProfileInput[]
@@ -33079,6 +34511,28 @@ export namespace Prisma {
     update?: CreditScoreUpdateWithWhereUniqueWithoutUmkmProfileInput | CreditScoreUpdateWithWhereUniqueWithoutUmkmProfileInput[]
     updateMany?: CreditScoreUpdateManyWithWhereWithoutUmkmProfileInput | CreditScoreUpdateManyWithWhereWithoutUmkmProfileInput[]
     deleteMany?: CreditScoreScalarWhereInput | CreditScoreScalarWhereInput[]
+  }
+
+  export type FundingApplicationUpdateManyWithoutUmkmProfileNestedInput = {
+    create?: XOR<FundingApplicationCreateWithoutUmkmProfileInput, FundingApplicationUncheckedCreateWithoutUmkmProfileInput> | FundingApplicationCreateWithoutUmkmProfileInput[] | FundingApplicationUncheckedCreateWithoutUmkmProfileInput[]
+    connectOrCreate?: FundingApplicationCreateOrConnectWithoutUmkmProfileInput | FundingApplicationCreateOrConnectWithoutUmkmProfileInput[]
+    upsert?: FundingApplicationUpsertWithWhereUniqueWithoutUmkmProfileInput | FundingApplicationUpsertWithWhereUniqueWithoutUmkmProfileInput[]
+    createMany?: FundingApplicationCreateManyUmkmProfileInputEnvelope
+    set?: FundingApplicationWhereUniqueInput | FundingApplicationWhereUniqueInput[]
+    disconnect?: FundingApplicationWhereUniqueInput | FundingApplicationWhereUniqueInput[]
+    delete?: FundingApplicationWhereUniqueInput | FundingApplicationWhereUniqueInput[]
+    connect?: FundingApplicationWhereUniqueInput | FundingApplicationWhereUniqueInput[]
+    update?: FundingApplicationUpdateWithWhereUniqueWithoutUmkmProfileInput | FundingApplicationUpdateWithWhereUniqueWithoutUmkmProfileInput[]
+    updateMany?: FundingApplicationUpdateManyWithWhereWithoutUmkmProfileInput | FundingApplicationUpdateManyWithWhereWithoutUmkmProfileInput[]
+    deleteMany?: FundingApplicationScalarWhereInput | FundingApplicationScalarWhereInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutUmkmProfileNestedInput = {
+    create?: XOR<UserCreateWithoutUmkmProfileInput, UserUncheckedCreateWithoutUmkmProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUmkmProfileInput
+    upsert?: UserUpsertWithoutUmkmProfileInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUmkmProfileInput, UserUpdateWithoutUmkmProfileInput>, UserUncheckedUpdateWithoutUmkmProfileInput>
   }
 
   export type BusinessDataUncheckedUpdateManyWithoutUmkmProfileNestedInput = {
@@ -33095,18 +34549,18 @@ export namespace Prisma {
     deleteMany?: BusinessDataScalarWhereInput | BusinessDataScalarWhereInput[]
   }
 
-  export type FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput = {
-    create?: XOR<FundingApplicationCreateWithoutUmkmProfileInput, FundingApplicationUncheckedCreateWithoutUmkmProfileInput> | FundingApplicationCreateWithoutUmkmProfileInput[] | FundingApplicationUncheckedCreateWithoutUmkmProfileInput[]
-    connectOrCreate?: FundingApplicationCreateOrConnectWithoutUmkmProfileInput | FundingApplicationCreateOrConnectWithoutUmkmProfileInput[]
-    upsert?: FundingApplicationUpsertWithWhereUniqueWithoutUmkmProfileInput | FundingApplicationUpsertWithWhereUniqueWithoutUmkmProfileInput[]
-    createMany?: FundingApplicationCreateManyUmkmProfileInputEnvelope
-    set?: FundingApplicationWhereUniqueInput | FundingApplicationWhereUniqueInput[]
-    disconnect?: FundingApplicationWhereUniqueInput | FundingApplicationWhereUniqueInput[]
-    delete?: FundingApplicationWhereUniqueInput | FundingApplicationWhereUniqueInput[]
-    connect?: FundingApplicationWhereUniqueInput | FundingApplicationWhereUniqueInput[]
-    update?: FundingApplicationUpdateWithWhereUniqueWithoutUmkmProfileInput | FundingApplicationUpdateWithWhereUniqueWithoutUmkmProfileInput[]
-    updateMany?: FundingApplicationUpdateManyWithWhereWithoutUmkmProfileInput | FundingApplicationUpdateManyWithWhereWithoutUmkmProfileInput[]
-    deleteMany?: FundingApplicationScalarWhereInput | FundingApplicationScalarWhereInput[]
+  export type BusinessUpdateUncheckedUpdateManyWithoutUmkmProfileNestedInput = {
+    create?: XOR<BusinessUpdateCreateWithoutUmkmProfileInput, BusinessUpdateUncheckedCreateWithoutUmkmProfileInput> | BusinessUpdateCreateWithoutUmkmProfileInput[] | BusinessUpdateUncheckedCreateWithoutUmkmProfileInput[]
+    connectOrCreate?: BusinessUpdateCreateOrConnectWithoutUmkmProfileInput | BusinessUpdateCreateOrConnectWithoutUmkmProfileInput[]
+    upsert?: BusinessUpdateUpsertWithWhereUniqueWithoutUmkmProfileInput | BusinessUpdateUpsertWithWhereUniqueWithoutUmkmProfileInput[]
+    createMany?: BusinessUpdateCreateManyUmkmProfileInputEnvelope
+    set?: BusinessUpdateWhereUniqueInput | BusinessUpdateWhereUniqueInput[]
+    disconnect?: BusinessUpdateWhereUniqueInput | BusinessUpdateWhereUniqueInput[]
+    delete?: BusinessUpdateWhereUniqueInput | BusinessUpdateWhereUniqueInput[]
+    connect?: BusinessUpdateWhereUniqueInput | BusinessUpdateWhereUniqueInput[]
+    update?: BusinessUpdateUpdateWithWhereUniqueWithoutUmkmProfileInput | BusinessUpdateUpdateWithWhereUniqueWithoutUmkmProfileInput[]
+    updateMany?: BusinessUpdateUpdateManyWithWhereWithoutUmkmProfileInput | BusinessUpdateUpdateManyWithWhereWithoutUmkmProfileInput[]
+    deleteMany?: BusinessUpdateScalarWhereInput | BusinessUpdateScalarWhereInput[]
   }
 
   export type CampaignUncheckedUpdateManyWithoutUmkmProfileNestedInput = {
@@ -33123,18 +34577,32 @@ export namespace Prisma {
     deleteMany?: CampaignScalarWhereInput | CampaignScalarWhereInput[]
   }
 
-  export type BusinessUpdateUncheckedUpdateManyWithoutUmkmProfileNestedInput = {
-    create?: XOR<BusinessUpdateCreateWithoutUmkmProfileInput, BusinessUpdateUncheckedCreateWithoutUmkmProfileInput> | BusinessUpdateCreateWithoutUmkmProfileInput[] | BusinessUpdateUncheckedCreateWithoutUmkmProfileInput[]
-    connectOrCreate?: BusinessUpdateCreateOrConnectWithoutUmkmProfileInput | BusinessUpdateCreateOrConnectWithoutUmkmProfileInput[]
-    upsert?: BusinessUpdateUpsertWithWhereUniqueWithoutUmkmProfileInput | BusinessUpdateUpsertWithWhereUniqueWithoutUmkmProfileInput[]
-    createMany?: BusinessUpdateCreateManyUmkmProfileInputEnvelope
-    set?: BusinessUpdateWhereUniqueInput | BusinessUpdateWhereUniqueInput[]
-    disconnect?: BusinessUpdateWhereUniqueInput | BusinessUpdateWhereUniqueInput[]
-    delete?: BusinessUpdateWhereUniqueInput | BusinessUpdateWhereUniqueInput[]
-    connect?: BusinessUpdateWhereUniqueInput | BusinessUpdateWhereUniqueInput[]
-    update?: BusinessUpdateUpdateWithWhereUniqueWithoutUmkmProfileInput | BusinessUpdateUpdateWithWhereUniqueWithoutUmkmProfileInput[]
-    updateMany?: BusinessUpdateUpdateManyWithWhereWithoutUmkmProfileInput | BusinessUpdateUpdateManyWithWhereWithoutUmkmProfileInput[]
-    deleteMany?: BusinessUpdateScalarWhereInput | BusinessUpdateScalarWhereInput[]
+  export type CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput = {
+    create?: XOR<CreditScoreCreateWithoutUmkmProfileInput, CreditScoreUncheckedCreateWithoutUmkmProfileInput> | CreditScoreCreateWithoutUmkmProfileInput[] | CreditScoreUncheckedCreateWithoutUmkmProfileInput[]
+    connectOrCreate?: CreditScoreCreateOrConnectWithoutUmkmProfileInput | CreditScoreCreateOrConnectWithoutUmkmProfileInput[]
+    upsert?: CreditScoreUpsertWithWhereUniqueWithoutUmkmProfileInput | CreditScoreUpsertWithWhereUniqueWithoutUmkmProfileInput[]
+    createMany?: CreditScoreCreateManyUmkmProfileInputEnvelope
+    set?: CreditScoreWhereUniqueInput | CreditScoreWhereUniqueInput[]
+    disconnect?: CreditScoreWhereUniqueInput | CreditScoreWhereUniqueInput[]
+    delete?: CreditScoreWhereUniqueInput | CreditScoreWhereUniqueInput[]
+    connect?: CreditScoreWhereUniqueInput | CreditScoreWhereUniqueInput[]
+    update?: CreditScoreUpdateWithWhereUniqueWithoutUmkmProfileInput | CreditScoreUpdateWithWhereUniqueWithoutUmkmProfileInput[]
+    updateMany?: CreditScoreUpdateManyWithWhereWithoutUmkmProfileInput | CreditScoreUpdateManyWithWhereWithoutUmkmProfileInput[]
+    deleteMany?: CreditScoreScalarWhereInput | CreditScoreScalarWhereInput[]
+  }
+
+  export type FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput = {
+    create?: XOR<FundingApplicationCreateWithoutUmkmProfileInput, FundingApplicationUncheckedCreateWithoutUmkmProfileInput> | FundingApplicationCreateWithoutUmkmProfileInput[] | FundingApplicationUncheckedCreateWithoutUmkmProfileInput[]
+    connectOrCreate?: FundingApplicationCreateOrConnectWithoutUmkmProfileInput | FundingApplicationCreateOrConnectWithoutUmkmProfileInput[]
+    upsert?: FundingApplicationUpsertWithWhereUniqueWithoutUmkmProfileInput | FundingApplicationUpsertWithWhereUniqueWithoutUmkmProfileInput[]
+    createMany?: FundingApplicationCreateManyUmkmProfileInputEnvelope
+    set?: FundingApplicationWhereUniqueInput | FundingApplicationWhereUniqueInput[]
+    disconnect?: FundingApplicationWhereUniqueInput | FundingApplicationWhereUniqueInput[]
+    delete?: FundingApplicationWhereUniqueInput | FundingApplicationWhereUniqueInput[]
+    connect?: FundingApplicationWhereUniqueInput | FundingApplicationWhereUniqueInput[]
+    update?: FundingApplicationUpdateWithWhereUniqueWithoutUmkmProfileInput | FundingApplicationUpdateWithWhereUniqueWithoutUmkmProfileInput[]
+    updateMany?: FundingApplicationUpdateManyWithWhereWithoutUmkmProfileInput | FundingApplicationUpdateManyWithWhereWithoutUmkmProfileInput[]
+    deleteMany?: FundingApplicationScalarWhereInput | FundingApplicationScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutKycDocumentsInput = {
@@ -33187,16 +34655,16 @@ export namespace Prisma {
     update?: XOR<XOR<UmkmProfileUpdateToOneWithWhereWithoutBusinessDataInput, UmkmProfileUpdateWithoutBusinessDataInput>, UmkmProfileUncheckedUpdateWithoutBusinessDataInput>
   }
 
-  export type UmkmProfileCreateNestedOneWithoutFundingApplicationsInput = {
-    create?: XOR<UmkmProfileCreateWithoutFundingApplicationsInput, UmkmProfileUncheckedCreateWithoutFundingApplicationsInput>
-    connectOrCreate?: UmkmProfileCreateOrConnectWithoutFundingApplicationsInput
-    connect?: UmkmProfileWhereUniqueInput
-  }
-
   export type CampaignCreateNestedOneWithoutFundingApplicationInput = {
     create?: XOR<CampaignCreateWithoutFundingApplicationInput, CampaignUncheckedCreateWithoutFundingApplicationInput>
     connectOrCreate?: CampaignCreateOrConnectWithoutFundingApplicationInput
     connect?: CampaignWhereUniqueInput
+  }
+
+  export type UmkmProfileCreateNestedOneWithoutFundingApplicationsInput = {
+    create?: XOR<UmkmProfileCreateWithoutFundingApplicationsInput, UmkmProfileUncheckedCreateWithoutFundingApplicationsInput>
+    connectOrCreate?: UmkmProfileCreateOrConnectWithoutFundingApplicationsInput
+    connect?: UmkmProfileWhereUniqueInput
   }
 
   export type CampaignUncheckedCreateNestedOneWithoutFundingApplicationInput = {
@@ -33221,14 +34689,6 @@ export namespace Prisma {
     set?: $Enums.FundingStatus
   }
 
-  export type UmkmProfileUpdateOneRequiredWithoutFundingApplicationsNestedInput = {
-    create?: XOR<UmkmProfileCreateWithoutFundingApplicationsInput, UmkmProfileUncheckedCreateWithoutFundingApplicationsInput>
-    connectOrCreate?: UmkmProfileCreateOrConnectWithoutFundingApplicationsInput
-    upsert?: UmkmProfileUpsertWithoutFundingApplicationsInput
-    connect?: UmkmProfileWhereUniqueInput
-    update?: XOR<XOR<UmkmProfileUpdateToOneWithWhereWithoutFundingApplicationsInput, UmkmProfileUpdateWithoutFundingApplicationsInput>, UmkmProfileUncheckedUpdateWithoutFundingApplicationsInput>
-  }
-
   export type CampaignUpdateOneWithoutFundingApplicationNestedInput = {
     create?: XOR<CampaignCreateWithoutFundingApplicationInput, CampaignUncheckedCreateWithoutFundingApplicationInput>
     connectOrCreate?: CampaignCreateOrConnectWithoutFundingApplicationInput
@@ -33237,6 +34697,14 @@ export namespace Prisma {
     delete?: CampaignWhereInput | boolean
     connect?: CampaignWhereUniqueInput
     update?: XOR<XOR<CampaignUpdateToOneWithWhereWithoutFundingApplicationInput, CampaignUpdateWithoutFundingApplicationInput>, CampaignUncheckedUpdateWithoutFundingApplicationInput>
+  }
+
+  export type UmkmProfileUpdateOneRequiredWithoutFundingApplicationsNestedInput = {
+    create?: XOR<UmkmProfileCreateWithoutFundingApplicationsInput, UmkmProfileUncheckedCreateWithoutFundingApplicationsInput>
+    connectOrCreate?: UmkmProfileCreateOrConnectWithoutFundingApplicationsInput
+    upsert?: UmkmProfileUpsertWithoutFundingApplicationsInput
+    connect?: UmkmProfileWhereUniqueInput
+    update?: XOR<XOR<UmkmProfileUpdateToOneWithWhereWithoutFundingApplicationsInput, UmkmProfileUpdateWithoutFundingApplicationsInput>, UmkmProfileUncheckedUpdateWithoutFundingApplicationsInput>
   }
 
   export type CampaignUncheckedUpdateOneWithoutFundingApplicationNestedInput = {
@@ -33249,10 +34717,11 @@ export namespace Prisma {
     update?: XOR<XOR<CampaignUpdateToOneWithWhereWithoutFundingApplicationInput, CampaignUpdateWithoutFundingApplicationInput>, CampaignUncheckedUpdateWithoutFundingApplicationInput>
   }
 
-  export type UmkmProfileCreateNestedOneWithoutCampaignsInput = {
-    create?: XOR<UmkmProfileCreateWithoutCampaignsInput, UmkmProfileUncheckedCreateWithoutCampaignsInput>
-    connectOrCreate?: UmkmProfileCreateOrConnectWithoutCampaignsInput
-    connect?: UmkmProfileWhereUniqueInput
+  export type AkadCreateNestedManyWithoutCampaignInput = {
+    create?: XOR<AkadCreateWithoutCampaignInput, AkadUncheckedCreateWithoutCampaignInput> | AkadCreateWithoutCampaignInput[] | AkadUncheckedCreateWithoutCampaignInput[]
+    connectOrCreate?: AkadCreateOrConnectWithoutCampaignInput | AkadCreateOrConnectWithoutCampaignInput[]
+    createMany?: AkadCreateManyCampaignInputEnvelope
+    connect?: AkadWhereUniqueInput | AkadWhereUniqueInput[]
   }
 
   export type FundingApplicationCreateNestedOneWithoutCampaignInput = {
@@ -33261,21 +34730,13 @@ export namespace Prisma {
     connect?: FundingApplicationWhereUniqueInput
   }
 
+  export type UmkmProfileCreateNestedOneWithoutCampaignsInput = {
+    create?: XOR<UmkmProfileCreateWithoutCampaignsInput, UmkmProfileUncheckedCreateWithoutCampaignsInput>
+    connectOrCreate?: UmkmProfileCreateOrConnectWithoutCampaignsInput
+    connect?: UmkmProfileWhereUniqueInput
+  }
+
   export type InvestmentCreateNestedManyWithoutCampaignInput = {
-    create?: XOR<InvestmentCreateWithoutCampaignInput, InvestmentUncheckedCreateWithoutCampaignInput> | InvestmentCreateWithoutCampaignInput[] | InvestmentUncheckedCreateWithoutCampaignInput[]
-    connectOrCreate?: InvestmentCreateOrConnectWithoutCampaignInput | InvestmentCreateOrConnectWithoutCampaignInput[]
-    createMany?: InvestmentCreateManyCampaignInputEnvelope
-    connect?: InvestmentWhereUniqueInput | InvestmentWhereUniqueInput[]
-  }
-
-  export type AkadCreateNestedManyWithoutCampaignInput = {
-    create?: XOR<AkadCreateWithoutCampaignInput, AkadUncheckedCreateWithoutCampaignInput> | AkadCreateWithoutCampaignInput[] | AkadUncheckedCreateWithoutCampaignInput[]
-    connectOrCreate?: AkadCreateOrConnectWithoutCampaignInput | AkadCreateOrConnectWithoutCampaignInput[]
-    createMany?: AkadCreateManyCampaignInputEnvelope
-    connect?: AkadWhereUniqueInput | AkadWhereUniqueInput[]
-  }
-
-  export type InvestmentUncheckedCreateNestedManyWithoutCampaignInput = {
     create?: XOR<InvestmentCreateWithoutCampaignInput, InvestmentUncheckedCreateWithoutCampaignInput> | InvestmentCreateWithoutCampaignInput[] | InvestmentUncheckedCreateWithoutCampaignInput[]
     connectOrCreate?: InvestmentCreateOrConnectWithoutCampaignInput | InvestmentCreateOrConnectWithoutCampaignInput[]
     createMany?: InvestmentCreateManyCampaignInputEnvelope
@@ -33289,36 +34750,11 @@ export namespace Prisma {
     connect?: AkadWhereUniqueInput | AkadWhereUniqueInput[]
   }
 
-  export type UmkmProfileUpdateOneRequiredWithoutCampaignsNestedInput = {
-    create?: XOR<UmkmProfileCreateWithoutCampaignsInput, UmkmProfileUncheckedCreateWithoutCampaignsInput>
-    connectOrCreate?: UmkmProfileCreateOrConnectWithoutCampaignsInput
-    upsert?: UmkmProfileUpsertWithoutCampaignsInput
-    connect?: UmkmProfileWhereUniqueInput
-    update?: XOR<XOR<UmkmProfileUpdateToOneWithWhereWithoutCampaignsInput, UmkmProfileUpdateWithoutCampaignsInput>, UmkmProfileUncheckedUpdateWithoutCampaignsInput>
-  }
-
-  export type FundingApplicationUpdateOneWithoutCampaignNestedInput = {
-    create?: XOR<FundingApplicationCreateWithoutCampaignInput, FundingApplicationUncheckedCreateWithoutCampaignInput>
-    connectOrCreate?: FundingApplicationCreateOrConnectWithoutCampaignInput
-    upsert?: FundingApplicationUpsertWithoutCampaignInput
-    disconnect?: FundingApplicationWhereInput | boolean
-    delete?: FundingApplicationWhereInput | boolean
-    connect?: FundingApplicationWhereUniqueInput
-    update?: XOR<XOR<FundingApplicationUpdateToOneWithWhereWithoutCampaignInput, FundingApplicationUpdateWithoutCampaignInput>, FundingApplicationUncheckedUpdateWithoutCampaignInput>
-  }
-
-  export type InvestmentUpdateManyWithoutCampaignNestedInput = {
+  export type InvestmentUncheckedCreateNestedManyWithoutCampaignInput = {
     create?: XOR<InvestmentCreateWithoutCampaignInput, InvestmentUncheckedCreateWithoutCampaignInput> | InvestmentCreateWithoutCampaignInput[] | InvestmentUncheckedCreateWithoutCampaignInput[]
     connectOrCreate?: InvestmentCreateOrConnectWithoutCampaignInput | InvestmentCreateOrConnectWithoutCampaignInput[]
-    upsert?: InvestmentUpsertWithWhereUniqueWithoutCampaignInput | InvestmentUpsertWithWhereUniqueWithoutCampaignInput[]
     createMany?: InvestmentCreateManyCampaignInputEnvelope
-    set?: InvestmentWhereUniqueInput | InvestmentWhereUniqueInput[]
-    disconnect?: InvestmentWhereUniqueInput | InvestmentWhereUniqueInput[]
-    delete?: InvestmentWhereUniqueInput | InvestmentWhereUniqueInput[]
     connect?: InvestmentWhereUniqueInput | InvestmentWhereUniqueInput[]
-    update?: InvestmentUpdateWithWhereUniqueWithoutCampaignInput | InvestmentUpdateWithWhereUniqueWithoutCampaignInput[]
-    updateMany?: InvestmentUpdateManyWithWhereWithoutCampaignInput | InvestmentUpdateManyWithWhereWithoutCampaignInput[]
-    deleteMany?: InvestmentScalarWhereInput | InvestmentScalarWhereInput[]
   }
 
   export type AkadUpdateManyWithoutCampaignNestedInput = {
@@ -33335,7 +34771,25 @@ export namespace Prisma {
     deleteMany?: AkadScalarWhereInput | AkadScalarWhereInput[]
   }
 
-  export type InvestmentUncheckedUpdateManyWithoutCampaignNestedInput = {
+  export type FundingApplicationUpdateOneWithoutCampaignNestedInput = {
+    create?: XOR<FundingApplicationCreateWithoutCampaignInput, FundingApplicationUncheckedCreateWithoutCampaignInput>
+    connectOrCreate?: FundingApplicationCreateOrConnectWithoutCampaignInput
+    upsert?: FundingApplicationUpsertWithoutCampaignInput
+    disconnect?: FundingApplicationWhereInput | boolean
+    delete?: FundingApplicationWhereInput | boolean
+    connect?: FundingApplicationWhereUniqueInput
+    update?: XOR<XOR<FundingApplicationUpdateToOneWithWhereWithoutCampaignInput, FundingApplicationUpdateWithoutCampaignInput>, FundingApplicationUncheckedUpdateWithoutCampaignInput>
+  }
+
+  export type UmkmProfileUpdateOneRequiredWithoutCampaignsNestedInput = {
+    create?: XOR<UmkmProfileCreateWithoutCampaignsInput, UmkmProfileUncheckedCreateWithoutCampaignsInput>
+    connectOrCreate?: UmkmProfileCreateOrConnectWithoutCampaignsInput
+    upsert?: UmkmProfileUpsertWithoutCampaignsInput
+    connect?: UmkmProfileWhereUniqueInput
+    update?: XOR<XOR<UmkmProfileUpdateToOneWithWhereWithoutCampaignsInput, UmkmProfileUpdateWithoutCampaignsInput>, UmkmProfileUncheckedUpdateWithoutCampaignsInput>
+  }
+
+  export type InvestmentUpdateManyWithoutCampaignNestedInput = {
     create?: XOR<InvestmentCreateWithoutCampaignInput, InvestmentUncheckedCreateWithoutCampaignInput> | InvestmentCreateWithoutCampaignInput[] | InvestmentUncheckedCreateWithoutCampaignInput[]
     connectOrCreate?: InvestmentCreateOrConnectWithoutCampaignInput | InvestmentCreateOrConnectWithoutCampaignInput[]
     upsert?: InvestmentUpsertWithWhereUniqueWithoutCampaignInput | InvestmentUpsertWithWhereUniqueWithoutCampaignInput[]
@@ -33363,10 +34817,24 @@ export namespace Prisma {
     deleteMany?: AkadScalarWhereInput | AkadScalarWhereInput[]
   }
 
-  export type InvestorProfileCreateNestedOneWithoutInvestmentsInput = {
-    create?: XOR<InvestorProfileCreateWithoutInvestmentsInput, InvestorProfileUncheckedCreateWithoutInvestmentsInput>
-    connectOrCreate?: InvestorProfileCreateOrConnectWithoutInvestmentsInput
-    connect?: InvestorProfileWhereUniqueInput
+  export type InvestmentUncheckedUpdateManyWithoutCampaignNestedInput = {
+    create?: XOR<InvestmentCreateWithoutCampaignInput, InvestmentUncheckedCreateWithoutCampaignInput> | InvestmentCreateWithoutCampaignInput[] | InvestmentUncheckedCreateWithoutCampaignInput[]
+    connectOrCreate?: InvestmentCreateOrConnectWithoutCampaignInput | InvestmentCreateOrConnectWithoutCampaignInput[]
+    upsert?: InvestmentUpsertWithWhereUniqueWithoutCampaignInput | InvestmentUpsertWithWhereUniqueWithoutCampaignInput[]
+    createMany?: InvestmentCreateManyCampaignInputEnvelope
+    set?: InvestmentWhereUniqueInput | InvestmentWhereUniqueInput[]
+    disconnect?: InvestmentWhereUniqueInput | InvestmentWhereUniqueInput[]
+    delete?: InvestmentWhereUniqueInput | InvestmentWhereUniqueInput[]
+    connect?: InvestmentWhereUniqueInput | InvestmentWhereUniqueInput[]
+    update?: InvestmentUpdateWithWhereUniqueWithoutCampaignInput | InvestmentUpdateWithWhereUniqueWithoutCampaignInput[]
+    updateMany?: InvestmentUpdateManyWithWhereWithoutCampaignInput | InvestmentUpdateManyWithWhereWithoutCampaignInput[]
+    deleteMany?: InvestmentScalarWhereInput | InvestmentScalarWhereInput[]
+  }
+
+  export type AkadCreateNestedOneWithoutInvestmentInput = {
+    create?: XOR<AkadCreateWithoutInvestmentInput, AkadUncheckedCreateWithoutInvestmentInput>
+    connectOrCreate?: AkadCreateOrConnectWithoutInvestmentInput
+    connect?: AkadWhereUniqueInput
   }
 
   export type CampaignCreateNestedOneWithoutInvestmentsInput = {
@@ -33375,10 +34843,10 @@ export namespace Prisma {
     connect?: CampaignWhereUniqueInput
   }
 
-  export type AkadCreateNestedOneWithoutInvestmentInput = {
-    create?: XOR<AkadCreateWithoutInvestmentInput, AkadUncheckedCreateWithoutInvestmentInput>
-    connectOrCreate?: AkadCreateOrConnectWithoutInvestmentInput
-    connect?: AkadWhereUniqueInput
+  export type InvestorProfileCreateNestedOneWithoutInvestmentsInput = {
+    create?: XOR<InvestorProfileCreateWithoutInvestmentsInput, InvestorProfileUncheckedCreateWithoutInvestmentsInput>
+    connectOrCreate?: InvestorProfileCreateOrConnectWithoutInvestmentsInput
+    connect?: InvestorProfileWhereUniqueInput
   }
 
   export type ProfitSharingCreateNestedManyWithoutInvestmentInput = {
@@ -33405,12 +34873,14 @@ export namespace Prisma {
     set?: $Enums.InvestmentStatus
   }
 
-  export type InvestorProfileUpdateOneRequiredWithoutInvestmentsNestedInput = {
-    create?: XOR<InvestorProfileCreateWithoutInvestmentsInput, InvestorProfileUncheckedCreateWithoutInvestmentsInput>
-    connectOrCreate?: InvestorProfileCreateOrConnectWithoutInvestmentsInput
-    upsert?: InvestorProfileUpsertWithoutInvestmentsInput
-    connect?: InvestorProfileWhereUniqueInput
-    update?: XOR<XOR<InvestorProfileUpdateToOneWithWhereWithoutInvestmentsInput, InvestorProfileUpdateWithoutInvestmentsInput>, InvestorProfileUncheckedUpdateWithoutInvestmentsInput>
+  export type AkadUpdateOneWithoutInvestmentNestedInput = {
+    create?: XOR<AkadCreateWithoutInvestmentInput, AkadUncheckedCreateWithoutInvestmentInput>
+    connectOrCreate?: AkadCreateOrConnectWithoutInvestmentInput
+    upsert?: AkadUpsertWithoutInvestmentInput
+    disconnect?: AkadWhereInput | boolean
+    delete?: AkadWhereInput | boolean
+    connect?: AkadWhereUniqueInput
+    update?: XOR<XOR<AkadUpdateToOneWithWhereWithoutInvestmentInput, AkadUpdateWithoutInvestmentInput>, AkadUncheckedUpdateWithoutInvestmentInput>
   }
 
   export type CampaignUpdateOneRequiredWithoutInvestmentsNestedInput = {
@@ -33421,14 +34891,12 @@ export namespace Prisma {
     update?: XOR<XOR<CampaignUpdateToOneWithWhereWithoutInvestmentsInput, CampaignUpdateWithoutInvestmentsInput>, CampaignUncheckedUpdateWithoutInvestmentsInput>
   }
 
-  export type AkadUpdateOneWithoutInvestmentNestedInput = {
-    create?: XOR<AkadCreateWithoutInvestmentInput, AkadUncheckedCreateWithoutInvestmentInput>
-    connectOrCreate?: AkadCreateOrConnectWithoutInvestmentInput
-    upsert?: AkadUpsertWithoutInvestmentInput
-    disconnect?: AkadWhereInput | boolean
-    delete?: AkadWhereInput | boolean
-    connect?: AkadWhereUniqueInput
-    update?: XOR<XOR<AkadUpdateToOneWithWhereWithoutInvestmentInput, AkadUpdateWithoutInvestmentInput>, AkadUncheckedUpdateWithoutInvestmentInput>
+  export type InvestorProfileUpdateOneRequiredWithoutInvestmentsNestedInput = {
+    create?: XOR<InvestorProfileCreateWithoutInvestmentsInput, InvestorProfileUncheckedCreateWithoutInvestmentsInput>
+    connectOrCreate?: InvestorProfileCreateOrConnectWithoutInvestmentsInput
+    upsert?: InvestorProfileUpsertWithoutInvestmentsInput
+    connect?: InvestorProfileWhereUniqueInput
+    update?: XOR<XOR<InvestorProfileUpdateToOneWithWhereWithoutInvestmentsInput, InvestorProfileUpdateWithoutInvestmentsInput>, InvestorProfileUncheckedUpdateWithoutInvestmentsInput>
   }
 
   export type ProfitSharingUpdateManyWithoutInvestmentNestedInput = {
@@ -33481,13 +34949,6 @@ export namespace Prisma {
     connect?: InvestmentWhereUniqueInput
   }
 
-  export type ProfitSharingCreateNestedManyWithoutAkadInput = {
-    create?: XOR<ProfitSharingCreateWithoutAkadInput, ProfitSharingUncheckedCreateWithoutAkadInput> | ProfitSharingCreateWithoutAkadInput[] | ProfitSharingUncheckedCreateWithoutAkadInput[]
-    connectOrCreate?: ProfitSharingCreateOrConnectWithoutAkadInput | ProfitSharingCreateOrConnectWithoutAkadInput[]
-    createMany?: ProfitSharingCreateManyAkadInputEnvelope
-    connect?: ProfitSharingWhereUniqueInput | ProfitSharingWhereUniqueInput[]
-  }
-
   export type BlockchainTransactionCreateNestedManyWithoutAkadInput = {
     create?: XOR<BlockchainTransactionCreateWithoutAkadInput, BlockchainTransactionUncheckedCreateWithoutAkadInput> | BlockchainTransactionCreateWithoutAkadInput[] | BlockchainTransactionUncheckedCreateWithoutAkadInput[]
     connectOrCreate?: BlockchainTransactionCreateOrConnectWithoutAkadInput | BlockchainTransactionCreateOrConnectWithoutAkadInput[]
@@ -33495,7 +34956,7 @@ export namespace Prisma {
     connect?: BlockchainTransactionWhereUniqueInput | BlockchainTransactionWhereUniqueInput[]
   }
 
-  export type ProfitSharingUncheckedCreateNestedManyWithoutAkadInput = {
+  export type ProfitSharingCreateNestedManyWithoutAkadInput = {
     create?: XOR<ProfitSharingCreateWithoutAkadInput, ProfitSharingUncheckedCreateWithoutAkadInput> | ProfitSharingCreateWithoutAkadInput[] | ProfitSharingUncheckedCreateWithoutAkadInput[]
     connectOrCreate?: ProfitSharingCreateOrConnectWithoutAkadInput | ProfitSharingCreateOrConnectWithoutAkadInput[]
     createMany?: ProfitSharingCreateManyAkadInputEnvelope
@@ -33507,6 +34968,13 @@ export namespace Prisma {
     connectOrCreate?: BlockchainTransactionCreateOrConnectWithoutAkadInput | BlockchainTransactionCreateOrConnectWithoutAkadInput[]
     createMany?: BlockchainTransactionCreateManyAkadInputEnvelope
     connect?: BlockchainTransactionWhereUniqueInput | BlockchainTransactionWhereUniqueInput[]
+  }
+
+  export type ProfitSharingUncheckedCreateNestedManyWithoutAkadInput = {
+    create?: XOR<ProfitSharingCreateWithoutAkadInput, ProfitSharingUncheckedCreateWithoutAkadInput> | ProfitSharingCreateWithoutAkadInput[] | ProfitSharingUncheckedCreateWithoutAkadInput[]
+    connectOrCreate?: ProfitSharingCreateOrConnectWithoutAkadInput | ProfitSharingCreateOrConnectWithoutAkadInput[]
+    createMany?: ProfitSharingCreateManyAkadInputEnvelope
+    connect?: ProfitSharingWhereUniqueInput | ProfitSharingWhereUniqueInput[]
   }
 
   export type EnumAkadStatusFieldUpdateOperationsInput = {
@@ -33531,20 +34999,6 @@ export namespace Prisma {
     update?: XOR<XOR<InvestmentUpdateToOneWithWhereWithoutAkadInput, InvestmentUpdateWithoutAkadInput>, InvestmentUncheckedUpdateWithoutAkadInput>
   }
 
-  export type ProfitSharingUpdateManyWithoutAkadNestedInput = {
-    create?: XOR<ProfitSharingCreateWithoutAkadInput, ProfitSharingUncheckedCreateWithoutAkadInput> | ProfitSharingCreateWithoutAkadInput[] | ProfitSharingUncheckedCreateWithoutAkadInput[]
-    connectOrCreate?: ProfitSharingCreateOrConnectWithoutAkadInput | ProfitSharingCreateOrConnectWithoutAkadInput[]
-    upsert?: ProfitSharingUpsertWithWhereUniqueWithoutAkadInput | ProfitSharingUpsertWithWhereUniqueWithoutAkadInput[]
-    createMany?: ProfitSharingCreateManyAkadInputEnvelope
-    set?: ProfitSharingWhereUniqueInput | ProfitSharingWhereUniqueInput[]
-    disconnect?: ProfitSharingWhereUniqueInput | ProfitSharingWhereUniqueInput[]
-    delete?: ProfitSharingWhereUniqueInput | ProfitSharingWhereUniqueInput[]
-    connect?: ProfitSharingWhereUniqueInput | ProfitSharingWhereUniqueInput[]
-    update?: ProfitSharingUpdateWithWhereUniqueWithoutAkadInput | ProfitSharingUpdateWithWhereUniqueWithoutAkadInput[]
-    updateMany?: ProfitSharingUpdateManyWithWhereWithoutAkadInput | ProfitSharingUpdateManyWithWhereWithoutAkadInput[]
-    deleteMany?: ProfitSharingScalarWhereInput | ProfitSharingScalarWhereInput[]
-  }
-
   export type BlockchainTransactionUpdateManyWithoutAkadNestedInput = {
     create?: XOR<BlockchainTransactionCreateWithoutAkadInput, BlockchainTransactionUncheckedCreateWithoutAkadInput> | BlockchainTransactionCreateWithoutAkadInput[] | BlockchainTransactionUncheckedCreateWithoutAkadInput[]
     connectOrCreate?: BlockchainTransactionCreateOrConnectWithoutAkadInput | BlockchainTransactionCreateOrConnectWithoutAkadInput[]
@@ -33559,7 +35013,7 @@ export namespace Prisma {
     deleteMany?: BlockchainTransactionScalarWhereInput | BlockchainTransactionScalarWhereInput[]
   }
 
-  export type ProfitSharingUncheckedUpdateManyWithoutAkadNestedInput = {
+  export type ProfitSharingUpdateManyWithoutAkadNestedInput = {
     create?: XOR<ProfitSharingCreateWithoutAkadInput, ProfitSharingUncheckedCreateWithoutAkadInput> | ProfitSharingCreateWithoutAkadInput[] | ProfitSharingUncheckedCreateWithoutAkadInput[]
     connectOrCreate?: ProfitSharingCreateOrConnectWithoutAkadInput | ProfitSharingCreateOrConnectWithoutAkadInput[]
     upsert?: ProfitSharingUpsertWithWhereUniqueWithoutAkadInput | ProfitSharingUpsertWithWhereUniqueWithoutAkadInput[]
@@ -33585,6 +35039,20 @@ export namespace Prisma {
     update?: BlockchainTransactionUpdateWithWhereUniqueWithoutAkadInput | BlockchainTransactionUpdateWithWhereUniqueWithoutAkadInput[]
     updateMany?: BlockchainTransactionUpdateManyWithWhereWithoutAkadInput | BlockchainTransactionUpdateManyWithWhereWithoutAkadInput[]
     deleteMany?: BlockchainTransactionScalarWhereInput | BlockchainTransactionScalarWhereInput[]
+  }
+
+  export type ProfitSharingUncheckedUpdateManyWithoutAkadNestedInput = {
+    create?: XOR<ProfitSharingCreateWithoutAkadInput, ProfitSharingUncheckedCreateWithoutAkadInput> | ProfitSharingCreateWithoutAkadInput[] | ProfitSharingUncheckedCreateWithoutAkadInput[]
+    connectOrCreate?: ProfitSharingCreateOrConnectWithoutAkadInput | ProfitSharingCreateOrConnectWithoutAkadInput[]
+    upsert?: ProfitSharingUpsertWithWhereUniqueWithoutAkadInput | ProfitSharingUpsertWithWhereUniqueWithoutAkadInput[]
+    createMany?: ProfitSharingCreateManyAkadInputEnvelope
+    set?: ProfitSharingWhereUniqueInput | ProfitSharingWhereUniqueInput[]
+    disconnect?: ProfitSharingWhereUniqueInput | ProfitSharingWhereUniqueInput[]
+    delete?: ProfitSharingWhereUniqueInput | ProfitSharingWhereUniqueInput[]
+    connect?: ProfitSharingWhereUniqueInput | ProfitSharingWhereUniqueInput[]
+    update?: ProfitSharingUpdateWithWhereUniqueWithoutAkadInput | ProfitSharingUpdateWithWhereUniqueWithoutAkadInput[]
+    updateMany?: ProfitSharingUpdateManyWithWhereWithoutAkadInput | ProfitSharingUpdateManyWithWhereWithoutAkadInput[]
+    deleteMany?: ProfitSharingScalarWhereInput | ProfitSharingScalarWhereInput[]
   }
 
   export type AkadCreateNestedOneWithoutProfitSharingsInput = {
@@ -33619,12 +35087,6 @@ export namespace Prisma {
     update?: XOR<XOR<InvestmentUpdateToOneWithWhereWithoutProfitSharingsInput, InvestmentUpdateWithoutProfitSharingsInput>, InvestmentUncheckedUpdateWithoutProfitSharingsInput>
   }
 
-  export type UserCreateNestedOneWithoutWalletInput = {
-    create?: XOR<UserCreateWithoutWalletInput, UserUncheckedCreateWithoutWalletInput>
-    connectOrCreate?: UserCreateOrConnectWithoutWalletInput
-    connect?: UserWhereUniqueInput
-  }
-
   export type TransactionCreateNestedManyWithoutWalletInput = {
     create?: XOR<TransactionCreateWithoutWalletInput, TransactionUncheckedCreateWithoutWalletInput> | TransactionCreateWithoutWalletInput[] | TransactionUncheckedCreateWithoutWalletInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutWalletInput | TransactionCreateOrConnectWithoutWalletInput[]
@@ -33632,19 +35094,17 @@ export namespace Prisma {
     connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
   }
 
+  export type UserCreateNestedOneWithoutWalletInput = {
+    create?: XOR<UserCreateWithoutWalletInput, UserUncheckedCreateWithoutWalletInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWalletInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type TransactionUncheckedCreateNestedManyWithoutWalletInput = {
     create?: XOR<TransactionCreateWithoutWalletInput, TransactionUncheckedCreateWithoutWalletInput> | TransactionCreateWithoutWalletInput[] | TransactionUncheckedCreateWithoutWalletInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutWalletInput | TransactionCreateOrConnectWithoutWalletInput[]
     createMany?: TransactionCreateManyWalletInputEnvelope
     connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
-  }
-
-  export type UserUpdateOneRequiredWithoutWalletNestedInput = {
-    create?: XOR<UserCreateWithoutWalletInput, UserUncheckedCreateWithoutWalletInput>
-    connectOrCreate?: UserCreateOrConnectWithoutWalletInput
-    upsert?: UserUpsertWithoutWalletInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWalletInput, UserUpdateWithoutWalletInput>, UserUncheckedUpdateWithoutWalletInput>
   }
 
   export type TransactionUpdateManyWithoutWalletNestedInput = {
@@ -33661,6 +35121,14 @@ export namespace Prisma {
     deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
   }
 
+  export type UserUpdateOneRequiredWithoutWalletNestedInput = {
+    create?: XOR<UserCreateWithoutWalletInput, UserUncheckedCreateWithoutWalletInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWalletInput
+    upsert?: UserUpsertWithoutWalletInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWalletInput, UserUpdateWithoutWalletInput>, UserUncheckedUpdateWithoutWalletInput>
+  }
+
   export type TransactionUncheckedUpdateManyWithoutWalletNestedInput = {
     create?: XOR<TransactionCreateWithoutWalletInput, TransactionUncheckedCreateWithoutWalletInput> | TransactionCreateWithoutWalletInput[] | TransactionUncheckedCreateWithoutWalletInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutWalletInput | TransactionCreateOrConnectWithoutWalletInput[]
@@ -33675,16 +35143,16 @@ export namespace Prisma {
     deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
   }
 
-  export type WalletCreateNestedOneWithoutTransactionsInput = {
-    create?: XOR<WalletCreateWithoutTransactionsInput, WalletUncheckedCreateWithoutTransactionsInput>
-    connectOrCreate?: WalletCreateOrConnectWithoutTransactionsInput
-    connect?: WalletWhereUniqueInput
-  }
-
   export type FraudAlertCreateNestedOneWithoutTransactionInput = {
     create?: XOR<FraudAlertCreateWithoutTransactionInput, FraudAlertUncheckedCreateWithoutTransactionInput>
     connectOrCreate?: FraudAlertCreateOrConnectWithoutTransactionInput
     connect?: FraudAlertWhereUniqueInput
+  }
+
+  export type WalletCreateNestedOneWithoutTransactionsInput = {
+    create?: XOR<WalletCreateWithoutTransactionsInput, WalletUncheckedCreateWithoutTransactionsInput>
+    connectOrCreate?: WalletCreateOrConnectWithoutTransactionsInput
+    connect?: WalletWhereUniqueInput
   }
 
   export type FraudAlertUncheckedCreateNestedOneWithoutTransactionInput = {
@@ -33701,14 +35169,6 @@ export namespace Prisma {
     set?: $Enums.TransactionStatus
   }
 
-  export type WalletUpdateOneRequiredWithoutTransactionsNestedInput = {
-    create?: XOR<WalletCreateWithoutTransactionsInput, WalletUncheckedCreateWithoutTransactionsInput>
-    connectOrCreate?: WalletCreateOrConnectWithoutTransactionsInput
-    upsert?: WalletUpsertWithoutTransactionsInput
-    connect?: WalletWhereUniqueInput
-    update?: XOR<XOR<WalletUpdateToOneWithWhereWithoutTransactionsInput, WalletUpdateWithoutTransactionsInput>, WalletUncheckedUpdateWithoutTransactionsInput>
-  }
-
   export type FraudAlertUpdateOneWithoutTransactionNestedInput = {
     create?: XOR<FraudAlertCreateWithoutTransactionInput, FraudAlertUncheckedCreateWithoutTransactionInput>
     connectOrCreate?: FraudAlertCreateOrConnectWithoutTransactionInput
@@ -33717,6 +35177,14 @@ export namespace Prisma {
     delete?: FraudAlertWhereInput | boolean
     connect?: FraudAlertWhereUniqueInput
     update?: XOR<XOR<FraudAlertUpdateToOneWithWhereWithoutTransactionInput, FraudAlertUpdateWithoutTransactionInput>, FraudAlertUncheckedUpdateWithoutTransactionInput>
+  }
+
+  export type WalletUpdateOneRequiredWithoutTransactionsNestedInput = {
+    create?: XOR<WalletCreateWithoutTransactionsInput, WalletUncheckedCreateWithoutTransactionsInput>
+    connectOrCreate?: WalletCreateOrConnectWithoutTransactionsInput
+    upsert?: WalletUpsertWithoutTransactionsInput
+    connect?: WalletWhereUniqueInput
+    update?: XOR<XOR<WalletUpdateToOneWithWhereWithoutTransactionsInput, WalletUpdateWithoutTransactionsInput>, WalletUncheckedUpdateWithoutTransactionsInput>
   }
 
   export type FraudAlertUncheckedUpdateOneWithoutTransactionNestedInput = {
@@ -33773,28 +35241,20 @@ export namespace Prisma {
     update?: XOR<XOR<TransactionUpdateToOneWithWhereWithoutFraudAlertInput, TransactionUpdateWithoutFraudAlertInput>, TransactionUncheckedUpdateWithoutFraudAlertInput>
   }
 
-  export type UserCreateNestedOneWithoutNotificationsInput = {
-    create?: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutNotificationsInput
-    connect?: UserWhereUniqueInput
-  }
-
   export type UserCreateNestedOneWithoutSentNotificationsInput = {
     create?: XOR<UserCreateWithoutSentNotificationsInput, UserUncheckedCreateWithoutSentNotificationsInput>
     connectOrCreate?: UserCreateOrConnectWithoutSentNotificationsInput
     connect?: UserWhereUniqueInput
   }
 
-  export type EnumNotificationTypeFieldUpdateOperationsInput = {
-    set?: $Enums.NotificationType
-  }
-
-  export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
+  export type UserCreateNestedOneWithoutNotificationsInput = {
     create?: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
     connectOrCreate?: UserCreateOrConnectWithoutNotificationsInput
-    upsert?: UserUpsertWithoutNotificationsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotificationsInput, UserUpdateWithoutNotificationsInput>, UserUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type EnumNotificationTypeFieldUpdateOperationsInput = {
+    set?: $Enums.NotificationType
   }
 
   export type UserUpdateOneWithoutSentNotificationsNestedInput = {
@@ -33805,6 +35265,14 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSentNotificationsInput, UserUpdateWithoutSentNotificationsInput>, UserUncheckedUpdateWithoutSentNotificationsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
+    create?: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNotificationsInput
+    upsert?: UserUpsertWithoutNotificationsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotificationsInput, UserUpdateWithoutNotificationsInput>, UserUncheckedUpdateWithoutNotificationsInput>
   }
 
   export type UmkmProfileCreateNestedOneWithoutBusinessUpdatesInput = {
@@ -33853,6 +35321,20 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAuditLogsInput, UserUpdateWithoutAuditLogsInput>, UserUncheckedUpdateWithoutAuditLogsInput>
+  }
+
+  export type UserCreateNestedOneWithoutBeritasInput = {
+    create?: XOR<UserCreateWithoutBeritasInput, UserUncheckedCreateWithoutBeritasInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBeritasInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutBeritasNestedInput = {
+    create?: XOR<UserCreateWithoutBeritasInput, UserUncheckedCreateWithoutBeritasInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBeritasInput
+    upsert?: UserUpsertWithoutBeritasInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBeritasInput, UserUpdateWithoutBeritasInput>, UserUncheckedUpdateWithoutBeritasInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -34464,6 +35946,40 @@ export namespace Prisma {
     create: XOR<AdminProfileCreateWithoutUserInput, AdminProfileUncheckedCreateWithoutUserInput>
   }
 
+  export type AuditLogCreateWithoutUserInput = {
+    id?: string
+    action: string
+    entityType?: string | null
+    entityId?: string | null
+    oldData?: NullableJsonNullValueInput | InputJsonValue
+    newData?: NullableJsonNullValueInput | InputJsonValue
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AuditLogUncheckedCreateWithoutUserInput = {
+    id?: string
+    action: string
+    entityType?: string | null
+    entityId?: string | null
+    oldData?: NullableJsonNullValueInput | InputJsonValue
+    newData?: NullableJsonNullValueInput | InputJsonValue
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AuditLogCreateOrConnectWithoutUserInput = {
+    where: AuditLogWhereUniqueInput
+    create: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput>
+  }
+
+  export type AuditLogCreateManyUserInputEnvelope = {
+    data: AuditLogCreateManyUserInput | AuditLogCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type InvestorProfileCreateWithoutUserInput = {
     id?: string
     fullName: string
@@ -34501,80 +36017,6 @@ export namespace Prisma {
     create: XOR<InvestorProfileCreateWithoutUserInput, InvestorProfileUncheckedCreateWithoutUserInput>
   }
 
-  export type UmkmProfileCreateWithoutUserInput = {
-    id?: string
-    ownerName: string
-    businessName: string
-    businessCategory: string
-    businessDescription?: string | null
-    location?: string | null
-    city?: string | null
-    province?: string | null
-    establishedDate?: Date | string | null
-    employeeCount?: number | null
-    monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
-    website?: string | null
-    socialMedia?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
-    businessData?: BusinessDataCreateNestedManyWithoutUmkmProfileInput
-    fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
-    campaigns?: CampaignCreateNestedManyWithoutUmkmProfileInput
-    businessUpdates?: BusinessUpdateCreateNestedManyWithoutUmkmProfileInput
-  }
-
-  export type UmkmProfileUncheckedCreateWithoutUserInput = {
-    id?: string
-    ownerName: string
-    businessName: string
-    businessCategory: string
-    businessDescription?: string | null
-    location?: string | null
-    city?: string | null
-    province?: string | null
-    establishedDate?: Date | string | null
-    employeeCount?: number | null
-    monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
-    website?: string | null
-    socialMedia?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
-    businessData?: BusinessDataUncheckedCreateNestedManyWithoutUmkmProfileInput
-    fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
-    campaigns?: CampaignUncheckedCreateNestedManyWithoutUmkmProfileInput
-    businessUpdates?: BusinessUpdateUncheckedCreateNestedManyWithoutUmkmProfileInput
-  }
-
-  export type UmkmProfileCreateOrConnectWithoutUserInput = {
-    where: UmkmProfileWhereUniqueInput
-    create: XOR<UmkmProfileCreateWithoutUserInput, UmkmProfileUncheckedCreateWithoutUserInput>
-  }
-
-  export type WalletCreateWithoutUserInput = {
-    id?: string
-    balance?: Decimal | DecimalJsLike | number | string
-    lockedBalance?: Decimal | DecimalJsLike | number | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    transactions?: TransactionCreateNestedManyWithoutWalletInput
-  }
-
-  export type WalletUncheckedCreateWithoutUserInput = {
-    id?: string
-    balance?: Decimal | DecimalJsLike | number | string
-    lockedBalance?: Decimal | DecimalJsLike | number | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    transactions?: TransactionUncheckedCreateNestedManyWithoutWalletInput
-  }
-
-  export type WalletCreateOrConnectWithoutUserInput = {
-    where: WalletWhereUniqueInput
-    create: XOR<WalletCreateWithoutUserInput, WalletUncheckedCreateWithoutUserInput>
-  }
-
   export type KycDocumentCreateWithoutUserInput = {
     id?: string
     documentType: string
@@ -34606,40 +36048,6 @@ export namespace Prisma {
 
   export type KycDocumentCreateManyUserInputEnvelope = {
     data: KycDocumentCreateManyUserInput | KycDocumentCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type NotificationCreateWithoutUserInput = {
-    id?: string
-    type: $Enums.NotificationType
-    title: string
-    message: string
-    isRead?: boolean
-    readAt?: Date | string | null
-    data?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    sender?: UserCreateNestedOneWithoutSentNotificationsInput
-  }
-
-  export type NotificationUncheckedCreateWithoutUserInput = {
-    id?: string
-    senderId?: string | null
-    type: $Enums.NotificationType
-    title: string
-    message: string
-    isRead?: boolean
-    readAt?: Date | string | null
-    data?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-  }
-
-  export type NotificationCreateOrConnectWithoutUserInput = {
-    where: NotificationWhereUniqueInput
-    create: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput>
-  }
-
-  export type NotificationCreateManyUserInputEnvelope = {
-    data: NotificationCreateManyUserInput | NotificationCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -34677,6 +36085,40 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type NotificationCreateWithoutUserInput = {
+    id?: string
+    type: $Enums.NotificationType
+    title: string
+    message: string
+    isRead?: boolean
+    readAt?: Date | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    sender?: UserCreateNestedOneWithoutSentNotificationsInput
+  }
+
+  export type NotificationUncheckedCreateWithoutUserInput = {
+    id?: string
+    senderId?: string | null
+    type: $Enums.NotificationType
+    title: string
+    message: string
+    isRead?: boolean
+    readAt?: Date | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type NotificationCreateOrConnectWithoutUserInput = {
+    where: NotificationWhereUniqueInput
+    create: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput>
+  }
+
+  export type NotificationCreateManyUserInputEnvelope = {
+    data: NotificationCreateManyUserInput | NotificationCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type OtpVerificationCreateWithoutUserInput = {
     id?: string
     otp: string
@@ -34707,37 +36149,115 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type AuditLogCreateWithoutUserInput = {
+  export type UmkmProfileCreateWithoutUserInput = {
     id?: string
-    action: string
-    entityType?: string | null
-    entityId?: string | null
-    oldData?: NullableJsonNullValueInput | InputJsonValue
-    newData?: NullableJsonNullValueInput | InputJsonValue
-    ipAddress?: string | null
-    userAgent?: string | null
+    ownerName: string
+    businessName: string
+    businessCategory: string
+    businessDescription?: string | null
+    location?: string | null
+    city?: string | null
+    province?: string | null
+    establishedDate?: Date | string | null
+    employeeCount?: number | null
+    monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
+    website?: string | null
+    socialMedia?: string | null
     createdAt?: Date | string
+    updatedAt?: Date | string
+    businessData?: BusinessDataCreateNestedManyWithoutUmkmProfileInput
+    businessUpdates?: BusinessUpdateCreateNestedManyWithoutUmkmProfileInput
+    campaigns?: CampaignCreateNestedManyWithoutUmkmProfileInput
+    creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
+    fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
   }
 
-  export type AuditLogUncheckedCreateWithoutUserInput = {
+  export type UmkmProfileUncheckedCreateWithoutUserInput = {
     id?: string
-    action: string
-    entityType?: string | null
-    entityId?: string | null
-    oldData?: NullableJsonNullValueInput | InputJsonValue
-    newData?: NullableJsonNullValueInput | InputJsonValue
-    ipAddress?: string | null
-    userAgent?: string | null
+    ownerName: string
+    businessName: string
+    businessCategory: string
+    businessDescription?: string | null
+    location?: string | null
+    city?: string | null
+    province?: string | null
+    establishedDate?: Date | string | null
+    employeeCount?: number | null
+    monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
+    website?: string | null
+    socialMedia?: string | null
     createdAt?: Date | string
+    updatedAt?: Date | string
+    businessData?: BusinessDataUncheckedCreateNestedManyWithoutUmkmProfileInput
+    businessUpdates?: BusinessUpdateUncheckedCreateNestedManyWithoutUmkmProfileInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutUmkmProfileInput
+    creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
+    fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
   }
 
-  export type AuditLogCreateOrConnectWithoutUserInput = {
-    where: AuditLogWhereUniqueInput
-    create: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput>
+  export type UmkmProfileCreateOrConnectWithoutUserInput = {
+    where: UmkmProfileWhereUniqueInput
+    create: XOR<UmkmProfileCreateWithoutUserInput, UmkmProfileUncheckedCreateWithoutUserInput>
   }
 
-  export type AuditLogCreateManyUserInputEnvelope = {
-    data: AuditLogCreateManyUserInput | AuditLogCreateManyUserInput[]
+  export type WalletCreateWithoutUserInput = {
+    id?: string
+    balance?: Decimal | DecimalJsLike | number | string
+    lockedBalance?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    transactions?: TransactionCreateNestedManyWithoutWalletInput
+  }
+
+  export type WalletUncheckedCreateWithoutUserInput = {
+    id?: string
+    balance?: Decimal | DecimalJsLike | number | string
+    lockedBalance?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    transactions?: TransactionUncheckedCreateNestedManyWithoutWalletInput
+  }
+
+  export type WalletCreateOrConnectWithoutUserInput = {
+    where: WalletWhereUniqueInput
+    create: XOR<WalletCreateWithoutUserInput, WalletUncheckedCreateWithoutUserInput>
+  }
+
+  export type BeritaCreateWithoutAuthorInput = {
+    id?: string
+    title: string
+    slug: string
+    excerpt: string
+    content: string
+    coverImage?: string | null
+    category?: string | null
+    isPublished?: boolean
+    publishedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BeritaUncheckedCreateWithoutAuthorInput = {
+    id?: string
+    title: string
+    slug: string
+    excerpt: string
+    content: string
+    coverImage?: string | null
+    category?: string | null
+    isPublished?: boolean
+    publishedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BeritaCreateOrConnectWithoutAuthorInput = {
+    where: BeritaWhereUniqueInput
+    create: XOR<BeritaCreateWithoutAuthorInput, BeritaUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type BeritaCreateManyAuthorInputEnvelope = {
+    data: BeritaCreateManyAuthorInput | BeritaCreateManyAuthorInput[]
     skipDuplicates?: boolean
   }
 
@@ -34768,6 +36288,38 @@ export namespace Prisma {
     department?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuditLogUpsertWithWhereUniqueWithoutUserInput = {
+    where: AuditLogWhereUniqueInput
+    update: XOR<AuditLogUpdateWithoutUserInput, AuditLogUncheckedUpdateWithoutUserInput>
+    create: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput>
+  }
+
+  export type AuditLogUpdateWithWhereUniqueWithoutUserInput = {
+    where: AuditLogWhereUniqueInput
+    data: XOR<AuditLogUpdateWithoutUserInput, AuditLogUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AuditLogUpdateManyWithWhereWithoutUserInput = {
+    where: AuditLogScalarWhereInput
+    data: XOR<AuditLogUpdateManyMutationInput, AuditLogUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type AuditLogScalarWhereInput = {
+    AND?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
+    OR?: AuditLogScalarWhereInput[]
+    NOT?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
+    id?: StringFilter<"AuditLog"> | string
+    userId?: StringNullableFilter<"AuditLog"> | string | null
+    action?: StringFilter<"AuditLog"> | string
+    entityType?: StringNullableFilter<"AuditLog"> | string | null
+    entityId?: StringNullableFilter<"AuditLog"> | string | null
+    oldData?: JsonNullableFilter<"AuditLog">
+    newData?: JsonNullableFilter<"AuditLog">
+    ipAddress?: StringNullableFilter<"AuditLog"> | string | null
+    userAgent?: StringNullableFilter<"AuditLog"> | string | null
+    createdAt?: DateTimeFilter<"AuditLog"> | Date | string
   }
 
   export type InvestorProfileUpsertWithoutUserInput = {
@@ -34813,92 +36365,6 @@ export namespace Prisma {
     investments?: InvestmentUncheckedUpdateManyWithoutInvestorProfileNestedInput
   }
 
-  export type UmkmProfileUpsertWithoutUserInput = {
-    update: XOR<UmkmProfileUpdateWithoutUserInput, UmkmProfileUncheckedUpdateWithoutUserInput>
-    create: XOR<UmkmProfileCreateWithoutUserInput, UmkmProfileUncheckedCreateWithoutUserInput>
-    where?: UmkmProfileWhereInput
-  }
-
-  export type UmkmProfileUpdateToOneWithWhereWithoutUserInput = {
-    where?: UmkmProfileWhereInput
-    data: XOR<UmkmProfileUpdateWithoutUserInput, UmkmProfileUncheckedUpdateWithoutUserInput>
-  }
-
-  export type UmkmProfileUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    ownerName?: StringFieldUpdateOperationsInput | string
-    businessName?: StringFieldUpdateOperationsInput | string
-    businessCategory?: StringFieldUpdateOperationsInput | string
-    businessDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    province?: NullableStringFieldUpdateOperationsInput | string | null
-    establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
-    monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    website?: NullableStringFieldUpdateOperationsInput | string | null
-    socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
-    businessData?: BusinessDataUpdateManyWithoutUmkmProfileNestedInput
-    fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
-    campaigns?: CampaignUpdateManyWithoutUmkmProfileNestedInput
-    businessUpdates?: BusinessUpdateUpdateManyWithoutUmkmProfileNestedInput
-  }
-
-  export type UmkmProfileUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    ownerName?: StringFieldUpdateOperationsInput | string
-    businessName?: StringFieldUpdateOperationsInput | string
-    businessCategory?: StringFieldUpdateOperationsInput | string
-    businessDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    province?: NullableStringFieldUpdateOperationsInput | string | null
-    establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
-    monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    website?: NullableStringFieldUpdateOperationsInput | string | null
-    socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
-    businessData?: BusinessDataUncheckedUpdateManyWithoutUmkmProfileNestedInput
-    fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
-    campaigns?: CampaignUncheckedUpdateManyWithoutUmkmProfileNestedInput
-    businessUpdates?: BusinessUpdateUncheckedUpdateManyWithoutUmkmProfileNestedInput
-  }
-
-  export type WalletUpsertWithoutUserInput = {
-    update: XOR<WalletUpdateWithoutUserInput, WalletUncheckedUpdateWithoutUserInput>
-    create: XOR<WalletCreateWithoutUserInput, WalletUncheckedCreateWithoutUserInput>
-    where?: WalletWhereInput
-  }
-
-  export type WalletUpdateToOneWithWhereWithoutUserInput = {
-    where?: WalletWhereInput
-    data: XOR<WalletUpdateWithoutUserInput, WalletUncheckedUpdateWithoutUserInput>
-  }
-
-  export type WalletUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    lockedBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    transactions?: TransactionUpdateManyWithoutWalletNestedInput
-  }
-
-  export type WalletUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    lockedBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    transactions?: TransactionUncheckedUpdateManyWithoutWalletNestedInput
-  }
-
   export type KycDocumentUpsertWithWhereUniqueWithoutUserInput = {
     where: KycDocumentWhereUniqueInput
     update: XOR<KycDocumentUpdateWithoutUserInput, KycDocumentUncheckedUpdateWithoutUserInput>
@@ -34931,20 +36397,20 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"KycDocument"> | Date | string
   }
 
-  export type NotificationUpsertWithWhereUniqueWithoutUserInput = {
+  export type NotificationUpsertWithWhereUniqueWithoutSenderInput = {
     where: NotificationWhereUniqueInput
-    update: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
-    create: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput>
+    update: XOR<NotificationUpdateWithoutSenderInput, NotificationUncheckedUpdateWithoutSenderInput>
+    create: XOR<NotificationCreateWithoutSenderInput, NotificationUncheckedCreateWithoutSenderInput>
   }
 
-  export type NotificationUpdateWithWhereUniqueWithoutUserInput = {
+  export type NotificationUpdateWithWhereUniqueWithoutSenderInput = {
     where: NotificationWhereUniqueInput
-    data: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
+    data: XOR<NotificationUpdateWithoutSenderInput, NotificationUncheckedUpdateWithoutSenderInput>
   }
 
-  export type NotificationUpdateManyWithWhereWithoutUserInput = {
+  export type NotificationUpdateManyWithWhereWithoutSenderInput = {
     where: NotificationScalarWhereInput
-    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutUserInput>
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutSenderInput>
   }
 
   export type NotificationScalarWhereInput = {
@@ -34963,20 +36429,20 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Notification"> | Date | string
   }
 
-  export type NotificationUpsertWithWhereUniqueWithoutSenderInput = {
+  export type NotificationUpsertWithWhereUniqueWithoutUserInput = {
     where: NotificationWhereUniqueInput
-    update: XOR<NotificationUpdateWithoutSenderInput, NotificationUncheckedUpdateWithoutSenderInput>
-    create: XOR<NotificationCreateWithoutSenderInput, NotificationUncheckedCreateWithoutSenderInput>
+    update: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
+    create: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput>
   }
 
-  export type NotificationUpdateWithWhereUniqueWithoutSenderInput = {
+  export type NotificationUpdateWithWhereUniqueWithoutUserInput = {
     where: NotificationWhereUniqueInput
-    data: XOR<NotificationUpdateWithoutSenderInput, NotificationUncheckedUpdateWithoutSenderInput>
+    data: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
   }
 
-  export type NotificationUpdateManyWithWhereWithoutSenderInput = {
+  export type NotificationUpdateManyWithWhereWithoutUserInput = {
     where: NotificationScalarWhereInput
-    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutSenderInput>
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutUserInput>
   }
 
   export type OtpVerificationUpsertWithWhereUniqueWithoutUserInput = {
@@ -35009,36 +36475,124 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"OtpVerification"> | Date | string
   }
 
-  export type AuditLogUpsertWithWhereUniqueWithoutUserInput = {
-    where: AuditLogWhereUniqueInput
-    update: XOR<AuditLogUpdateWithoutUserInput, AuditLogUncheckedUpdateWithoutUserInput>
-    create: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput>
+  export type UmkmProfileUpsertWithoutUserInput = {
+    update: XOR<UmkmProfileUpdateWithoutUserInput, UmkmProfileUncheckedUpdateWithoutUserInput>
+    create: XOR<UmkmProfileCreateWithoutUserInput, UmkmProfileUncheckedCreateWithoutUserInput>
+    where?: UmkmProfileWhereInput
   }
 
-  export type AuditLogUpdateWithWhereUniqueWithoutUserInput = {
-    where: AuditLogWhereUniqueInput
-    data: XOR<AuditLogUpdateWithoutUserInput, AuditLogUncheckedUpdateWithoutUserInput>
+  export type UmkmProfileUpdateToOneWithWhereWithoutUserInput = {
+    where?: UmkmProfileWhereInput
+    data: XOR<UmkmProfileUpdateWithoutUserInput, UmkmProfileUncheckedUpdateWithoutUserInput>
   }
 
-  export type AuditLogUpdateManyWithWhereWithoutUserInput = {
-    where: AuditLogScalarWhereInput
-    data: XOR<AuditLogUpdateManyMutationInput, AuditLogUncheckedUpdateManyWithoutUserInput>
+  export type UmkmProfileUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerName?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    businessCategory?: StringFieldUpdateOperationsInput | string
+    businessDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    province?: NullableStringFieldUpdateOperationsInput | string | null
+    establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
+    monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    businessData?: BusinessDataUpdateManyWithoutUmkmProfileNestedInput
+    businessUpdates?: BusinessUpdateUpdateManyWithoutUmkmProfileNestedInput
+    campaigns?: CampaignUpdateManyWithoutUmkmProfileNestedInput
+    creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
+    fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
   }
 
-  export type AuditLogScalarWhereInput = {
-    AND?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
-    OR?: AuditLogScalarWhereInput[]
-    NOT?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
-    id?: StringFilter<"AuditLog"> | string
-    userId?: StringNullableFilter<"AuditLog"> | string | null
-    action?: StringFilter<"AuditLog"> | string
-    entityType?: StringNullableFilter<"AuditLog"> | string | null
-    entityId?: StringNullableFilter<"AuditLog"> | string | null
-    oldData?: JsonNullableFilter<"AuditLog">
-    newData?: JsonNullableFilter<"AuditLog">
-    ipAddress?: StringNullableFilter<"AuditLog"> | string | null
-    userAgent?: StringNullableFilter<"AuditLog"> | string | null
-    createdAt?: DateTimeFilter<"AuditLog"> | Date | string
+  export type UmkmProfileUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerName?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    businessCategory?: StringFieldUpdateOperationsInput | string
+    businessDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    province?: NullableStringFieldUpdateOperationsInput | string | null
+    establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
+    monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    businessData?: BusinessDataUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    businessUpdates?: BusinessUpdateUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
+  }
+
+  export type WalletUpsertWithoutUserInput = {
+    update: XOR<WalletUpdateWithoutUserInput, WalletUncheckedUpdateWithoutUserInput>
+    create: XOR<WalletCreateWithoutUserInput, WalletUncheckedCreateWithoutUserInput>
+    where?: WalletWhereInput
+  }
+
+  export type WalletUpdateToOneWithWhereWithoutUserInput = {
+    where?: WalletWhereInput
+    data: XOR<WalletUpdateWithoutUserInput, WalletUncheckedUpdateWithoutUserInput>
+  }
+
+  export type WalletUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    lockedBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transactions?: TransactionUpdateManyWithoutWalletNestedInput
+  }
+
+  export type WalletUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    lockedBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transactions?: TransactionUncheckedUpdateManyWithoutWalletNestedInput
+  }
+
+  export type BeritaUpsertWithWhereUniqueWithoutAuthorInput = {
+    where: BeritaWhereUniqueInput
+    update: XOR<BeritaUpdateWithoutAuthorInput, BeritaUncheckedUpdateWithoutAuthorInput>
+    create: XOR<BeritaCreateWithoutAuthorInput, BeritaUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type BeritaUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: BeritaWhereUniqueInput
+    data: XOR<BeritaUpdateWithoutAuthorInput, BeritaUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type BeritaUpdateManyWithWhereWithoutAuthorInput = {
+    where: BeritaScalarWhereInput
+    data: XOR<BeritaUpdateManyMutationInput, BeritaUncheckedUpdateManyWithoutAuthorInput>
+  }
+
+  export type BeritaScalarWhereInput = {
+    AND?: BeritaScalarWhereInput | BeritaScalarWhereInput[]
+    OR?: BeritaScalarWhereInput[]
+    NOT?: BeritaScalarWhereInput | BeritaScalarWhereInput[]
+    id?: StringFilter<"Berita"> | string
+    title?: StringFilter<"Berita"> | string
+    slug?: StringFilter<"Berita"> | string
+    excerpt?: StringFilter<"Berita"> | string
+    content?: StringFilter<"Berita"> | string
+    coverImage?: StringNullableFilter<"Berita"> | string | null
+    category?: StringNullableFilter<"Berita"> | string | null
+    authorId?: StringFilter<"Berita"> | string
+    isPublished?: BoolFilter<"Berita"> | boolean
+    publishedAt?: DateTimeNullableFilter<"Berita"> | Date | string | null
+    createdAt?: DateTimeFilter<"Berita"> | Date | string
+    updatedAt?: DateTimeFilter<"Berita"> | Date | string
   }
 
   export type UserCreateWithoutAdminProfileInput = {
@@ -35054,14 +36608,15 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+    kycDocuments?: KycDocumentCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    otpVerifications?: OtpVerificationCreateNestedManyWithoutUserInput
     umkmProfile?: UmkmProfileCreateNestedOneWithoutUserInput
     wallet?: WalletCreateNestedOneWithoutUserInput
-    kycDocuments?: KycDocumentCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
-    otpVerifications?: OtpVerificationCreateNestedManyWithoutUserInput
-    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    beritas?: BeritaCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutAdminProfileInput = {
@@ -35077,14 +36632,15 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+    kycDocuments?: KycDocumentUncheckedCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    otpVerifications?: OtpVerificationUncheckedCreateNestedManyWithoutUserInput
     umkmProfile?: UmkmProfileUncheckedCreateNestedOneWithoutUserInput
     wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
-    kycDocuments?: KycDocumentUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
-    otpVerifications?: OtpVerificationUncheckedCreateNestedManyWithoutUserInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    beritas?: BeritaUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutAdminProfileInput = {
@@ -35116,14 +36672,15 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+    kycDocuments?: KycDocumentUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    otpVerifications?: OtpVerificationUpdateManyWithoutUserNestedInput
     umkmProfile?: UmkmProfileUpdateOneWithoutUserNestedInput
     wallet?: WalletUpdateOneWithoutUserNestedInput
-    kycDocuments?: KycDocumentUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
-    otpVerifications?: OtpVerificationUpdateManyWithoutUserNestedInput
-    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    beritas?: BeritaUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAdminProfileInput = {
@@ -35139,65 +36696,15 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
+    kycDocuments?: KycDocumentUncheckedUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    otpVerifications?: OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
     umkmProfile?: UmkmProfileUncheckedUpdateOneWithoutUserNestedInput
     wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
-    kycDocuments?: KycDocumentUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
-    otpVerifications?: OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
-    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserCreateWithoutInvestorProfileInput = {
-    id?: string
-    email?: string | null
-    phoneNumber: string
-    passwordHash?: string | null
-    role: $Enums.Role
-    status?: $Enums.UserStatus
-    kycStatus?: $Enums.KycStatus
-    isEmailVerified?: boolean
-    isPhoneVerified?: boolean
-    lastLoginAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    adminProfile?: AdminProfileCreateNestedOneWithoutUserInput
-    umkmProfile?: UmkmProfileCreateNestedOneWithoutUserInput
-    wallet?: WalletCreateNestedOneWithoutUserInput
-    kycDocuments?: KycDocumentCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
-    otpVerifications?: OtpVerificationCreateNestedManyWithoutUserInput
-    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutInvestorProfileInput = {
-    id?: string
-    email?: string | null
-    phoneNumber: string
-    passwordHash?: string | null
-    role: $Enums.Role
-    status?: $Enums.UserStatus
-    kycStatus?: $Enums.KycStatus
-    isEmailVerified?: boolean
-    isPhoneVerified?: boolean
-    lastLoginAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    adminProfile?: AdminProfileUncheckedCreateNestedOneWithoutUserInput
-    umkmProfile?: UmkmProfileUncheckedCreateNestedOneWithoutUserInput
-    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
-    kycDocuments?: KycDocumentUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
-    otpVerifications?: OtpVerificationUncheckedCreateNestedManyWithoutUserInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutInvestorProfileInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutInvestorProfileInput, UserUncheckedCreateWithoutInvestorProfileInput>
+    beritas?: BeritaUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type InvestmentCreateWithoutInvestorProfileInput = {
@@ -35210,8 +36717,8 @@ export namespace Prisma {
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    campaign: CampaignCreateNestedOneWithoutInvestmentsInput
     akad?: AkadCreateNestedOneWithoutInvestmentInput
+    campaign: CampaignCreateNestedOneWithoutInvestmentsInput
     profitSharings?: ProfitSharingCreateNestedManyWithoutInvestmentInput
   }
 
@@ -35240,61 +36747,57 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type UserUpsertWithoutInvestorProfileInput = {
-    update: XOR<UserUpdateWithoutInvestorProfileInput, UserUncheckedUpdateWithoutInvestorProfileInput>
+  export type UserCreateWithoutInvestorProfileInput = {
+    id?: string
+    email?: string | null
+    phoneNumber: string
+    passwordHash?: string | null
+    role: $Enums.Role
+    status?: $Enums.UserStatus
+    kycStatus?: $Enums.KycStatus
+    isEmailVerified?: boolean
+    isPhoneVerified?: boolean
+    lastLoginAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    adminProfile?: AdminProfileCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    kycDocuments?: KycDocumentCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    otpVerifications?: OtpVerificationCreateNestedManyWithoutUserInput
+    umkmProfile?: UmkmProfileCreateNestedOneWithoutUserInput
+    wallet?: WalletCreateNestedOneWithoutUserInput
+    beritas?: BeritaCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateWithoutInvestorProfileInput = {
+    id?: string
+    email?: string | null
+    phoneNumber: string
+    passwordHash?: string | null
+    role: $Enums.Role
+    status?: $Enums.UserStatus
+    kycStatus?: $Enums.KycStatus
+    isEmailVerified?: boolean
+    isPhoneVerified?: boolean
+    lastLoginAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    adminProfile?: AdminProfileUncheckedCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    kycDocuments?: KycDocumentUncheckedCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    otpVerifications?: OtpVerificationUncheckedCreateNestedManyWithoutUserInput
+    umkmProfile?: UmkmProfileUncheckedCreateNestedOneWithoutUserInput
+    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
+    beritas?: BeritaUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserCreateOrConnectWithoutInvestorProfileInput = {
+    where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutInvestorProfileInput, UserUncheckedCreateWithoutInvestorProfileInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutInvestorProfileInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutInvestorProfileInput, UserUncheckedUpdateWithoutInvestorProfileInput>
-  }
-
-  export type UserUpdateWithoutInvestorProfileInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    phoneNumber?: StringFieldUpdateOperationsInput | string
-    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    kycStatus?: EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
-    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    adminProfile?: AdminProfileUpdateOneWithoutUserNestedInput
-    umkmProfile?: UmkmProfileUpdateOneWithoutUserNestedInput
-    wallet?: WalletUpdateOneWithoutUserNestedInput
-    kycDocuments?: KycDocumentUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
-    otpVerifications?: OtpVerificationUpdateManyWithoutUserNestedInput
-    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutInvestorProfileInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    phoneNumber?: StringFieldUpdateOperationsInput | string
-    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    kycStatus?: EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
-    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    adminProfile?: AdminProfileUncheckedUpdateOneWithoutUserNestedInput
-    umkmProfile?: UmkmProfileUncheckedUpdateOneWithoutUserNestedInput
-    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
-    kycDocuments?: KycDocumentUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
-    otpVerifications?: OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
-    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type InvestmentUpsertWithWhereUniqueWithoutInvestorProfileInput = {
@@ -35330,89 +36833,63 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Investment"> | Date | string
   }
 
-  export type UserCreateWithoutUmkmProfileInput = {
-    id?: string
-    email?: string | null
-    phoneNumber: string
-    passwordHash?: string | null
-    role: $Enums.Role
-    status?: $Enums.UserStatus
-    kycStatus?: $Enums.KycStatus
-    isEmailVerified?: boolean
-    isPhoneVerified?: boolean
-    lastLoginAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    adminProfile?: AdminProfileCreateNestedOneWithoutUserInput
-    investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
-    wallet?: WalletCreateNestedOneWithoutUserInput
-    kycDocuments?: KycDocumentCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
-    otpVerifications?: OtpVerificationCreateNestedManyWithoutUserInput
-    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+  export type UserUpsertWithoutInvestorProfileInput = {
+    update: XOR<UserUpdateWithoutInvestorProfileInput, UserUncheckedUpdateWithoutInvestorProfileInput>
+    create: XOR<UserCreateWithoutInvestorProfileInput, UserUncheckedCreateWithoutInvestorProfileInput>
+    where?: UserWhereInput
   }
 
-  export type UserUncheckedCreateWithoutUmkmProfileInput = {
-    id?: string
-    email?: string | null
-    phoneNumber: string
-    passwordHash?: string | null
-    role: $Enums.Role
-    status?: $Enums.UserStatus
-    kycStatus?: $Enums.KycStatus
-    isEmailVerified?: boolean
-    isPhoneVerified?: boolean
-    lastLoginAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    adminProfile?: AdminProfileUncheckedCreateNestedOneWithoutUserInput
-    investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
-    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
-    kycDocuments?: KycDocumentUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
-    otpVerifications?: OtpVerificationUncheckedCreateNestedManyWithoutUserInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+  export type UserUpdateToOneWithWhereWithoutInvestorProfileInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutInvestorProfileInput, UserUncheckedUpdateWithoutInvestorProfileInput>
   }
 
-  export type UserCreateOrConnectWithoutUmkmProfileInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutUmkmProfileInput, UserUncheckedCreateWithoutUmkmProfileInput>
+  export type UserUpdateWithoutInvestorProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    kycStatus?: EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    adminProfile?: AdminProfileUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    kycDocuments?: KycDocumentUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    otpVerifications?: OtpVerificationUpdateManyWithoutUserNestedInput
+    umkmProfile?: UmkmProfileUpdateOneWithoutUserNestedInput
+    wallet?: WalletUpdateOneWithoutUserNestedInput
+    beritas?: BeritaUpdateManyWithoutAuthorNestedInput
   }
 
-  export type CreditScoreCreateWithoutUmkmProfileInput = {
-    id?: string
-    score: number
-    riskLevel: $Enums.RiskLevel
-    modelVersion?: string
-    features: JsonNullValueInput | InputJsonValue
-    insights?: NullableJsonNullValueInput | InputJsonValue
-    recommendations?: NullableJsonNullValueInput | InputJsonValue
-    triggeredBy?: string | null
-    predictedAt?: Date | string
-  }
-
-  export type CreditScoreUncheckedCreateWithoutUmkmProfileInput = {
-    id?: string
-    score: number
-    riskLevel: $Enums.RiskLevel
-    modelVersion?: string
-    features: JsonNullValueInput | InputJsonValue
-    insights?: NullableJsonNullValueInput | InputJsonValue
-    recommendations?: NullableJsonNullValueInput | InputJsonValue
-    triggeredBy?: string | null
-    predictedAt?: Date | string
-  }
-
-  export type CreditScoreCreateOrConnectWithoutUmkmProfileInput = {
-    where: CreditScoreWhereUniqueInput
-    create: XOR<CreditScoreCreateWithoutUmkmProfileInput, CreditScoreUncheckedCreateWithoutUmkmProfileInput>
-  }
-
-  export type CreditScoreCreateManyUmkmProfileInputEnvelope = {
-    data: CreditScoreCreateManyUmkmProfileInput | CreditScoreCreateManyUmkmProfileInput[]
-    skipDuplicates?: boolean
+  export type UserUncheckedUpdateWithoutInvestorProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    kycStatus?: EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    adminProfile?: AdminProfileUncheckedUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    kycDocuments?: KycDocumentUncheckedUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    otpVerifications?: OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
+    umkmProfile?: UmkmProfileUncheckedUpdateOneWithoutUserNestedInput
+    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
+    beritas?: BeritaUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type BusinessDataCreateWithoutUmkmProfileInput = {
@@ -35448,6 +36925,120 @@ export namespace Prisma {
 
   export type BusinessDataCreateManyUmkmProfileInputEnvelope = {
     data: BusinessDataCreateManyUmkmProfileInput | BusinessDataCreateManyUmkmProfileInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BusinessUpdateCreateWithoutUmkmProfileInput = {
+    id?: string
+    periodDate: Date | string
+    revenue: Decimal | DecimalJsLike | number | string
+    expenses: Decimal | DecimalJsLike | number | string
+    fundUsageSummary?: string | null
+    attachments?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type BusinessUpdateUncheckedCreateWithoutUmkmProfileInput = {
+    id?: string
+    periodDate: Date | string
+    revenue: Decimal | DecimalJsLike | number | string
+    expenses: Decimal | DecimalJsLike | number | string
+    fundUsageSummary?: string | null
+    attachments?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type BusinessUpdateCreateOrConnectWithoutUmkmProfileInput = {
+    where: BusinessUpdateWhereUniqueInput
+    create: XOR<BusinessUpdateCreateWithoutUmkmProfileInput, BusinessUpdateUncheckedCreateWithoutUmkmProfileInput>
+  }
+
+  export type BusinessUpdateCreateManyUmkmProfileInputEnvelope = {
+    data: BusinessUpdateCreateManyUmkmProfileInput | BusinessUpdateCreateManyUmkmProfileInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CampaignCreateWithoutUmkmProfileInput = {
+    id?: string
+    title: string
+    story: string
+    targetAmount: Decimal | DecimalJsLike | number | string
+    collectedAmount?: Decimal | DecimalJsLike | number | string
+    akadType: $Enums.AkadType
+    durationMonths: number
+    estimatedRoi: number
+    status?: $Enums.FundingStatus
+    startDate?: Date | string
+    endDate?: Date | string | null
+    investorCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    akads?: AkadCreateNestedManyWithoutCampaignInput
+    fundingApplication?: FundingApplicationCreateNestedOneWithoutCampaignInput
+    investments?: InvestmentCreateNestedManyWithoutCampaignInput
+  }
+
+  export type CampaignUncheckedCreateWithoutUmkmProfileInput = {
+    id?: string
+    fundingApplicationId?: string | null
+    title: string
+    story: string
+    targetAmount: Decimal | DecimalJsLike | number | string
+    collectedAmount?: Decimal | DecimalJsLike | number | string
+    akadType: $Enums.AkadType
+    durationMonths: number
+    estimatedRoi: number
+    status?: $Enums.FundingStatus
+    startDate?: Date | string
+    endDate?: Date | string | null
+    investorCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    akads?: AkadUncheckedCreateNestedManyWithoutCampaignInput
+    investments?: InvestmentUncheckedCreateNestedManyWithoutCampaignInput
+  }
+
+  export type CampaignCreateOrConnectWithoutUmkmProfileInput = {
+    where: CampaignWhereUniqueInput
+    create: XOR<CampaignCreateWithoutUmkmProfileInput, CampaignUncheckedCreateWithoutUmkmProfileInput>
+  }
+
+  export type CampaignCreateManyUmkmProfileInputEnvelope = {
+    data: CampaignCreateManyUmkmProfileInput | CampaignCreateManyUmkmProfileInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CreditScoreCreateWithoutUmkmProfileInput = {
+    id?: string
+    score: number
+    riskLevel: $Enums.RiskLevel
+    modelVersion?: string
+    features: JsonNullValueInput | InputJsonValue
+    insights?: NullableJsonNullValueInput | InputJsonValue
+    recommendations?: NullableJsonNullValueInput | InputJsonValue
+    triggeredBy?: string | null
+    predictedAt?: Date | string
+  }
+
+  export type CreditScoreUncheckedCreateWithoutUmkmProfileInput = {
+    id?: string
+    score: number
+    riskLevel: $Enums.RiskLevel
+    modelVersion?: string
+    features: JsonNullValueInput | InputJsonValue
+    insights?: NullableJsonNullValueInput | InputJsonValue
+    recommendations?: NullableJsonNullValueInput | InputJsonValue
+    triggeredBy?: string | null
+    predictedAt?: Date | string
+  }
+
+  export type CreditScoreCreateOrConnectWithoutUmkmProfileInput = {
+    where: CreditScoreWhereUniqueInput
+    create: XOR<CreditScoreCreateWithoutUmkmProfileInput, CreditScoreUncheckedCreateWithoutUmkmProfileInput>
+  }
+
+  export type CreditScoreCreateManyUmkmProfileInputEnvelope = {
+    data: CreditScoreCreateManyUmkmProfileInput | CreditScoreCreateManyUmkmProfileInput[]
     skipDuplicates?: boolean
   }
 
@@ -35493,173 +37084,57 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type CampaignCreateWithoutUmkmProfileInput = {
+  export type UserCreateWithoutUmkmProfileInput = {
     id?: string
-    title: string
-    story: string
-    targetAmount: Decimal | DecimalJsLike | number | string
-    collectedAmount?: Decimal | DecimalJsLike | number | string
-    akadType: $Enums.AkadType
-    durationMonths: number
-    estimatedRoi: number
-    status?: $Enums.FundingStatus
-    startDate?: Date | string
-    endDate?: Date | string | null
-    investorCount?: number
+    email?: string | null
+    phoneNumber: string
+    passwordHash?: string | null
+    role: $Enums.Role
+    status?: $Enums.UserStatus
+    kycStatus?: $Enums.KycStatus
+    isEmailVerified?: boolean
+    isPhoneVerified?: boolean
+    lastLoginAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    fundingApplication?: FundingApplicationCreateNestedOneWithoutCampaignInput
-    investments?: InvestmentCreateNestedManyWithoutCampaignInput
-    akads?: AkadCreateNestedManyWithoutCampaignInput
+    adminProfile?: AdminProfileCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+    kycDocuments?: KycDocumentCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    otpVerifications?: OtpVerificationCreateNestedManyWithoutUserInput
+    wallet?: WalletCreateNestedOneWithoutUserInput
+    beritas?: BeritaCreateNestedManyWithoutAuthorInput
   }
 
-  export type CampaignUncheckedCreateWithoutUmkmProfileInput = {
+  export type UserUncheckedCreateWithoutUmkmProfileInput = {
     id?: string
-    fundingApplicationId?: string | null
-    title: string
-    story: string
-    targetAmount: Decimal | DecimalJsLike | number | string
-    collectedAmount?: Decimal | DecimalJsLike | number | string
-    akadType: $Enums.AkadType
-    durationMonths: number
-    estimatedRoi: number
-    status?: $Enums.FundingStatus
-    startDate?: Date | string
-    endDate?: Date | string | null
-    investorCount?: number
+    email?: string | null
+    phoneNumber: string
+    passwordHash?: string | null
+    role: $Enums.Role
+    status?: $Enums.UserStatus
+    kycStatus?: $Enums.KycStatus
+    isEmailVerified?: boolean
+    isPhoneVerified?: boolean
+    lastLoginAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    investments?: InvestmentUncheckedCreateNestedManyWithoutCampaignInput
-    akads?: AkadUncheckedCreateNestedManyWithoutCampaignInput
+    adminProfile?: AdminProfileUncheckedCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+    kycDocuments?: KycDocumentUncheckedCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    otpVerifications?: OtpVerificationUncheckedCreateNestedManyWithoutUserInput
+    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
+    beritas?: BeritaUncheckedCreateNestedManyWithoutAuthorInput
   }
 
-  export type CampaignCreateOrConnectWithoutUmkmProfileInput = {
-    where: CampaignWhereUniqueInput
-    create: XOR<CampaignCreateWithoutUmkmProfileInput, CampaignUncheckedCreateWithoutUmkmProfileInput>
-  }
-
-  export type CampaignCreateManyUmkmProfileInputEnvelope = {
-    data: CampaignCreateManyUmkmProfileInput | CampaignCreateManyUmkmProfileInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type BusinessUpdateCreateWithoutUmkmProfileInput = {
-    id?: string
-    periodDate: Date | string
-    revenue: Decimal | DecimalJsLike | number | string
-    expenses: Decimal | DecimalJsLike | number | string
-    fundUsageSummary?: string | null
-    attachments?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-  }
-
-  export type BusinessUpdateUncheckedCreateWithoutUmkmProfileInput = {
-    id?: string
-    periodDate: Date | string
-    revenue: Decimal | DecimalJsLike | number | string
-    expenses: Decimal | DecimalJsLike | number | string
-    fundUsageSummary?: string | null
-    attachments?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-  }
-
-  export type BusinessUpdateCreateOrConnectWithoutUmkmProfileInput = {
-    where: BusinessUpdateWhereUniqueInput
-    create: XOR<BusinessUpdateCreateWithoutUmkmProfileInput, BusinessUpdateUncheckedCreateWithoutUmkmProfileInput>
-  }
-
-  export type BusinessUpdateCreateManyUmkmProfileInputEnvelope = {
-    data: BusinessUpdateCreateManyUmkmProfileInput | BusinessUpdateCreateManyUmkmProfileInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type UserUpsertWithoutUmkmProfileInput = {
-    update: XOR<UserUpdateWithoutUmkmProfileInput, UserUncheckedUpdateWithoutUmkmProfileInput>
+  export type UserCreateOrConnectWithoutUmkmProfileInput = {
+    where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutUmkmProfileInput, UserUncheckedCreateWithoutUmkmProfileInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutUmkmProfileInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutUmkmProfileInput, UserUncheckedUpdateWithoutUmkmProfileInput>
-  }
-
-  export type UserUpdateWithoutUmkmProfileInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    phoneNumber?: StringFieldUpdateOperationsInput | string
-    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    kycStatus?: EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
-    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    adminProfile?: AdminProfileUpdateOneWithoutUserNestedInput
-    investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
-    wallet?: WalletUpdateOneWithoutUserNestedInput
-    kycDocuments?: KycDocumentUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
-    otpVerifications?: OtpVerificationUpdateManyWithoutUserNestedInput
-    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutUmkmProfileInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    phoneNumber?: StringFieldUpdateOperationsInput | string
-    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    kycStatus?: EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
-    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    adminProfile?: AdminProfileUncheckedUpdateOneWithoutUserNestedInput
-    investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
-    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
-    kycDocuments?: KycDocumentUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
-    otpVerifications?: OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
-    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type CreditScoreUpsertWithWhereUniqueWithoutUmkmProfileInput = {
-    where: CreditScoreWhereUniqueInput
-    update: XOR<CreditScoreUpdateWithoutUmkmProfileInput, CreditScoreUncheckedUpdateWithoutUmkmProfileInput>
-    create: XOR<CreditScoreCreateWithoutUmkmProfileInput, CreditScoreUncheckedCreateWithoutUmkmProfileInput>
-  }
-
-  export type CreditScoreUpdateWithWhereUniqueWithoutUmkmProfileInput = {
-    where: CreditScoreWhereUniqueInput
-    data: XOR<CreditScoreUpdateWithoutUmkmProfileInput, CreditScoreUncheckedUpdateWithoutUmkmProfileInput>
-  }
-
-  export type CreditScoreUpdateManyWithWhereWithoutUmkmProfileInput = {
-    where: CreditScoreScalarWhereInput
-    data: XOR<CreditScoreUpdateManyMutationInput, CreditScoreUncheckedUpdateManyWithoutUmkmProfileInput>
-  }
-
-  export type CreditScoreScalarWhereInput = {
-    AND?: CreditScoreScalarWhereInput | CreditScoreScalarWhereInput[]
-    OR?: CreditScoreScalarWhereInput[]
-    NOT?: CreditScoreScalarWhereInput | CreditScoreScalarWhereInput[]
-    id?: StringFilter<"CreditScore"> | string
-    umkmProfileId?: StringFilter<"CreditScore"> | string
-    score?: FloatFilter<"CreditScore"> | number
-    riskLevel?: EnumRiskLevelFilter<"CreditScore"> | $Enums.RiskLevel
-    modelVersion?: StringFilter<"CreditScore"> | string
-    features?: JsonFilter<"CreditScore">
-    insights?: JsonNullableFilter<"CreditScore">
-    recommendations?: JsonNullableFilter<"CreditScore">
-    triggeredBy?: StringNullableFilter<"CreditScore"> | string | null
-    predictedAt?: DateTimeFilter<"CreditScore"> | Date | string
   }
 
   export type BusinessDataUpsertWithWhereUniqueWithoutUmkmProfileInput = {
@@ -35695,39 +37170,34 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"BusinessData"> | Date | string
   }
 
-  export type FundingApplicationUpsertWithWhereUniqueWithoutUmkmProfileInput = {
-    where: FundingApplicationWhereUniqueInput
-    update: XOR<FundingApplicationUpdateWithoutUmkmProfileInput, FundingApplicationUncheckedUpdateWithoutUmkmProfileInput>
-    create: XOR<FundingApplicationCreateWithoutUmkmProfileInput, FundingApplicationUncheckedCreateWithoutUmkmProfileInput>
+  export type BusinessUpdateUpsertWithWhereUniqueWithoutUmkmProfileInput = {
+    where: BusinessUpdateWhereUniqueInput
+    update: XOR<BusinessUpdateUpdateWithoutUmkmProfileInput, BusinessUpdateUncheckedUpdateWithoutUmkmProfileInput>
+    create: XOR<BusinessUpdateCreateWithoutUmkmProfileInput, BusinessUpdateUncheckedCreateWithoutUmkmProfileInput>
   }
 
-  export type FundingApplicationUpdateWithWhereUniqueWithoutUmkmProfileInput = {
-    where: FundingApplicationWhereUniqueInput
-    data: XOR<FundingApplicationUpdateWithoutUmkmProfileInput, FundingApplicationUncheckedUpdateWithoutUmkmProfileInput>
+  export type BusinessUpdateUpdateWithWhereUniqueWithoutUmkmProfileInput = {
+    where: BusinessUpdateWhereUniqueInput
+    data: XOR<BusinessUpdateUpdateWithoutUmkmProfileInput, BusinessUpdateUncheckedUpdateWithoutUmkmProfileInput>
   }
 
-  export type FundingApplicationUpdateManyWithWhereWithoutUmkmProfileInput = {
-    where: FundingApplicationScalarWhereInput
-    data: XOR<FundingApplicationUpdateManyMutationInput, FundingApplicationUncheckedUpdateManyWithoutUmkmProfileInput>
+  export type BusinessUpdateUpdateManyWithWhereWithoutUmkmProfileInput = {
+    where: BusinessUpdateScalarWhereInput
+    data: XOR<BusinessUpdateUpdateManyMutationInput, BusinessUpdateUncheckedUpdateManyWithoutUmkmProfileInput>
   }
 
-  export type FundingApplicationScalarWhereInput = {
-    AND?: FundingApplicationScalarWhereInput | FundingApplicationScalarWhereInput[]
-    OR?: FundingApplicationScalarWhereInput[]
-    NOT?: FundingApplicationScalarWhereInput | FundingApplicationScalarWhereInput[]
-    id?: StringFilter<"FundingApplication"> | string
-    umkmProfileId?: StringFilter<"FundingApplication"> | string
-    akadType?: EnumAkadTypeFilter<"FundingApplication"> | $Enums.AkadType
-    requestedAmount?: DecimalFilter<"FundingApplication"> | Decimal | DecimalJsLike | number | string
-    durationMonths?: IntFilter<"FundingApplication"> | number
-    purpose?: StringFilter<"FundingApplication"> | string
-    status?: EnumFundingStatusFilter<"FundingApplication"> | $Enums.FundingStatus
-    reviewedBy?: StringNullableFilter<"FundingApplication"> | string | null
-    reviewedAt?: DateTimeNullableFilter<"FundingApplication"> | Date | string | null
-    rejectReason?: StringNullableFilter<"FundingApplication"> | string | null
-    creditScoreId?: StringNullableFilter<"FundingApplication"> | string | null
-    createdAt?: DateTimeFilter<"FundingApplication"> | Date | string
-    updatedAt?: DateTimeFilter<"FundingApplication"> | Date | string
+  export type BusinessUpdateScalarWhereInput = {
+    AND?: BusinessUpdateScalarWhereInput | BusinessUpdateScalarWhereInput[]
+    OR?: BusinessUpdateScalarWhereInput[]
+    NOT?: BusinessUpdateScalarWhereInput | BusinessUpdateScalarWhereInput[]
+    id?: StringFilter<"BusinessUpdate"> | string
+    umkmProfileId?: StringFilter<"BusinessUpdate"> | string
+    periodDate?: DateTimeFilter<"BusinessUpdate"> | Date | string
+    revenue?: DecimalFilter<"BusinessUpdate"> | Decimal | DecimalJsLike | number | string
+    expenses?: DecimalFilter<"BusinessUpdate"> | Decimal | DecimalJsLike | number | string
+    fundUsageSummary?: StringNullableFilter<"BusinessUpdate"> | string | null
+    attachments?: JsonNullableFilter<"BusinessUpdate">
+    createdAt?: DateTimeFilter<"BusinessUpdate"> | Date | string
   }
 
   export type CampaignUpsertWithWhereUniqueWithoutUmkmProfileInput = {
@@ -35768,34 +37238,130 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Campaign"> | Date | string
   }
 
-  export type BusinessUpdateUpsertWithWhereUniqueWithoutUmkmProfileInput = {
-    where: BusinessUpdateWhereUniqueInput
-    update: XOR<BusinessUpdateUpdateWithoutUmkmProfileInput, BusinessUpdateUncheckedUpdateWithoutUmkmProfileInput>
-    create: XOR<BusinessUpdateCreateWithoutUmkmProfileInput, BusinessUpdateUncheckedCreateWithoutUmkmProfileInput>
+  export type CreditScoreUpsertWithWhereUniqueWithoutUmkmProfileInput = {
+    where: CreditScoreWhereUniqueInput
+    update: XOR<CreditScoreUpdateWithoutUmkmProfileInput, CreditScoreUncheckedUpdateWithoutUmkmProfileInput>
+    create: XOR<CreditScoreCreateWithoutUmkmProfileInput, CreditScoreUncheckedCreateWithoutUmkmProfileInput>
   }
 
-  export type BusinessUpdateUpdateWithWhereUniqueWithoutUmkmProfileInput = {
-    where: BusinessUpdateWhereUniqueInput
-    data: XOR<BusinessUpdateUpdateWithoutUmkmProfileInput, BusinessUpdateUncheckedUpdateWithoutUmkmProfileInput>
+  export type CreditScoreUpdateWithWhereUniqueWithoutUmkmProfileInput = {
+    where: CreditScoreWhereUniqueInput
+    data: XOR<CreditScoreUpdateWithoutUmkmProfileInput, CreditScoreUncheckedUpdateWithoutUmkmProfileInput>
   }
 
-  export type BusinessUpdateUpdateManyWithWhereWithoutUmkmProfileInput = {
-    where: BusinessUpdateScalarWhereInput
-    data: XOR<BusinessUpdateUpdateManyMutationInput, BusinessUpdateUncheckedUpdateManyWithoutUmkmProfileInput>
+  export type CreditScoreUpdateManyWithWhereWithoutUmkmProfileInput = {
+    where: CreditScoreScalarWhereInput
+    data: XOR<CreditScoreUpdateManyMutationInput, CreditScoreUncheckedUpdateManyWithoutUmkmProfileInput>
   }
 
-  export type BusinessUpdateScalarWhereInput = {
-    AND?: BusinessUpdateScalarWhereInput | BusinessUpdateScalarWhereInput[]
-    OR?: BusinessUpdateScalarWhereInput[]
-    NOT?: BusinessUpdateScalarWhereInput | BusinessUpdateScalarWhereInput[]
-    id?: StringFilter<"BusinessUpdate"> | string
-    umkmProfileId?: StringFilter<"BusinessUpdate"> | string
-    periodDate?: DateTimeFilter<"BusinessUpdate"> | Date | string
-    revenue?: DecimalFilter<"BusinessUpdate"> | Decimal | DecimalJsLike | number | string
-    expenses?: DecimalFilter<"BusinessUpdate"> | Decimal | DecimalJsLike | number | string
-    fundUsageSummary?: StringNullableFilter<"BusinessUpdate"> | string | null
-    attachments?: JsonNullableFilter<"BusinessUpdate">
-    createdAt?: DateTimeFilter<"BusinessUpdate"> | Date | string
+  export type CreditScoreScalarWhereInput = {
+    AND?: CreditScoreScalarWhereInput | CreditScoreScalarWhereInput[]
+    OR?: CreditScoreScalarWhereInput[]
+    NOT?: CreditScoreScalarWhereInput | CreditScoreScalarWhereInput[]
+    id?: StringFilter<"CreditScore"> | string
+    umkmProfileId?: StringFilter<"CreditScore"> | string
+    score?: FloatFilter<"CreditScore"> | number
+    riskLevel?: EnumRiskLevelFilter<"CreditScore"> | $Enums.RiskLevel
+    modelVersion?: StringFilter<"CreditScore"> | string
+    features?: JsonFilter<"CreditScore">
+    insights?: JsonNullableFilter<"CreditScore">
+    recommendations?: JsonNullableFilter<"CreditScore">
+    triggeredBy?: StringNullableFilter<"CreditScore"> | string | null
+    predictedAt?: DateTimeFilter<"CreditScore"> | Date | string
+  }
+
+  export type FundingApplicationUpsertWithWhereUniqueWithoutUmkmProfileInput = {
+    where: FundingApplicationWhereUniqueInput
+    update: XOR<FundingApplicationUpdateWithoutUmkmProfileInput, FundingApplicationUncheckedUpdateWithoutUmkmProfileInput>
+    create: XOR<FundingApplicationCreateWithoutUmkmProfileInput, FundingApplicationUncheckedCreateWithoutUmkmProfileInput>
+  }
+
+  export type FundingApplicationUpdateWithWhereUniqueWithoutUmkmProfileInput = {
+    where: FundingApplicationWhereUniqueInput
+    data: XOR<FundingApplicationUpdateWithoutUmkmProfileInput, FundingApplicationUncheckedUpdateWithoutUmkmProfileInput>
+  }
+
+  export type FundingApplicationUpdateManyWithWhereWithoutUmkmProfileInput = {
+    where: FundingApplicationScalarWhereInput
+    data: XOR<FundingApplicationUpdateManyMutationInput, FundingApplicationUncheckedUpdateManyWithoutUmkmProfileInput>
+  }
+
+  export type FundingApplicationScalarWhereInput = {
+    AND?: FundingApplicationScalarWhereInput | FundingApplicationScalarWhereInput[]
+    OR?: FundingApplicationScalarWhereInput[]
+    NOT?: FundingApplicationScalarWhereInput | FundingApplicationScalarWhereInput[]
+    id?: StringFilter<"FundingApplication"> | string
+    umkmProfileId?: StringFilter<"FundingApplication"> | string
+    akadType?: EnumAkadTypeFilter<"FundingApplication"> | $Enums.AkadType
+    requestedAmount?: DecimalFilter<"FundingApplication"> | Decimal | DecimalJsLike | number | string
+    durationMonths?: IntFilter<"FundingApplication"> | number
+    purpose?: StringFilter<"FundingApplication"> | string
+    status?: EnumFundingStatusFilter<"FundingApplication"> | $Enums.FundingStatus
+    reviewedBy?: StringNullableFilter<"FundingApplication"> | string | null
+    reviewedAt?: DateTimeNullableFilter<"FundingApplication"> | Date | string | null
+    rejectReason?: StringNullableFilter<"FundingApplication"> | string | null
+    creditScoreId?: StringNullableFilter<"FundingApplication"> | string | null
+    createdAt?: DateTimeFilter<"FundingApplication"> | Date | string
+    updatedAt?: DateTimeFilter<"FundingApplication"> | Date | string
+  }
+
+  export type UserUpsertWithoutUmkmProfileInput = {
+    update: XOR<UserUpdateWithoutUmkmProfileInput, UserUncheckedUpdateWithoutUmkmProfileInput>
+    create: XOR<UserCreateWithoutUmkmProfileInput, UserUncheckedCreateWithoutUmkmProfileInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutUmkmProfileInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutUmkmProfileInput, UserUncheckedUpdateWithoutUmkmProfileInput>
+  }
+
+  export type UserUpdateWithoutUmkmProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    kycStatus?: EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    adminProfile?: AdminProfileUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+    kycDocuments?: KycDocumentUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    otpVerifications?: OtpVerificationUpdateManyWithoutUserNestedInput
+    wallet?: WalletUpdateOneWithoutUserNestedInput
+    beritas?: BeritaUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutUmkmProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    kycStatus?: EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    adminProfile?: AdminProfileUncheckedUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
+    kycDocuments?: KycDocumentUncheckedUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    otpVerifications?: OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
+    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
+    beritas?: BeritaUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserCreateWithoutKycDocumentsInput = {
@@ -35812,13 +37378,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     adminProfile?: AdminProfileCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    otpVerifications?: OtpVerificationCreateNestedManyWithoutUserInput
     umkmProfile?: UmkmProfileCreateNestedOneWithoutUserInput
     wallet?: WalletCreateNestedOneWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
-    otpVerifications?: OtpVerificationCreateNestedManyWithoutUserInput
-    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    beritas?: BeritaCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutKycDocumentsInput = {
@@ -35835,13 +37402,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     adminProfile?: AdminProfileUncheckedCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    otpVerifications?: OtpVerificationUncheckedCreateNestedManyWithoutUserInput
     umkmProfile?: UmkmProfileUncheckedCreateNestedOneWithoutUserInput
     wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
-    otpVerifications?: OtpVerificationUncheckedCreateNestedManyWithoutUserInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    beritas?: BeritaUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutKycDocumentsInput = {
@@ -35874,13 +37442,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     adminProfile?: AdminProfileUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    otpVerifications?: OtpVerificationUpdateManyWithoutUserNestedInput
     umkmProfile?: UmkmProfileUpdateOneWithoutUserNestedInput
     wallet?: WalletUpdateOneWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
-    otpVerifications?: OtpVerificationUpdateManyWithoutUserNestedInput
-    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    beritas?: BeritaUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutKycDocumentsInput = {
@@ -35897,13 +37466,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     adminProfile?: AdminProfileUncheckedUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
+    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    otpVerifications?: OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
     umkmProfile?: UmkmProfileUncheckedUpdateOneWithoutUserNestedInput
     wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
-    otpVerifications?: OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
-    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    beritas?: BeritaUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UmkmProfileCreateWithoutCreditScoresInput = {
@@ -35922,11 +37492,11 @@ export namespace Prisma {
     socialMedia?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutUmkmProfileInput
     businessData?: BusinessDataCreateNestedManyWithoutUmkmProfileInput
-    fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
-    campaigns?: CampaignCreateNestedManyWithoutUmkmProfileInput
     businessUpdates?: BusinessUpdateCreateNestedManyWithoutUmkmProfileInput
+    campaigns?: CampaignCreateNestedManyWithoutUmkmProfileInput
+    fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
+    user: UserCreateNestedOneWithoutUmkmProfileInput
   }
 
   export type UmkmProfileUncheckedCreateWithoutCreditScoresInput = {
@@ -35947,9 +37517,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     businessData?: BusinessDataUncheckedCreateNestedManyWithoutUmkmProfileInput
-    fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
-    campaigns?: CampaignUncheckedCreateNestedManyWithoutUmkmProfileInput
     businessUpdates?: BusinessUpdateUncheckedCreateNestedManyWithoutUmkmProfileInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutUmkmProfileInput
+    fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileCreateOrConnectWithoutCreditScoresInput = {
@@ -35984,11 +37554,11 @@ export namespace Prisma {
     socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
     businessData?: BusinessDataUpdateManyWithoutUmkmProfileNestedInput
-    fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
-    campaigns?: CampaignUpdateManyWithoutUmkmProfileNestedInput
     businessUpdates?: BusinessUpdateUpdateManyWithoutUmkmProfileNestedInput
+    campaigns?: CampaignUpdateManyWithoutUmkmProfileNestedInput
+    fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
+    user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
   }
 
   export type UmkmProfileUncheckedUpdateWithoutCreditScoresInput = {
@@ -36009,9 +37579,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     businessData?: BusinessDataUncheckedUpdateManyWithoutUmkmProfileNestedInput
-    fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
-    campaigns?: CampaignUncheckedUpdateManyWithoutUmkmProfileNestedInput
     businessUpdates?: BusinessUpdateUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
   }
 
   export type UmkmProfileCreateWithoutBusinessDataInput = {
@@ -36030,11 +37600,11 @@ export namespace Prisma {
     socialMedia?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutUmkmProfileInput
+    businessUpdates?: BusinessUpdateCreateNestedManyWithoutUmkmProfileInput
+    campaigns?: CampaignCreateNestedManyWithoutUmkmProfileInput
     creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
     fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
-    campaigns?: CampaignCreateNestedManyWithoutUmkmProfileInput
-    businessUpdates?: BusinessUpdateCreateNestedManyWithoutUmkmProfileInput
+    user: UserCreateNestedOneWithoutUmkmProfileInput
   }
 
   export type UmkmProfileUncheckedCreateWithoutBusinessDataInput = {
@@ -36054,10 +37624,10 @@ export namespace Prisma {
     socialMedia?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    businessUpdates?: BusinessUpdateUncheckedCreateNestedManyWithoutUmkmProfileInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutUmkmProfileInput
     creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
     fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
-    campaigns?: CampaignUncheckedCreateNestedManyWithoutUmkmProfileInput
-    businessUpdates?: BusinessUpdateUncheckedCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileCreateOrConnectWithoutBusinessDataInput = {
@@ -36092,11 +37662,11 @@ export namespace Prisma {
     socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
+    businessUpdates?: BusinessUpdateUpdateManyWithoutUmkmProfileNestedInput
+    campaigns?: CampaignUpdateManyWithoutUmkmProfileNestedInput
     creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
     fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
-    campaigns?: CampaignUpdateManyWithoutUmkmProfileNestedInput
-    businessUpdates?: BusinessUpdateUpdateManyWithoutUmkmProfileNestedInput
+    user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
   }
 
   export type UmkmProfileUncheckedUpdateWithoutBusinessDataInput = {
@@ -36116,10 +37686,55 @@ export namespace Prisma {
     socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    businessUpdates?: BusinessUpdateUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutUmkmProfileNestedInput
     creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
     fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
-    campaigns?: CampaignUncheckedUpdateManyWithoutUmkmProfileNestedInput
-    businessUpdates?: BusinessUpdateUncheckedUpdateManyWithoutUmkmProfileNestedInput
+  }
+
+  export type CampaignCreateWithoutFundingApplicationInput = {
+    id?: string
+    title: string
+    story: string
+    targetAmount: Decimal | DecimalJsLike | number | string
+    collectedAmount?: Decimal | DecimalJsLike | number | string
+    akadType: $Enums.AkadType
+    durationMonths: number
+    estimatedRoi: number
+    status?: $Enums.FundingStatus
+    startDate?: Date | string
+    endDate?: Date | string | null
+    investorCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    akads?: AkadCreateNestedManyWithoutCampaignInput
+    umkmProfile: UmkmProfileCreateNestedOneWithoutCampaignsInput
+    investments?: InvestmentCreateNestedManyWithoutCampaignInput
+  }
+
+  export type CampaignUncheckedCreateWithoutFundingApplicationInput = {
+    id?: string
+    umkmProfileId: string
+    title: string
+    story: string
+    targetAmount: Decimal | DecimalJsLike | number | string
+    collectedAmount?: Decimal | DecimalJsLike | number | string
+    akadType: $Enums.AkadType
+    durationMonths: number
+    estimatedRoi: number
+    status?: $Enums.FundingStatus
+    startDate?: Date | string
+    endDate?: Date | string | null
+    investorCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    akads?: AkadUncheckedCreateNestedManyWithoutCampaignInput
+    investments?: InvestmentUncheckedCreateNestedManyWithoutCampaignInput
+  }
+
+  export type CampaignCreateOrConnectWithoutFundingApplicationInput = {
+    where: CampaignWhereUniqueInput
+    create: XOR<CampaignCreateWithoutFundingApplicationInput, CampaignUncheckedCreateWithoutFundingApplicationInput>
   }
 
   export type UmkmProfileCreateWithoutFundingApplicationsInput = {
@@ -36138,11 +37753,11 @@ export namespace Prisma {
     socialMedia?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutUmkmProfileInput
-    creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
     businessData?: BusinessDataCreateNestedManyWithoutUmkmProfileInput
-    campaigns?: CampaignCreateNestedManyWithoutUmkmProfileInput
     businessUpdates?: BusinessUpdateCreateNestedManyWithoutUmkmProfileInput
+    campaigns?: CampaignCreateNestedManyWithoutUmkmProfileInput
+    creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
+    user: UserCreateNestedOneWithoutUmkmProfileInput
   }
 
   export type UmkmProfileUncheckedCreateWithoutFundingApplicationsInput = {
@@ -36162,10 +37777,10 @@ export namespace Prisma {
     socialMedia?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
     businessData?: BusinessDataUncheckedCreateNestedManyWithoutUmkmProfileInput
-    campaigns?: CampaignUncheckedCreateNestedManyWithoutUmkmProfileInput
     businessUpdates?: BusinessUpdateUncheckedCreateNestedManyWithoutUmkmProfileInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutUmkmProfileInput
+    creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileCreateOrConnectWithoutFundingApplicationsInput = {
@@ -36173,49 +37788,55 @@ export namespace Prisma {
     create: XOR<UmkmProfileCreateWithoutFundingApplicationsInput, UmkmProfileUncheckedCreateWithoutFundingApplicationsInput>
   }
 
-  export type CampaignCreateWithoutFundingApplicationInput = {
-    id?: string
-    title: string
-    story: string
-    targetAmount: Decimal | DecimalJsLike | number | string
-    collectedAmount?: Decimal | DecimalJsLike | number | string
-    akadType: $Enums.AkadType
-    durationMonths: number
-    estimatedRoi: number
-    status?: $Enums.FundingStatus
-    startDate?: Date | string
-    endDate?: Date | string | null
-    investorCount?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    umkmProfile: UmkmProfileCreateNestedOneWithoutCampaignsInput
-    investments?: InvestmentCreateNestedManyWithoutCampaignInput
-    akads?: AkadCreateNestedManyWithoutCampaignInput
-  }
-
-  export type CampaignUncheckedCreateWithoutFundingApplicationInput = {
-    id?: string
-    umkmProfileId: string
-    title: string
-    story: string
-    targetAmount: Decimal | DecimalJsLike | number | string
-    collectedAmount?: Decimal | DecimalJsLike | number | string
-    akadType: $Enums.AkadType
-    durationMonths: number
-    estimatedRoi: number
-    status?: $Enums.FundingStatus
-    startDate?: Date | string
-    endDate?: Date | string | null
-    investorCount?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    investments?: InvestmentUncheckedCreateNestedManyWithoutCampaignInput
-    akads?: AkadUncheckedCreateNestedManyWithoutCampaignInput
-  }
-
-  export type CampaignCreateOrConnectWithoutFundingApplicationInput = {
-    where: CampaignWhereUniqueInput
+  export type CampaignUpsertWithoutFundingApplicationInput = {
+    update: XOR<CampaignUpdateWithoutFundingApplicationInput, CampaignUncheckedUpdateWithoutFundingApplicationInput>
     create: XOR<CampaignCreateWithoutFundingApplicationInput, CampaignUncheckedCreateWithoutFundingApplicationInput>
+    where?: CampaignWhereInput
+  }
+
+  export type CampaignUpdateToOneWithWhereWithoutFundingApplicationInput = {
+    where?: CampaignWhereInput
+    data: XOR<CampaignUpdateWithoutFundingApplicationInput, CampaignUncheckedUpdateWithoutFundingApplicationInput>
+  }
+
+  export type CampaignUpdateWithoutFundingApplicationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    story?: StringFieldUpdateOperationsInput | string
+    targetAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    collectedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
+    durationMonths?: IntFieldUpdateOperationsInput | number
+    estimatedRoi?: FloatFieldUpdateOperationsInput | number
+    status?: EnumFundingStatusFieldUpdateOperationsInput | $Enums.FundingStatus
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    investorCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    akads?: AkadUpdateManyWithoutCampaignNestedInput
+    umkmProfile?: UmkmProfileUpdateOneRequiredWithoutCampaignsNestedInput
+    investments?: InvestmentUpdateManyWithoutCampaignNestedInput
+  }
+
+  export type CampaignUncheckedUpdateWithoutFundingApplicationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    umkmProfileId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    story?: StringFieldUpdateOperationsInput | string
+    targetAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    collectedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
+    durationMonths?: IntFieldUpdateOperationsInput | number
+    estimatedRoi?: FloatFieldUpdateOperationsInput | number
+    status?: EnumFundingStatusFieldUpdateOperationsInput | $Enums.FundingStatus
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    investorCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    akads?: AkadUncheckedUpdateManyWithoutCampaignNestedInput
+    investments?: InvestmentUncheckedUpdateManyWithoutCampaignNestedInput
   }
 
   export type UmkmProfileUpsertWithoutFundingApplicationsInput = {
@@ -36245,11 +37866,11 @@ export namespace Prisma {
     socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
-    creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
     businessData?: BusinessDataUpdateManyWithoutUmkmProfileNestedInput
-    campaigns?: CampaignUpdateManyWithoutUmkmProfileNestedInput
     businessUpdates?: BusinessUpdateUpdateManyWithoutUmkmProfileNestedInput
+    campaigns?: CampaignUpdateManyWithoutUmkmProfileNestedInput
+    creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
+    user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
   }
 
   export type UmkmProfileUncheckedUpdateWithoutFundingApplicationsInput = {
@@ -36269,112 +37890,72 @@ export namespace Prisma {
     socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
     businessData?: BusinessDataUncheckedUpdateManyWithoutUmkmProfileNestedInput
-    campaigns?: CampaignUncheckedUpdateManyWithoutUmkmProfileNestedInput
     businessUpdates?: BusinessUpdateUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
   }
 
-  export type CampaignUpsertWithoutFundingApplicationInput = {
-    update: XOR<CampaignUpdateWithoutFundingApplicationInput, CampaignUncheckedUpdateWithoutFundingApplicationInput>
-    create: XOR<CampaignCreateWithoutFundingApplicationInput, CampaignUncheckedCreateWithoutFundingApplicationInput>
-    where?: CampaignWhereInput
-  }
-
-  export type CampaignUpdateToOneWithWhereWithoutFundingApplicationInput = {
-    where?: CampaignWhereInput
-    data: XOR<CampaignUpdateWithoutFundingApplicationInput, CampaignUncheckedUpdateWithoutFundingApplicationInput>
-  }
-
-  export type CampaignUpdateWithoutFundingApplicationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    story?: StringFieldUpdateOperationsInput | string
-    targetAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    collectedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
-    durationMonths?: IntFieldUpdateOperationsInput | number
-    estimatedRoi?: FloatFieldUpdateOperationsInput | number
-    status?: EnumFundingStatusFieldUpdateOperationsInput | $Enums.FundingStatus
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    investorCount?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    umkmProfile?: UmkmProfileUpdateOneRequiredWithoutCampaignsNestedInput
-    investments?: InvestmentUpdateManyWithoutCampaignNestedInput
-    akads?: AkadUpdateManyWithoutCampaignNestedInput
-  }
-
-  export type CampaignUncheckedUpdateWithoutFundingApplicationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    umkmProfileId?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    story?: StringFieldUpdateOperationsInput | string
-    targetAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    collectedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
-    durationMonths?: IntFieldUpdateOperationsInput | number
-    estimatedRoi?: FloatFieldUpdateOperationsInput | number
-    status?: EnumFundingStatusFieldUpdateOperationsInput | $Enums.FundingStatus
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    investorCount?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    investments?: InvestmentUncheckedUpdateManyWithoutCampaignNestedInput
-    akads?: AkadUncheckedUpdateManyWithoutCampaignNestedInput
-  }
-
-  export type UmkmProfileCreateWithoutCampaignsInput = {
+  export type AkadCreateWithoutCampaignInput = {
     id?: string
-    ownerName: string
-    businessName: string
-    businessCategory: string
-    businessDescription?: string | null
-    location?: string | null
-    city?: string | null
-    province?: string | null
-    establishedDate?: Date | string | null
-    employeeCount?: number | null
-    monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
-    website?: string | null
-    socialMedia?: string | null
+    akadType: $Enums.AkadType
+    status?: $Enums.AkadStatus
+    principalAmount: Decimal | DecimalJsLike | number | string
+    nisbahUmkm: number
+    nisbahInvestor: number
+    platformFeeRate?: number
+    durationMonths: number
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    approvedBy?: string | null
+    approvedAt?: Date | string | null
+    umkmSignedAt?: Date | string | null
+    investorSignedAt?: Date | string | null
+    blockchainHash?: string | null
+    contractAddress?: string | null
+    blockchainStatus?: string | null
+    deployedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutUmkmProfileInput
-    creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
-    businessData?: BusinessDataCreateNestedManyWithoutUmkmProfileInput
-    fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
-    businessUpdates?: BusinessUpdateCreateNestedManyWithoutUmkmProfileInput
+    investment?: InvestmentCreateNestedOneWithoutAkadInput
+    blockchainTransactions?: BlockchainTransactionCreateNestedManyWithoutAkadInput
+    profitSharings?: ProfitSharingCreateNestedManyWithoutAkadInput
   }
 
-  export type UmkmProfileUncheckedCreateWithoutCampaignsInput = {
+  export type AkadUncheckedCreateWithoutCampaignInput = {
     id?: string
-    userId: string
-    ownerName: string
-    businessName: string
-    businessCategory: string
-    businessDescription?: string | null
-    location?: string | null
-    city?: string | null
-    province?: string | null
-    establishedDate?: Date | string | null
-    employeeCount?: number | null
-    monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
-    website?: string | null
-    socialMedia?: string | null
+    investmentId?: string | null
+    akadType: $Enums.AkadType
+    status?: $Enums.AkadStatus
+    principalAmount: Decimal | DecimalJsLike | number | string
+    nisbahUmkm: number
+    nisbahInvestor: number
+    platformFeeRate?: number
+    durationMonths: number
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    approvedBy?: string | null
+    approvedAt?: Date | string | null
+    umkmSignedAt?: Date | string | null
+    investorSignedAt?: Date | string | null
+    blockchainHash?: string | null
+    contractAddress?: string | null
+    blockchainStatus?: string | null
+    deployedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
-    businessData?: BusinessDataUncheckedCreateNestedManyWithoutUmkmProfileInput
-    fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
-    businessUpdates?: BusinessUpdateUncheckedCreateNestedManyWithoutUmkmProfileInput
+    blockchainTransactions?: BlockchainTransactionUncheckedCreateNestedManyWithoutAkadInput
+    profitSharings?: ProfitSharingUncheckedCreateNestedManyWithoutAkadInput
   }
 
-  export type UmkmProfileCreateOrConnectWithoutCampaignsInput = {
-    where: UmkmProfileWhereUniqueInput
-    create: XOR<UmkmProfileCreateWithoutCampaignsInput, UmkmProfileUncheckedCreateWithoutCampaignsInput>
+  export type AkadCreateOrConnectWithoutCampaignInput = {
+    where: AkadWhereUniqueInput
+    create: XOR<AkadCreateWithoutCampaignInput, AkadUncheckedCreateWithoutCampaignInput>
+  }
+
+  export type AkadCreateManyCampaignInputEnvelope = {
+    data: AkadCreateManyCampaignInput | AkadCreateManyCampaignInput[]
+    skipDuplicates?: boolean
   }
 
   export type FundingApplicationCreateWithoutCampaignInput = {
@@ -36414,6 +37995,57 @@ export namespace Prisma {
     create: XOR<FundingApplicationCreateWithoutCampaignInput, FundingApplicationUncheckedCreateWithoutCampaignInput>
   }
 
+  export type UmkmProfileCreateWithoutCampaignsInput = {
+    id?: string
+    ownerName: string
+    businessName: string
+    businessCategory: string
+    businessDescription?: string | null
+    location?: string | null
+    city?: string | null
+    province?: string | null
+    establishedDate?: Date | string | null
+    employeeCount?: number | null
+    monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
+    website?: string | null
+    socialMedia?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    businessData?: BusinessDataCreateNestedManyWithoutUmkmProfileInput
+    businessUpdates?: BusinessUpdateCreateNestedManyWithoutUmkmProfileInput
+    creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
+    fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
+    user: UserCreateNestedOneWithoutUmkmProfileInput
+  }
+
+  export type UmkmProfileUncheckedCreateWithoutCampaignsInput = {
+    id?: string
+    userId: string
+    ownerName: string
+    businessName: string
+    businessCategory: string
+    businessDescription?: string | null
+    location?: string | null
+    city?: string | null
+    province?: string | null
+    establishedDate?: Date | string | null
+    employeeCount?: number | null
+    monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
+    website?: string | null
+    socialMedia?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    businessData?: BusinessDataUncheckedCreateNestedManyWithoutUmkmProfileInput
+    businessUpdates?: BusinessUpdateUncheckedCreateNestedManyWithoutUmkmProfileInput
+    creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
+    fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
+  }
+
+  export type UmkmProfileCreateOrConnectWithoutCampaignsInput = {
+    where: UmkmProfileWhereUniqueInput
+    create: XOR<UmkmProfileCreateWithoutCampaignsInput, UmkmProfileUncheckedCreateWithoutCampaignsInput>
+  }
+
   export type InvestmentCreateWithoutCampaignInput = {
     id?: string
     amount: Decimal | DecimalJsLike | number | string
@@ -36424,8 +38056,8 @@ export namespace Prisma {
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    investorProfile: InvestorProfileCreateNestedOneWithoutInvestmentsInput
     akad?: AkadCreateNestedOneWithoutInvestmentInput
+    investorProfile: InvestorProfileCreateNestedOneWithoutInvestmentsInput
     profitSharings?: ProfitSharingCreateNestedManyWithoutInvestmentInput
   }
 
@@ -36452,184 +38084,6 @@ export namespace Prisma {
   export type InvestmentCreateManyCampaignInputEnvelope = {
     data: InvestmentCreateManyCampaignInput | InvestmentCreateManyCampaignInput[]
     skipDuplicates?: boolean
-  }
-
-  export type AkadCreateWithoutCampaignInput = {
-    id?: string
-    akadType: $Enums.AkadType
-    status?: $Enums.AkadStatus
-    principalAmount: Decimal | DecimalJsLike | number | string
-    nisbahUmkm: number
-    nisbahInvestor: number
-    platformFeeRate?: number
-    durationMonths: number
-    startDate?: Date | string | null
-    endDate?: Date | string | null
-    approvedBy?: string | null
-    approvedAt?: Date | string | null
-    umkmSignedAt?: Date | string | null
-    investorSignedAt?: Date | string | null
-    blockchainHash?: string | null
-    contractAddress?: string | null
-    blockchainStatus?: string | null
-    deployedAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    investment?: InvestmentCreateNestedOneWithoutAkadInput
-    profitSharings?: ProfitSharingCreateNestedManyWithoutAkadInput
-    blockchainTransactions?: BlockchainTransactionCreateNestedManyWithoutAkadInput
-  }
-
-  export type AkadUncheckedCreateWithoutCampaignInput = {
-    id?: string
-    investmentId?: string | null
-    akadType: $Enums.AkadType
-    status?: $Enums.AkadStatus
-    principalAmount: Decimal | DecimalJsLike | number | string
-    nisbahUmkm: number
-    nisbahInvestor: number
-    platformFeeRate?: number
-    durationMonths: number
-    startDate?: Date | string | null
-    endDate?: Date | string | null
-    approvedBy?: string | null
-    approvedAt?: Date | string | null
-    umkmSignedAt?: Date | string | null
-    investorSignedAt?: Date | string | null
-    blockchainHash?: string | null
-    contractAddress?: string | null
-    blockchainStatus?: string | null
-    deployedAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    profitSharings?: ProfitSharingUncheckedCreateNestedManyWithoutAkadInput
-    blockchainTransactions?: BlockchainTransactionUncheckedCreateNestedManyWithoutAkadInput
-  }
-
-  export type AkadCreateOrConnectWithoutCampaignInput = {
-    where: AkadWhereUniqueInput
-    create: XOR<AkadCreateWithoutCampaignInput, AkadUncheckedCreateWithoutCampaignInput>
-  }
-
-  export type AkadCreateManyCampaignInputEnvelope = {
-    data: AkadCreateManyCampaignInput | AkadCreateManyCampaignInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type UmkmProfileUpsertWithoutCampaignsInput = {
-    update: XOR<UmkmProfileUpdateWithoutCampaignsInput, UmkmProfileUncheckedUpdateWithoutCampaignsInput>
-    create: XOR<UmkmProfileCreateWithoutCampaignsInput, UmkmProfileUncheckedCreateWithoutCampaignsInput>
-    where?: UmkmProfileWhereInput
-  }
-
-  export type UmkmProfileUpdateToOneWithWhereWithoutCampaignsInput = {
-    where?: UmkmProfileWhereInput
-    data: XOR<UmkmProfileUpdateWithoutCampaignsInput, UmkmProfileUncheckedUpdateWithoutCampaignsInput>
-  }
-
-  export type UmkmProfileUpdateWithoutCampaignsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    ownerName?: StringFieldUpdateOperationsInput | string
-    businessName?: StringFieldUpdateOperationsInput | string
-    businessCategory?: StringFieldUpdateOperationsInput | string
-    businessDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    province?: NullableStringFieldUpdateOperationsInput | string | null
-    establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
-    monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    website?: NullableStringFieldUpdateOperationsInput | string | null
-    socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
-    creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
-    businessData?: BusinessDataUpdateManyWithoutUmkmProfileNestedInput
-    fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
-    businessUpdates?: BusinessUpdateUpdateManyWithoutUmkmProfileNestedInput
-  }
-
-  export type UmkmProfileUncheckedUpdateWithoutCampaignsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    ownerName?: StringFieldUpdateOperationsInput | string
-    businessName?: StringFieldUpdateOperationsInput | string
-    businessCategory?: StringFieldUpdateOperationsInput | string
-    businessDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    province?: NullableStringFieldUpdateOperationsInput | string | null
-    establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
-    monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    website?: NullableStringFieldUpdateOperationsInput | string | null
-    socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
-    businessData?: BusinessDataUncheckedUpdateManyWithoutUmkmProfileNestedInput
-    fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
-    businessUpdates?: BusinessUpdateUncheckedUpdateManyWithoutUmkmProfileNestedInput
-  }
-
-  export type FundingApplicationUpsertWithoutCampaignInput = {
-    update: XOR<FundingApplicationUpdateWithoutCampaignInput, FundingApplicationUncheckedUpdateWithoutCampaignInput>
-    create: XOR<FundingApplicationCreateWithoutCampaignInput, FundingApplicationUncheckedCreateWithoutCampaignInput>
-    where?: FundingApplicationWhereInput
-  }
-
-  export type FundingApplicationUpdateToOneWithWhereWithoutCampaignInput = {
-    where?: FundingApplicationWhereInput
-    data: XOR<FundingApplicationUpdateWithoutCampaignInput, FundingApplicationUncheckedUpdateWithoutCampaignInput>
-  }
-
-  export type FundingApplicationUpdateWithoutCampaignInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
-    requestedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    durationMonths?: IntFieldUpdateOperationsInput | number
-    purpose?: StringFieldUpdateOperationsInput | string
-    status?: EnumFundingStatusFieldUpdateOperationsInput | $Enums.FundingStatus
-    reviewedBy?: NullableStringFieldUpdateOperationsInput | string | null
-    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    rejectReason?: NullableStringFieldUpdateOperationsInput | string | null
-    creditScoreId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    umkmProfile?: UmkmProfileUpdateOneRequiredWithoutFundingApplicationsNestedInput
-  }
-
-  export type FundingApplicationUncheckedUpdateWithoutCampaignInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    umkmProfileId?: StringFieldUpdateOperationsInput | string
-    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
-    requestedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    durationMonths?: IntFieldUpdateOperationsInput | number
-    purpose?: StringFieldUpdateOperationsInput | string
-    status?: EnumFundingStatusFieldUpdateOperationsInput | $Enums.FundingStatus
-    reviewedBy?: NullableStringFieldUpdateOperationsInput | string | null
-    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    rejectReason?: NullableStringFieldUpdateOperationsInput | string | null
-    creditScoreId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type InvestmentUpsertWithWhereUniqueWithoutCampaignInput = {
-    where: InvestmentWhereUniqueInput
-    update: XOR<InvestmentUpdateWithoutCampaignInput, InvestmentUncheckedUpdateWithoutCampaignInput>
-    create: XOR<InvestmentCreateWithoutCampaignInput, InvestmentUncheckedCreateWithoutCampaignInput>
-  }
-
-  export type InvestmentUpdateWithWhereUniqueWithoutCampaignInput = {
-    where: InvestmentWhereUniqueInput
-    data: XOR<InvestmentUpdateWithoutCampaignInput, InvestmentUncheckedUpdateWithoutCampaignInput>
-  }
-
-  export type InvestmentUpdateManyWithWhereWithoutCampaignInput = {
-    where: InvestmentScalarWhereInput
-    data: XOR<InvestmentUpdateManyMutationInput, InvestmentUncheckedUpdateManyWithoutCampaignInput>
   }
 
   export type AkadUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -36676,6 +38130,224 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Akad"> | Date | string
   }
 
+  export type FundingApplicationUpsertWithoutCampaignInput = {
+    update: XOR<FundingApplicationUpdateWithoutCampaignInput, FundingApplicationUncheckedUpdateWithoutCampaignInput>
+    create: XOR<FundingApplicationCreateWithoutCampaignInput, FundingApplicationUncheckedCreateWithoutCampaignInput>
+    where?: FundingApplicationWhereInput
+  }
+
+  export type FundingApplicationUpdateToOneWithWhereWithoutCampaignInput = {
+    where?: FundingApplicationWhereInput
+    data: XOR<FundingApplicationUpdateWithoutCampaignInput, FundingApplicationUncheckedUpdateWithoutCampaignInput>
+  }
+
+  export type FundingApplicationUpdateWithoutCampaignInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
+    requestedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    durationMonths?: IntFieldUpdateOperationsInput | number
+    purpose?: StringFieldUpdateOperationsInput | string
+    status?: EnumFundingStatusFieldUpdateOperationsInput | $Enums.FundingStatus
+    reviewedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectReason?: NullableStringFieldUpdateOperationsInput | string | null
+    creditScoreId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    umkmProfile?: UmkmProfileUpdateOneRequiredWithoutFundingApplicationsNestedInput
+  }
+
+  export type FundingApplicationUncheckedUpdateWithoutCampaignInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    umkmProfileId?: StringFieldUpdateOperationsInput | string
+    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
+    requestedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    durationMonths?: IntFieldUpdateOperationsInput | number
+    purpose?: StringFieldUpdateOperationsInput | string
+    status?: EnumFundingStatusFieldUpdateOperationsInput | $Enums.FundingStatus
+    reviewedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectReason?: NullableStringFieldUpdateOperationsInput | string | null
+    creditScoreId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UmkmProfileUpsertWithoutCampaignsInput = {
+    update: XOR<UmkmProfileUpdateWithoutCampaignsInput, UmkmProfileUncheckedUpdateWithoutCampaignsInput>
+    create: XOR<UmkmProfileCreateWithoutCampaignsInput, UmkmProfileUncheckedCreateWithoutCampaignsInput>
+    where?: UmkmProfileWhereInput
+  }
+
+  export type UmkmProfileUpdateToOneWithWhereWithoutCampaignsInput = {
+    where?: UmkmProfileWhereInput
+    data: XOR<UmkmProfileUpdateWithoutCampaignsInput, UmkmProfileUncheckedUpdateWithoutCampaignsInput>
+  }
+
+  export type UmkmProfileUpdateWithoutCampaignsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerName?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    businessCategory?: StringFieldUpdateOperationsInput | string
+    businessDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    province?: NullableStringFieldUpdateOperationsInput | string | null
+    establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
+    monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    businessData?: BusinessDataUpdateManyWithoutUmkmProfileNestedInput
+    businessUpdates?: BusinessUpdateUpdateManyWithoutUmkmProfileNestedInput
+    creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
+    fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
+    user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
+  }
+
+  export type UmkmProfileUncheckedUpdateWithoutCampaignsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    ownerName?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    businessCategory?: StringFieldUpdateOperationsInput | string
+    businessDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    province?: NullableStringFieldUpdateOperationsInput | string | null
+    establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
+    monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    businessData?: BusinessDataUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    businessUpdates?: BusinessUpdateUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
+  }
+
+  export type InvestmentUpsertWithWhereUniqueWithoutCampaignInput = {
+    where: InvestmentWhereUniqueInput
+    update: XOR<InvestmentUpdateWithoutCampaignInput, InvestmentUncheckedUpdateWithoutCampaignInput>
+    create: XOR<InvestmentCreateWithoutCampaignInput, InvestmentUncheckedCreateWithoutCampaignInput>
+  }
+
+  export type InvestmentUpdateWithWhereUniqueWithoutCampaignInput = {
+    where: InvestmentWhereUniqueInput
+    data: XOR<InvestmentUpdateWithoutCampaignInput, InvestmentUncheckedUpdateWithoutCampaignInput>
+  }
+
+  export type InvestmentUpdateManyWithWhereWithoutCampaignInput = {
+    where: InvestmentScalarWhereInput
+    data: XOR<InvestmentUpdateManyMutationInput, InvestmentUncheckedUpdateManyWithoutCampaignInput>
+  }
+
+  export type AkadCreateWithoutInvestmentInput = {
+    id?: string
+    akadType: $Enums.AkadType
+    status?: $Enums.AkadStatus
+    principalAmount: Decimal | DecimalJsLike | number | string
+    nisbahUmkm: number
+    nisbahInvestor: number
+    platformFeeRate?: number
+    durationMonths: number
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    approvedBy?: string | null
+    approvedAt?: Date | string | null
+    umkmSignedAt?: Date | string | null
+    investorSignedAt?: Date | string | null
+    blockchainHash?: string | null
+    contractAddress?: string | null
+    blockchainStatus?: string | null
+    deployedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    campaign: CampaignCreateNestedOneWithoutAkadsInput
+    blockchainTransactions?: BlockchainTransactionCreateNestedManyWithoutAkadInput
+    profitSharings?: ProfitSharingCreateNestedManyWithoutAkadInput
+  }
+
+  export type AkadUncheckedCreateWithoutInvestmentInput = {
+    id?: string
+    campaignId: string
+    akadType: $Enums.AkadType
+    status?: $Enums.AkadStatus
+    principalAmount: Decimal | DecimalJsLike | number | string
+    nisbahUmkm: number
+    nisbahInvestor: number
+    platformFeeRate?: number
+    durationMonths: number
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    approvedBy?: string | null
+    approvedAt?: Date | string | null
+    umkmSignedAt?: Date | string | null
+    investorSignedAt?: Date | string | null
+    blockchainHash?: string | null
+    contractAddress?: string | null
+    blockchainStatus?: string | null
+    deployedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    blockchainTransactions?: BlockchainTransactionUncheckedCreateNestedManyWithoutAkadInput
+    profitSharings?: ProfitSharingUncheckedCreateNestedManyWithoutAkadInput
+  }
+
+  export type AkadCreateOrConnectWithoutInvestmentInput = {
+    where: AkadWhereUniqueInput
+    create: XOR<AkadCreateWithoutInvestmentInput, AkadUncheckedCreateWithoutInvestmentInput>
+  }
+
+  export type CampaignCreateWithoutInvestmentsInput = {
+    id?: string
+    title: string
+    story: string
+    targetAmount: Decimal | DecimalJsLike | number | string
+    collectedAmount?: Decimal | DecimalJsLike | number | string
+    akadType: $Enums.AkadType
+    durationMonths: number
+    estimatedRoi: number
+    status?: $Enums.FundingStatus
+    startDate?: Date | string
+    endDate?: Date | string | null
+    investorCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    akads?: AkadCreateNestedManyWithoutCampaignInput
+    fundingApplication?: FundingApplicationCreateNestedOneWithoutCampaignInput
+    umkmProfile: UmkmProfileCreateNestedOneWithoutCampaignsInput
+  }
+
+  export type CampaignUncheckedCreateWithoutInvestmentsInput = {
+    id?: string
+    umkmProfileId: string
+    fundingApplicationId?: string | null
+    title: string
+    story: string
+    targetAmount: Decimal | DecimalJsLike | number | string
+    collectedAmount?: Decimal | DecimalJsLike | number | string
+    akadType: $Enums.AkadType
+    durationMonths: number
+    estimatedRoi: number
+    status?: $Enums.FundingStatus
+    startDate?: Date | string
+    endDate?: Date | string | null
+    investorCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    akads?: AkadUncheckedCreateNestedManyWithoutCampaignInput
+  }
+
+  export type CampaignCreateOrConnectWithoutInvestmentsInput = {
+    where: CampaignWhereUniqueInput
+    create: XOR<CampaignCreateWithoutInvestmentsInput, CampaignUncheckedCreateWithoutInvestmentsInput>
+  }
+
   export type InvestorProfileCreateWithoutInvestmentsInput = {
     id?: string
     fullName: string
@@ -36711,108 +38383,6 @@ export namespace Prisma {
   export type InvestorProfileCreateOrConnectWithoutInvestmentsInput = {
     where: InvestorProfileWhereUniqueInput
     create: XOR<InvestorProfileCreateWithoutInvestmentsInput, InvestorProfileUncheckedCreateWithoutInvestmentsInput>
-  }
-
-  export type CampaignCreateWithoutInvestmentsInput = {
-    id?: string
-    title: string
-    story: string
-    targetAmount: Decimal | DecimalJsLike | number | string
-    collectedAmount?: Decimal | DecimalJsLike | number | string
-    akadType: $Enums.AkadType
-    durationMonths: number
-    estimatedRoi: number
-    status?: $Enums.FundingStatus
-    startDate?: Date | string
-    endDate?: Date | string | null
-    investorCount?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    umkmProfile: UmkmProfileCreateNestedOneWithoutCampaignsInput
-    fundingApplication?: FundingApplicationCreateNestedOneWithoutCampaignInput
-    akads?: AkadCreateNestedManyWithoutCampaignInput
-  }
-
-  export type CampaignUncheckedCreateWithoutInvestmentsInput = {
-    id?: string
-    umkmProfileId: string
-    fundingApplicationId?: string | null
-    title: string
-    story: string
-    targetAmount: Decimal | DecimalJsLike | number | string
-    collectedAmount?: Decimal | DecimalJsLike | number | string
-    akadType: $Enums.AkadType
-    durationMonths: number
-    estimatedRoi: number
-    status?: $Enums.FundingStatus
-    startDate?: Date | string
-    endDate?: Date | string | null
-    investorCount?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    akads?: AkadUncheckedCreateNestedManyWithoutCampaignInput
-  }
-
-  export type CampaignCreateOrConnectWithoutInvestmentsInput = {
-    where: CampaignWhereUniqueInput
-    create: XOR<CampaignCreateWithoutInvestmentsInput, CampaignUncheckedCreateWithoutInvestmentsInput>
-  }
-
-  export type AkadCreateWithoutInvestmentInput = {
-    id?: string
-    akadType: $Enums.AkadType
-    status?: $Enums.AkadStatus
-    principalAmount: Decimal | DecimalJsLike | number | string
-    nisbahUmkm: number
-    nisbahInvestor: number
-    platformFeeRate?: number
-    durationMonths: number
-    startDate?: Date | string | null
-    endDate?: Date | string | null
-    approvedBy?: string | null
-    approvedAt?: Date | string | null
-    umkmSignedAt?: Date | string | null
-    investorSignedAt?: Date | string | null
-    blockchainHash?: string | null
-    contractAddress?: string | null
-    blockchainStatus?: string | null
-    deployedAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    campaign: CampaignCreateNestedOneWithoutAkadsInput
-    profitSharings?: ProfitSharingCreateNestedManyWithoutAkadInput
-    blockchainTransactions?: BlockchainTransactionCreateNestedManyWithoutAkadInput
-  }
-
-  export type AkadUncheckedCreateWithoutInvestmentInput = {
-    id?: string
-    campaignId: string
-    akadType: $Enums.AkadType
-    status?: $Enums.AkadStatus
-    principalAmount: Decimal | DecimalJsLike | number | string
-    nisbahUmkm: number
-    nisbahInvestor: number
-    platformFeeRate?: number
-    durationMonths: number
-    startDate?: Date | string | null
-    endDate?: Date | string | null
-    approvedBy?: string | null
-    approvedAt?: Date | string | null
-    umkmSignedAt?: Date | string | null
-    investorSignedAt?: Date | string | null
-    blockchainHash?: string | null
-    contractAddress?: string | null
-    blockchainStatus?: string | null
-    deployedAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    profitSharings?: ProfitSharingUncheckedCreateNestedManyWithoutAkadInput
-    blockchainTransactions?: BlockchainTransactionUncheckedCreateNestedManyWithoutAkadInput
-  }
-
-  export type AkadCreateOrConnectWithoutInvestmentInput = {
-    where: AkadWhereUniqueInput
-    create: XOR<AkadCreateWithoutInvestmentInput, AkadUncheckedCreateWithoutInvestmentInput>
   }
 
   export type ProfitSharingCreateWithoutInvestmentInput = {
@@ -36857,6 +38427,120 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AkadUpsertWithoutInvestmentInput = {
+    update: XOR<AkadUpdateWithoutInvestmentInput, AkadUncheckedUpdateWithoutInvestmentInput>
+    create: XOR<AkadCreateWithoutInvestmentInput, AkadUncheckedCreateWithoutInvestmentInput>
+    where?: AkadWhereInput
+  }
+
+  export type AkadUpdateToOneWithWhereWithoutInvestmentInput = {
+    where?: AkadWhereInput
+    data: XOR<AkadUpdateWithoutInvestmentInput, AkadUncheckedUpdateWithoutInvestmentInput>
+  }
+
+  export type AkadUpdateWithoutInvestmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
+    status?: EnumAkadStatusFieldUpdateOperationsInput | $Enums.AkadStatus
+    principalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    nisbahUmkm?: FloatFieldUpdateOperationsInput | number
+    nisbahInvestor?: FloatFieldUpdateOperationsInput | number
+    platformFeeRate?: FloatFieldUpdateOperationsInput | number
+    durationMonths?: IntFieldUpdateOperationsInput | number
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    umkmSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    investorSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    blockchainHash?: NullableStringFieldUpdateOperationsInput | string | null
+    contractAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    blockchainStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    deployedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    campaign?: CampaignUpdateOneRequiredWithoutAkadsNestedInput
+    blockchainTransactions?: BlockchainTransactionUpdateManyWithoutAkadNestedInput
+    profitSharings?: ProfitSharingUpdateManyWithoutAkadNestedInput
+  }
+
+  export type AkadUncheckedUpdateWithoutInvestmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    campaignId?: StringFieldUpdateOperationsInput | string
+    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
+    status?: EnumAkadStatusFieldUpdateOperationsInput | $Enums.AkadStatus
+    principalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    nisbahUmkm?: FloatFieldUpdateOperationsInput | number
+    nisbahInvestor?: FloatFieldUpdateOperationsInput | number
+    platformFeeRate?: FloatFieldUpdateOperationsInput | number
+    durationMonths?: IntFieldUpdateOperationsInput | number
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    umkmSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    investorSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    blockchainHash?: NullableStringFieldUpdateOperationsInput | string | null
+    contractAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    blockchainStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    deployedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blockchainTransactions?: BlockchainTransactionUncheckedUpdateManyWithoutAkadNestedInput
+    profitSharings?: ProfitSharingUncheckedUpdateManyWithoutAkadNestedInput
+  }
+
+  export type CampaignUpsertWithoutInvestmentsInput = {
+    update: XOR<CampaignUpdateWithoutInvestmentsInput, CampaignUncheckedUpdateWithoutInvestmentsInput>
+    create: XOR<CampaignCreateWithoutInvestmentsInput, CampaignUncheckedCreateWithoutInvestmentsInput>
+    where?: CampaignWhereInput
+  }
+
+  export type CampaignUpdateToOneWithWhereWithoutInvestmentsInput = {
+    where?: CampaignWhereInput
+    data: XOR<CampaignUpdateWithoutInvestmentsInput, CampaignUncheckedUpdateWithoutInvestmentsInput>
+  }
+
+  export type CampaignUpdateWithoutInvestmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    story?: StringFieldUpdateOperationsInput | string
+    targetAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    collectedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
+    durationMonths?: IntFieldUpdateOperationsInput | number
+    estimatedRoi?: FloatFieldUpdateOperationsInput | number
+    status?: EnumFundingStatusFieldUpdateOperationsInput | $Enums.FundingStatus
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    investorCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    akads?: AkadUpdateManyWithoutCampaignNestedInput
+    fundingApplication?: FundingApplicationUpdateOneWithoutCampaignNestedInput
+    umkmProfile?: UmkmProfileUpdateOneRequiredWithoutCampaignsNestedInput
+  }
+
+  export type CampaignUncheckedUpdateWithoutInvestmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    umkmProfileId?: StringFieldUpdateOperationsInput | string
+    fundingApplicationId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    story?: StringFieldUpdateOperationsInput | string
+    targetAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    collectedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
+    durationMonths?: IntFieldUpdateOperationsInput | number
+    estimatedRoi?: FloatFieldUpdateOperationsInput | number
+    status?: EnumFundingStatusFieldUpdateOperationsInput | $Enums.FundingStatus
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    investorCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    akads?: AkadUncheckedUpdateManyWithoutCampaignNestedInput
+  }
+
   export type InvestorProfileUpsertWithoutInvestmentsInput = {
     update: XOR<InvestorProfileUpdateWithoutInvestmentsInput, InvestorProfileUncheckedUpdateWithoutInvestmentsInput>
     create: XOR<InvestorProfileCreateWithoutInvestmentsInput, InvestorProfileUncheckedCreateWithoutInvestmentsInput>
@@ -36898,120 +38582,6 @@ export namespace Prisma {
     totalProfit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type CampaignUpsertWithoutInvestmentsInput = {
-    update: XOR<CampaignUpdateWithoutInvestmentsInput, CampaignUncheckedUpdateWithoutInvestmentsInput>
-    create: XOR<CampaignCreateWithoutInvestmentsInput, CampaignUncheckedCreateWithoutInvestmentsInput>
-    where?: CampaignWhereInput
-  }
-
-  export type CampaignUpdateToOneWithWhereWithoutInvestmentsInput = {
-    where?: CampaignWhereInput
-    data: XOR<CampaignUpdateWithoutInvestmentsInput, CampaignUncheckedUpdateWithoutInvestmentsInput>
-  }
-
-  export type CampaignUpdateWithoutInvestmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    story?: StringFieldUpdateOperationsInput | string
-    targetAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    collectedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
-    durationMonths?: IntFieldUpdateOperationsInput | number
-    estimatedRoi?: FloatFieldUpdateOperationsInput | number
-    status?: EnumFundingStatusFieldUpdateOperationsInput | $Enums.FundingStatus
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    investorCount?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    umkmProfile?: UmkmProfileUpdateOneRequiredWithoutCampaignsNestedInput
-    fundingApplication?: FundingApplicationUpdateOneWithoutCampaignNestedInput
-    akads?: AkadUpdateManyWithoutCampaignNestedInput
-  }
-
-  export type CampaignUncheckedUpdateWithoutInvestmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    umkmProfileId?: StringFieldUpdateOperationsInput | string
-    fundingApplicationId?: NullableStringFieldUpdateOperationsInput | string | null
-    title?: StringFieldUpdateOperationsInput | string
-    story?: StringFieldUpdateOperationsInput | string
-    targetAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    collectedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
-    durationMonths?: IntFieldUpdateOperationsInput | number
-    estimatedRoi?: FloatFieldUpdateOperationsInput | number
-    status?: EnumFundingStatusFieldUpdateOperationsInput | $Enums.FundingStatus
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    investorCount?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    akads?: AkadUncheckedUpdateManyWithoutCampaignNestedInput
-  }
-
-  export type AkadUpsertWithoutInvestmentInput = {
-    update: XOR<AkadUpdateWithoutInvestmentInput, AkadUncheckedUpdateWithoutInvestmentInput>
-    create: XOR<AkadCreateWithoutInvestmentInput, AkadUncheckedCreateWithoutInvestmentInput>
-    where?: AkadWhereInput
-  }
-
-  export type AkadUpdateToOneWithWhereWithoutInvestmentInput = {
-    where?: AkadWhereInput
-    data: XOR<AkadUpdateWithoutInvestmentInput, AkadUncheckedUpdateWithoutInvestmentInput>
-  }
-
-  export type AkadUpdateWithoutInvestmentInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
-    status?: EnumAkadStatusFieldUpdateOperationsInput | $Enums.AkadStatus
-    principalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    nisbahUmkm?: FloatFieldUpdateOperationsInput | number
-    nisbahInvestor?: FloatFieldUpdateOperationsInput | number
-    platformFeeRate?: FloatFieldUpdateOperationsInput | number
-    durationMonths?: IntFieldUpdateOperationsInput | number
-    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
-    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    umkmSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    investorSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    blockchainHash?: NullableStringFieldUpdateOperationsInput | string | null
-    contractAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    blockchainStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    deployedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    campaign?: CampaignUpdateOneRequiredWithoutAkadsNestedInput
-    profitSharings?: ProfitSharingUpdateManyWithoutAkadNestedInput
-    blockchainTransactions?: BlockchainTransactionUpdateManyWithoutAkadNestedInput
-  }
-
-  export type AkadUncheckedUpdateWithoutInvestmentInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    campaignId?: StringFieldUpdateOperationsInput | string
-    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
-    status?: EnumAkadStatusFieldUpdateOperationsInput | $Enums.AkadStatus
-    principalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    nisbahUmkm?: FloatFieldUpdateOperationsInput | number
-    nisbahInvestor?: FloatFieldUpdateOperationsInput | number
-    platformFeeRate?: FloatFieldUpdateOperationsInput | number
-    durationMonths?: IntFieldUpdateOperationsInput | number
-    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
-    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    umkmSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    investorSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    blockchainHash?: NullableStringFieldUpdateOperationsInput | string | null
-    contractAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    blockchainStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    deployedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    profitSharings?: ProfitSharingUncheckedUpdateManyWithoutAkadNestedInput
-    blockchainTransactions?: BlockchainTransactionUncheckedUpdateManyWithoutAkadNestedInput
   }
 
   export type ProfitSharingUpsertWithWhereUniqueWithoutInvestmentInput = {
@@ -37065,8 +38635,8 @@ export namespace Prisma {
     investorCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    umkmProfile: UmkmProfileCreateNestedOneWithoutCampaignsInput
     fundingApplication?: FundingApplicationCreateNestedOneWithoutCampaignInput
+    umkmProfile: UmkmProfileCreateNestedOneWithoutCampaignsInput
     investments?: InvestmentCreateNestedManyWithoutCampaignInput
   }
 
@@ -37105,8 +38675,8 @@ export namespace Prisma {
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    investorProfile: InvestorProfileCreateNestedOneWithoutInvestmentsInput
     campaign: CampaignCreateNestedOneWithoutInvestmentsInput
+    investorProfile: InvestorProfileCreateNestedOneWithoutInvestmentsInput
     profitSharings?: ProfitSharingCreateNestedManyWithoutInvestmentInput
   }
 
@@ -37128,6 +38698,42 @@ export namespace Prisma {
   export type InvestmentCreateOrConnectWithoutAkadInput = {
     where: InvestmentWhereUniqueInput
     create: XOR<InvestmentCreateWithoutAkadInput, InvestmentUncheckedCreateWithoutAkadInput>
+  }
+
+  export type BlockchainTransactionCreateWithoutAkadInput = {
+    id?: string
+    txHash: string
+    blockNumber?: bigint | number | null
+    contractAddress?: string | null
+    eventType: string
+    status: string
+    gasUsed?: bigint | number | null
+    timestamp: Date | string
+    rawData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type BlockchainTransactionUncheckedCreateWithoutAkadInput = {
+    id?: string
+    txHash: string
+    blockNumber?: bigint | number | null
+    contractAddress?: string | null
+    eventType: string
+    status: string
+    gasUsed?: bigint | number | null
+    timestamp: Date | string
+    rawData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type BlockchainTransactionCreateOrConnectWithoutAkadInput = {
+    where: BlockchainTransactionWhereUniqueInput
+    create: XOR<BlockchainTransactionCreateWithoutAkadInput, BlockchainTransactionUncheckedCreateWithoutAkadInput>
+  }
+
+  export type BlockchainTransactionCreateManyAkadInputEnvelope = {
+    data: BlockchainTransactionCreateManyAkadInput | BlockchainTransactionCreateManyAkadInput[]
+    skipDuplicates?: boolean
   }
 
   export type ProfitSharingCreateWithoutAkadInput = {
@@ -37172,42 +38778,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type BlockchainTransactionCreateWithoutAkadInput = {
-    id?: string
-    txHash: string
-    blockNumber?: bigint | number | null
-    contractAddress?: string | null
-    eventType: string
-    status: string
-    gasUsed?: bigint | number | null
-    timestamp: Date | string
-    rawData?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-  }
-
-  export type BlockchainTransactionUncheckedCreateWithoutAkadInput = {
-    id?: string
-    txHash: string
-    blockNumber?: bigint | number | null
-    contractAddress?: string | null
-    eventType: string
-    status: string
-    gasUsed?: bigint | number | null
-    timestamp: Date | string
-    rawData?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-  }
-
-  export type BlockchainTransactionCreateOrConnectWithoutAkadInput = {
-    where: BlockchainTransactionWhereUniqueInput
-    create: XOR<BlockchainTransactionCreateWithoutAkadInput, BlockchainTransactionUncheckedCreateWithoutAkadInput>
-  }
-
-  export type BlockchainTransactionCreateManyAkadInputEnvelope = {
-    data: BlockchainTransactionCreateManyAkadInput | BlockchainTransactionCreateManyAkadInput[]
-    skipDuplicates?: boolean
-  }
-
   export type CampaignUpsertWithoutAkadsInput = {
     update: XOR<CampaignUpdateWithoutAkadsInput, CampaignUncheckedUpdateWithoutAkadsInput>
     create: XOR<CampaignCreateWithoutAkadsInput, CampaignUncheckedCreateWithoutAkadsInput>
@@ -37234,8 +38804,8 @@ export namespace Prisma {
     investorCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    umkmProfile?: UmkmProfileUpdateOneRequiredWithoutCampaignsNestedInput
     fundingApplication?: FundingApplicationUpdateOneWithoutCampaignNestedInput
+    umkmProfile?: UmkmProfileUpdateOneRequiredWithoutCampaignsNestedInput
     investments?: InvestmentUpdateManyWithoutCampaignNestedInput
   }
 
@@ -37280,8 +38850,8 @@ export namespace Prisma {
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    investorProfile?: InvestorProfileUpdateOneRequiredWithoutInvestmentsNestedInput
     campaign?: CampaignUpdateOneRequiredWithoutInvestmentsNestedInput
+    investorProfile?: InvestorProfileUpdateOneRequiredWithoutInvestmentsNestedInput
     profitSharings?: ProfitSharingUpdateManyWithoutInvestmentNestedInput
   }
 
@@ -37298,22 +38868,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profitSharings?: ProfitSharingUncheckedUpdateManyWithoutInvestmentNestedInput
-  }
-
-  export type ProfitSharingUpsertWithWhereUniqueWithoutAkadInput = {
-    where: ProfitSharingWhereUniqueInput
-    update: XOR<ProfitSharingUpdateWithoutAkadInput, ProfitSharingUncheckedUpdateWithoutAkadInput>
-    create: XOR<ProfitSharingCreateWithoutAkadInput, ProfitSharingUncheckedCreateWithoutAkadInput>
-  }
-
-  export type ProfitSharingUpdateWithWhereUniqueWithoutAkadInput = {
-    where: ProfitSharingWhereUniqueInput
-    data: XOR<ProfitSharingUpdateWithoutAkadInput, ProfitSharingUncheckedUpdateWithoutAkadInput>
-  }
-
-  export type ProfitSharingUpdateManyWithWhereWithoutAkadInput = {
-    where: ProfitSharingScalarWhereInput
-    data: XOR<ProfitSharingUpdateManyMutationInput, ProfitSharingUncheckedUpdateManyWithoutAkadInput>
   }
 
   export type BlockchainTransactionUpsertWithWhereUniqueWithoutAkadInput = {
@@ -37347,6 +38901,22 @@ export namespace Prisma {
     timestamp?: DateTimeFilter<"BlockchainTransaction"> | Date | string
     rawData?: JsonNullableFilter<"BlockchainTransaction">
     createdAt?: DateTimeFilter<"BlockchainTransaction"> | Date | string
+  }
+
+  export type ProfitSharingUpsertWithWhereUniqueWithoutAkadInput = {
+    where: ProfitSharingWhereUniqueInput
+    update: XOR<ProfitSharingUpdateWithoutAkadInput, ProfitSharingUncheckedUpdateWithoutAkadInput>
+    create: XOR<ProfitSharingCreateWithoutAkadInput, ProfitSharingUncheckedCreateWithoutAkadInput>
+  }
+
+  export type ProfitSharingUpdateWithWhereUniqueWithoutAkadInput = {
+    where: ProfitSharingWhereUniqueInput
+    data: XOR<ProfitSharingUpdateWithoutAkadInput, ProfitSharingUncheckedUpdateWithoutAkadInput>
+  }
+
+  export type ProfitSharingUpdateManyWithWhereWithoutAkadInput = {
+    where: ProfitSharingScalarWhereInput
+    data: XOR<ProfitSharingUpdateManyMutationInput, ProfitSharingUncheckedUpdateManyWithoutAkadInput>
   }
 
   export type AkadCreateWithoutProfitSharingsInput = {
@@ -37416,9 +38986,9 @@ export namespace Prisma {
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    investorProfile: InvestorProfileCreateNestedOneWithoutInvestmentsInput
-    campaign: CampaignCreateNestedOneWithoutInvestmentsInput
     akad?: AkadCreateNestedOneWithoutInvestmentInput
+    campaign: CampaignCreateNestedOneWithoutInvestmentsInput
+    investorProfile: InvestorProfileCreateNestedOneWithoutInvestmentsInput
   }
 
   export type InvestmentUncheckedCreateWithoutProfitSharingsInput = {
@@ -37525,9 +39095,9 @@ export namespace Prisma {
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    investorProfile?: InvestorProfileUpdateOneRequiredWithoutInvestmentsNestedInput
-    campaign?: CampaignUpdateOneRequiredWithoutInvestmentsNestedInput
     akad?: AkadUpdateOneWithoutInvestmentNestedInput
+    campaign?: CampaignUpdateOneRequiredWithoutInvestmentsNestedInput
+    investorProfile?: InvestorProfileUpdateOneRequiredWithoutInvestmentsNestedInput
   }
 
   export type InvestmentUncheckedUpdateWithoutProfitSharingsInput = {
@@ -37543,57 +39113,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     akad?: AkadUncheckedUpdateOneWithoutInvestmentNestedInput
-  }
-
-  export type UserCreateWithoutWalletInput = {
-    id?: string
-    email?: string | null
-    phoneNumber: string
-    passwordHash?: string | null
-    role: $Enums.Role
-    status?: $Enums.UserStatus
-    kycStatus?: $Enums.KycStatus
-    isEmailVerified?: boolean
-    isPhoneVerified?: boolean
-    lastLoginAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    adminProfile?: AdminProfileCreateNestedOneWithoutUserInput
-    investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
-    umkmProfile?: UmkmProfileCreateNestedOneWithoutUserInput
-    kycDocuments?: KycDocumentCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
-    otpVerifications?: OtpVerificationCreateNestedManyWithoutUserInput
-    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutWalletInput = {
-    id?: string
-    email?: string | null
-    phoneNumber: string
-    passwordHash?: string | null
-    role: $Enums.Role
-    status?: $Enums.UserStatus
-    kycStatus?: $Enums.KycStatus
-    isEmailVerified?: boolean
-    isPhoneVerified?: boolean
-    lastLoginAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    adminProfile?: AdminProfileUncheckedCreateNestedOneWithoutUserInput
-    investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
-    umkmProfile?: UmkmProfileUncheckedCreateNestedOneWithoutUserInput
-    kycDocuments?: KycDocumentUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
-    otpVerifications?: OtpVerificationUncheckedCreateNestedManyWithoutUserInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutWalletInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutWalletInput, UserUncheckedCreateWithoutWalletInput>
   }
 
   export type TransactionCreateWithoutWalletInput = {
@@ -37644,61 +39163,57 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type UserUpsertWithoutWalletInput = {
-    update: XOR<UserUpdateWithoutWalletInput, UserUncheckedUpdateWithoutWalletInput>
+  export type UserCreateWithoutWalletInput = {
+    id?: string
+    email?: string | null
+    phoneNumber: string
+    passwordHash?: string | null
+    role: $Enums.Role
+    status?: $Enums.UserStatus
+    kycStatus?: $Enums.KycStatus
+    isEmailVerified?: boolean
+    isPhoneVerified?: boolean
+    lastLoginAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    adminProfile?: AdminProfileCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+    kycDocuments?: KycDocumentCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    otpVerifications?: OtpVerificationCreateNestedManyWithoutUserInput
+    umkmProfile?: UmkmProfileCreateNestedOneWithoutUserInput
+    beritas?: BeritaCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateWithoutWalletInput = {
+    id?: string
+    email?: string | null
+    phoneNumber: string
+    passwordHash?: string | null
+    role: $Enums.Role
+    status?: $Enums.UserStatus
+    kycStatus?: $Enums.KycStatus
+    isEmailVerified?: boolean
+    isPhoneVerified?: boolean
+    lastLoginAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    adminProfile?: AdminProfileUncheckedCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+    kycDocuments?: KycDocumentUncheckedCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    otpVerifications?: OtpVerificationUncheckedCreateNestedManyWithoutUserInput
+    umkmProfile?: UmkmProfileUncheckedCreateNestedOneWithoutUserInput
+    beritas?: BeritaUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserCreateOrConnectWithoutWalletInput = {
+    where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutWalletInput, UserUncheckedCreateWithoutWalletInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutWalletInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutWalletInput, UserUncheckedUpdateWithoutWalletInput>
-  }
-
-  export type UserUpdateWithoutWalletInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    phoneNumber?: StringFieldUpdateOperationsInput | string
-    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    kycStatus?: EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
-    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    adminProfile?: AdminProfileUpdateOneWithoutUserNestedInput
-    investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
-    umkmProfile?: UmkmProfileUpdateOneWithoutUserNestedInput
-    kycDocuments?: KycDocumentUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
-    otpVerifications?: OtpVerificationUpdateManyWithoutUserNestedInput
-    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutWalletInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    phoneNumber?: StringFieldUpdateOperationsInput | string
-    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    kycStatus?: EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
-    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    adminProfile?: AdminProfileUncheckedUpdateOneWithoutUserNestedInput
-    investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
-    umkmProfile?: UmkmProfileUncheckedUpdateOneWithoutUserNestedInput
-    kycDocuments?: KycDocumentUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
-    otpVerifications?: OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
-    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TransactionUpsertWithWhereUniqueWithoutWalletInput = {
@@ -37739,27 +39254,63 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
   }
 
-  export type WalletCreateWithoutTransactionsInput = {
-    id?: string
-    balance?: Decimal | DecimalJsLike | number | string
-    lockedBalance?: Decimal | DecimalJsLike | number | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutWalletInput
+  export type UserUpsertWithoutWalletInput = {
+    update: XOR<UserUpdateWithoutWalletInput, UserUncheckedUpdateWithoutWalletInput>
+    create: XOR<UserCreateWithoutWalletInput, UserUncheckedCreateWithoutWalletInput>
+    where?: UserWhereInput
   }
 
-  export type WalletUncheckedCreateWithoutTransactionsInput = {
-    id?: string
-    userId: string
-    balance?: Decimal | DecimalJsLike | number | string
-    lockedBalance?: Decimal | DecimalJsLike | number | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+  export type UserUpdateToOneWithWhereWithoutWalletInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutWalletInput, UserUncheckedUpdateWithoutWalletInput>
   }
 
-  export type WalletCreateOrConnectWithoutTransactionsInput = {
-    where: WalletWhereUniqueInput
-    create: XOR<WalletCreateWithoutTransactionsInput, WalletUncheckedCreateWithoutTransactionsInput>
+  export type UserUpdateWithoutWalletInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    kycStatus?: EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    adminProfile?: AdminProfileUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+    kycDocuments?: KycDocumentUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    otpVerifications?: OtpVerificationUpdateManyWithoutUserNestedInput
+    umkmProfile?: UmkmProfileUpdateOneWithoutUserNestedInput
+    beritas?: BeritaUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutWalletInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    kycStatus?: EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    adminProfile?: AdminProfileUncheckedUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
+    kycDocuments?: KycDocumentUncheckedUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    otpVerifications?: OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
+    umkmProfile?: UmkmProfileUncheckedUpdateOneWithoutUserNestedInput
+    beritas?: BeritaUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type FraudAlertCreateWithoutTransactionInput = {
@@ -37795,33 +39346,27 @@ export namespace Prisma {
     create: XOR<FraudAlertCreateWithoutTransactionInput, FraudAlertUncheckedCreateWithoutTransactionInput>
   }
 
-  export type WalletUpsertWithoutTransactionsInput = {
-    update: XOR<WalletUpdateWithoutTransactionsInput, WalletUncheckedUpdateWithoutTransactionsInput>
+  export type WalletCreateWithoutTransactionsInput = {
+    id?: string
+    balance?: Decimal | DecimalJsLike | number | string
+    lockedBalance?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutWalletInput
+  }
+
+  export type WalletUncheckedCreateWithoutTransactionsInput = {
+    id?: string
+    userId: string
+    balance?: Decimal | DecimalJsLike | number | string
+    lockedBalance?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WalletCreateOrConnectWithoutTransactionsInput = {
+    where: WalletWhereUniqueInput
     create: XOR<WalletCreateWithoutTransactionsInput, WalletUncheckedCreateWithoutTransactionsInput>
-    where?: WalletWhereInput
-  }
-
-  export type WalletUpdateToOneWithWhereWithoutTransactionsInput = {
-    where?: WalletWhereInput
-    data: XOR<WalletUpdateWithoutTransactionsInput, WalletUncheckedUpdateWithoutTransactionsInput>
-  }
-
-  export type WalletUpdateWithoutTransactionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    lockedBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutWalletNestedInput
-  }
-
-  export type WalletUncheckedUpdateWithoutTransactionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    lockedBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FraudAlertUpsertWithoutTransactionInput = {
@@ -37859,6 +39404,35 @@ export namespace Prisma {
     reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     actionTaken?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WalletUpsertWithoutTransactionsInput = {
+    update: XOR<WalletUpdateWithoutTransactionsInput, WalletUncheckedUpdateWithoutTransactionsInput>
+    create: XOR<WalletCreateWithoutTransactionsInput, WalletUncheckedCreateWithoutTransactionsInput>
+    where?: WalletWhereInput
+  }
+
+  export type WalletUpdateToOneWithWhereWithoutTransactionsInput = {
+    where?: WalletWhereInput
+    data: XOR<WalletUpdateWithoutTransactionsInput, WalletUncheckedUpdateWithoutTransactionsInput>
+  }
+
+  export type WalletUpdateWithoutTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    lockedBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutWalletNestedInput
+  }
+
+  export type WalletUncheckedUpdateWithoutTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    lockedBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -38075,57 +39649,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type UserCreateWithoutNotificationsInput = {
-    id?: string
-    email?: string | null
-    phoneNumber: string
-    passwordHash?: string | null
-    role: $Enums.Role
-    status?: $Enums.UserStatus
-    kycStatus?: $Enums.KycStatus
-    isEmailVerified?: boolean
-    isPhoneVerified?: boolean
-    lastLoginAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    adminProfile?: AdminProfileCreateNestedOneWithoutUserInput
-    investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
-    umkmProfile?: UmkmProfileCreateNestedOneWithoutUserInput
-    wallet?: WalletCreateNestedOneWithoutUserInput
-    kycDocuments?: KycDocumentCreateNestedManyWithoutUserInput
-    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
-    otpVerifications?: OtpVerificationCreateNestedManyWithoutUserInput
-    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutNotificationsInput = {
-    id?: string
-    email?: string | null
-    phoneNumber: string
-    passwordHash?: string | null
-    role: $Enums.Role
-    status?: $Enums.UserStatus
-    kycStatus?: $Enums.KycStatus
-    isEmailVerified?: boolean
-    isPhoneVerified?: boolean
-    lastLoginAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    adminProfile?: AdminProfileUncheckedCreateNestedOneWithoutUserInput
-    investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
-    umkmProfile?: UmkmProfileUncheckedCreateNestedOneWithoutUserInput
-    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
-    kycDocuments?: KycDocumentUncheckedCreateNestedManyWithoutUserInput
-    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
-    otpVerifications?: OtpVerificationUncheckedCreateNestedManyWithoutUserInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutNotificationsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
-  }
-
   export type UserCreateWithoutSentNotificationsInput = {
     id?: string
     email?: string | null
@@ -38140,13 +39663,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     adminProfile?: AdminProfileCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
-    umkmProfile?: UmkmProfileCreateNestedOneWithoutUserInput
-    wallet?: WalletCreateNestedOneWithoutUserInput
     kycDocuments?: KycDocumentCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     otpVerifications?: OtpVerificationCreateNestedManyWithoutUserInput
-    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    umkmProfile?: UmkmProfileCreateNestedOneWithoutUserInput
+    wallet?: WalletCreateNestedOneWithoutUserInput
+    beritas?: BeritaCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutSentNotificationsInput = {
@@ -38163,13 +39687,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     adminProfile?: AdminProfileUncheckedCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
-    umkmProfile?: UmkmProfileUncheckedCreateNestedOneWithoutUserInput
-    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
     kycDocuments?: KycDocumentUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     otpVerifications?: OtpVerificationUncheckedCreateNestedManyWithoutUserInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    umkmProfile?: UmkmProfileUncheckedCreateNestedOneWithoutUserInput
+    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
+    beritas?: BeritaUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutSentNotificationsInput = {
@@ -38177,61 +39702,57 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutSentNotificationsInput, UserUncheckedCreateWithoutSentNotificationsInput>
   }
 
-  export type UserUpsertWithoutNotificationsInput = {
-    update: XOR<UserUpdateWithoutNotificationsInput, UserUncheckedUpdateWithoutNotificationsInput>
+  export type UserCreateWithoutNotificationsInput = {
+    id?: string
+    email?: string | null
+    phoneNumber: string
+    passwordHash?: string | null
+    role: $Enums.Role
+    status?: $Enums.UserStatus
+    kycStatus?: $Enums.KycStatus
+    isEmailVerified?: boolean
+    isPhoneVerified?: boolean
+    lastLoginAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    adminProfile?: AdminProfileCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+    kycDocuments?: KycDocumentCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
+    otpVerifications?: OtpVerificationCreateNestedManyWithoutUserInput
+    umkmProfile?: UmkmProfileCreateNestedOneWithoutUserInput
+    wallet?: WalletCreateNestedOneWithoutUserInput
+    beritas?: BeritaCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateWithoutNotificationsInput = {
+    id?: string
+    email?: string | null
+    phoneNumber: string
+    passwordHash?: string | null
+    role: $Enums.Role
+    status?: $Enums.UserStatus
+    kycStatus?: $Enums.KycStatus
+    isEmailVerified?: boolean
+    isPhoneVerified?: boolean
+    lastLoginAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    adminProfile?: AdminProfileUncheckedCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+    kycDocuments?: KycDocumentUncheckedCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
+    otpVerifications?: OtpVerificationUncheckedCreateNestedManyWithoutUserInput
+    umkmProfile?: UmkmProfileUncheckedCreateNestedOneWithoutUserInput
+    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
+    beritas?: BeritaUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserCreateOrConnectWithoutNotificationsInput = {
+    where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutNotificationsInput, UserUncheckedUpdateWithoutNotificationsInput>
-  }
-
-  export type UserUpdateWithoutNotificationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    phoneNumber?: StringFieldUpdateOperationsInput | string
-    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    kycStatus?: EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
-    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    adminProfile?: AdminProfileUpdateOneWithoutUserNestedInput
-    investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
-    umkmProfile?: UmkmProfileUpdateOneWithoutUserNestedInput
-    wallet?: WalletUpdateOneWithoutUserNestedInput
-    kycDocuments?: KycDocumentUpdateManyWithoutUserNestedInput
-    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
-    otpVerifications?: OtpVerificationUpdateManyWithoutUserNestedInput
-    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutNotificationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    phoneNumber?: StringFieldUpdateOperationsInput | string
-    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    kycStatus?: EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
-    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
-    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    adminProfile?: AdminProfileUncheckedUpdateOneWithoutUserNestedInput
-    investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
-    umkmProfile?: UmkmProfileUncheckedUpdateOneWithoutUserNestedInput
-    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
-    kycDocuments?: KycDocumentUncheckedUpdateManyWithoutUserNestedInput
-    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
-    otpVerifications?: OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
-    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutSentNotificationsInput = {
@@ -38259,13 +39780,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     adminProfile?: AdminProfileUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
-    umkmProfile?: UmkmProfileUpdateOneWithoutUserNestedInput
-    wallet?: WalletUpdateOneWithoutUserNestedInput
     kycDocuments?: KycDocumentUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     otpVerifications?: OtpVerificationUpdateManyWithoutUserNestedInput
-    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    umkmProfile?: UmkmProfileUpdateOneWithoutUserNestedInput
+    wallet?: WalletUpdateOneWithoutUserNestedInput
+    beritas?: BeritaUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSentNotificationsInput = {
@@ -38282,13 +39804,73 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     adminProfile?: AdminProfileUncheckedUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
-    umkmProfile?: UmkmProfileUncheckedUpdateOneWithoutUserNestedInput
-    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
     kycDocuments?: KycDocumentUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     otpVerifications?: OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
+    umkmProfile?: UmkmProfileUncheckedUpdateOneWithoutUserNestedInput
+    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
+    beritas?: BeritaUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUpsertWithoutNotificationsInput = {
+    update: XOR<UserUpdateWithoutNotificationsInput, UserUncheckedUpdateWithoutNotificationsInput>
+    create: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutNotificationsInput, UserUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type UserUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    kycStatus?: EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    adminProfile?: AdminProfileUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+    kycDocuments?: KycDocumentUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
+    otpVerifications?: OtpVerificationUpdateManyWithoutUserNestedInput
+    umkmProfile?: UmkmProfileUpdateOneWithoutUserNestedInput
+    wallet?: WalletUpdateOneWithoutUserNestedInput
+    beritas?: BeritaUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    kycStatus?: EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    adminProfile?: AdminProfileUncheckedUpdateOneWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
+    kycDocuments?: KycDocumentUncheckedUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
+    otpVerifications?: OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
+    umkmProfile?: UmkmProfileUncheckedUpdateOneWithoutUserNestedInput
+    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
+    beritas?: BeritaUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UmkmProfileCreateWithoutBusinessUpdatesInput = {
@@ -38307,11 +39889,11 @@ export namespace Prisma {
     socialMedia?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutUmkmProfileInput
-    creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
     businessData?: BusinessDataCreateNestedManyWithoutUmkmProfileInput
-    fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
     campaigns?: CampaignCreateNestedManyWithoutUmkmProfileInput
+    creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
+    fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
+    user: UserCreateNestedOneWithoutUmkmProfileInput
   }
 
   export type UmkmProfileUncheckedCreateWithoutBusinessUpdatesInput = {
@@ -38331,10 +39913,10 @@ export namespace Prisma {
     socialMedia?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
     businessData?: BusinessDataUncheckedCreateNestedManyWithoutUmkmProfileInput
-    fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutUmkmProfileInput
+    creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
+    fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileCreateOrConnectWithoutBusinessUpdatesInput = {
@@ -38369,11 +39951,11 @@ export namespace Prisma {
     socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
-    creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
     businessData?: BusinessDataUpdateManyWithoutUmkmProfileNestedInput
-    fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
     campaigns?: CampaignUpdateManyWithoutUmkmProfileNestedInput
+    creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
+    fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
+    user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
   }
 
   export type UmkmProfileUncheckedUpdateWithoutBusinessUpdatesInput = {
@@ -38393,10 +39975,10 @@ export namespace Prisma {
     socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
     businessData?: BusinessDataUncheckedUpdateManyWithoutUmkmProfileNestedInput
-    fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
   }
 
   export type UserCreateWithoutOtpVerificationsInput = {
@@ -38413,13 +39995,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     adminProfile?: AdminProfileCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+    kycDocuments?: KycDocumentCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
     umkmProfile?: UmkmProfileCreateNestedOneWithoutUserInput
     wallet?: WalletCreateNestedOneWithoutUserInput
-    kycDocuments?: KycDocumentCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
-    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    beritas?: BeritaCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutOtpVerificationsInput = {
@@ -38436,13 +40019,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     adminProfile?: AdminProfileUncheckedCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+    kycDocuments?: KycDocumentUncheckedCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     umkmProfile?: UmkmProfileUncheckedCreateNestedOneWithoutUserInput
     wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
-    kycDocuments?: KycDocumentUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    beritas?: BeritaUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutOtpVerificationsInput = {
@@ -38475,13 +40059,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     adminProfile?: AdminProfileUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+    kycDocuments?: KycDocumentUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
     umkmProfile?: UmkmProfileUpdateOneWithoutUserNestedInput
     wallet?: WalletUpdateOneWithoutUserNestedInput
-    kycDocuments?: KycDocumentUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
-    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    beritas?: BeritaUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOtpVerificationsInput = {
@@ -38498,13 +40083,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     adminProfile?: AdminProfileUncheckedUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
+    kycDocuments?: KycDocumentUncheckedUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     umkmProfile?: UmkmProfileUncheckedUpdateOneWithoutUserNestedInput
     wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
-    kycDocuments?: KycDocumentUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
-    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    beritas?: BeritaUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserCreateWithoutAuditLogsInput = {
@@ -38522,12 +40108,13 @@ export namespace Prisma {
     updatedAt?: Date | string
     adminProfile?: AdminProfileCreateNestedOneWithoutUserInput
     investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+    kycDocuments?: KycDocumentCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    otpVerifications?: OtpVerificationCreateNestedManyWithoutUserInput
     umkmProfile?: UmkmProfileCreateNestedOneWithoutUserInput
     wallet?: WalletCreateNestedOneWithoutUserInput
-    kycDocuments?: KycDocumentCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
-    otpVerifications?: OtpVerificationCreateNestedManyWithoutUserInput
+    beritas?: BeritaCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -38545,12 +40132,13 @@ export namespace Prisma {
     updatedAt?: Date | string
     adminProfile?: AdminProfileUncheckedCreateNestedOneWithoutUserInput
     investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+    kycDocuments?: KycDocumentUncheckedCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    otpVerifications?: OtpVerificationUncheckedCreateNestedManyWithoutUserInput
     umkmProfile?: UmkmProfileUncheckedCreateNestedOneWithoutUserInput
     wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
-    kycDocuments?: KycDocumentUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
-    otpVerifications?: OtpVerificationUncheckedCreateNestedManyWithoutUserInput
+    beritas?: BeritaUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -38584,12 +40172,13 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     adminProfile?: AdminProfileUpdateOneWithoutUserNestedInput
     investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+    kycDocuments?: KycDocumentUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    otpVerifications?: OtpVerificationUpdateManyWithoutUserNestedInput
     umkmProfile?: UmkmProfileUpdateOneWithoutUserNestedInput
     wallet?: WalletUpdateOneWithoutUserNestedInput
-    kycDocuments?: KycDocumentUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
-    otpVerifications?: OtpVerificationUpdateManyWithoutUserNestedInput
+    beritas?: BeritaUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -38607,12 +40196,137 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     adminProfile?: AdminProfileUncheckedUpdateOneWithoutUserNestedInput
     investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
+    kycDocuments?: KycDocumentUncheckedUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    otpVerifications?: OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
     umkmProfile?: UmkmProfileUncheckedUpdateOneWithoutUserNestedInput
     wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
+    beritas?: BeritaUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserCreateWithoutBeritasInput = {
+    id?: string
+    email?: string | null
+    phoneNumber: string
+    passwordHash?: string | null
+    role: $Enums.Role
+    status?: $Enums.UserStatus
+    kycStatus?: $Enums.KycStatus
+    isEmailVerified?: boolean
+    isPhoneVerified?: boolean
+    lastLoginAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    adminProfile?: AdminProfileCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+    kycDocuments?: KycDocumentCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    otpVerifications?: OtpVerificationCreateNestedManyWithoutUserInput
+    umkmProfile?: UmkmProfileCreateNestedOneWithoutUserInput
+    wallet?: WalletCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutBeritasInput = {
+    id?: string
+    email?: string | null
+    phoneNumber: string
+    passwordHash?: string | null
+    role: $Enums.Role
+    status?: $Enums.UserStatus
+    kycStatus?: $Enums.KycStatus
+    isEmailVerified?: boolean
+    isPhoneVerified?: boolean
+    lastLoginAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    adminProfile?: AdminProfileUncheckedCreateNestedOneWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+    kycDocuments?: KycDocumentUncheckedCreateNestedManyWithoutUserInput
+    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    otpVerifications?: OtpVerificationUncheckedCreateNestedManyWithoutUserInput
+    umkmProfile?: UmkmProfileUncheckedCreateNestedOneWithoutUserInput
+    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutBeritasInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutBeritasInput, UserUncheckedCreateWithoutBeritasInput>
+  }
+
+  export type UserUpsertWithoutBeritasInput = {
+    update: XOR<UserUpdateWithoutBeritasInput, UserUncheckedUpdateWithoutBeritasInput>
+    create: XOR<UserCreateWithoutBeritasInput, UserUncheckedCreateWithoutBeritasInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutBeritasInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutBeritasInput, UserUncheckedUpdateWithoutBeritasInput>
+  }
+
+  export type UserUpdateWithoutBeritasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    kycStatus?: EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    adminProfile?: AdminProfileUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+    kycDocuments?: KycDocumentUpdateManyWithoutUserNestedInput
+    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    otpVerifications?: OtpVerificationUpdateManyWithoutUserNestedInput
+    umkmProfile?: UmkmProfileUpdateOneWithoutUserNestedInput
+    wallet?: WalletUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBeritasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    kycStatus?: EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    adminProfile?: AdminProfileUncheckedUpdateOneWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
     kycDocuments?: KycDocumentUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     otpVerifications?: OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
+    umkmProfile?: UmkmProfileUncheckedUpdateOneWithoutUserNestedInput
+    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type AuditLogCreateManyUserInput = {
+    id?: string
+    action: string
+    entityType?: string | null
+    entityId?: string | null
+    oldData?: NullableJsonNullValueInput | InputJsonValue
+    newData?: NullableJsonNullValueInput | InputJsonValue
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
   }
 
   export type KycDocumentCreateManyUserInput = {
@@ -38627,9 +40341,9 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type NotificationCreateManyUserInput = {
+  export type NotificationCreateManySenderInput = {
     id?: string
-    senderId?: string | null
+    userId: string
     type: $Enums.NotificationType
     title: string
     message: string
@@ -38639,9 +40353,9 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type NotificationCreateManySenderInput = {
+  export type NotificationCreateManyUserInput = {
     id?: string
-    userId: string
+    senderId?: string | null
     type: $Enums.NotificationType
     title: string
     message: string
@@ -38661,16 +40375,54 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type AuditLogCreateManyUserInput = {
+  export type BeritaCreateManyAuthorInput = {
     id?: string
-    action: string
-    entityType?: string | null
-    entityId?: string | null
+    title: string
+    slug: string
+    excerpt: string
+    content: string
+    coverImage?: string | null
+    category?: string | null
+    isPublished?: boolean
+    publishedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AuditLogUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    entityType?: NullableStringFieldUpdateOperationsInput | string | null
+    entityId?: NullableStringFieldUpdateOperationsInput | string | null
     oldData?: NullableJsonNullValueInput | InputJsonValue
     newData?: NullableJsonNullValueInput | InputJsonValue
-    ipAddress?: string | null
-    userAgent?: string | null
-    createdAt?: Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuditLogUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    entityType?: NullableStringFieldUpdateOperationsInput | string | null
+    entityId?: NullableStringFieldUpdateOperationsInput | string | null
+    oldData?: NullableJsonNullValueInput | InputJsonValue
+    newData?: NullableJsonNullValueInput | InputJsonValue
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuditLogUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    entityType?: NullableStringFieldUpdateOperationsInput | string | null
+    entityId?: NullableStringFieldUpdateOperationsInput | string | null
+    oldData?: NullableJsonNullValueInput | InputJsonValue
+    newData?: NullableJsonNullValueInput | InputJsonValue
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type KycDocumentUpdateWithoutUserInput = {
@@ -38709,42 +40461,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type NotificationUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
-    title?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    isRead?: BoolFieldUpdateOperationsInput | boolean
-    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    data?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sender?: UserUpdateOneWithoutSentNotificationsNestedInput
-  }
-
-  export type NotificationUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    senderId?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
-    title?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    isRead?: BoolFieldUpdateOperationsInput | boolean
-    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    data?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    senderId?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
-    title?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    isRead?: BoolFieldUpdateOperationsInput | boolean
-    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    data?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type NotificationUpdateWithoutSenderInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
@@ -38772,6 +40488,42 @@ export namespace Prisma {
   export type NotificationUncheckedUpdateManyWithoutSenderInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sender?: UserUpdateOneWithoutSentNotificationsNestedInput
+  }
+
+  export type NotificationUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
@@ -38811,40 +40563,46 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type AuditLogUpdateWithoutUserInput = {
+  export type BeritaUpdateWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
-    entityType?: NullableStringFieldUpdateOperationsInput | string | null
-    entityId?: NullableStringFieldUpdateOperationsInput | string | null
-    oldData?: NullableJsonNullValueInput | InputJsonValue
-    newData?: NullableJsonNullValueInput | InputJsonValue
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    excerpt?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type AuditLogUncheckedUpdateWithoutUserInput = {
+  export type BeritaUncheckedUpdateWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
-    entityType?: NullableStringFieldUpdateOperationsInput | string | null
-    entityId?: NullableStringFieldUpdateOperationsInput | string | null
-    oldData?: NullableJsonNullValueInput | InputJsonValue
-    newData?: NullableJsonNullValueInput | InputJsonValue
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    excerpt?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type AuditLogUncheckedUpdateManyWithoutUserInput = {
+  export type BeritaUncheckedUpdateManyWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
-    entityType?: NullableStringFieldUpdateOperationsInput | string | null
-    entityId?: NullableStringFieldUpdateOperationsInput | string | null
-    oldData?: NullableJsonNullValueInput | InputJsonValue
-    newData?: NullableJsonNullValueInput | InputJsonValue
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    excerpt?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type InvestmentCreateManyInvestorProfileInput = {
@@ -38870,8 +40628,8 @@ export namespace Prisma {
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    campaign?: CampaignUpdateOneRequiredWithoutInvestmentsNestedInput
     akad?: AkadUpdateOneWithoutInvestmentNestedInput
+    campaign?: CampaignUpdateOneRequiredWithoutInvestmentsNestedInput
     profitSharings?: ProfitSharingUpdateManyWithoutInvestmentNestedInput
   }
 
@@ -38903,18 +40661,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type CreditScoreCreateManyUmkmProfileInput = {
-    id?: string
-    score: number
-    riskLevel: $Enums.RiskLevel
-    modelVersion?: string
-    features: JsonNullValueInput | InputJsonValue
-    insights?: NullableJsonNullValueInput | InputJsonValue
-    recommendations?: NullableJsonNullValueInput | InputJsonValue
-    triggeredBy?: string | null
-    predictedAt?: Date | string
-  }
-
   export type BusinessDataCreateManyUmkmProfileInput = {
     id?: string
     reportDate: Date | string
@@ -38928,19 +40674,14 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type FundingApplicationCreateManyUmkmProfileInput = {
+  export type BusinessUpdateCreateManyUmkmProfileInput = {
     id?: string
-    akadType: $Enums.AkadType
-    requestedAmount: Decimal | DecimalJsLike | number | string
-    durationMonths: number
-    purpose: string
-    status?: $Enums.FundingStatus
-    reviewedBy?: string | null
-    reviewedAt?: Date | string | null
-    rejectReason?: string | null
-    creditScoreId?: string | null
+    periodDate: Date | string
+    revenue: Decimal | DecimalJsLike | number | string
+    expenses: Decimal | DecimalJsLike | number | string
+    fundUsageSummary?: string | null
+    attachments?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
   export type CampaignCreateManyUmkmProfileInput = {
@@ -38961,50 +40702,31 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type BusinessUpdateCreateManyUmkmProfileInput = {
+  export type CreditScoreCreateManyUmkmProfileInput = {
     id?: string
-    periodDate: Date | string
-    revenue: Decimal | DecimalJsLike | number | string
-    expenses: Decimal | DecimalJsLike | number | string
-    fundUsageSummary?: string | null
-    attachments?: NullableJsonNullValueInput | InputJsonValue
+    score: number
+    riskLevel: $Enums.RiskLevel
+    modelVersion?: string
+    features: JsonNullValueInput | InputJsonValue
+    insights?: NullableJsonNullValueInput | InputJsonValue
+    recommendations?: NullableJsonNullValueInput | InputJsonValue
+    triggeredBy?: string | null
+    predictedAt?: Date | string
+  }
+
+  export type FundingApplicationCreateManyUmkmProfileInput = {
+    id?: string
+    akadType: $Enums.AkadType
+    requestedAmount: Decimal | DecimalJsLike | number | string
+    durationMonths: number
+    purpose: string
+    status?: $Enums.FundingStatus
+    reviewedBy?: string | null
+    reviewedAt?: Date | string | null
+    rejectReason?: string | null
+    creditScoreId?: string | null
     createdAt?: Date | string
-  }
-
-  export type CreditScoreUpdateWithoutUmkmProfileInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    score?: FloatFieldUpdateOperationsInput | number
-    riskLevel?: EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
-    modelVersion?: StringFieldUpdateOperationsInput | string
-    features?: JsonNullValueInput | InputJsonValue
-    insights?: NullableJsonNullValueInput | InputJsonValue
-    recommendations?: NullableJsonNullValueInput | InputJsonValue
-    triggeredBy?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type CreditScoreUncheckedUpdateWithoutUmkmProfileInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    score?: FloatFieldUpdateOperationsInput | number
-    riskLevel?: EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
-    modelVersion?: StringFieldUpdateOperationsInput | string
-    features?: JsonNullValueInput | InputJsonValue
-    insights?: NullableJsonNullValueInput | InputJsonValue
-    recommendations?: NullableJsonNullValueInput | InputJsonValue
-    triggeredBy?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type CreditScoreUncheckedUpdateManyWithoutUmkmProfileInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    score?: FloatFieldUpdateOperationsInput | number
-    riskLevel?: EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
-    modelVersion?: StringFieldUpdateOperationsInput | string
-    features?: JsonNullValueInput | InputJsonValue
-    insights?: NullableJsonNullValueInput | InputJsonValue
-    recommendations?: NullableJsonNullValueInput | InputJsonValue
-    triggeredBy?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: Date | string
   }
 
   export type BusinessDataUpdateWithoutUmkmProfileInput = {
@@ -39044,6 +40766,130 @@ export namespace Prisma {
     rawData?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BusinessUpdateUpdateWithoutUmkmProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    periodDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    revenue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    expenses?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fundUsageSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    attachments?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BusinessUpdateUncheckedUpdateWithoutUmkmProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    periodDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    revenue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    expenses?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fundUsageSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    attachments?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BusinessUpdateUncheckedUpdateManyWithoutUmkmProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    periodDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    revenue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    expenses?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    fundUsageSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    attachments?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CampaignUpdateWithoutUmkmProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    story?: StringFieldUpdateOperationsInput | string
+    targetAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    collectedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
+    durationMonths?: IntFieldUpdateOperationsInput | number
+    estimatedRoi?: FloatFieldUpdateOperationsInput | number
+    status?: EnumFundingStatusFieldUpdateOperationsInput | $Enums.FundingStatus
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    investorCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    akads?: AkadUpdateManyWithoutCampaignNestedInput
+    fundingApplication?: FundingApplicationUpdateOneWithoutCampaignNestedInput
+    investments?: InvestmentUpdateManyWithoutCampaignNestedInput
+  }
+
+  export type CampaignUncheckedUpdateWithoutUmkmProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fundingApplicationId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    story?: StringFieldUpdateOperationsInput | string
+    targetAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    collectedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
+    durationMonths?: IntFieldUpdateOperationsInput | number
+    estimatedRoi?: FloatFieldUpdateOperationsInput | number
+    status?: EnumFundingStatusFieldUpdateOperationsInput | $Enums.FundingStatus
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    investorCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    akads?: AkadUncheckedUpdateManyWithoutCampaignNestedInput
+    investments?: InvestmentUncheckedUpdateManyWithoutCampaignNestedInput
+  }
+
+  export type CampaignUncheckedUpdateManyWithoutUmkmProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fundingApplicationId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    story?: StringFieldUpdateOperationsInput | string
+    targetAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    collectedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
+    durationMonths?: IntFieldUpdateOperationsInput | number
+    estimatedRoi?: FloatFieldUpdateOperationsInput | number
+    status?: EnumFundingStatusFieldUpdateOperationsInput | $Enums.FundingStatus
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    investorCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CreditScoreUpdateWithoutUmkmProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    score?: FloatFieldUpdateOperationsInput | number
+    riskLevel?: EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
+    modelVersion?: StringFieldUpdateOperationsInput | string
+    features?: JsonNullValueInput | InputJsonValue
+    insights?: NullableJsonNullValueInput | InputJsonValue
+    recommendations?: NullableJsonNullValueInput | InputJsonValue
+    triggeredBy?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CreditScoreUncheckedUpdateWithoutUmkmProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    score?: FloatFieldUpdateOperationsInput | number
+    riskLevel?: EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
+    modelVersion?: StringFieldUpdateOperationsInput | string
+    features?: JsonNullValueInput | InputJsonValue
+    insights?: NullableJsonNullValueInput | InputJsonValue
+    recommendations?: NullableJsonNullValueInput | InputJsonValue
+    triggeredBy?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CreditScoreUncheckedUpdateManyWithoutUmkmProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    score?: FloatFieldUpdateOperationsInput | number
+    riskLevel?: EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
+    modelVersion?: StringFieldUpdateOperationsInput | string
+    features?: JsonNullValueInput | InputJsonValue
+    insights?: NullableJsonNullValueInput | InputJsonValue
+    recommendations?: NullableJsonNullValueInput | InputJsonValue
+    triggeredBy?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FundingApplicationUpdateWithoutUmkmProfileInput = {
@@ -39093,107 +40939,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type CampaignUpdateWithoutUmkmProfileInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    story?: StringFieldUpdateOperationsInput | string
-    targetAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    collectedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
-    durationMonths?: IntFieldUpdateOperationsInput | number
-    estimatedRoi?: FloatFieldUpdateOperationsInput | number
-    status?: EnumFundingStatusFieldUpdateOperationsInput | $Enums.FundingStatus
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    investorCount?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    fundingApplication?: FundingApplicationUpdateOneWithoutCampaignNestedInput
-    investments?: InvestmentUpdateManyWithoutCampaignNestedInput
-    akads?: AkadUpdateManyWithoutCampaignNestedInput
-  }
-
-  export type CampaignUncheckedUpdateWithoutUmkmProfileInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fundingApplicationId?: NullableStringFieldUpdateOperationsInput | string | null
-    title?: StringFieldUpdateOperationsInput | string
-    story?: StringFieldUpdateOperationsInput | string
-    targetAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    collectedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
-    durationMonths?: IntFieldUpdateOperationsInput | number
-    estimatedRoi?: FloatFieldUpdateOperationsInput | number
-    status?: EnumFundingStatusFieldUpdateOperationsInput | $Enums.FundingStatus
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    investorCount?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    investments?: InvestmentUncheckedUpdateManyWithoutCampaignNestedInput
-    akads?: AkadUncheckedUpdateManyWithoutCampaignNestedInput
-  }
-
-  export type CampaignUncheckedUpdateManyWithoutUmkmProfileInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fundingApplicationId?: NullableStringFieldUpdateOperationsInput | string | null
-    title?: StringFieldUpdateOperationsInput | string
-    story?: StringFieldUpdateOperationsInput | string
-    targetAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    collectedAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
-    durationMonths?: IntFieldUpdateOperationsInput | number
-    estimatedRoi?: FloatFieldUpdateOperationsInput | number
-    status?: EnumFundingStatusFieldUpdateOperationsInput | $Enums.FundingStatus
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    investorCount?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type BusinessUpdateUpdateWithoutUmkmProfileInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    periodDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    revenue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    expenses?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    fundUsageSummary?: NullableStringFieldUpdateOperationsInput | string | null
-    attachments?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type BusinessUpdateUncheckedUpdateWithoutUmkmProfileInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    periodDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    revenue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    expenses?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    fundUsageSummary?: NullableStringFieldUpdateOperationsInput | string | null
-    attachments?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type BusinessUpdateUncheckedUpdateManyWithoutUmkmProfileInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    periodDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    revenue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    expenses?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    fundUsageSummary?: NullableStringFieldUpdateOperationsInput | string | null
-    attachments?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type InvestmentCreateManyCampaignInput = {
-    id?: string
-    investorProfileId: string
-    amount: Decimal | DecimalJsLike | number | string
-    akadType: $Enums.AkadType
-    status?: $Enums.InvestmentStatus
-    totalProfitReceived?: Decimal | DecimalJsLike | number | string
-    confirmedAt?: Date | string | null
-    completedAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
   export type AkadCreateManyCampaignInput = {
     id?: string
     investmentId?: string | null
@@ -39218,6 +40963,95 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type InvestmentCreateManyCampaignInput = {
+    id?: string
+    investorProfileId: string
+    amount: Decimal | DecimalJsLike | number | string
+    akadType: $Enums.AkadType
+    status?: $Enums.InvestmentStatus
+    totalProfitReceived?: Decimal | DecimalJsLike | number | string
+    confirmedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AkadUpdateWithoutCampaignInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
+    status?: EnumAkadStatusFieldUpdateOperationsInput | $Enums.AkadStatus
+    principalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    nisbahUmkm?: FloatFieldUpdateOperationsInput | number
+    nisbahInvestor?: FloatFieldUpdateOperationsInput | number
+    platformFeeRate?: FloatFieldUpdateOperationsInput | number
+    durationMonths?: IntFieldUpdateOperationsInput | number
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    umkmSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    investorSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    blockchainHash?: NullableStringFieldUpdateOperationsInput | string | null
+    contractAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    blockchainStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    deployedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    investment?: InvestmentUpdateOneWithoutAkadNestedInput
+    blockchainTransactions?: BlockchainTransactionUpdateManyWithoutAkadNestedInput
+    profitSharings?: ProfitSharingUpdateManyWithoutAkadNestedInput
+  }
+
+  export type AkadUncheckedUpdateWithoutCampaignInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    investmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
+    status?: EnumAkadStatusFieldUpdateOperationsInput | $Enums.AkadStatus
+    principalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    nisbahUmkm?: FloatFieldUpdateOperationsInput | number
+    nisbahInvestor?: FloatFieldUpdateOperationsInput | number
+    platformFeeRate?: FloatFieldUpdateOperationsInput | number
+    durationMonths?: IntFieldUpdateOperationsInput | number
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    umkmSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    investorSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    blockchainHash?: NullableStringFieldUpdateOperationsInput | string | null
+    contractAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    blockchainStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    deployedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blockchainTransactions?: BlockchainTransactionUncheckedUpdateManyWithoutAkadNestedInput
+    profitSharings?: ProfitSharingUncheckedUpdateManyWithoutAkadNestedInput
+  }
+
+  export type AkadUncheckedUpdateManyWithoutCampaignInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    investmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
+    status?: EnumAkadStatusFieldUpdateOperationsInput | $Enums.AkadStatus
+    principalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    nisbahUmkm?: FloatFieldUpdateOperationsInput | number
+    nisbahInvestor?: FloatFieldUpdateOperationsInput | number
+    platformFeeRate?: FloatFieldUpdateOperationsInput | number
+    durationMonths?: IntFieldUpdateOperationsInput | number
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    umkmSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    investorSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    blockchainHash?: NullableStringFieldUpdateOperationsInput | string | null
+    contractAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    blockchainStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    deployedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type InvestmentUpdateWithoutCampaignInput = {
     id?: StringFieldUpdateOperationsInput | string
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -39228,8 +41062,8 @@ export namespace Prisma {
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    investorProfile?: InvestorProfileUpdateOneRequiredWithoutInvestmentsNestedInput
     akad?: AkadUpdateOneWithoutInvestmentNestedInput
+    investorProfile?: InvestorProfileUpdateOneRequiredWithoutInvestmentsNestedInput
     profitSharings?: ProfitSharingUpdateManyWithoutInvestmentNestedInput
   }
 
@@ -39257,82 +41091,6 @@ export namespace Prisma {
     totalProfitReceived?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AkadUpdateWithoutCampaignInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
-    status?: EnumAkadStatusFieldUpdateOperationsInput | $Enums.AkadStatus
-    principalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    nisbahUmkm?: FloatFieldUpdateOperationsInput | number
-    nisbahInvestor?: FloatFieldUpdateOperationsInput | number
-    platformFeeRate?: FloatFieldUpdateOperationsInput | number
-    durationMonths?: IntFieldUpdateOperationsInput | number
-    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
-    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    umkmSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    investorSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    blockchainHash?: NullableStringFieldUpdateOperationsInput | string | null
-    contractAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    blockchainStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    deployedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    investment?: InvestmentUpdateOneWithoutAkadNestedInput
-    profitSharings?: ProfitSharingUpdateManyWithoutAkadNestedInput
-    blockchainTransactions?: BlockchainTransactionUpdateManyWithoutAkadNestedInput
-  }
-
-  export type AkadUncheckedUpdateWithoutCampaignInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    investmentId?: NullableStringFieldUpdateOperationsInput | string | null
-    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
-    status?: EnumAkadStatusFieldUpdateOperationsInput | $Enums.AkadStatus
-    principalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    nisbahUmkm?: FloatFieldUpdateOperationsInput | number
-    nisbahInvestor?: FloatFieldUpdateOperationsInput | number
-    platformFeeRate?: FloatFieldUpdateOperationsInput | number
-    durationMonths?: IntFieldUpdateOperationsInput | number
-    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
-    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    umkmSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    investorSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    blockchainHash?: NullableStringFieldUpdateOperationsInput | string | null
-    contractAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    blockchainStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    deployedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    profitSharings?: ProfitSharingUncheckedUpdateManyWithoutAkadNestedInput
-    blockchainTransactions?: BlockchainTransactionUncheckedUpdateManyWithoutAkadNestedInput
-  }
-
-  export type AkadUncheckedUpdateManyWithoutCampaignInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    investmentId?: NullableStringFieldUpdateOperationsInput | string | null
-    akadType?: EnumAkadTypeFieldUpdateOperationsInput | $Enums.AkadType
-    status?: EnumAkadStatusFieldUpdateOperationsInput | $Enums.AkadStatus
-    principalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    nisbahUmkm?: FloatFieldUpdateOperationsInput | number
-    nisbahInvestor?: FloatFieldUpdateOperationsInput | number
-    platformFeeRate?: FloatFieldUpdateOperationsInput | number
-    durationMonths?: IntFieldUpdateOperationsInput | number
-    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
-    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    umkmSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    investorSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    blockchainHash?: NullableStringFieldUpdateOperationsInput | string | null
-    contractAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    blockchainStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    deployedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -39401,6 +41159,19 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BlockchainTransactionCreateManyAkadInput = {
+    id?: string
+    txHash: string
+    blockNumber?: bigint | number | null
+    contractAddress?: string | null
+    eventType: string
+    status: string
+    gasUsed?: bigint | number | null
+    timestamp: Date | string
+    rawData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
   export type ProfitSharingCreateManyAkadInput = {
     id?: string
     investmentId: string
@@ -39417,17 +41188,43 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type BlockchainTransactionCreateManyAkadInput = {
-    id?: string
-    txHash: string
-    blockNumber?: bigint | number | null
-    contractAddress?: string | null
-    eventType: string
-    status: string
-    gasUsed?: bigint | number | null
-    timestamp: Date | string
+  export type BlockchainTransactionUpdateWithoutAkadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    txHash?: StringFieldUpdateOperationsInput | string
+    blockNumber?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    contractAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    gasUsed?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
     rawData?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BlockchainTransactionUncheckedUpdateWithoutAkadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    txHash?: StringFieldUpdateOperationsInput | string
+    blockNumber?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    contractAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    gasUsed?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    rawData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BlockchainTransactionUncheckedUpdateManyWithoutAkadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    txHash?: StringFieldUpdateOperationsInput | string
+    blockNumber?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    contractAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    gasUsed?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    rawData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProfitSharingUpdateWithoutAkadInput = {
@@ -39476,45 +41273,6 @@ export namespace Prisma {
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type BlockchainTransactionUpdateWithoutAkadInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    txHash?: StringFieldUpdateOperationsInput | string
-    blockNumber?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    contractAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    eventType?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    gasUsed?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    rawData?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type BlockchainTransactionUncheckedUpdateWithoutAkadInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    txHash?: StringFieldUpdateOperationsInput | string
-    blockNumber?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    contractAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    eventType?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    gasUsed?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    rawData?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type BlockchainTransactionUncheckedUpdateManyWithoutAkadInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    txHash?: StringFieldUpdateOperationsInput | string
-    blockNumber?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    contractAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    eventType?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    gasUsed?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    rawData?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TransactionCreateManyWalletInput = {

@@ -1,9 +1,13 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import ParticleField from "@/components/ParticleField";
 import TeamLightbox from "@/components/TeamLightbox";
+import NewsCarousel from "@/components/NewsCarousel";
+import CursorAura from "@/components/CursorAura";
 import styles from "./page.module.css";
 import Link from "next/link";
 import Image from "next/image";
+import ScrollReveal from "@/components/ScrollReveal";
 
 const teamMembers = [
   {
@@ -11,6 +15,7 @@ const teamMembers = [
     role: "Project Leader & Blockchain Developer",
     dept: "Teknologi Informasi",
     photo: "/source/Abid.JPG",
+    ig: "https://www.instagram.com/a_biedz/"
   },
   {
     name: "Muhammad Akmal Taufansyah",
@@ -23,18 +28,21 @@ const teamMembers = [
     role: "AI Engineer & Administrative",
     dept: "Teknologi Informasi",
     photo: "/source/husna.jpeg",
+    ig: "https://www.instagram.com/husnkmla/"
   },
   {
     name: "Nandyra Dwi Azzahra",
     role: "Finance & Product Sharia Developer",
     dept: "Ekonomi Syariah",
     photo: "/source/nandira.JPG",
+    ig: "https://www.instagram.com/zha.azzhr_/"
   },
   {
     name: "Muhammad Dafa Fachrul Annas Pambudi",
     role: "Strategic Economist & Creative Media",
     dept: "Ilmu Ekonomi",
     photo: "/source/dafa.JPG",
+    ig: "https://www.instagram.com/dafafachrul/"
   },
 ];
 
@@ -42,6 +50,8 @@ export default function Home() {
   return (
     <>
       <Navbar />
+      <ParticleField />
+      <CursorAura />
 
       <main className={styles.main}>
         {/* Animated background orbs */}
@@ -56,16 +66,23 @@ export default function Home() {
                 {/* ── About Section ── */}
         <section id="tentang" className={styles.about}>
           <div className={styles.aboutInner}>
-            <div className={styles.aboutImageWrap}>
-              <Image
-                src="/source/tentang.png"
-                alt="Tentang Synergy PKM KC"
-                width={520}
-                height={380}
-                className={styles.aboutImage}
-                style={{ objectFit: "cover" }}
-              />
+            <ScrollReveal direction="left">
+            <div className={styles.aboutImageOuter}>
+              <div className={styles.aboutRing1} aria-hidden />
+              <div className={styles.aboutRing2} aria-hidden />
+              <div className={styles.aboutImageWrap}>
+                <Image
+                  src="/source/tentang.png"
+                  alt="Tentang Synergy PKM KC"
+                  width={520}
+                  height={380}
+                  className={styles.aboutImage}
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
             </div>
+            </ScrollReveal>
+            <ScrollReveal direction="right">
             <div className={styles.aboutContent}>
               <span className={styles.sectionLabel}>Tentang Kami</span>
               <h2 className={styles.sectionTitle}>
@@ -92,12 +109,14 @@ export default function Home() {
                 <span className={styles.tag}>Ekonomi Syariah</span>
               </div>
             </div>
+            </ScrollReveal>
           </div>
         </section>
 
         {/* ── Problem & Solution Section ── */}
         <section id="teknologi" className={styles.problem}>
-          <div className={styles.problemInner}>
+          <ScrollReveal>
+            <div className={styles.problemInner}>
             <span className={styles.sectionLabel}>Masalah &amp; Solusi</span>
             <h2 className={styles.sectionTitle}>
               Mengapa Indonesia Butuh SYNERGY?
@@ -150,20 +169,24 @@ export default function Home() {
               </div>
             </div>
           </div>
+          </ScrollReveal>
         </section>
 
         {/* ── Features Section ── */}
         <section id="fitur" className={styles.features}>
           <div className={styles.featuresInner}>
-            <span className={styles.sectionLabel}>Keunggulan Platform</span>
-            <h2 className={styles.sectionTitle}>Teknologi Inti SYNERGY</h2>
-            <p className={styles.sectionSubtitle}>
-              Ekosistem pembiayaan yang lebih adil, transparan, aman, dan
-              berkelanjutan.
-            </p>
+            <ScrollReveal>
+              <span className={styles.sectionLabel}>Keunggulan Platform</span>
+              <h2 className={styles.sectionTitle}>Teknologi Inti SYNERGY</h2>
+              <p className={styles.sectionSubtitle}>
+                Ekosistem pembiayaan yang lebih adil, transparan, aman, dan
+                berkelanjutan.
+              </p>
+            </ScrollReveal>
 
             <div className={styles.featureGrid}>
               {/* AI Scoring */}
+              <ScrollReveal duration={1.5} delay={0}>
               <div className={`${styles.featureCard} glass`}>
                 <div className={styles.featureIconWrap}>
                   <svg
@@ -254,8 +277,10 @@ export default function Home() {
                   untuk skor kelayakan yang cepat, objektif, dan akurat.
                 </p>
               </div>
+              </ScrollReveal>
 
               {/* Smart Contract */}
+              <ScrollReveal duration={1.5} delay={0.2}>
               <div className={`${styles.featureCard} glass`}>
                 <div className={styles.featureIconWrap}>
                   <svg
@@ -373,8 +398,10 @@ export default function Home() {
                   transparan dan anti-manipulasi.
                 </p>
               </div>
+              </ScrollReveal>
 
               {/* Akad Syariah */}
+              <ScrollReveal duration={1.5} delay={0.4}>
               <div className={`${styles.featureCard} glass`} id="akad">
                 <div className={styles.featureIconWrap}>
                   <svg
@@ -415,13 +442,15 @@ export default function Home() {
                   dengan prinsip-prinsip ekonomi Islam.
                 </p>
               </div>
+              </ScrollReveal>
             </div>
           </div>
         </section>
 
         {/* ── Team Section ── */}
         <section id="tim" className={styles.team}>
-          <div className={styles.teamInner}>
+          <ScrollReveal>
+            <div className={styles.teamInner}>
             <span className={styles.sectionLabel}>Tim Kami</span>
             <h2 className={styles.sectionTitle}>Penggagas SYNERGY</h2>
             <p className={styles.sectionSubtitle}>
@@ -436,15 +465,23 @@ export default function Home() {
                 role: "Dosen Pendamping",
                 dept: "Teknik Elektro & Informatika",
                 photo: "/source/Prof Slamet.png",
+                ig: "https://www.instagram.com/theslam.id/"
               }}
               members={teamMembers}
             />
           </div>
+          </ScrollReveal>
         </section>
+
+        {/* ── News Section ── */}
+        <ScrollReveal>
+          <NewsCarousel />
+        </ScrollReveal>
       </main>
 
       {/* ── Footer ── */}
       <footer className={styles.footer}>
+        <ScrollReveal>
         <div className={styles.footerInner}>
           <div className={styles.footerTop}>
             {/* Brand */}
@@ -576,6 +613,7 @@ export default function Home() {
             </p>
           </div>
         </div>
+        </ScrollReveal>
       </footer>
     </>
   );

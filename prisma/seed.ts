@@ -852,6 +852,134 @@ async function main() {
   });
   console.log("✅ Demo OTP seeded (use 123456 with phone 08222222222).");
 
+  // ── Berita / News Articles ─────────────────────────────────────────────
+  const adminUserForBerita = await prisma.user.findFirst({
+    where: { role: Role.ADMIN },
+  });
+
+  if (adminUserForBerita) {
+    const beritaData = [
+      {
+        title: "SYNERGY Raih Pendanaan PKM-KC 2026 dari Kemendikbudristek",
+        slug: "synergy-raih-pendanaan-pkm-kc-2026",
+        excerpt: "Tim SYNERGY dari Universitas Muhammadiyah Yogyakarta berhasil lolos seleksi dan mendapatkan pendanaan Program Kreativitas Mahasiswa skema Karsa Cipta tahun 2026.",
+        content: `<p>Tim SYNERGY dari Universitas Muhammadiyah Yogyakarta (UMY) berhasil meraih pendanaan bergengsi dari Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi (Kemendikbudristek) melalui Program Kreativitas Mahasiswa (PKM) skema Karsa Cipta 2026.</p>
+<p>Proposal inovatif mereka yang menggabungkan teknologi Blockchain Hyperledger Fabric dan Kecerdasan Buatan berbasis XGBoost untuk pembiayaan UMKM syariah dinilai memiliki dampak signifikan terhadap inklusi keuangan di Indonesia.</p>
+<p>"Kami sangat bersyukur dan bangga. Ini adalah bukti bahwa mahasiswa Indonesia mampu berinovasi di bidang fintech syariah yang belum banyak disentuh," ujar Muhammad Abid Yasir selaku Project Leader.</p>
+<p>SYNERGY hadir sebagai solusi atas kesenjangan pembiayaan UMKM yang mencapai Rp 2.400 triliun, dengan pendekatan yang inklusif, transparan, dan sesuai prinsip Islam.</p>`,
+        category: "Prestasi",
+        isPublished: true,
+        publishedAt: new Date("2026-03-15"),
+        coverImage: null,
+      },
+      {
+        title: "Mengenal Akad Musyarakah dalam Platform SYNERGY",
+        slug: "mengenal-akad-musyarakah-platform-synergy",
+        excerpt: "Akad Musyarakah menjadi pondasi utama transaksi di SYNERGY. Pelajari bagaimana sistem ini memastikan keadilan bagi investor dan UMKM secara bersamaan.",
+        content: `<p>Dalam ekosistem SYNERGY, akad Musyarakah menjadi salah satu mekanisme utama yang menghubungkan investor dengan pelaku UMKM. Berbeda dengan sistem bunga konvensional, Musyarakah berbasis pada prinsip bagi hasil (profit sharing).</p>
+<p>Pada akad ini, investor dan UMKM sepakat untuk berbagi keuntungan maupun risiko secara proporsional sesuai dengan nisbah yang telah disepakati di awal. Seluruh kesepakatan ini dicatat secara otomatis ke dalam Blockchain Hyperledger Fabric, sehingga tidak dapat diubah atau dimanipulasi.</p>
+<p><strong>Keunggulan Musyarakah di SYNERGY:</strong></p>
+<ul>
+<li>Nisbah bagi hasil yang transparan dan adil</li>
+<li>Kontrak digital yang tercatat di blockchain</li>
+<li>Pemantauan real-time melalui dashboard investor</li>
+<li>Sesuai dengan fatwa DSN-MUI tentang pembiayaan syariah</li>
+</ul>
+<p>Dengan teknologi AI XGBoost, SYNERGY juga mampu menilai kelayakan UMKM secara objektif sebelum akad ditandatangani, meminimalkan risiko moral hazard.</p>`,
+        category: "Edukasi",
+        isPublished: true,
+        publishedAt: new Date("2026-04-02"),
+        coverImage: null,
+      },
+      {
+        title: "Hyperledger Fabric: Tulang Punggung Transparansi SYNERGY",
+        slug: "hyperledger-fabric-transparansi-synergy",
+        excerpt: "Hyperledger Fabric dipilih sebagai infrastruktur blockchain SYNERGY karena kemampuannya dalam menangani transaksi privat dan permissioned dalam skala enterprise.",
+        content: `<p>Dalam membangun ekosistem keuangan syariah yang transparan, Tim SYNERGY memilih Hyperledger Fabric sebagai infrastruktur blockchain utama. Pilihan ini bukan tanpa alasan — Hyperledger Fabric dirancang khusus untuk kebutuhan enterprise dengan mekanisme permissioned (terbatas pada pihak yang berwenang).</p>
+<p>Berbeda dengan blockchain publik seperti Ethereum, Hyperledger Fabric memungkinkan:</p>
+<ul>
+<li><strong>Privasi transaksi</strong>: Hanya pihak yang terlibat dalam akad yang dapat melihat detail transaksi</li>
+<li><strong>Throughput tinggi</strong>: Mendukung ribuan transaksi per detik tanpa biaya gas</li>
+<li><strong>Smart Contract (Chaincode)</strong>: Ditulis dalam bahasa Golang untuk efisiensi dan keamanan</li>
+<li><strong>Immutability</strong>: Setiap transaksi yang tercatat tidak dapat diubah atau dihapus</li>
+</ul>
+<p>Dengan Hyperledger Fabric, SYNERGY mampu memberikan jaminan transparansi penuh kepada investor bahwa dana mereka dikelola sesuai akad yang disepakati.</p>`,
+        category: "Teknologi",
+        isPublished: true,
+        publishedAt: new Date("2026-04-18"),
+        coverImage: null,
+      },
+      {
+        title: "XGBoost AI: Cara SYNERGY Menilai Kelayakan UMKM Tanpa Riwayat Bank",
+        slug: "xgboost-ai-menilai-kelayakan-umkm",
+        excerpt: "Lebih dari 64 juta UMKM Indonesia tidak memiliki riwayat kredit bank. SYNERGY menggunakan XGBoost AI untuk menilai kelayakan mereka secara objektif dan akurat.",
+        content: `<p>Salah satu tantangan terbesar dalam pembiayaan UMKM adalah ketiadaan riwayat kredit formal. Pelaku UMKM yang selama ini mengandalkan modal sendiri atau pinjaman informal tidak memiliki "credit score" yang diakui lembaga keuangan konvensional.</p>
+<p>SYNERGY menjawab tantangan ini dengan mengintegrasikan model Kecerdasan Buatan berbasis Extreme Gradient Boosting (XGBoost) yang dikembangkan menggunakan Python.</p>
+<p><strong>Fitur yang dianalisis XGBoost SYNERGY:</strong></p>
+<ul>
+<li>Data arus kas harian dan bulanan</li>
+<li>Historis pembayaran (jika ada)</li>
+<li>Konsumsi listrik sebagai indikator aktivitas bisnis</li>
+<li>Rasio pendapatan terhadap pengeluaran</li>
+<li>Kategori dan jenis usaha</li>
+</ul>
+<p>Hasilnya adalah skor kelayakan 0–100 beserta rekomendasi tindakan yang dapat dipahami oleh admin dan investor tanpa membutuhkan keahlian teknis statistik.</p>
+<p>Dengan akurasi model mencapai lebih dari 87% dalam uji validasi, SYNERGY mampu memberikan penilaian yang lebih adil dibandingkan metode konvensional.</p>`,
+        category: "Teknologi",
+        isPublished: true,
+        publishedAt: new Date("2026-05-05"),
+        coverImage: null,
+      },
+      {
+        title: "5 UMKM Pertama Berhasil Mendapat Pembiayaan Syariah Melalui SYNERGY",
+        slug: "5-umkm-pertama-pembiayaan-syariah-synergy",
+        excerpt: "Sebagai milestone bersejarah, lima UMKM dari berbagai sektor berhasil mendapat pembiayaan perdana melalui platform SYNERGY dalam tahap uji coba terbatas.",
+        content: `<p>Merupakan pencapaian bersejarah bagi Tim SYNERGY ketika lima UMKM pertama berhasil mendapatkan pembiayaan melalui platform dalam sesi uji coba terbatas (closed beta).</p>
+<p>Kelima UMKM tersebut berasal dari sektor yang beragam: perdagangan sembako, F&B kopi premium, peternakan sapi, fashion batik, dan konveksi pakaian kerja. Total pembiayaan yang berhasil disalurkan mencapai Rp 590 juta dengan 47 investor terdaftar.</p>
+<p><strong>Proses pembiayaan berlangsung dalam beberapa tahap:</strong></p>
+<ol>
+<li>Pendaftaran dan verifikasi KYC digital</li>
+<li>Penilaian kelayakan oleh AI XGBoost</li>
+<li>Review dan approval oleh admin</li>
+<li>Pembuatan kampanye investasi</li>
+<li>Penandatanganan akad digital di blockchain</li>
+<li>Disbursement dana ke wallet UMKM</li>
+</ol>
+<p>Seluruh proses ini berlangsung dalam waktu kurang dari 3 hari kerja — jauh lebih cepat dibandingkan proses pinjaman bank konvensional yang bisa memakan waktu berminggu-minggu.</p>`,
+        category: "Berita",
+        isPublished: true,
+        publishedAt: new Date("2026-05-20"),
+        coverImage: null,
+      },
+      {
+        title: "Kolaborasi SYNERGY dengan Komunitas UMKM Yogyakarta",
+        slug: "kolaborasi-synergy-komunitas-umkm-yogyakarta",
+        excerpt: "Tim SYNERGY melakukan kunjungan dan sosialisasi kepada pelaku UMKM di Yogyakarta untuk memperkenalkan konsep pembiayaan syariah berbasis teknologi.",
+        content: `<p>Dalam rangka memperluas jangkauan dan memastikan relevansi produk, Tim SYNERGY melakukan serangkaian kunjungan ke komunitas UMKM di Daerah Istimewa Yogyakarta.</p>
+<p>Kegiatan sosialisasi ini bertujuan untuk memperkenalkan konsep pembiayaan syariah yang berbeda dari bunga bank konvensional, sekaligus mendemonstrasikan cara kerja platform SYNERGY kepada calon pengguna nyata.</p>
+<p>"Respons dari para pelaku UMKM sangat positif. Banyak yang tertarik karena prinsip bagi hasil dinilai lebih adil dan sesuai dengan nilai-nilai yang mereka pegang," cerita Nandyra Dwi Azzahra, anggota tim yang bertanggung jawab atas aspek Ekonomi Syariah.</p>
+<p>Ke depan, SYNERGY berencana untuk memperluas jangkauan ke kota-kota lain di Jawa, sebelum akhirnya scale up ke tingkat nasional setelah proses inkubasi PKM-KC 2026 selesai.</p>`,
+        category: "Kegiatan",
+        isPublished: false,
+        publishedAt: null,
+        coverImage: null,
+      },
+    ];
+
+    for (const berita of beritaData) {
+      const existing = await prisma.berita.findFirst({ where: { slug: berita.slug } });
+      if (!existing) {
+        await prisma.berita.create({
+          data: {
+            ...berita,
+            authorId: adminUserForBerita.id,
+          },
+        });
+      }
+    }
+    console.log("✅ Berita (news) seeded:", beritaData.length, "articles.");
+  }
+
   console.log("\n🎉 Seeding complete!");
   console.log("   Investor login: 08222222222  OTP: 123456");
   console.log("   Admin login:    08000000000  OTP: any 6 digits");

@@ -426,6 +426,21 @@ exports.Prisma.SystemConfigScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.BeritaScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  excerpt: 'excerpt',
+  content: 'content',
+  coverImage: 'coverImage',
+  category: 'category',
+  authorId: 'authorId',
+  isPublished: 'isPublished',
+  publishedAt: 'publishedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -626,6 +641,17 @@ exports.Prisma.SystemConfigOrderByRelevanceFieldEnum = {
   description: 'description',
   updatedBy: 'updatedBy'
 };
+
+exports.Prisma.BeritaOrderByRelevanceFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  excerpt: 'excerpt',
+  content: 'content',
+  coverImage: 'coverImage',
+  category: 'category',
+  authorId: 'authorId'
+};
 exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
   INVESTOR: 'INVESTOR',
@@ -748,7 +774,8 @@ exports.Prisma.ModelName = {
   BusinessUpdate: 'BusinessUpdate',
   OtpVerification: 'OtpVerification',
   AuditLog: 'AuditLog',
-  SystemConfig: 'SystemConfig'
+  SystemConfig: 'SystemConfig',
+  Berita: 'Berita'
 };
 
 /**
