@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { db } from "@/lib/db";
 
 export async function GET() {
   try {
-    const result = await prisma.$queryRaw`SELECT NOW() AS now`;
+    const result = await db.$queryRaw`SELECT NOW() AS now`;
 
     return NextResponse.json({
       ok: true,
-      message: "Prisma connected to PostgreSQL",
+      message: "Prisma connected to MariaDB/MySQL",
       result,
     });
   } catch (error) {
