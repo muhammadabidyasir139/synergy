@@ -1,0 +1,151 @@
+.page { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filterTabs { display: flex; gap: 0.45rem; flex-wrap: wrap; }
+
+.tab {
+  padding: 0.45rem 0.85rem;
+  border-radius: 30px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  border: 1.5px solid var(--border-color);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.tab:hover { border-color: #1d4ed8; color: var(--text-color); }
+
+.tabActive {
+  background: linear-gradient(135deg, #1d4ed8, #0ea5e9) !important;
+  border-color: transparent !important;
+  color: #ffffff !important;
+  box-shadow: 0 3px 10px rgba(29, 78, 216, 0.2);
+}
+
+.exportBtn {
+  padding: 0.5rem 1rem;
+  background: var(--surface-bg);
+  border: 1.5px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.exportBtn:hover { border-color: #1d4ed8; color: #1d4ed8; }
+.dark .exportBtn:hover { color: #60a5fa; }
+
+.exportMsg {
+  padding: 0.75rem 1rem;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #10b981;
+}
+
+/* Transaction List */
+.txList {
+  background: var(--surface-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.txItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  transition: background 0.15s ease;
+}
+
+.txItem:last-child { border-bottom: none; }
+
+.txItem:hover { background: rgba(29, 78, 216, 0.015); }
+
+.txIconBox {
+  width: 42px; height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.iconIn { background: rgba(16, 185, 129, 0.1); }
+.iconOut { background: rgba(239, 68, 68, 0.08); }
+
+.txInfo { flex: 1; min-width: 0; }
+
+.txDesc {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.txMeta {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  flex-wrap: wrap;
+}
+
+.txDate, .txRef, .txId { white-space: nowrap; }
+
+.txRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.2rem;
+  flex-shrink: 0;
+}
+
+.txAmount {
+  font-size: 0.95rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.amountIn { color: #10b981; }
+.amountOut { color: #ef4444; }
+
+.txStatus {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.emptyState span { font-size: 2.5rem; }

@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import crypto from "node:crypto";
-import { prisma } from "@/lib/prisma";
+import { db } from "@/lib/db";
 
-const DEFAULT_ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
-const DEFAULT_ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "synergy2026!";
+const DEFAULT_ADMIN_EMAIL = "admin@synergy.id";
+const DEFAULT_ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
 const DEFAULT_ADMIN_SECURITY_KEY = process.env.ADMIN_SECURITY_KEY || "999999";
 
 function hashPassword(value: string) {
@@ -29,33 +29,49 @@ export async function POST(request: Request) {
       );
     }
 
-    const adminUsername = (username || DEFAULT_ADMIN_USERNAME).trim().toLowerCase();
     const passwordHash = hashPassword(DEFAULT_ADMIN_PASSWORD);
 
-    await prisma.user.upsert({
-      where: { username: adminUsername },
+    // Ensure Admin user exists in MariaDB/MySQL
+    await db.user.upsert({
+      where: { email: DEFAULT_ADMIN_EMAIL },
       update: {
-        fullName: "Super Admin",
-        email: `${adminUsername}@synergy.local`,
         passwordHash,
         role: "ADMIN",
-        isActive: true,
+        status: "ACTIVE",
+        kycStatus: "APPROVED",
+        isEmailVerified: true,
+        isPhoneVerified: true,
       },
       create: {
-        username: adminUsername,
-        fullName: "Super Admin",
-        email: `${adminUsername}@synergy.local`,
+        email: DEFAULT_ADMIN_EMAIL,
+        phoneNumber: "08000000000",
         passwordHash,
         role: "ADMIN",
-        isActive: true,
+        status: "ACTIVE",
+        kycStatus: "APPROVED",
+        isEmailVerified: true,
+        isPhoneVerified: true,
+        adminProfile: {
+          create: {
+            fullName: "Super Admin Taufan",
+            isSuperAdmin: true,
+            department: "System",
+          },
+        },
+        wallet: {
+          create: {},
+        },
       },
     });
 
-    const user = await prisma.user.findUnique({
-      where: { username: adminUsername },
+    const user = await db.user.findUnique({
+      where: { email: DEFAULT_ADMIN_EMAIL },
+      include: {
+        adminProfile: true,
+      },
     });
 
-    if (!user || user.role !== "ADMIN" || !user.isActive) {
+    if (!user || user.role !== "ADMIN" || user.status !== "ACTIVE") {
       return NextResponse.json(
         { error: "Akun admin tidak ditemukan atau tidak aktif." },
         { status: 401 }
@@ -74,9 +90,9 @@ export async function POST(request: Request) {
       ok: true,
       user: {
         id: user.id,
-        username: user.username,
+        username: "admin",
         role: user.role,
-        fullName: user.fullName,
+        fullName: user.adminProfile?.fullName ?? "Super Admin",
       },
     });
   } catch (error) {

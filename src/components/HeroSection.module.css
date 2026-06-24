@@ -1,0 +1,325 @@
+/* ============================================================
+   KEYFRAMES
+   ============================================================ */
+@keyframes livePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(25,195,125,.5); }
+  50%       { box-shadow: 0 0 0 7px rgba(25,195,125,0); }
+}
+@keyframes badgeFadeIn {
+  from { opacity: 0; transform: translateY(-14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+@keyframes orbFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%       { transform: translate(40px, -30px) scale(1.06); }
+}
+@keyframes orbFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%       { transform: translate(-30px, 40px) scale(1.05); }
+}
+
+/* Decorative floating node keyframes */
+@keyframes fnode1 {
+  0%, 100% { transform: translate(0, 0) scale(1);    opacity: 0.55; }
+  33%       { transform: translate(14px, -18px) scale(1.3); opacity: 0.85; }
+  66%       { transform: translate(-8px, 10px) scale(0.85); opacity: 0.45; }
+}
+@keyframes fnode2 {
+  0%, 100% { transform: translate(0, 0) scale(1);     opacity: 0.5; }
+  40%       { transform: translate(-16px, 12px) scale(1.25); opacity: 0.8; }
+  75%       { transform: translate(10px, -8px) scale(0.9);  opacity: 0.4; }
+}
+@keyframes fnode3 {
+  0%, 100% { transform: translate(0, 0) scale(1);     opacity: 0.45; }
+  30%       { transform: translate(10px, 16px) scale(1.2);  opacity: 0.75; }
+  65%       { transform: translate(-12px, -6px) scale(0.8); opacity: 0.35; }
+}
+@keyframes fnode4 {
+  0%, 100% { transform: translate(0, 0) scale(1);    opacity: 0.6; }
+  45%       { transform: translate(-10px, -14px) scale(1.35); opacity: 0.9; }
+  80%       { transform: translate(14px, 6px) scale(0.88);  opacity: 0.5; }
+}
+@keyframes fnode5 {
+  0%, 100% { transform: translate(0, 0) scale(1);    opacity: 0.4; }
+  35%       { transform: translate(12px, 10px) scale(1.2); opacity: 0.7; }
+  70%       { transform: translate(-8px, -12px) scale(0.85); opacity: 0.3; }
+}
+@keyframes flinePulse {
+  0%, 100% { opacity: 0;    }
+  40%, 60% { opacity: 0.18; }
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding-top: 72px; /* fixed navbar height — centers content in visible area */
+  background: radial-gradient(130% 140% at 50% 50%, #ffffff 0%, #eaf2fc 48%, #d8e6f7 100%);
+}
+
+/* ── Lightweight gradient orbs ── */
+.orb1 {
+  position: absolute;
+  width: 640px;
+  height: 640px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 82, 204, 0.13) 0%, transparent 68%);
+  top: -18%;
+  left: -10%;
+  animation: orbFloat1 20s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.orb2 {
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 210, 255, 0.11) 0%, transparent 68%);
+  bottom: -12%;
+  right: -6%;
+  animation: orbFloat2 25s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ── Content block ── */
+.content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  width: min(860px, 90%);
+}
+
+/* ── Badge ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(47, 111, 224, 0.22);
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(30, 60, 110, 0.08);
+  margin-bottom: 28px;
+  animation: badgeFadeIn 0.55s cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation-delay: 0.1s;
+}
+
+.badgeDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #19c37d;
+  flex-shrink: 0;
+  animation: livePulse 2s ease-in-out infinite;
+}
+
+.badgeText {
+  font-family: var(--font-space-mono), 'Space Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #1e64d8;
+}
+
+/* ── Title ── */
+.title {
+  font-family: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(34px, 5vw, 66px);
+  line-height: 1.12;
+  letter-spacing: -0.022em;
+  color: #112344;
+  margin: 0 0 26px;
+  min-height: 3.45em; /* reserve 3 lines to prevent layout shift during typing */
+}
+
+.titleAccent {
+  background: linear-gradient(120deg, #2f86ff, #1546c8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.cursor {
+  display: inline-block;
+  color: #2f86ff;
+  font-weight: 300;
+  animation: cursorBlink 0.75s ease-in-out infinite;
+  margin-left: 2px;
+}
+
+/* ── Subtitle ── */
+.subtitle {
+  font-size: 17px;
+  line-height: 1.68;
+  color: #51607a;
+  max-width: 580px;
+  margin: 0 auto 36px;
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+/* ── CTA buttons ── */
+.ctaGroup {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s;
+}
+
+/* Reveal class toggled from JS after typing completes */
+.reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.btnPrimary {
+  padding: 15px 34px;
+  border-radius: 13px;
+  background: linear-gradient(180deg, #2f86ff, #1d63f2);
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+  box-shadow: 0 14px 32px -8px rgba(47, 134, 255, 0.55);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.btnPrimary:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow:
+    0 0 22px rgba(47, 134, 255, 0.5),
+    0 14px 38px -8px rgba(47, 134, 255, 0.68);
+}
+
+.btnSecondary {
+  padding: 15px 34px;
+  border-radius: 13px;
+  border: 1px solid rgba(47, 111, 224, 0.45);
+  color: #1e64d8;
+  font-weight: 600;
+  font-size: 16px;
+  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+  transition: color 0.32s ease, box-shadow 0.28s ease;
+}
+
+.btnSecondary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #2f86ff, #1d63f2);
+  transform: translateX(-101%);
+  transition: transform 0.36s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+}
+
+.btnSecondary:hover::before { transform: translateX(0); }
+.btnSecondary:hover {
+  color: #fff;
+  box-shadow: 0 4px 18px rgba(47, 134, 255, 0.36);
+}
+
+/* ============================================================
+   DECORATIVE FLOATING NODES
+   ============================================================ */
+.fnode1, .fnode2, .fnode3, .fnode4, .fnode5 {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.fnode1 {
+  width: 10px; height: 10px;
+  background: rgba(47, 134, 255, 0.7);
+  box-shadow: 0 0 18px 4px rgba(47, 134, 255, 0.45);
+  top: 22%; left: 10%;
+  animation: fnode1 7.5s ease-in-out infinite;
+}
+.fnode2 {
+  width: 7px; height: 7px;
+  background: rgba(0, 210, 255, 0.7);
+  box-shadow: 0 0 14px 3px rgba(0, 210, 255, 0.4);
+  top: 60%; left: 8%;
+  animation: fnode2 9s ease-in-out infinite 1.2s;
+}
+.fnode3 {
+  width: 9px; height: 9px;
+  background: rgba(47, 111, 224, 0.65);
+  box-shadow: 0 0 16px 3px rgba(47, 111, 224, 0.4);
+  top: 35%; right: 9%;
+  animation: fnode3 8s ease-in-out infinite 2.5s;
+}
+.fnode4 {
+  width: 6px; height: 6px;
+  background: rgba(0, 82, 204, 0.75);
+  box-shadow: 0 0 12px 3px rgba(0, 82, 204, 0.45);
+  top: 72%; right: 14%;
+  animation: fnode4 6.5s ease-in-out infinite 0.8s;
+}
+.fnode5 {
+  width: 8px; height: 8px;
+  background: rgba(0, 210, 255, 0.6);
+  box-shadow: 0 0 14px 3px rgba(0, 210, 255, 0.35);
+  top: 15%; right: 22%;
+  animation: fnode5 10s ease-in-out infinite 3s;
+}
+
+/* Subtle SVG connector lines between the decorative nodes */
+.fnodeLines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+.fline1 {
+  stroke: rgba(47, 134, 255, 0.22);
+  stroke-width: 0.3;
+  vector-effect: non-scaling-stroke;
+  animation: flinePulse 8s ease-in-out infinite;
+}
+.fline2 {
+  stroke: rgba(0, 210, 255, 0.18);
+  stroke-width: 0.3;
+  vector-effect: non-scaling-stroke;
+  animation: flinePulse 9.5s ease-in-out infinite 2s;
+}
+.fline3 {
+  stroke: rgba(47, 111, 224, 0.15);
+  stroke-width: 0.3;
+  vector-effect: non-scaling-stroke;
+  animation: flinePulse 11s ease-in-out infinite 4s;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  .hero { padding-top: 64px; }
+  .title { font-size: clamp(28px, 7.5vw, 46px); }
+  .subtitle { font-size: 15px; }
+  .ctaGroup { flex-direction: column; align-items: center; }
+  .btnPrimary, .btnSecondary { width: 100%; max-width: 300px; }
+  .orb1 { width: 380px; height: 380px; }
+  .orb2 { width: 300px; height: 300px; }
+}

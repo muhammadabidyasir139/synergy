@@ -1,25 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import styles from "./page.module.css";
 
-interface PendingUser {
+interface KycUser {
   id: string;
   name: string;
-  role: "UMKM" | "Investor";
+  role: "UMKM" | "INVESTOR";
+  status: string;
+  kycStatus: string;
   registrationDate: string;
-  documents: { type: string; label: string; previewText: string }[];
+  lastLoginAt: string | null;
+  documents: { id: string; type: string; url: string; status: string }[];
 }
 
 interface ActiveUser {
   id: string;
   name: string;
-  role: "UMKM" | "Investor";
-  status: "Active" | "Suspended" | "Banned";
-  lastActive: string;
+  role: "UMKM" | "INVESTOR";
+  status: string;
+  kycStatus: string;
+  lastLoginAt: string | null;
+  createdAt: string;
 }
 
-interface AuditLog {
+interface AuditEntry {
   id: string;
   time: string;
   action: string;
@@ -30,118 +35,139 @@ type Tab = "pending" | "active";
 
 export default function KYCManagement() {
   const [activeTab, setActiveTab] = useState<Tab>("pending");
+  const [pendingUsers, setPendingUsers] = useState<KycUser[]>([]);
+  const [activeUsers, setActiveUsers] = useState<ActiveUser[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [auditLogs, setAuditLogs] = useState<AuditEntry[]>([]);
 
-  // Mock Data
-  const [pendingUsers, setPendingUsers] = useState<PendingUser[]>([
-    {
-      id: "USR-092",
-      name: "Toko Sembako Maju Jaya",
-      role: "UMKM",
-      registrationDate: "30 Mei 2026, 09:12 WIB",
-      documents: [
-        { type: "ktp", label: "KTP Direktur Utama", previewText: "KTP_3201...pdf" },
-        { type: "nib", label: "Nomor Induk Berusaha (NIB)", previewText: "NIB_8123...pdf" },
-      ],
-    },
-    {
-      id: "USR-093",
-      name: "Ahmad Fauzi",
-      role: "Investor",
-      registrationDate: "30 Mei 2026, 11:45 WIB",
-      documents: [
-        { type: "ktp", label: "KTP Investor", previewText: "KTP_AhmadF.jpg" },
-        { type: "npwp", label: "NPWP", previewText: "NPWP_AhmadF.pdf" },
-      ],
-    },
-  ]);
-
-  const [activeUsers, setActiveUsers] = useState<ActiveUser[]>([
-    { id: "USR-010", name: "PT Ternak Sejahtera", role: "UMKM", status: "Active", lastActive: "10 mnt lalu" },
-    { id: "USR-015", name: "Budi Santoso", role: "Investor", status: "Active", lastActive: "1 jam lalu" },
-    { id: "USR-022", name: "Warung Kopi Senja", role: "UMKM", status: "Suspended", lastActive: "2 hari lalu" },
-  ]);
-
-  const [auditLogs, setAuditLogs] = useState<AuditLog[]>([
-    { id: "LOG-001", time: "30 Mei 2026, 08:30 WIB", action: "Sistem", detail: "Inisialisasi modul manajemen user selesai." },
-  ]);
-
-  // Modal States
-  const [docLightbox, setDocLightbox] = useState<PendingUser | null>(null);
-  
+  const [docLightbox, setDocLightbox] = useState<KycUser | null>(null);
   const [actionModal, setActionModal] = useState<{
     isOpen: boolean;
     type: "reject" | "suspend" | "ban";
     userId: string;
     userName: string;
   }>({ isOpen: false, type: "reject", userId: "", userName: "" });
-  
   const [actionReason, setActionReason] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
-  const logAction = (action: string, detail: string) => {
-    const newLog: AuditLog = {
-      // eslint-disable-next-line react-hooks/purity
-      id: `LOG-${Date.now()}`,
-      time: new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" }) + " WIB",
-      action,
-      detail,
-    };
-    setAuditLogs((prev) => [newLog, ...prev]);
-  };
-
-  // Actions for Pending Users (KYC)
-  const handleApprove = (user: PendingUser) => {
-    // Remove from pending
-    setPendingUsers((prev) => prev.filter((u) => u.id !== user.id));
-    // Add to active
-    setActiveUsers((prev) => [
-      { id: user.id, name: user.name, role: user.role, status: "Active", lastActive: "Baru saja" },
+  const logAction = useCallback((action: string, detail: string) => {
+    setAuditLogs((prev) => [
+      {
+        id: `LOG-${Date.now()}`,
+        time: new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" }) + " WIB",
+        action,
+        detail,
+      },
       ...prev,
     ]);
-    logAction("Approve KYC", `Admin menyetujui dokumen KYC untuk ${user.name} (${user.id}).`);
-    setDocLightbox(null); // Close lightbox if open
+  }, []);
+
+  const fetchPending = useCallback(async () => {
+    const res = await fetch("/api/admin/kyc?status=PENDING");
+    const data = await res.json();
+    setPendingUsers(data);
+  }, []);
+
+  const fetchActive = useCallback(async () => {
+    const res = await fetch("/api/admin/users");
+    const data: ActiveUser[] = await res.json();
+    setActiveUsers(data.filter((u) => u.kycStatus === "APPROVED"));
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      await Promise.all([fetchPending(), fetchActive()]);
+      setLoading(false);
+    })();
+  }, [fetchPending, fetchActive]);
+
+  const handleApprove = async (user: KycUser) => {
+    setSubmitting(true);
+    try {
+      await fetch(`/api/admin/kyc/${user.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "approve" }),
+      });
+      setPendingUsers((prev) => prev.filter((u) => u.id !== user.id));
+      await fetchActive();
+      logAction("Approve KYC", `Menyetujui KYC untuk ${user.name}.`);
+      setDocLightbox(null);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  const openRejectModal = (user: PendingUser) => {
+  const openRejectModal = (user: KycUser) => {
     setActionModal({ isOpen: true, type: "reject", userId: user.id, userName: user.name });
     setActionReason("");
     setDocLightbox(null);
   };
 
-  // Actions for Active Users (Suspend/Ban)
   const openActionModal = (user: ActiveUser, type: "suspend" | "ban") => {
     setActionModal({ isOpen: true, type, userId: user.id, userName: user.name });
     setActionReason("");
   };
 
-  const handleReactivate = (user: ActiveUser) => {
+  const handleReactivate = async (user: ActiveUser) => {
+    await fetch(`/api/admin/users/${user.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "reactivate" }),
+    });
     setActiveUsers((prev) =>
-      prev.map((u) => (u.id === user.id ? { ...u, status: "Active" } : u))
+      prev.map((u) => (u.id === user.id ? { ...u, status: "ACTIVE" } : u))
     );
-    logAction("Reactivate", `Admin mengaktifkan kembali akun ${user.name} (${user.id}).`);
+    logAction("Reactivate", `Mengaktifkan kembali akun ${user.name}.`);
   };
 
-  // Modal Submit
-  const handleActionSubmit = (e: React.FormEvent) => {
+  const handleActionSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!actionReason.trim()) return;
+    setSubmitting(true);
 
-    if (actionModal.type === "reject") {
-      setPendingUsers((prev) => prev.filter((u) => u.id !== actionModal.userId));
-      logAction("Reject KYC", `Menolak KYC ${actionModal.userName} (${actionModal.userId}). Alasan: ${actionReason}`);
-    } else if (actionModal.type === "suspend") {
-      setActiveUsers((prev) =>
-        prev.map((u) => (u.id === actionModal.userId ? { ...u, status: "Suspended" } : u))
-      );
-      logAction("Suspend", `Menangguhkan ${actionModal.userName} (${actionModal.userId}). Alasan: ${actionReason}`);
-    } else if (actionModal.type === "ban") {
-      setActiveUsers((prev) =>
-        prev.map((u) => (u.id === actionModal.userId ? { ...u, status: "Banned" } : u))
-      );
-      logAction("Ban", `Blokir permanen ${actionModal.userName} (${actionModal.userId}). Alasan: ${actionReason}`);
+    try {
+      if (actionModal.type === "reject") {
+        await fetch(`/api/admin/kyc/${actionModal.userId}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "reject", reason: actionReason }),
+        });
+        setPendingUsers((prev) => prev.filter((u) => u.id !== actionModal.userId));
+        logAction("Reject KYC", `Menolak KYC ${actionModal.userName}. Alasan: ${actionReason}`);
+      } else {
+        const action = actionModal.type === "suspend" ? "suspend" : "ban";
+        await fetch(`/api/admin/users/${actionModal.userId}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action, reason: actionReason }),
+        });
+        const newStatus = action === "suspend" ? "SUSPENDED" : "BANNED";
+        setActiveUsers((prev) =>
+          prev.map((u) => (u.id === actionModal.userId ? { ...u, status: newStatus } : u))
+        );
+        logAction(
+          action === "suspend" ? "Suspend" : "Ban",
+          `${action === "suspend" ? "Menangguhkan" : "Memblokir"} ${actionModal.userName}. Alasan: ${actionReason}`
+        );
+      }
+      setActionModal({ ...actionModal, isOpen: false });
+    } finally {
+      setSubmitting(false);
     }
-
-    setActionModal({ ...actionModal, isOpen: false });
   };
+
+  const fmtDate = (d: string | null) =>
+    d ? new Date(d).toLocaleString("id-ID", { timeZone: "Asia/Jakarta" }) + " WIB" : "-";
+
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <div style={{ textAlign: "center", padding: "4rem", opacity: 0.6 }}>Memuat data...</div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -154,7 +180,6 @@ export default function KYCManagement() {
         </div>
       </header>
 
-      {/* Tab Switcher */}
       <div className={styles.tabContainer}>
         <button
           className={`${styles.tabBtn} ${activeTab === "pending" ? styles.tabActive : ""}`}
@@ -174,7 +199,6 @@ export default function KYCManagement() {
       </div>
 
       <div className={styles.contentArea}>
-        {/* PENDING USERS TAB */}
         {activeTab === "pending" && (
           <div className={styles.listSection}>
             {pendingUsers.length === 0 ? (
@@ -192,23 +216,26 @@ export default function KYCManagement() {
                         <h3 className={styles.userName}>{user.name}</h3>
                         <div className={styles.userMeta}>
                           <span className={styles.userRoleBadge}>{user.role}</span>
-                          <span className={styles.userId}>{user.id}</span>
+                          <span className={styles.userId}>{user.id.slice(0, 8)}...</span>
                         </div>
                       </div>
                     </div>
                     <div className={styles.cardBody}>
                       <div className={styles.dateInfo}>
                         <span className={styles.label}>Tanggal Daftar:</span>
-                        <span>{user.registrationDate}</span>
+                        <span>{fmtDate(user.registrationDate)}</span>
                       </div>
                       <div className={styles.docList}>
                         <span className={styles.label}>Dokumen Terlampir:</span>
                         <div className={styles.docTags}>
-                          {user.documents.map((doc, idx) => (
-                            <span key={idx} className={styles.docTag}>
-                              📄 {doc.type.toUpperCase()}
+                          {user.documents.map((doc) => (
+                            <span key={doc.id} className={styles.docTag}>
+                              📄 {doc.type}
                             </span>
                           ))}
+                          {user.documents.length === 0 && (
+                            <span className={styles.docTag}>Belum ada dokumen</span>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -227,7 +254,6 @@ export default function KYCManagement() {
           </div>
         )}
 
-        {/* ACTIVE USERS TAB */}
         {activeTab === "active" && (
           <div className={`${styles.tableSection} glass`}>
             <div className={styles.tableWrapper}>
@@ -243,54 +269,65 @@ export default function KYCManagement() {
                   </tr>
                 </thead>
                 <tbody>
-                  {activeUsers.map((user) => (
-                    <tr key={user.id} className={user.status !== "Active" ? styles.rowMuted : ""}>
-                      <td className={styles.tdId}>{user.id}</td>
-                      <td className={styles.tdName}>{user.name}</td>
-                      <td>
-                        <span className={styles.userRoleBadge}>{user.role}</span>
-                      </td>
-                      <td>
-                        <span
-                          className={`${styles.statusBadge} ${
-                            user.status === "Active"
-                              ? styles.statusActive
-                              : user.status === "Suspended"
-                              ? styles.statusWarn
-                              : styles.statusDanger
-                          }`}
-                        >
-                          {user.status}
-                        </span>
-                      </td>
-                      <td className={styles.tdTime}>{user.lastActive}</td>
-                      <td style={{ textAlign: "right" }}>
-                        {user.status === "Active" ? (
-                          <div className={styles.actionButtonGroup}>
-                            <button
-                              onClick={() => openActionModal(user, "suspend")}
-                              className={`${styles.btnSm} ${styles.btnWarn}`}
-                            >
-                              Suspend
-                            </button>
-                            <button
-                              onClick={() => openActionModal(user, "ban")}
-                              className={`${styles.btnSm} ${styles.btnDanger}`}
-                            >
-                              Ban
-                            </button>
-                          </div>
-                        ) : (
-                          <button
-                            onClick={() => handleReactivate(user)}
-                            className={`${styles.btnSm} ${styles.btnSuccess}`}
-                          >
-                            Reactivate
-                          </button>
-                        )}
+                  {activeUsers.length === 0 ? (
+                    <tr>
+                      <td colSpan={6} style={{ textAlign: "center", padding: "2rem", opacity: 0.6 }}>
+                        Belum ada pengguna aktif.
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    activeUsers.map((user) => (
+                      <tr
+                        key={user.id}
+                        className={user.status !== "ACTIVE" ? styles.rowMuted : ""}
+                      >
+                        <td className={styles.tdId}>{user.id.slice(0, 8)}...</td>
+                        <td className={styles.tdName}>{user.name}</td>
+                        <td>
+                          <span className={styles.userRoleBadge}>{user.role}</span>
+                        </td>
+                        <td>
+                          <span
+                            className={`${styles.statusBadge} ${
+                              user.status === "ACTIVE"
+                                ? styles.statusActive
+                                : user.status === "SUSPENDED"
+                                ? styles.statusWarn
+                                : styles.statusDanger
+                            }`}
+                          >
+                            {user.status}
+                          </span>
+                        </td>
+                        <td className={styles.tdTime}>{fmtDate(user.lastLoginAt)}</td>
+                        <td style={{ textAlign: "right" }}>
+                          {user.status === "ACTIVE" ? (
+                            <div className={styles.actionButtonGroup}>
+                              <button
+                                onClick={() => openActionModal(user, "suspend")}
+                                className={`${styles.btnSm} ${styles.btnWarn}`}
+                              >
+                                Suspend
+                              </button>
+                              <button
+                                onClick={() => openActionModal(user, "ban")}
+                                className={`${styles.btnSm} ${styles.btnDanger}`}
+                              >
+                                Ban
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => handleReactivate(user)}
+                              className={`${styles.btnSm} ${styles.btnSuccess}`}
+                            >
+                              Reactivate
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
@@ -298,25 +335,31 @@ export default function KYCManagement() {
         )}
       </div>
 
-      {/* AUDIT LOG FEED */}
+      {/* AUDIT LOG */}
       <div className={`${styles.auditSection} glass`}>
         <div className={styles.auditHeader}>
           <h3>📜 Live Audit Trail</h3>
           <span className={styles.pulseDot}></span>
         </div>
         <div className={styles.auditList}>
-          {auditLogs.map((log) => (
-            <div key={log.id} className={styles.auditItem}>
-              <div className={styles.auditTime}>{log.time}</div>
-              <div className={styles.auditContent}>
-                <span className={styles.auditAction}>[{log.action}]</span> {log.detail}
-              </div>
+          {auditLogs.length === 0 ? (
+            <div className={styles.auditItem} style={{ opacity: 0.5 }}>
+              Belum ada aktivitas dalam sesi ini.
             </div>
-          ))}
+          ) : (
+            auditLogs.map((log) => (
+              <div key={log.id} className={styles.auditItem}>
+                <div className={styles.auditTime}>{log.time}</div>
+                <div className={styles.auditContent}>
+                  <span className={styles.auditAction}>[{log.action}]</span> {log.detail}
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
 
-      {/* DOCUMENT LIGHTBOX MODAL */}
+      {/* DOCUMENT LIGHTBOX */}
       {docLightbox && (
         <div className={styles.modalOverlay} onClick={() => setDocLightbox(null)}>
           <div className={`${styles.lightboxModal} glass`} onClick={(e) => e.stopPropagation()}>
@@ -324,58 +367,84 @@ export default function KYCManagement() {
               <h2>Review Dokumen KYC: {docLightbox.name}</h2>
               <button className={styles.closeBtn} onClick={() => setDocLightbox(null)}>×</button>
             </div>
-            
             <div className={styles.lightboxBody}>
               <div className={styles.docPreviewArea}>
-                {docLightbox.documents.map((doc, idx) => (
-                  <div key={idx} className={styles.docBox}>
-                    <div className={styles.docBoxHeader}>{doc.label}</div>
-                    <div className={styles.docMockup}>
-                      <span className={styles.docMockupText}>{doc.previewText}</span>
-                      <div className={styles.docMockupWatermark}>SIMULATED DOCUMENT PREVIEW</div>
+                {docLightbox.documents.length === 0 ? (
+                  <p style={{ opacity: 0.6 }}>Tidak ada dokumen yang diunggah.</p>
+                ) : (
+                  docLightbox.documents.map((doc) => (
+                    <div key={doc.id} className={styles.docBox}>
+                      <div className={styles.docBoxHeader}>{doc.type}</div>
+                      <div className={styles.docMockup}>
+                        <span className={styles.docMockupText}>{doc.url}</span>
+                        <div className={styles.docMockupWatermark}>DOCUMENT PREVIEW</div>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
             </div>
-
             <div className={styles.modalFooter}>
-              <button className={`${styles.btn} ${styles.btnDangerOutline}`} onClick={() => openRejectModal(docLightbox)}>
+              <button
+                className={`${styles.btn} ${styles.btnDangerOutline}`}
+                onClick={() => openRejectModal(docLightbox)}
+                disabled={submitting}
+              >
                 Tolak & Minta Revisi
               </button>
-              <button className={`${styles.btn} ${styles.btnSuccess}`} onClick={() => handleApprove(docLightbox)}>
-                Setujui & Aktifkan
+              <button
+                className={`${styles.btn} ${styles.btnSuccess}`}
+                onClick={() => handleApprove(docLightbox)}
+                disabled={submitting}
+              >
+                {submitting ? "Memproses..." : "Setujui & Aktifkan"}
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* ACTION MODAL (Reject/Suspend/Ban) */}
+      {/* ACTION MODAL */}
       {actionModal.isOpen && (
-        <div className={styles.modalOverlay} onClick={() => setActionModal({ ...actionModal, isOpen: false })}>
-          <div className={`${styles.actionModal} glass`} onClick={(e) => e.stopPropagation()}>
+        <div
+          className={styles.modalOverlay}
+          onClick={() => setActionModal({ ...actionModal, isOpen: false })}
+        >
+          <div
+            className={`${styles.actionModal} glass`}
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className={styles.modalHeader}>
               <h2>
                 {actionModal.type === "reject" && "Tolak Verifikasi KYC"}
                 {actionModal.type === "suspend" && "Tangguhkan Akun (Suspend)"}
                 {actionModal.type === "ban" && "Blokir Permanen (Ban)"}
               </h2>
-              <button className={styles.closeBtn} onClick={() => setActionModal({ ...actionModal, isOpen: false })}>×</button>
+              <button
+                className={styles.closeBtn}
+                onClick={() => setActionModal({ ...actionModal, isOpen: false })}
+              >
+                ×
+              </button>
             </div>
-            
             <form onSubmit={handleActionSubmit}>
               <div className={styles.modalBody}>
                 <p className={styles.modalWarning}>
-                  Anda akan {actionModal.type === "reject" ? "menolak" : actionModal.type === "suspend" ? "menangguhkan" : "memblokir"} akun <strong>{actionModal.userName}</strong>.
-                  Tindakan ini memerlukan catatan audit wajib.
+                  Anda akan{" "}
+                  {actionModal.type === "reject"
+                    ? "menolak"
+                    : actionModal.type === "suspend"
+                    ? "menangguhkan"
+                    : "memblokir"}{" "}
+                  akun <strong>{actionModal.userName}</strong>. Tindakan ini memerlukan catatan
+                  audit wajib.
                 </p>
                 <div className={styles.inputGroup}>
                   <label htmlFor="reason">Alasan Tindakan (Wajib)</label>
                   <textarea
                     id="reason"
                     rows={4}
-                    placeholder="Masukkan alasan spesifik berdasarkan bukti pelanggaran/ketidaksesuaian..."
+                    placeholder="Masukkan alasan spesifik..."
                     value={actionReason}
                     onChange={(e) => setActionReason(e.target.value)}
                     required
@@ -383,7 +452,6 @@ export default function KYCManagement() {
                   />
                 </div>
               </div>
-
               <div className={styles.modalFooter}>
                 <button
                   type="button"
@@ -395,9 +463,9 @@ export default function KYCManagement() {
                 <button
                   type="submit"
                   className={`${styles.btn} ${styles.btnDanger}`}
-                  disabled={!actionReason.trim()}
+                  disabled={!actionReason.trim() || submitting}
                 >
-                  Konfirmasi Tindakan
+                  {submitting ? "Memproses..." : "Konfirmasi Tindakan"}
                 </button>
               </div>
             </form>

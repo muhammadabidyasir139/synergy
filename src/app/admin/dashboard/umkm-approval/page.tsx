@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import styles from "./page.module.css";
 
 interface AIInsight {
-  id: string;
   type: "positive" | "negative" | "warning";
   text: string;
 }
@@ -13,130 +12,134 @@ interface UmkmApplication {
   id: string;
   name: string;
   category: string;
-  targetFunding: string;
-  tenor: string;
-  nisbah: string;
-  score: number; // 0-100 XGBoost Score
-  riskCategory: "Low Risk" | "Medium Risk" | "High Risk";
-  insights: AIInsight[];
+  targetFunding: number;
+  tenor: number;
+  akadType: string;
+  status: string;
+  purpose: string;
+  score: number | null;
+  riskLevel: string | null;
+  insights: AIInsight[] | null;
 }
 
 export default function UmkmApprovalPage() {
-  const [applications, setApplications] = useState<UmkmApplication[]>([
-    {
-      id: "UMKM-001",
-      name: "Toko Sembako Berkah",
-      category: "Perdagangan",
-      targetFunding: "Rp 50.000.000",
-      tenor: "12 Bulan",
-      nisbah: "60:40 (Investor:UMKM)",
-      score: 88,
-      riskCategory: "Low Risk",
-      insights: [
-        { id: "i1", type: "positive", text: "Pertumbuhan arus kas konsisten positif selama 6 bulan terakhir." },
-        { id: "i2", type: "positive", text: "Rasio hutang rendah (Debt-to-Equity Ratio sehat)." },
-        { id: "i3", type: "warning", text: "Persaingan tinggi di sektor perdagangan sembako lokal." },
-      ],
-    },
-    {
-      id: "UMKM-002",
-      name: "Konveksi Baju Nusantara",
-      category: "Manufaktur & Pakaian",
-      targetFunding: "Rp 150.000.000",
-      tenor: "24 Bulan",
-      nisbah: "70:30 (Investor:UMKM)",
-      score: 65,
-      riskCategory: "Medium Risk",
-      insights: [
-        { id: "i4", type: "positive", text: "Memiliki kontrak rutin dengan instansi pemerintah lokal." },
-        { id: "i5", type: "negative", text: "Pengeluaran operasional meningkat drastis bulan lalu." },
-      ],
-    },
-    {
-      id: "UMKM-003",
-      name: "Warung Makan Sedap Malam",
-      category: "Kuliner",
-      targetFunding: "Rp 25.000.000",
-      tenor: "6 Bulan",
-      nisbah: "50:50 (Investor:UMKM)",
-      score: 42,
-      riskCategory: "High Risk",
-      insights: [
-        { id: "i6", type: "negative", text: "Omzet tidak stabil dan berfluktuasi tajam." },
-        { id: "i7", type: "negative", text: "Catatan laporan keuangan tidak lengkap di bulan ke-2 dan 3." },
-      ],
-    },
-  ]);
-
-  const [selectedUmkm, setSelectedUmkm] = useState<UmkmApplication | null>(applications[0] || null);
+  const [applications, setApplications] = useState<UmkmApplication[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedUmkm, setSelectedUmkm] = useState<UmkmApplication | null>(null);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleApprove = (id: string) => {
-    setApplications((prev) => prev.filter((app) => app.id !== id));
-    setToastMessage("🚀 UMKM berhasil disetujui dan diorbitkan ke Marketplace Investor!");
+  const toast = useCallback((msg: string) => {
+    setToastMessage(msg);
     setShowToast(true);
-    
-    // Auto hide toast and select next
-    setTimeout(() => {
-      setShowToast(false);
-      const remaining = applications.filter((app) => app.id !== id);
-      setSelectedUmkm(remaining.length > 0 ? remaining[0] : null);
-    }, 3000);
+    setTimeout(() => setShowToast(false), 3000);
+  }, []);
+
+  const fetchApplications = useCallback(async () => {
+    setLoading(true);
+    const res = await fetch("/api/admin/umkm-approval?status=PENDING");
+    const data: UmkmApplication[] = await res.json();
+    setApplications(data);
+    setSelectedUmkm(data[0] ?? null);
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    fetchApplications();
+  }, [fetchApplications]);
+
+  const handleApprove = async (id: string) => {
+    setSubmitting(true);
+    try {
+      const res = await fetch(`/api/admin/umkm-approval/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "approve" }),
+      });
+      if (res.ok) {
+        const remaining = applications.filter((a) => a.id !== id);
+        setApplications(remaining);
+        setSelectedUmkm(remaining[0] ?? null);
+        toast("🚀 UMKM berhasil disetujui dan diorbitkan ke Marketplace Investor!");
+      }
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  const handleReject = (id: string) => {
+  const handleReject = async (id: string) => {
     const reason = prompt("Masukkan alasan penolakan pendanaan UMKM ini:");
-    if (reason !== null) {
-      setApplications((prev) => prev.filter((app) => app.id !== id));
-      setToastMessage("❌ Pengajuan UMKM ditolak.");
-      setShowToast(true);
-      
-      setTimeout(() => {
-        setShowToast(false);
-        const remaining = applications.filter((app) => app.id !== id);
-        setSelectedUmkm(remaining.length > 0 ? remaining[0] : null);
-      }, 3000);
+    if (reason === null) return;
+    setSubmitting(true);
+    try {
+      const res = await fetch(`/api/admin/umkm-approval/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "reject", reason }),
+      });
+      if (res.ok) {
+        const remaining = applications.filter((a) => a.id !== id);
+        setApplications(remaining);
+        setSelectedUmkm(remaining[0] ?? null);
+        toast("❌ Pengajuan UMKM ditolak.");
+      }
+    } finally {
+      setSubmitting(false);
     }
   };
 
   const handleRetrainScoring = () => {
     if (selectedUmkm) {
-      setToastMessage("🔄 Memicu ulang model XGBoost AI untuk recalculation...");
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 2500);
+      toast("🔄 Memicu ulang model XGBoost AI untuk recalculation...");
     }
   };
 
-  // Helper for SVG Gauge Math
   const getGaugeProps = (score: number) => {
     const radius = 60;
     const circumference = 2 * Math.PI * radius;
     const strokeDashoffset = circumference - (score / 100) * circumference;
-    
-    let color = "#ef4444"; // Red for High Risk
-    if (score >= 80) color = "#10b981"; // Green for Low Risk
-    else if (score >= 60) color = "#f59e0b"; // Orange for Medium Risk
-    
+    let color = "#ef4444";
+    if (score >= 80) color = "#10b981";
+    else if (score >= 60) color = "#f59e0b";
     return { circumference, strokeDashoffset, color };
   };
+
+  const fmtRupiah = (n: number) =>
+    new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(n);
+
+  const getRiskLabel = (score: number | null) => {
+    if (score === null) return "Belum Dinilai";
+    if (score >= 80) return "Low Risk";
+    if (score >= 60) return "Medium Risk";
+    return "High Risk";
+  };
+
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <div style={{ textAlign: "center", padding: "4rem", opacity: 0.6 }}>Memuat data...</div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
       <header className={styles.header}>
         <div className={styles.headerTitle}>
           <h1>Review & Approval Kelayakan UMKM</h1>
-          <p>Validasi hasil prediksi XGBoost AI sebelum mempublikasikan kampanye pendanaan ke Marketplace Investor.</p>
+          <p>
+            Validasi hasil prediksi XGBoost AI sebelum mempublikasikan kampanye pendanaan ke
+            Marketplace Investor.
+          </p>
         </div>
       </header>
 
-      {/* Toast Notification */}
       <div className={`${styles.toast} ${showToast ? styles.toastVisible : ""}`}>
         {toastMessage}
       </div>
 
       <div className={styles.splitLayout}>
-        {/* LEFT PANE: List of UMKM Applications */}
         <aside className={`${styles.listPane} glass`}>
           <div className={styles.paneHeader}>
             <h3>Daftar Pengajuan ({applications.length})</h3>
@@ -156,16 +159,27 @@ export default function UmkmApprovalPage() {
                 >
                   <div className={styles.appItemTop}>
                     <h4>{app.name}</h4>
-                    <span className={styles.scorePill} style={{
-                      backgroundColor: app.score >= 80 ? 'rgba(16, 185, 129, 0.1)' : app.score >= 60 ? 'rgba(245, 158, 11, 0.1)' : 'rgba(239, 68, 68, 0.1)',
-                      color: app.score >= 80 ? '#10b981' : app.score >= 60 ? '#f59e0b' : '#ef4444'
-                    }}>
-                      Skor: {app.score}
-                    </span>
+                    {app.score !== null && (
+                      <span
+                        className={styles.scorePill}
+                        style={{
+                          backgroundColor:
+                            app.score >= 80
+                              ? "rgba(16,185,129,0.1)"
+                              : app.score >= 60
+                              ? "rgba(245,158,11,0.1)"
+                              : "rgba(239,68,68,0.1)",
+                          color:
+                            app.score >= 80 ? "#10b981" : app.score >= 60 ? "#f59e0b" : "#ef4444",
+                        }}
+                      >
+                        Skor: {app.score.toFixed(0)}
+                      </span>
+                    )}
                   </div>
                   <div className={styles.appItemBottom}>
                     <span className={styles.appCategory}>{app.category}</span>
-                    <span className={styles.appTarget}>{app.targetFunding}</span>
+                    <span className={styles.appTarget}>{fmtRupiah(app.targetFunding)}</span>
                   </div>
                 </button>
               ))
@@ -173,131 +187,175 @@ export default function UmkmApprovalPage() {
           </div>
         </aside>
 
-        {/* RIGHT PANE: Detailed AI Scoring Analysis */}
         <main className={`${styles.detailPane} glass`}>
           {!selectedUmkm ? (
             <div className={styles.emptyDetail}>
               <span className={styles.emptyIconLg}>📊</span>
               <h3>Pilih UMKM untuk dianalisis</h3>
-              <p>Pilih pengajuan dari daftar di sebelah kiri untuk melihat detail skor kelayakan dari model XGBoost AI.</p>
+              <p>
+                Pilih pengajuan dari daftar di sebelah kiri untuk melihat detail skor kelayakan
+                dari model XGBoost AI.
+              </p>
             </div>
           ) : (
             <div className={styles.detailContent}>
               <div className={styles.detailHeader}>
                 <div>
                   <h2>{selectedUmkm.name}</h2>
-                  <p className={styles.umkmId}>ID Registrasi: {selectedUmkm.id} | Kategori: {selectedUmkm.category}</p>
+                  <p className={styles.umkmId}>
+                    ID: {selectedUmkm.id.slice(0, 10)}... | Kategori: {selectedUmkm.category}
+                  </p>
                 </div>
                 <div className={styles.actionGroupTop}>
-                  <button onClick={handleRetrainScoring} className={styles.btnSecondary} title="Jalankan ulang prediksi AI dengan data terbaru">
+                  <button
+                    onClick={handleRetrainScoring}
+                    className={styles.btnSecondary}
+                    title="Jalankan ulang prediksi AI dengan data terbaru"
+                  >
                     <span className={styles.iconSync}>🔄</span> Trigger AI Ulang
                   </button>
                 </div>
               </div>
 
-              {/* AI Scoring Visualization Section */}
               <div className={styles.aiScoringSection}>
                 <div className={styles.gaugeContainer}>
-                  {(() => {
-                    const { circumference, strokeDashoffset, color } = getGaugeProps(selectedUmkm.score);
-                    return (
-                      <div className={styles.gaugeWrapper}>
-                        <svg className={styles.gaugeSvg} width="160" height="160" viewBox="0 0 160 160">
-                          {/* Background Circle */}
-                          <circle
-                            cx="80" cy="80" r="60"
-                            fill="none"
-                            stroke="rgba(148, 163, 184, 0.2)"
-                            strokeWidth="12"
-                          />
-                          {/* Progress Circle */}
-                          <circle
-                            cx="80" cy="80" r="60"
-                            fill="none"
-                            stroke={color}
-                            strokeWidth="12"
-                            strokeLinecap="round"
-                            strokeDasharray={circumference}
-                            strokeDashoffset={strokeDashoffset}
-                            transform="rotate(-90 80 80)"
-                            style={{ transition: 'stroke-dashoffset 1s ease-in-out' }}
-                          />
-                        </svg>
-                        <div className={styles.gaugeText}>
-                          <span className={styles.gaugeValue} style={{ color }}>{selectedUmkm.score}</span>
-                          <span className={styles.gaugeLabel}>/100</span>
+                  {selectedUmkm.score !== null ? (
+                    (() => {
+                      const { circumference, strokeDashoffset, color } = getGaugeProps(
+                        selectedUmkm.score
+                      );
+                      return (
+                        <div className={styles.gaugeWrapper}>
+                          <svg className={styles.gaugeSvg} width="160" height="160" viewBox="0 0 160 160">
+                            <circle
+                              cx="80" cy="80" r="60"
+                              fill="none"
+                              stroke="rgba(148,163,184,0.2)"
+                              strokeWidth="12"
+                            />
+                            <circle
+                              cx="80" cy="80" r="60"
+                              fill="none"
+                              stroke={color}
+                              strokeWidth="12"
+                              strokeLinecap="round"
+                              strokeDasharray={circumference}
+                              strokeDashoffset={strokeDashoffset}
+                              transform="rotate(-90 80 80)"
+                              style={{ transition: "stroke-dashoffset 1s ease-in-out" }}
+                            />
+                          </svg>
+                          <div className={styles.gaugeText}>
+                            <span className={styles.gaugeValue} style={{ color }}>
+                              {selectedUmkm.score.toFixed(0)}
+                            </span>
+                            <span className={styles.gaugeLabel}>/100</span>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })()}
+                      );
+                    })()
+                  ) : (
+                    <div className={styles.gaugeWrapper} style={{ opacity: 0.5 }}>
+                      <p>Belum ada skor AI</p>
+                    </div>
+                  )}
                   <div className={styles.riskBadgeWrapper}>
                     <span className={styles.riskLabel}>Kategori Risiko AI:</span>
-                    <span className={styles.riskBadge} style={{
-                      backgroundColor: selectedUmkm.score >= 80 ? '#10b981' : selectedUmkm.score >= 60 ? '#f59e0b' : '#ef4444'
-                    }}>
-                      {selectedUmkm.riskCategory}
+                    <span
+                      className={styles.riskBadge}
+                      style={{
+                        backgroundColor:
+                          selectedUmkm.score === null
+                            ? "#6b7280"
+                            : selectedUmkm.score >= 80
+                            ? "#10b981"
+                            : selectedUmkm.score >= 60
+                            ? "#f59e0b"
+                            : "#ef4444",
+                      }}
+                    >
+                      {getRiskLabel(selectedUmkm.score)}
                     </span>
                   </div>
                 </div>
 
                 <div className={styles.insightsContainer}>
                   <h3>XGBoost AI Insights</h3>
-                  <ul className={styles.insightsList}>
-                    {selectedUmkm.insights.map((insight) => (
-                      <li key={insight.id} className={styles.insightItem}>
-                        <span className={`${styles.insightIcon} ${
-                          insight.type === 'positive' ? styles.iconPos :
-                          insight.type === 'warning' ? styles.iconWarn : styles.iconNeg
-                        }`}>
-                          {insight.type === 'positive' ? '✅' : insight.type === 'warning' ? '⚠️' : '🚨'}
-                        </span>
-                        <span className={styles.insightText}>{insight.text}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  {selectedUmkm.insights && selectedUmkm.insights.length > 0 ? (
+                    <ul className={styles.insightsList}>
+                      {selectedUmkm.insights.map((insight, idx) => (
+                        <li key={idx} className={styles.insightItem}>
+                          <span
+                            className={`${styles.insightIcon} ${
+                              insight.type === "positive"
+                                ? styles.iconPos
+                                : insight.type === "warning"
+                                ? styles.iconWarn
+                                : styles.iconNeg
+                            }`}
+                          >
+                            {insight.type === "positive" ? "✅" : insight.type === "warning" ? "⚠️" : "🚨"}
+                          </span>
+                          <span className={styles.insightText}>{insight.text}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p style={{ opacity: 0.6 }}>Belum ada insight AI untuk pengajuan ini.</p>
+                  )}
                 </div>
               </div>
 
-              {/* Financial Metrics Section */}
               <div className={styles.financialSection}>
                 <h3>Detail Permohonan Pendanaan</h3>
                 <div className={styles.metricsGrid}>
                   <div className={styles.metricBox}>
                     <span className={styles.metricLabel}>Target Pendanaan</span>
-                    <span className={styles.metricVal}>{selectedUmkm.targetFunding}</span>
+                    <span className={styles.metricVal}>{fmtRupiah(selectedUmkm.targetFunding)}</span>
                   </div>
                   <div className={styles.metricBox}>
                     <span className={styles.metricLabel}>Tenor Investasi</span>
-                    <span className={styles.metricVal}>{selectedUmkm.tenor}</span>
+                    <span className={styles.metricVal}>{selectedUmkm.tenor} Bulan</span>
                   </div>
                   <div className={styles.metricBox}>
-                    <span className={styles.metricLabel}>Nisbah Bagi Hasil</span>
-                    <span className={styles.metricVal}>{selectedUmkm.nisbah}</span>
+                    <span className={styles.metricLabel}>Tipe Akad</span>
+                    <span className={styles.metricVal}>{selectedUmkm.akadType}</span>
+                  </div>
+                  <div className={styles.metricBox}>
+                    <span className={styles.metricLabel}>Tujuan Dana</span>
+                    <span className={styles.metricVal} style={{ fontSize: "0.85rem" }}>
+                      {selectedUmkm.purpose}
+                    </span>
                   </div>
                 </div>
               </div>
 
-              {/* Action Footer */}
               <div className={styles.detailFooter}>
-                <button 
+                <button
                   onClick={() => handleReject(selectedUmkm.id)}
                   className={`${styles.btnAction} ${styles.btnReject}`}
+                  disabled={submitting}
                 >
                   Tolak Pendanaan
                 </button>
-                <button 
+                <button
                   onClick={() => handleApprove(selectedUmkm.id)}
                   className={`${styles.btnAction} ${styles.btnApprove}`}
-                  disabled={selectedUmkm.score < 50}
-                  title={selectedUmkm.score < 50 ? "Skor terlalu rendah untuk disetujui" : ""}
+                  disabled={submitting || (selectedUmkm.score !== null && selectedUmkm.score < 50)}
+                  title={
+                    selectedUmkm.score !== null && selectedUmkm.score < 50
+                      ? "Skor terlalu rendah untuk disetujui"
+                      : ""
+                  }
                 >
-                  🚀 Setujui & Orbitkan ke Marketplace
+                  {submitting ? "⏳ Memproses..." : "🚀 Setujui & Orbitkan ke Marketplace"}
                 </button>
               </div>
 
-              {selectedUmkm.score < 50 && (
+              {selectedUmkm.score !== null && selectedUmkm.score < 50 && (
                 <div className={styles.systemWarning}>
-                  <span style={{color: '#ef4444', fontWeight: 'bold'}}>⚠️ Peringatan Sistem:</span> Skor AI di bawah ambang batas aman (50). Sistem menonaktifkan persetujuan otomatis.
+                  <span style={{ color: "#ef4444", fontWeight: "bold" }}>⚠️ Peringatan Sistem:</span>{" "}
+                  Skor AI di bawah ambang batas aman (50). Sistem menonaktifkan persetujuan otomatis.
                 </div>
               )}
             </div>

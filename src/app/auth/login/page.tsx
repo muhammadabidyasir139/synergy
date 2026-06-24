@@ -19,19 +19,26 @@ export default function GeneralLogin() {
     setError("");
     setLoading(true);
 
-    // Simulated user login
     setTimeout(() => {
       if (!email || !password) {
         setError("Email dan kata sandi wajib diisi!");
         setLoading(false);
         return;
       }
-      
-      // Simulating a successful login
-      alert(`Login berhasil sebagai ${role === "investor" ? "Investor" : "UMKM"}!`);
-      setLoading(false);
-      // For demo, just redirect to home
-      router.push("/");
+
+      if (role === "umkm") {
+        if (typeof window !== "undefined") {
+          sessionStorage.setItem("synergy_umkm_session", "true");
+        }
+        setLoading(false);
+        router.push("/umkm/dashboard");
+      } else {
+        if (typeof window !== "undefined") {
+          sessionStorage.setItem("synergy_investor_session", "true");
+        }
+        setLoading(false);
+        router.push("/investor/dashboard");
+      }
     }, 1000);
   };
 
