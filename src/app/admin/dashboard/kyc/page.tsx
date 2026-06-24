@@ -79,6 +79,7 @@ export default function KYCManagement() {
 
   const logAction = (action: string, detail: string) => {
     const newLog: AuditLog = {
+      // eslint-disable-next-line react-hooks/purity
       id: `LOG-${Date.now()}`,
       time: new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" }) + " WIB",
       action,

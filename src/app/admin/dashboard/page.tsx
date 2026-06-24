@@ -77,7 +77,7 @@ export default function AdminDashboardHome() {
       {/* 1. Welcome Banner */}
       <section className={styles.welcomeBanner}>
         <div className={styles.welcomeContent}>
-          <h1>Assalamu'alaikum, Super Admin Taufan</h1>
+          <h1>Assalamu&apos;alaikum, Super Admin Taufan</h1>
           <p>
             Platform pembiayaan syariah cerdas berjalan lancar. Smart Contract aktif dan AI XGBoost memproses data credit scoring secara optimal.
           </p>

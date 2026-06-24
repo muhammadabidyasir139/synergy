@@ -23,45 +23,43 @@ export default function AdminLogin() {
     }
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setShake(false);
     setLoading(true);
 
-    // Default Credentials
-    const DEFAULT_ADMIN = "admin";
-    const DEFAULT_PASS = "synergy2026!";
-    const DEFAULT_KEY = "999999";
+    try {
+      const response = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: username.trim(),
+          password,
+          securityKey: securityKey.trim(),
+        }),
+      });
 
-    setTimeout(() => {
-      if (
-        username.trim() === DEFAULT_ADMIN &&
-        password === DEFAULT_PASS &&
-        securityKey.trim() === DEFAULT_KEY
-      ) {
-        // Success
-        setSuccess(true);
-        setLoading(false);
-        if (typeof window !== "undefined") {
-          sessionStorage.setItem("synergy_admin_session", "true");
-        }
-        
-        // Dynamic wait for green success animation to finish
-        setTimeout(() => {
-          router.push("/admin/dashboard");
-        }, 800);
-      } else {
-        // Fail
-        setLoading(false);
-        setShake(true);
-        if (username.trim() !== DEFAULT_ADMIN || password !== DEFAULT_PASS) {
-          setError("Username atau Password Admin salah!");
-        } else {
-          setError("Security Key (MFA) salah! Hubungi Super Admin.");
-        }
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Login gagal");
       }
-    }, 1200);
+
+      setSuccess(true);
+      setLoading(false);
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("synergy_admin_session", "true");
+      }
+
+      setTimeout(() => {
+        router.push("/admin/dashboard");
+      }, 800);
+    } catch (err) {
+      setLoading(false);
+      setShake(true);
+      setError(err instanceof Error ? err.message : "Login gagal. Silakan coba lagi.");
+    }
   };
 
   return (
@@ -82,8 +80,8 @@ export default function AdminLogin() {
                 <circle cx="12" cy="16" r="1" fill="currentColor"/>
               </svg>
             </div>
-            <h1>SYNERGY ADMIN</h1>
-            <span className={styles.securityBadge}>Secure Admin Portal</span>
+            <h1>Portal Role Admin</h1>
+            <span className={styles.securityBadge}>Akses Khusus Role Admin</span>
           </div>
 
           <form onSubmit={handleLogin} className={styles.form}>

@@ -23,18 +23,22 @@ export default function AdminLayout({
   const [isChecking, setIsChecking] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  // Authentication check
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window === "undefined") return;
+
+    const timeout = window.setTimeout(() => {
       const session = sessionStorage.getItem("synergy_admin_session");
-      if (session === "true") {
-        setIsAuthenticated(true);
-        setIsChecking(false);
-      } else {
-        // Not authenticated, redirect to admin login
+      const isValidSession = session === "true";
+
+      setIsAuthenticated(isValidSession);
+      setIsChecking(false);
+
+      if (!isValidSession) {
         router.replace("/admin/login");
       }
-    }
+    }, 0);
+
+    return () => window.clearTimeout(timeout);
   }, [router]);
 
   const handleLogout = () => {
@@ -176,12 +180,11 @@ export default function AdminLayout({
     },
   ];
 
-  // Loading animation overlay while verifying route security
   if (isChecking) {
     return (
       <div className={styles.loadingOverlay}>
         <div className={styles.loadingSpinner}></div>
-        <p className={styles.loadingText}>Memverifikasi Sesi Admin Keamanan Tinggi...</p>
+        <p className={styles.loadingText}>Memverifikasi Sesi Admin...</p>
       </div>
     );
   }

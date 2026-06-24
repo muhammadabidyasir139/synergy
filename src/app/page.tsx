@@ -34,6 +34,9 @@ export default function Home() {
               <Link href="/auth/register?role=umkm" className={styles.btnSecondary}>
                 Ajukan Modal UMKM
               </Link>
+              <Link href="/admin/login" className={styles.btnSecondary}>
+                Portal Admin
+              </Link>
             </div>
           </div>
         </section>

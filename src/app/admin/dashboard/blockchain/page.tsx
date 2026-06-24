@@ -22,7 +22,7 @@ interface TransactionInfo {
 export default function BlockchainExplorerPage() {
   const [blocks, setBlocks] = useState<BlockInfo[]>([]);
   const [transactions, setTransactions] = useState<TransactionInfo[]>([]);
-  const [nodeStatus, setNodeStatus] = useState<boolean>(true);
+  const [nodeStatus] = useState<boolean>(true);
 
   // Simulate live block generation every 5 seconds
   useEffect(() => {

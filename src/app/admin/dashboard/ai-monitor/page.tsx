@@ -19,10 +19,11 @@ export default function AIMonitorPage() {
 
   const handleRescore = (index: number) => {
     // Simulate re-scoring by randomizing score
+    // eslint-disable-next-line react-hooks/purity
     const newScore = Math.max(0, Math.min(100, Math.round(Math.random() * 100)));
-    const newRisk = newScore >= 80 ? 'Low' : newScore >= 60 ? 'Medium' : 'High';
+    const newRisk: ScoreEntry['risk'] = newScore >= 80 ? 'Low' : newScore >= 60 ? 'Medium' : 'High';
     const updated = [...scores];
-    updated[index] = { ...updated[index], score: newScore, risk: newRisk as any };
+    updated[index] = { ...updated[index], score: newScore, risk: newRisk };
     setScores(updated);
   };
 

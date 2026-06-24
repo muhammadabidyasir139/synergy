@@ -11,7 +11,7 @@ const mockScores = [
 ];
 
 export default function AIScoringPage() {
-  const [scores, setScores] = useState(mockScores);
+  const [scores] = useState(mockScores);
 
   // Simulate fetching AI scores (placeholder for real API)
   useEffect(() => {
