@@ -1,45 +1,53 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./page.module.css";
 import ThemeToggle from "@/components/ThemeToggle";
 
-export default function GeneralLogin() {
+function LoginForm() {
   const router = useRouter();
+  const params = useSearchParams();
   const [role, setRole] = useState<"investor" | "umkm">("investor");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (params.get("registered") === "1") {
+      setSuccess("Pendaftaran berhasil! Silakan masuk ke akun Anda.");
+    }
+  }, [params]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
-    setTimeout(() => {
-      if (!email || !password) {
-        setError("Email dan kata sandi wajib diisi!");
-        setLoading(false);
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ identifier: email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Terjadi kesalahan, coba lagi.");
         return;
       }
 
-      if (role === "umkm") {
-        if (typeof window !== "undefined") {
-          sessionStorage.setItem("synergy_umkm_session", "true");
-        }
-        setLoading(false);
-        router.push("/umkm/dashboard");
-      } else {
-        if (typeof window !== "undefined") {
-          sessionStorage.setItem("synergy_investor_session", "true");
-        }
-        setLoading(false);
-        router.push("/investor/dashboard");
-      }
-    }, 1000);
+      const userRole = (data.role as string).toLowerCase();
+      router.push(userRole === "umkm" ? "/umkm/dashboard" : "/investor/dashboard");
+    } catch {
+      setError("Tidak dapat terhubung ke server.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -90,6 +98,7 @@ export default function GeneralLogin() {
           </div>
 
           <form onSubmit={handleSubmit} className={styles.form}>
+            {success && <div className={styles.successAlert}>{success}</div>}
             {error && <div className={styles.errorAlert}>{error}</div>}
 
             <div className={styles.inputGroup}>
@@ -149,5 +158,13 @@ export default function GeneralLogin() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function GeneralLogin() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   );
 }

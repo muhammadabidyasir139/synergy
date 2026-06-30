@@ -25,6 +25,7 @@
   border-radius: 50%;
   filter: blur(90px);
   opacity: 0.45;
+  will-change: transform; /* keep each orb on its own GPU layer */
 }
 
 .orb1 {
@@ -34,6 +35,7 @@
   top: -12%;
   left: 2%;
   animation: float1 22s ease-in-out infinite;
+  will-change: transform;
 }
 
 .orb2 {
@@ -43,6 +45,7 @@
   bottom: 8%;
   right: 3%;
   animation: float2 28s ease-in-out infinite;
+  will-change: transform;
 }
 
 .orb3 {
@@ -52,6 +55,7 @@
   top: 45%;
   left: 48%;
   animation: float3 20s ease-in-out infinite;
+  will-change: transform;
 }
 
 @keyframes float1 {

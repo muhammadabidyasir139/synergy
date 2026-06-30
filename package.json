@@ -21,6 +21,9 @@
   "dependencies": {
     "@prisma/adapter-mariadb": "^7.8.0",
     "@prisma/client": "^7.8.0",
+    "@types/bcryptjs": "^2.4.6",
+    "bcryptjs": "^3.0.3",
+    "jose": "^6.2.3",
     "mariadb": "^3.5.2",
     "mysql2": "^3.22.5",
     "next": "16.2.6",

@@ -12,9 +12,8 @@ interface Particle {
   phase: number;
   waveAmp: number;
   waveFreq: number;
-  cr: number;
-  cg: number;
-  cb: number;
+  colorStr: string;   // pre-computed "r,g,b" — avoids string building per frame
+  glowPulse: number;  // cached each physics tick, reused in draw
 }
 
 interface Pulse {
@@ -24,23 +23,22 @@ interface Pulse {
   speed: number;
 }
 
-// Brand color palette
 const PALETTES: [number, number, number][] = [
-  [0, 82, 204],
+  [0,  82, 204],
   [0, 210, 255],
   [47, 111, 224],
   [0, 112, 243],
 ];
 
-const LINE_RGB    = "0, 82, 204";
-const CURSOR_RGB  = "47, 111, 224";
+const LINE_RGB    = "0,82,204";
+const CURSOR_RGB  = "47,111,224";
 const MAX_LINE    = 150;
 const CURSOR_LINK = 200;
 const CURSOR_R    = 180;
 const REPEL       = 5.0;
 const BASE_SPEED  = 0.55;
 const MAX_SPEED   = 2.8;
-const MAX_PULSES  = 6;
+const MAX_PULSES  = 3;
 
 export default function ParticleField() {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -52,7 +50,8 @@ export default function ParticleField() {
     if (!ctx) return;
 
     const isMobile = window.innerWidth < 768;
-    const NUM = isMobile ? 55 : 120;
+    // Fewer particles on every platform — makes O(n²) line check proportionally cheaper
+    const NUM = isMobile ? 38 : 85;
 
     let particles: Particle[] = [];
     let pulses: Pulse[] = [];
@@ -77,19 +76,20 @@ export default function ParticleField() {
       particles = Array.from({ length: NUM }, () => {
         const angle = Math.random() * Math.PI * 2;
         const spd   = (Math.random() * 0.6 + 0.35) * BASE_SPEED;
-        const base  = Math.random() * 2.2 + 1.4;
+        const base  = Math.random() * 2.0 + 1.2;
         const pal   = PALETTES[Math.floor(Math.random() * PALETTES.length)];
         return {
-          x:        Math.random() * W,
-          y:        Math.random() * zoneH,
-          vx:       Math.cos(angle) * spd,
-          vy:       Math.sin(angle) * spd,
-          baseSize: base,
-          size:     base,
-          phase:    Math.random() * Math.PI * 2,
-          waveAmp:  Math.random() * 0.4 + 0.1,
-          waveFreq: Math.random() * 0.006 + 0.003,
-          cr: pal[0], cg: pal[1], cb: pal[2],
+          x:         Math.random() * W,
+          y:         Math.random() * zoneH,
+          vx:        Math.cos(angle) * spd,
+          vy:        Math.sin(angle) * spd,
+          baseSize:  base,
+          size:      base,
+          phase:     Math.random() * Math.PI * 2,
+          waveAmp:   Math.random() * 0.35 + 0.08,
+          waveFreq:  Math.random() * 0.005 + 0.002,
+          colorStr:  `${pal[0]},${pal[1]},${pal[2]}`,
+          glowPulse: 0,
         };
       });
       pulses = [];
@@ -103,17 +103,19 @@ export default function ParticleField() {
 
       ctx.clearRect(0, 0, W, H);
 
+      // ONE sin call per frame replaces O(n²) per-pair calls for line flicker
+      const globalFlicker = Math.sin(frame * 0.015) * 0.05;
+
       type VP = { p: Particle; idx: number; vpX: number; vpY: number };
       const visible: VP[] = [];
 
-      /* 1. Physics — sinusoidal wave + cursor repulsion */
+      /* ── 1. Physics — organic wave motion ── */
       for (let idx = 0; idx < particles.length; idx++) {
         const p  = particles[idx];
         const wt = frame * p.waveFreq + p.phase;
 
-        // Organic sinusoidal perturbation for non-uniform drift
-        p.vx += Math.sin(wt * 1.27) * p.waveAmp * 0.01;
-        p.vy += Math.cos(wt * 0.83) * p.waveAmp * 0.01;
+        p.vx += Math.sin(wt * 1.27) * p.waveAmp * 0.009;
+        p.vy += Math.cos(wt * 0.83) * p.waveAmp * 0.009;
 
         const vpY = p.y - scrollY;
         const dx  = p.x - mouse.x;
@@ -138,8 +140,9 @@ export default function ParticleField() {
         if (p.y < 0)     { p.y = 0;      p.vy =  Math.abs(p.vy); }
         if (p.y > zoneH) { p.y = zoneH;  p.vy = -Math.abs(p.vy); }
 
-        // Breathing size
-        p.size = p.baseSize * (1 + Math.sin(frame * 0.022 + p.phase) * 0.35);
+        // Compute once, cache — reused in the draw step below (avoids double-computing)
+        p.size      = p.baseSize * (1 + Math.sin(frame * 0.022 + p.phase) * 0.28);
+        p.glowPulse = (Math.sin(frame * 0.028 + p.phase) + 1) * 0.5;
 
         const curVpY = p.y - scrollY;
         if (curVpY > -60 && curVpY < H + 60) {
@@ -147,7 +150,7 @@ export default function ParticleField() {
         }
       }
 
-      /* 2. Lines with flickering alpha */
+      /* ── 2. Lines — global flicker, no per-pair sin ── */
       ctx.lineWidth = 0.9;
       const hotEdges: [number, number][] = [];
 
@@ -157,26 +160,24 @@ export default function ParticleField() {
           const b = visible[j];
           const d = Math.hypot(a.vpX - b.vpX, a.vpY - b.vpY);
           if (d < MAX_LINE) {
-            const base    = (1 - d / MAX_LINE) * 0.42;
-            const flicker = Math.sin(frame * 0.016 + a.idx * 0.63 + b.idx * 0.47) * 0.07;
-            const alpha   = Math.max(0.02, Math.min(0.6, base + flicker));
+            const alpha = Math.max(0.02, Math.min(0.55, (1 - d / MAX_LINE) * 0.42 + globalFlicker));
             ctx.strokeStyle = `rgba(${LINE_RGB},${alpha})`;
             ctx.beginPath();
             ctx.moveTo(a.vpX, a.vpY);
             ctx.lineTo(b.vpX, b.vpY);
             ctx.stroke();
-            if (alpha > 0.22) hotEdges.push([a.idx, b.idx]);
+            if (alpha > 0.2) hotEdges.push([a.idx, b.idx]);
           }
         }
       }
 
-      /* 3. Spawn data-pulse packets along bright edges */
-      if (pulses.length < MAX_PULSES && hotEdges.length > 0 && frame % 22 === 0) {
+      /* ── 3. Spawn data pulses ── */
+      if (pulses.length < MAX_PULSES && hotEdges.length > 0 && frame % 35 === 0) {
         const e = hotEdges[Math.floor(Math.random() * hotEdges.length)];
-        pulses.push({ ai: e[0], bi: e[1], t: 0, speed: 0.016 + Math.random() * 0.018 });
+        pulses.push({ ai: e[0], bi: e[1], t: 0, speed: 0.018 + Math.random() * 0.016 });
       }
 
-      /* 4. Animate data pulses */
+      /* ── 4. Data pulses — two plain circles, NO shadowBlur ── */
       for (let i = pulses.length - 1; i >= 0; i--) {
         const pulse = pulses[i];
         pulse.t += pulse.speed;
@@ -186,23 +187,22 @@ export default function ParticleField() {
         const pb  = particles[pulse.bi];
         if (!pa || !pb) { pulses.splice(i, 1); continue; }
 
-        const ayVp = pa.y - scrollY;
-        const byVp = pb.y - scrollY;
-        const px   = pa.x  + (pb.x  - pa.x) * pulse.t;
-        const py   = ayVp  + (byVp  - ayVp)  * pulse.t;
-        const env  = Math.sin(pulse.t * Math.PI); // fade-in fade-out envelope
+        const px  = pa.x  + (pb.x  - pa.x) * pulse.t;
+        const py  = (pa.y - scrollY) + ((pb.y - scrollY) - (pa.y - scrollY)) * pulse.t;
+        const env = Math.sin(pulse.t * Math.PI);
 
-        ctx.save();
-        ctx.shadowBlur  = 14;
-        ctx.shadowColor = `rgba(0,210,255,${env * 0.9})`;
-        ctx.fillStyle   = `rgba(200,240,255,${env})`;
+        ctx.fillStyle = `rgba(0,210,255,${env * 0.28})`;
         ctx.beginPath();
-        ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+        ctx.arc(px, py, 7, 0, Math.PI * 2);
         ctx.fill();
-        ctx.restore();
+
+        ctx.fillStyle = `rgba(200,240,255,${env * 0.9})`;
+        ctx.beginPath();
+        ctx.arc(px, py, 2, 0, Math.PI * 2);
+        ctx.fill();
       }
 
-      /* 5. Cursor-to-particle lines */
+      /* ── 5. Cursor lines ── */
       if (mouse.x > -100) {
         ctx.lineWidth = 0.8;
         for (const { vpX, vpY } of visible) {
@@ -217,18 +217,22 @@ export default function ParticleField() {
         }
       }
 
-      /* 6. Nodes — glow + breathing + color variation */
+      /* ── 6. Nodes — two plain circles instead of shadowBlur ──
+              Outer (large, low-alpha): simulates a glow halo cheaply.
+              Inner (core dot): the actual node.
+              No save/restore, no shadowBlur = zero GPU blur passes.      */
       for (const { p, vpX, vpY } of visible) {
-        const pulse = (Math.sin(frame * 0.028 + p.phase) + 1) / 2; // 0..1
+        // Halo — big, mostly transparent circle
+        ctx.fillStyle = `rgba(${p.colorStr},${0.07 + p.glowPulse * 0.06})`;
+        ctx.beginPath();
+        ctx.arc(vpX, vpY, p.size * 3.8, 0, Math.PI * 2);
+        ctx.fill();
 
-        ctx.save();
-        ctx.shadowBlur  = p.size * 4.5 + pulse * 4;
-        ctx.shadowColor = `rgba(${p.cr},${p.cg},${p.cb},${0.5 + pulse * 0.35})`;
-        ctx.fillStyle   = `rgba(${p.cr},${p.cg},${p.cb},0.82)`;
+        // Core dot
+        ctx.fillStyle = `rgba(${p.colorStr},0.8)`;
         ctx.beginPath();
         ctx.arc(vpX, vpY, p.size, 0, Math.PI * 2);
         ctx.fill();
-        ctx.restore();
       }
 
       raf = requestAnimationFrame(draw);
@@ -257,7 +261,14 @@ export default function ParticleField() {
     <canvas
       ref={ref}
       aria-hidden
-      style={{ position: "fixed", top: 0, left: 0, pointerEvents: "none", zIndex: 5 }}
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        pointerEvents: "none",
+        zIndex: 5,
+        willChange: "transform", // promote to own GPU compositing layer
+      }}
     />
   );
 }
