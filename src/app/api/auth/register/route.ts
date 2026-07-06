@@ -2,11 +2,29 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { Role } from "@/generated/prisma";
 import bcrypt from "bcryptjs";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+
+const s3Client = new S3Client({
+  region: "auto",
+  endpoint: process.env.S3_ENDPOINT,
+  credentials: {
+    accessKeyId: process.env.S3_ACCESS_KEY || "",
+    secretAccessKey: process.env.S3_SECRET_KEY || "",
+  },
+  forcePathStyle: true,
+});
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { role, email, phoneNumber, password, profile, kycDocumentUrl } = body;
+    const formData = await request.formData();
+    const role = formData.get("role") as string;
+    const email = formData.get("email") as string;
+    const phoneNumber = formData.get("phoneNumber") as string;
+    const password = formData.get("password") as string;
+    const profileRaw = formData.get("profile") as string;
+    const kycFile = formData.get("kycFile") as File;
+    const profile = profileRaw ? JSON.parse(profileRaw) : null;
+    let kycDocumentUrl = "";
 
     if (!role || !phoneNumber || !password) {
       return NextResponse.json({ error: "Data wajib tidak lengkap." }, { status: 400 });
@@ -69,12 +87,24 @@ export async function POST(request: NextRequest) {
           employeeCount: profile.employeeCount ? parseInt(profile.employeeCount) : null,
           monthlyRevenue: profile.monthlyRevenue ? parseFloat(profile.monthlyRevenue) : null,
           website: profile.website || null,
-          socialMedia: profile.socialMedia || null,
+          socialMedia: profile.socialMedia && Array.isArray(profile.socialMedia) ? JSON.stringify(profile.socialMedia.filter((sm: any) => sm.platform && sm.handle)) : null,
         },
       });
     }
 
-    if (kycDocumentUrl) {
+    if (kycFile && kycFile.size > 0) {
+      const buffer = Buffer.from(await kycFile.arrayBuffer());
+      const fileName = `kyc/${Date.now()}_${kycFile.name.replace(/\s+/g, '_')}`;
+      
+      await s3Client.send(new PutObjectCommand({
+        Bucket: process.env.S3_BUCKET_NAME,
+        Key: fileName,
+        Body: buffer,
+        ContentType: kycFile.type,
+      }));
+
+      kycDocumentUrl = `${process.env.S3_ENDPOINT}/${process.env.S3_BUCKET_NAME}/${fileName}`;
+
       await db.kycDocument.create({
         data: {
           userId: user.id,

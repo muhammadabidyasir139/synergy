@@ -455,202 +455,20 @@ exports.Prisma.NullableJsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
-};
-
-exports.Prisma.UserOrderByRelevanceFieldEnum = {
-  id: 'id',
-  email: 'email',
-  phoneNumber: 'phoneNumber',
-  passwordHash: 'passwordHash'
-};
-
-exports.Prisma.AdminProfileOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  fullName: 'fullName',
-  department: 'department'
-};
-
-exports.Prisma.InvestorProfileOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  fullName: 'fullName',
-  address: 'address',
-  city: 'city',
-  province: 'province',
-  investmentGoal: 'investmentGoal'
-};
-
-exports.Prisma.UmkmProfileOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  ownerName: 'ownerName',
-  businessName: 'businessName',
-  businessCategory: 'businessCategory',
-  businessDescription: 'businessDescription',
-  location: 'location',
-  city: 'city',
-  province: 'province',
-  website: 'website',
-  socialMedia: 'socialMedia'
-};
-
-exports.Prisma.KycDocumentOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  documentType: 'documentType',
-  documentUrl: 'documentUrl',
-  reviewedBy: 'reviewedBy',
-  rejectReason: 'rejectReason'
 };
 
 exports.Prisma.JsonNullValueFilter = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
-};
-
-exports.Prisma.QueryMode = {
-  default: 'default',
-  insensitive: 'insensitive'
-};
-
-exports.Prisma.CreditScoreOrderByRelevanceFieldEnum = {
-  id: 'id',
-  umkmProfileId: 'umkmProfileId',
-  modelVersion: 'modelVersion',
-  triggeredBy: 'triggeredBy'
-};
-
-exports.Prisma.BusinessDataOrderByRelevanceFieldEnum = {
-  id: 'id',
-  umkmProfileId: 'umkmProfileId',
-  dataSource: 'dataSource'
-};
-
-exports.Prisma.FundingApplicationOrderByRelevanceFieldEnum = {
-  id: 'id',
-  umkmProfileId: 'umkmProfileId',
-  purpose: 'purpose',
-  reviewedBy: 'reviewedBy',
-  rejectReason: 'rejectReason',
-  creditScoreId: 'creditScoreId'
-};
-
-exports.Prisma.CampaignOrderByRelevanceFieldEnum = {
-  id: 'id',
-  umkmProfileId: 'umkmProfileId',
-  fundingApplicationId: 'fundingApplicationId',
-  title: 'title',
-  story: 'story'
-};
-
-exports.Prisma.InvestmentOrderByRelevanceFieldEnum = {
-  id: 'id',
-  investorProfileId: 'investorProfileId',
-  campaignId: 'campaignId'
-};
-
-exports.Prisma.AkadOrderByRelevanceFieldEnum = {
-  id: 'id',
-  campaignId: 'campaignId',
-  investmentId: 'investmentId',
-  approvedBy: 'approvedBy',
-  blockchainHash: 'blockchainHash',
-  contractAddress: 'contractAddress',
-  blockchainStatus: 'blockchainStatus'
-};
-
-exports.Prisma.ProfitSharingOrderByRelevanceFieldEnum = {
-  id: 'id',
-  akadId: 'akadId',
-  investmentId: 'investmentId'
-};
-
-exports.Prisma.WalletOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId'
-};
-
-exports.Prisma.TransactionOrderByRelevanceFieldEnum = {
-  id: 'id',
-  walletId: 'walletId',
-  reference: 'reference',
-  description: 'description',
-  relatedEntityId: 'relatedEntityId',
-  relatedEntityType: 'relatedEntityType',
-  flagReason: 'flagReason'
-};
-
-exports.Prisma.BlockchainTransactionOrderByRelevanceFieldEnum = {
-  id: 'id',
-  akadId: 'akadId',
-  txHash: 'txHash',
-  contractAddress: 'contractAddress',
-  eventType: 'eventType',
-  status: 'status'
-};
-
-exports.Prisma.FraudAlertOrderByRelevanceFieldEnum = {
-  id: 'id',
-  transactionId: 'transactionId',
-  alertType: 'alertType',
-  severity: 'severity',
-  description: 'description',
-  reviewedBy: 'reviewedBy',
-  actionTaken: 'actionTaken'
-};
-
-exports.Prisma.NotificationOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  senderId: 'senderId',
-  title: 'title',
-  message: 'message'
-};
-
-exports.Prisma.BusinessUpdateOrderByRelevanceFieldEnum = {
-  id: 'id',
-  umkmProfileId: 'umkmProfileId',
-  fundUsageSummary: 'fundUsageSummary'
-};
-
-exports.Prisma.OtpVerificationOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  otp: 'otp'
-};
-
-exports.Prisma.AuditLogOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  action: 'action',
-  entityType: 'entityType',
-  entityId: 'entityId',
-  ipAddress: 'ipAddress',
-  userAgent: 'userAgent'
-};
-
-exports.Prisma.SystemConfigOrderByRelevanceFieldEnum = {
-  id: 'id',
-  key: 'key',
-  value: 'value',
-  description: 'description',
-  updatedBy: 'updatedBy'
-};
-
-exports.Prisma.BeritaOrderByRelevanceFieldEnum = {
-  id: 'id',
-  title: 'title',
-  slug: 'slug',
-  excerpt: 'excerpt',
-  content: 'content',
-  coverImage: 'coverImage',
-  category: 'category',
-  authorId: 'authorId'
 };
 exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',

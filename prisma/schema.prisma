@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
 }
 
 model User {
@@ -57,8 +57,8 @@ model InvestorProfile {
   province       String?
   investmentGoal String?
   riskTolerance  RiskLevel    @default(MEDIUM)
-  totalInvested  Decimal      @default(0.00) @db.Decimal(18, 2)
-  totalProfit    Decimal      @default(0.00) @db.Decimal(18, 2)
+  totalInvested  Decimal      @default(0.00)
+  totalProfit    Decimal      @default(0.00)
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   investments    Investment[]
@@ -73,13 +73,13 @@ model UmkmProfile {
   ownerName           String
   businessName        String
   businessCategory    String
-  businessDescription String?              @db.Text
+  businessDescription String?
   location            String?
   city                String?
   province            String?
   establishedDate     DateTime?
   employeeCount       Int?
-  monthlyRevenue      Decimal?             @db.Decimal(18, 2)
+  monthlyRevenue      Decimal?
   website             String?
   socialMedia         String?
   createdAt           DateTime             @default(now())
@@ -102,12 +102,12 @@ model KycDocument {
   status       KycStatus @default(PENDING)
   reviewedBy   String?
   reviewedAt   DateTime?
-  rejectReason String?   @db.Text
+  rejectReason String?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
   user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([userId], map: "kyc_documents_userId_fkey")
+  @@index([userId], map: "idx_kyc_documents_userId")
   @@map("kyc_documents")
 }
 
@@ -124,7 +124,7 @@ model CreditScore {
   predictedAt     DateTime    @default(now())
   umkmProfile     UmkmProfile @relation(fields: [umkmProfileId], references: [id], onDelete: Cascade)
 
-  @@index([umkmProfileId], map: "credit_scores_umkmProfileId_fkey")
+  @@index([umkmProfileId], map: "idx_credit_scores_umkmProfileId")
   @@map("credit_scores")
 }
 
@@ -132,17 +132,17 @@ model BusinessData {
   id             String      @id @default(cuid())
   umkmProfileId  String
   reportDate     DateTime
-  dailyRevenue   Decimal?    @db.Decimal(18, 2)
-  dailyExpense   Decimal?    @db.Decimal(18, 2)
-  monthlyRevenue Decimal?    @db.Decimal(18, 2)
-  monthlyExpense Decimal?    @db.Decimal(18, 2)
+  dailyRevenue   Decimal?
+  dailyExpense   Decimal?
+  monthlyRevenue Decimal?
+  monthlyExpense Decimal?
   dataSource     String      @default("MANUAL")
   rawData        Json?
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
   umkmProfile    UmkmProfile @relation(fields: [umkmProfileId], references: [id], onDelete: Cascade)
 
-  @@index([umkmProfileId], map: "business_data_umkmProfileId_fkey")
+  @@index([umkmProfileId], map: "idx_business_data_umkmProfileId")
   @@map("business_data")
 }
 
@@ -150,20 +150,20 @@ model FundingApplication {
   id              String        @id @default(cuid())
   umkmProfileId   String
   akadType        AkadType
-  requestedAmount Decimal       @db.Decimal(18, 2)
+  requestedAmount Decimal
   durationMonths  Int
-  purpose         String        @db.Text
+  purpose         String
   status          FundingStatus @default(PENDING)
   reviewedBy      String?
   reviewedAt      DateTime?
-  rejectReason    String?       @db.Text
+  rejectReason    String?
   creditScoreId   String?
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
   campaign        Campaign?
   umkmProfile     UmkmProfile   @relation(fields: [umkmProfileId], references: [id], onDelete: Cascade)
 
-  @@index([umkmProfileId], map: "funding_applications_umkmProfileId_fkey")
+  @@index([umkmProfileId], map: "idx_funding_applications_umkmProfileId")
   @@map("funding_applications")
 }
 
@@ -172,9 +172,9 @@ model Campaign {
   umkmProfileId        String
   fundingApplicationId String?             @unique
   title                String
-  story                String              @db.Text
-  targetAmount         Decimal             @db.Decimal(18, 2)
-  collectedAmount      Decimal             @default(0.00) @db.Decimal(18, 2)
+  story                String
+  targetAmount         Decimal
+  collectedAmount      Decimal             @default(0.00)
   akadType             AkadType
   durationMonths       Int
   estimatedRoi         Float
@@ -189,7 +189,7 @@ model Campaign {
   umkmProfile          UmkmProfile         @relation(fields: [umkmProfileId], references: [id], onDelete: Cascade)
   investments          Investment[]
 
-  @@index([umkmProfileId], map: "campaigns_umkmProfileId_fkey")
+  @@index([umkmProfileId], map: "idx_campaigns_umkmProfileId")
   @@map("campaigns")
 }
 
@@ -197,10 +197,10 @@ model Investment {
   id                  String           @id @default(cuid())
   investorProfileId   String
   campaignId          String
-  amount              Decimal          @db.Decimal(18, 2)
+  amount              Decimal
   akadType            AkadType
   status              InvestmentStatus @default(ONGOING)
-  totalProfitReceived Decimal          @default(0.00) @db.Decimal(18, 2)
+  totalProfitReceived Decimal          @default(0.00)
   confirmedAt         DateTime?
   completedAt         DateTime?
   createdAt           DateTime         @default(now())
@@ -210,8 +210,8 @@ model Investment {
   investorProfile     InvestorProfile  @relation(fields: [investorProfileId], references: [id], onDelete: Cascade)
   profitSharings      ProfitSharing[]
 
-  @@index([campaignId], map: "investments_campaignId_fkey")
-  @@index([investorProfileId], map: "investments_investorProfileId_fkey")
+  @@index([campaignId], map: "idx_investments_campaignId")
+  @@index([investorProfileId], map: "idx_investments_investorProfileId")
   @@map("investments")
 }
 
@@ -221,7 +221,7 @@ model Akad {
   investmentId           String?                 @unique
   akadType               AkadType
   status                 AkadStatus              @default(PENDING)
-  principalAmount        Decimal                 @db.Decimal(18, 2)
+  principalAmount        Decimal
   nisbahUmkm             Float
   nisbahInvestor         Float
   platformFeeRate        Float                   @default(2.5)
@@ -243,7 +243,7 @@ model Akad {
   blockchainTransactions BlockchainTransaction[]
   profitSharings         ProfitSharing[]
 
-  @@index([campaignId], map: "akads_campaignId_fkey")
+  @@index([campaignId], map: "idx_akads_campaignId")
   @@map("akads")
 }
 
@@ -254,10 +254,10 @@ model ProfitSharing {
   periodStart   DateTime
   periodEnd     DateTime
   dueDate       DateTime
-  grossRevenue  Decimal             @db.Decimal(18, 2)
-  investorShare Decimal             @db.Decimal(18, 2)
-  umkmShare     Decimal             @db.Decimal(18, 2)
-  platformFee   Decimal             @db.Decimal(18, 2)
+  grossRevenue  Decimal
+  investorShare Decimal
+  umkmShare     Decimal
+  platformFee   Decimal
   status        ProfitSharingStatus @default(PENDING)
   paidAt        DateTime?
   createdAt     DateTime            @default(now())
@@ -265,16 +265,16 @@ model ProfitSharing {
   akad          Akad                @relation(fields: [akadId], references: [id], onDelete: Cascade)
   investment    Investment          @relation(fields: [investmentId], references: [id], onDelete: Cascade)
 
-  @@index([akadId], map: "profit_sharings_akadId_fkey")
-  @@index([investmentId], map: "profit_sharings_investmentId_fkey")
+  @@index([akadId], map: "idx_profit_sharings_akadId")
+  @@index([investmentId], map: "idx_profit_sharings_investmentId")
   @@map("profit_sharings")
 }
 
 model Wallet {
   id            String        @id @default(cuid())
   userId        String        @unique
-  balance       Decimal       @default(0.00) @db.Decimal(18, 2)
-  lockedBalance Decimal       @default(0.00) @db.Decimal(18, 2)
+  balance       Decimal       @default(0.00)
+  lockedBalance Decimal       @default(0.00)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   transactions  Transaction[]
@@ -287,23 +287,23 @@ model Transaction {
   id                String            @id @default(cuid())
   walletId          String
   type              TransactionType
-  amount            Decimal           @db.Decimal(18, 2)
-  balanceBefore     Decimal           @db.Decimal(18, 2)
-  balanceAfter      Decimal           @db.Decimal(18, 2)
+  amount            Decimal
+  balanceBefore     Decimal
+  balanceAfter      Decimal
   status            TransactionStatus @default(PENDING)
   reference         String?
   description       String?
   relatedEntityId   String?
   relatedEntityType String?
   isFlagged         Boolean           @default(false)
-  flagReason        String?           @db.Text
+  flagReason        String?
   processedAt       DateTime?
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
   fraudAlert        FraudAlert?
   wallet            Wallet            @relation(fields: [walletId], references: [id], onDelete: Cascade)
 
-  @@index([walletId], map: "transactions_walletId_fkey")
+  @@index([walletId], map: "idx_transactions_walletId")
   @@map("transactions")
 }
 
@@ -321,7 +321,7 @@ model BlockchainTransaction {
   createdAt       DateTime @default(now())
   akad            Akad?    @relation(fields: [akadId], references: [id])
 
-  @@index([akadId], map: "blockchain_transactions_akadId_fkey")
+  @@index([akadId], map: "idx_blockchain_transactions_akadId")
   @@map("blockchain_transactions")
 }
 
@@ -330,11 +330,11 @@ model FraudAlert {
   transactionId String?      @unique
   alertType     String
   severity      String
-  description   String       @db.Text
+  description   String
   status        FraudStatus  @default(DETECTED)
   reviewedBy    String?
   reviewedAt    DateTime?
-  actionTaken   String?      @db.Text
+  actionTaken   String?
   metadata      Json?
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
@@ -349,7 +349,7 @@ model Notification {
   senderId  String?
   type      NotificationType
   title     String
-  message   String           @db.Text
+  message   String
   isRead    Boolean          @default(false)
   readAt    DateTime?
   data      Json?
@@ -357,8 +357,8 @@ model Notification {
   sender    User?            @relation("NotificationSender", fields: [senderId], references: [id])
   user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([senderId], map: "notifications_senderId_fkey")
-  @@index([userId], map: "notifications_userId_fkey")
+  @@index([senderId], map: "idx_notifications_senderId")
+  @@index([userId], map: "idx_notifications_userId")
   @@map("notifications")
 }
 
@@ -366,14 +366,14 @@ model BusinessUpdate {
   id               String      @id @default(cuid())
   umkmProfileId    String
   periodDate       DateTime
-  revenue          Decimal     @db.Decimal(18, 2)
-  expenses         Decimal     @db.Decimal(18, 2)
-  fundUsageSummary String?     @db.Text
+  revenue          Decimal
+  expenses         Decimal
+  fundUsageSummary String?
   attachments      Json?
   createdAt        DateTime    @default(now())
   umkmProfile      UmkmProfile @relation(fields: [umkmProfileId], references: [id], onDelete: Cascade)
 
-  @@index([umkmProfileId], map: "business_updates_umkmProfileId_fkey")
+  @@index([umkmProfileId], map: "idx_business_updates_umkmProfileId")
   @@map("business_updates")
 }
 
@@ -388,7 +388,7 @@ model OtpVerification {
   createdAt DateTime   @default(now())
   user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([userId], map: "otp_verifications_userId_fkey")
+  @@index([userId], map: "idx_otp_verifications_userId")
   @@map("otp_verifications")
 }
 
@@ -405,14 +405,14 @@ model AuditLog {
   createdAt  DateTime @default(now())
   user       User?    @relation(fields: [userId], references: [id])
 
-  @@index([userId], map: "audit_logs_userId_fkey")
+  @@index([userId], map: "idx_audit_logs_userId")
   @@map("audit_logs")
 }
 
 model SystemConfig {
   id          String   @id @default(cuid())
   key         String   @unique
-  value       String   @db.Text
+  value       String
   description String?
   updatedBy   String?
   createdAt   DateTime @default(now())
@@ -425,8 +425,8 @@ model Berita {
   id          String    @id @default(cuid())
   title       String
   slug        String    @unique
-  excerpt     String    @db.Text
-  content     String    @db.LongText
+  excerpt     String
+  content     String
   coverImage  String?
   category    String?
   authorId    String
@@ -436,7 +436,7 @@ model Berita {
   updatedAt   DateTime  @updatedAt
   author      User      @relation(fields: [authorId], references: [id])
 
-  @@index([authorId], map: "beritas_authorId_fkey")
+  @@index([authorId], map: "idx_beritas_authorId")
   @@map("beritas")
 }
 

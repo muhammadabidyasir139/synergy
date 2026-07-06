@@ -7,7 +7,9 @@ const SECRET = new TextEncoder().encode(
 const COOKIE = "synergy_session";
 const MAX_AGE = 7 * 24 * 60 * 60; // 7 days in seconds
 
-export interface SessionPayload {
+import { JWTPayload } from "jose";
+
+export interface SessionPayload extends JWTPayload {
   userId: string;
   role: "INVESTOR" | "UMKM" | "ADMIN";
 }

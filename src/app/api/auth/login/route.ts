@@ -14,13 +14,17 @@ export async function POST(request: NextRequest) {
     // Accept email or phone number
     const isEmail = identifier.includes("@");
     const user = isEmail
-      ? await db.user.findFirst({ where: { email: identifier } })
+      ? await db.user.findFirst({ 
+          where: { email: identifier },
+          include: { investorProfile: true, umkmProfile: true }
+        })
       : await db.user.findFirst({
           where: { phoneNumber: identifier.replace(/\D/g, "").replace(/^62/, "0") },
+          include: { investorProfile: true, umkmProfile: true }
         });
 
-    if (!user) {
-      return NextResponse.json({ error: "Akun tidak ditemukan." }, { status: 401 });
+    if (!user || !user.passwordHash) {
+      return NextResponse.json({ error: "Akun tidak ditemukan atau login via provider." }, { status: 401 });
     }
 
     const passwordOk = await bcrypt.compare(password, user.passwordHash);
@@ -30,7 +34,14 @@ export async function POST(request: NextRequest) {
 
     const token = await createSessionToken({ userId: user.id, role: user.role as "INVESTOR" | "UMKM" | "ADMIN" });
 
-    const res = NextResponse.json({ success: true, role: user.role }, { status: 200 });
+    const sessionData = {
+      userId: user.id,
+      fullName: user.investorProfile?.fullName || user.umkmProfile?.ownerName || "Pengguna",
+      investorProfileId: user.investorProfile?.id,
+      umkmProfileId: user.umkmProfile?.id
+    };
+
+    const res = NextResponse.json({ success: true, role: user.role, session: sessionData }, { status: 200 });
     const opts = sessionCookieOptions(token);
     res.cookies.set(opts);
 
