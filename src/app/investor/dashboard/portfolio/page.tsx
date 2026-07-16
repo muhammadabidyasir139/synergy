@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
+import { BarChart, Banknote, Refresh, CheckCircle } from "@/components/icons";
 
 type FilterStatus = "Semua" | "ONGOING" | "COMPLETED" | "FAILED";
 
@@ -64,14 +65,18 @@ export default function PortfolioPage() {
     <div className={styles.page}>
       <div className={styles.metrics}>
         <div className={styles.metricCard}>
-          <span className={styles.metricIcon}>📊</span>
+          <span className={styles.metricIcon}>
+            <BarChart />
+          </span>
           <div>
             <p className={styles.metricVal}>{formatRp(totalInvested)}</p>
             <p className={styles.metricLabel}>Total Diinvestasikan</p>
           </div>
         </div>
         <div className={styles.metricCard}>
-          <span className={styles.metricIcon}>💵</span>
+          <span className={styles.metricIcon}>
+            <Banknote />
+          </span>
           <div>
             <p className={styles.metricVal} style={{ color: "#10b981" }}>
               {formatRp(totalProfit)}
@@ -80,14 +85,18 @@ export default function PortfolioPage() {
           </div>
         </div>
         <div className={styles.metricCard}>
-          <span className={styles.metricIcon}>🔄</span>
+          <span className={styles.metricIcon}>
+            <Refresh />
+          </span>
           <div>
             <p className={styles.metricVal}>{ongoing}</p>
             <p className={styles.metricLabel}>Investasi Aktif</p>
           </div>
         </div>
         <div className={styles.metricCard}>
-          <span className={styles.metricIcon}>✅</span>
+          <span className={styles.metricIcon}>
+            <CheckCircle />
+          </span>
           <div>
             <p className={styles.metricVal}>{completed}</p>
             <p className={styles.metricLabel}>Investasi Selesai</p>

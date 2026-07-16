@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { getSignedMediaUrl } from "@/lib/s3";
 
 export async function GET(request: NextRequest) {
   try {
@@ -19,7 +20,10 @@ export async function GET(request: NextRequest) {
       },
       include: {
         umkmProfile: {
-          include: { creditScores: { orderBy: { predictedAt: "desc" }, take: 1 } },
+          include: {
+            creditScores: { orderBy: { predictedAt: "desc" }, take: 1 },
+            media: true,
+          },
         },
       },
     });
@@ -35,6 +39,8 @@ export async function GET(request: NextRequest) {
           name: c.umkmProfile.businessName,
           category: c.umkmProfile.businessCategory,
           city: c.umkmProfile.city ?? "",
+          logoUrl: c.umkmProfile.media.find((m) => m.type === "LOGO")?.url ?? null,
+          coverPhotoUrl: c.umkmProfile.media.find((m) => m.type === "GALLERY")?.url ?? null,
           risk: riskLevel,
           aiScore: Math.round(latest?.score ?? 50),
           targetAmount: Number(c.targetAmount),
@@ -45,9 +51,17 @@ export async function GET(request: NextRequest) {
           investorCount: c.investorCount,
         };
       })
-      .filter(Boolean);
+      .filter((c): c is NonNullable<typeof c> => c !== null);
 
-    return NextResponse.json(result);
+    const signed = await Promise.all(
+      result.map(async (c) => ({
+        ...c,
+        logoUrl: c.logoUrl ? await getSignedMediaUrl(c.logoUrl) : null,
+        coverPhotoUrl: c.coverPhotoUrl ? await getSignedMediaUrl(c.coverPhotoUrl) : null,
+      }))
+    );
+
+    return NextResponse.json(signed);
   } catch (err) {
     console.error(err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });

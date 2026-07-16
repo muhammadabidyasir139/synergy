@@ -34,6 +34,11 @@ export type InvestorProfile = $Result.DefaultSelection<Prisma.$InvestorProfilePa
  */
 export type UmkmProfile = $Result.DefaultSelection<Prisma.$UmkmProfilePayload>
 /**
+ * Model UmkmMedia
+ * 
+ */
+export type UmkmMedia = $Result.DefaultSelection<Prisma.$UmkmMediaPayload>
+/**
  * Model KycDocument
  * 
  */
@@ -84,6 +89,11 @@ export type Wallet = $Result.DefaultSelection<Prisma.$WalletPayload>
  */
 export type Transaction = $Result.DefaultSelection<Prisma.$TransactionPayload>
 /**
+ * Model DokuPayment
+ * 
+ */
+export type DokuPayment = $Result.DefaultSelection<Prisma.$DokuPaymentPayload>
+/**
  * Model BlockchainTransaction
  * 
  */
@@ -103,6 +113,11 @@ export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
  * 
  */
 export type BusinessUpdate = $Result.DefaultSelection<Prisma.$BusinessUpdatePayload>
+/**
+ * Model MonitoringReport
+ * 
+ */
+export type MonitoringReport = $Result.DefaultSelection<Prisma.$MonitoringReportPayload>
 /**
  * Model OtpVerification
  * 
@@ -210,10 +225,30 @@ export const TransactionType: {
   INVESTMENT: 'INVESTMENT',
   PROFIT_SHARING: 'PROFIT_SHARING',
   PLATFORM_FEE: 'PLATFORM_FEE',
-  REFUND: 'REFUND'
+  REFUND: 'REFUND',
+  DISBURSEMENT: 'DISBURSEMENT'
 };
 
 export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType]
+
+
+export const DokuDirection: {
+  INBOUND: 'INBOUND',
+  OUTBOUND: 'OUTBOUND'
+};
+
+export type DokuDirection = (typeof DokuDirection)[keyof typeof DokuDirection]
+
+
+export const DokuPaymentStatus: {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  EXPIRED: 'EXPIRED',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED'
+};
+
+export type DokuPaymentStatus = (typeof DokuPaymentStatus)[keyof typeof DokuPaymentStatus]
 
 
 export const TransactionStatus: {
@@ -270,6 +305,14 @@ export const OtpPurpose: {
 
 export type OtpPurpose = (typeof OtpPurpose)[keyof typeof OtpPurpose]
 
+
+export const MediaType: {
+  LOGO: 'LOGO',
+  GALLERY: 'GALLERY'
+};
+
+export type MediaType = (typeof MediaType)[keyof typeof MediaType]
+
 }
 
 export type Role = $Enums.Role
@@ -308,6 +351,14 @@ export type TransactionType = $Enums.TransactionType
 
 export const TransactionType: typeof $Enums.TransactionType
 
+export type DokuDirection = $Enums.DokuDirection
+
+export const DokuDirection: typeof $Enums.DokuDirection
+
+export type DokuPaymentStatus = $Enums.DokuPaymentStatus
+
+export const DokuPaymentStatus: typeof $Enums.DokuPaymentStatus
+
 export type TransactionStatus = $Enums.TransactionStatus
 
 export const TransactionStatus: typeof $Enums.TransactionStatus
@@ -327,6 +378,10 @@ export const FraudStatus: typeof $Enums.FraudStatus
 export type OtpPurpose = $Enums.OtpPurpose
 
 export const OtpPurpose: typeof $Enums.OtpPurpose
+
+export type MediaType = $Enums.MediaType
+
+export const MediaType: typeof $Enums.MediaType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -490,6 +545,16 @@ export class PrismaClient<
   get umkmProfile(): Prisma.UmkmProfileDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.umkmMedia`: Exposes CRUD operations for the **UmkmMedia** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UmkmMedias
+    * const umkmMedias = await prisma.umkmMedia.findMany()
+    * ```
+    */
+  get umkmMedia(): Prisma.UmkmMediaDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.kycDocument`: Exposes CRUD operations for the **KycDocument** model.
     * Example usage:
     * ```ts
@@ -590,6 +655,16 @@ export class PrismaClient<
   get transaction(): Prisma.TransactionDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.dokuPayment`: Exposes CRUD operations for the **DokuPayment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DokuPayments
+    * const dokuPayments = await prisma.dokuPayment.findMany()
+    * ```
+    */
+  get dokuPayment(): Prisma.DokuPaymentDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.blockchainTransaction`: Exposes CRUD operations for the **BlockchainTransaction** model.
     * Example usage:
     * ```ts
@@ -628,6 +703,16 @@ export class PrismaClient<
     * ```
     */
   get businessUpdate(): Prisma.BusinessUpdateDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.monitoringReport`: Exposes CRUD operations for the **MonitoringReport** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MonitoringReports
+    * const monitoringReports = await prisma.monitoringReport.findMany()
+    * ```
+    */
+  get monitoringReport(): Prisma.MonitoringReportDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.otpVerification`: Exposes CRUD operations for the **OtpVerification** model.
@@ -1106,6 +1191,7 @@ export namespace Prisma {
     AdminProfile: 'AdminProfile',
     InvestorProfile: 'InvestorProfile',
     UmkmProfile: 'UmkmProfile',
+    UmkmMedia: 'UmkmMedia',
     KycDocument: 'KycDocument',
     CreditScore: 'CreditScore',
     BusinessData: 'BusinessData',
@@ -1116,10 +1202,12 @@ export namespace Prisma {
     ProfitSharing: 'ProfitSharing',
     Wallet: 'Wallet',
     Transaction: 'Transaction',
+    DokuPayment: 'DokuPayment',
     BlockchainTransaction: 'BlockchainTransaction',
     FraudAlert: 'FraudAlert',
     Notification: 'Notification',
     BusinessUpdate: 'BusinessUpdate',
+    MonitoringReport: 'MonitoringReport',
     OtpVerification: 'OtpVerification',
     AuditLog: 'AuditLog',
     SystemConfig: 'SystemConfig',
@@ -1139,7 +1227,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "adminProfile" | "investorProfile" | "umkmProfile" | "kycDocument" | "creditScore" | "businessData" | "fundingApplication" | "campaign" | "investment" | "akad" | "profitSharing" | "wallet" | "transaction" | "blockchainTransaction" | "fraudAlert" | "notification" | "businessUpdate" | "otpVerification" | "auditLog" | "systemConfig" | "berita"
+      modelProps: "user" | "adminProfile" | "investorProfile" | "umkmProfile" | "umkmMedia" | "kycDocument" | "creditScore" | "businessData" | "fundingApplication" | "campaign" | "investment" | "akad" | "profitSharing" | "wallet" | "transaction" | "dokuPayment" | "blockchainTransaction" | "fraudAlert" | "notification" | "businessUpdate" | "monitoringReport" | "otpVerification" | "auditLog" | "systemConfig" | "berita"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1436,6 +1524,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UmkmProfileCountArgs<ExtArgs>
             result: $Utils.Optional<UmkmProfileCountAggregateOutputType> | number
+          }
+        }
+      }
+      UmkmMedia: {
+        payload: Prisma.$UmkmMediaPayload<ExtArgs>
+        fields: Prisma.UmkmMediaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UmkmMediaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UmkmMediaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UmkmMediaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UmkmMediaPayload>
+          }
+          findFirst: {
+            args: Prisma.UmkmMediaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UmkmMediaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UmkmMediaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UmkmMediaPayload>
+          }
+          findMany: {
+            args: Prisma.UmkmMediaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UmkmMediaPayload>[]
+          }
+          create: {
+            args: Prisma.UmkmMediaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UmkmMediaPayload>
+          }
+          createMany: {
+            args: Prisma.UmkmMediaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UmkmMediaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UmkmMediaPayload>[]
+          }
+          delete: {
+            args: Prisma.UmkmMediaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UmkmMediaPayload>
+          }
+          update: {
+            args: Prisma.UmkmMediaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UmkmMediaPayload>
+          }
+          deleteMany: {
+            args: Prisma.UmkmMediaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UmkmMediaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UmkmMediaUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UmkmMediaPayload>[]
+          }
+          upsert: {
+            args: Prisma.UmkmMediaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UmkmMediaPayload>
+          }
+          aggregate: {
+            args: Prisma.UmkmMediaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUmkmMedia>
+          }
+          groupBy: {
+            args: Prisma.UmkmMediaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UmkmMediaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UmkmMediaCountArgs<ExtArgs>
+            result: $Utils.Optional<UmkmMediaCountAggregateOutputType> | number
           }
         }
       }
@@ -2179,6 +2341,80 @@ export namespace Prisma {
           }
         }
       }
+      DokuPayment: {
+        payload: Prisma.$DokuPaymentPayload<ExtArgs>
+        fields: Prisma.DokuPaymentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DokuPaymentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DokuPaymentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DokuPaymentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DokuPaymentPayload>
+          }
+          findFirst: {
+            args: Prisma.DokuPaymentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DokuPaymentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DokuPaymentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DokuPaymentPayload>
+          }
+          findMany: {
+            args: Prisma.DokuPaymentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DokuPaymentPayload>[]
+          }
+          create: {
+            args: Prisma.DokuPaymentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DokuPaymentPayload>
+          }
+          createMany: {
+            args: Prisma.DokuPaymentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DokuPaymentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DokuPaymentPayload>[]
+          }
+          delete: {
+            args: Prisma.DokuPaymentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DokuPaymentPayload>
+          }
+          update: {
+            args: Prisma.DokuPaymentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DokuPaymentPayload>
+          }
+          deleteMany: {
+            args: Prisma.DokuPaymentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DokuPaymentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DokuPaymentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DokuPaymentPayload>[]
+          }
+          upsert: {
+            args: Prisma.DokuPaymentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DokuPaymentPayload>
+          }
+          aggregate: {
+            args: Prisma.DokuPaymentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDokuPayment>
+          }
+          groupBy: {
+            args: Prisma.DokuPaymentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DokuPaymentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DokuPaymentCountArgs<ExtArgs>
+            result: $Utils.Optional<DokuPaymentCountAggregateOutputType> | number
+          }
+        }
+      }
       BlockchainTransaction: {
         payload: Prisma.$BlockchainTransactionPayload<ExtArgs>
         fields: Prisma.BlockchainTransactionFieldRefs
@@ -2472,6 +2708,80 @@ export namespace Prisma {
           count: {
             args: Prisma.BusinessUpdateCountArgs<ExtArgs>
             result: $Utils.Optional<BusinessUpdateCountAggregateOutputType> | number
+          }
+        }
+      }
+      MonitoringReport: {
+        payload: Prisma.$MonitoringReportPayload<ExtArgs>
+        fields: Prisma.MonitoringReportFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MonitoringReportFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MonitoringReportPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MonitoringReportFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MonitoringReportPayload>
+          }
+          findFirst: {
+            args: Prisma.MonitoringReportFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MonitoringReportPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MonitoringReportFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MonitoringReportPayload>
+          }
+          findMany: {
+            args: Prisma.MonitoringReportFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MonitoringReportPayload>[]
+          }
+          create: {
+            args: Prisma.MonitoringReportCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MonitoringReportPayload>
+          }
+          createMany: {
+            args: Prisma.MonitoringReportCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MonitoringReportCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MonitoringReportPayload>[]
+          }
+          delete: {
+            args: Prisma.MonitoringReportDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MonitoringReportPayload>
+          }
+          update: {
+            args: Prisma.MonitoringReportUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MonitoringReportPayload>
+          }
+          deleteMany: {
+            args: Prisma.MonitoringReportDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MonitoringReportUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MonitoringReportUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MonitoringReportPayload>[]
+          }
+          upsert: {
+            args: Prisma.MonitoringReportUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MonitoringReportPayload>
+          }
+          aggregate: {
+            args: Prisma.MonitoringReportAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMonitoringReport>
+          }
+          groupBy: {
+            args: Prisma.MonitoringReportGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MonitoringReportGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MonitoringReportCountArgs<ExtArgs>
+            result: $Utils.Optional<MonitoringReportCountAggregateOutputType> | number
           }
         }
       }
@@ -2883,6 +3193,7 @@ export namespace Prisma {
     adminProfile?: AdminProfileOmit
     investorProfile?: InvestorProfileOmit
     umkmProfile?: UmkmProfileOmit
+    umkmMedia?: UmkmMediaOmit
     kycDocument?: KycDocumentOmit
     creditScore?: CreditScoreOmit
     businessData?: BusinessDataOmit
@@ -2893,10 +3204,12 @@ export namespace Prisma {
     profitSharing?: ProfitSharingOmit
     wallet?: WalletOmit
     transaction?: TransactionOmit
+    dokuPayment?: DokuPaymentOmit
     blockchainTransaction?: BlockchainTransactionOmit
     fraudAlert?: FraudAlertOmit
     notification?: NotificationOmit
     businessUpdate?: BusinessUpdateOmit
+    monitoringReport?: MonitoringReportOmit
     otpVerification?: OtpVerificationOmit
     auditLog?: AuditLogOmit
     systemConfig?: SystemConfigOmit
@@ -3093,6 +3406,8 @@ export namespace Prisma {
     campaigns: number
     creditScores: number
     fundingApplications: number
+    media: number
+    monitoringReports: number
   }
 
   export type UmkmProfileCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3101,6 +3416,8 @@ export namespace Prisma {
     campaigns?: boolean | UmkmProfileCountOutputTypeCountCampaignsArgs
     creditScores?: boolean | UmkmProfileCountOutputTypeCountCreditScoresArgs
     fundingApplications?: boolean | UmkmProfileCountOutputTypeCountFundingApplicationsArgs
+    media?: boolean | UmkmProfileCountOutputTypeCountMediaArgs
+    monitoringReports?: boolean | UmkmProfileCountOutputTypeCountMonitoringReportsArgs
   }
 
   // Custom InputTypes
@@ -3147,6 +3464,20 @@ export namespace Prisma {
    */
   export type UmkmProfileCountOutputTypeCountFundingApplicationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FundingApplicationWhereInput
+  }
+
+  /**
+   * UmkmProfileCountOutputType without action
+   */
+  export type UmkmProfileCountOutputTypeCountMediaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UmkmMediaWhereInput
+  }
+
+  /**
+   * UmkmProfileCountOutputType without action
+   */
+  export type UmkmProfileCountOutputTypeCountMonitoringReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MonitoringReportWhereInput
   }
 
 
@@ -5813,6 +6144,8 @@ export namespace Prisma {
     address: string | null
     city: string | null
     province: string | null
+    district: string | null
+    postalCode: string | null
     investmentGoal: string | null
     riskTolerance: $Enums.RiskLevel | null
     totalInvested: Decimal | null
@@ -5829,6 +6162,8 @@ export namespace Prisma {
     address: string | null
     city: string | null
     province: string | null
+    district: string | null
+    postalCode: string | null
     investmentGoal: string | null
     riskTolerance: $Enums.RiskLevel | null
     totalInvested: Decimal | null
@@ -5845,6 +6180,8 @@ export namespace Prisma {
     address: number
     city: number
     province: number
+    district: number
+    postalCode: number
     investmentGoal: number
     riskTolerance: number
     totalInvested: number
@@ -5873,6 +6210,8 @@ export namespace Prisma {
     address?: true
     city?: true
     province?: true
+    district?: true
+    postalCode?: true
     investmentGoal?: true
     riskTolerance?: true
     totalInvested?: true
@@ -5889,6 +6228,8 @@ export namespace Prisma {
     address?: true
     city?: true
     province?: true
+    district?: true
+    postalCode?: true
     investmentGoal?: true
     riskTolerance?: true
     totalInvested?: true
@@ -5905,6 +6246,8 @@ export namespace Prisma {
     address?: true
     city?: true
     province?: true
+    district?: true
+    postalCode?: true
     investmentGoal?: true
     riskTolerance?: true
     totalInvested?: true
@@ -6008,6 +6351,8 @@ export namespace Prisma {
     address: string | null
     city: string | null
     province: string | null
+    district: string | null
+    postalCode: string | null
     investmentGoal: string | null
     riskTolerance: $Enums.RiskLevel
     totalInvested: Decimal
@@ -6043,6 +6388,8 @@ export namespace Prisma {
     address?: boolean
     city?: boolean
     province?: boolean
+    district?: boolean
+    postalCode?: boolean
     investmentGoal?: boolean
     riskTolerance?: boolean
     totalInvested?: boolean
@@ -6062,6 +6409,8 @@ export namespace Prisma {
     address?: boolean
     city?: boolean
     province?: boolean
+    district?: boolean
+    postalCode?: boolean
     investmentGoal?: boolean
     riskTolerance?: boolean
     totalInvested?: boolean
@@ -6079,6 +6428,8 @@ export namespace Prisma {
     address?: boolean
     city?: boolean
     province?: boolean
+    district?: boolean
+    postalCode?: boolean
     investmentGoal?: boolean
     riskTolerance?: boolean
     totalInvested?: boolean
@@ -6096,6 +6447,8 @@ export namespace Prisma {
     address?: boolean
     city?: boolean
     province?: boolean
+    district?: boolean
+    postalCode?: boolean
     investmentGoal?: boolean
     riskTolerance?: boolean
     totalInvested?: boolean
@@ -6104,7 +6457,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type InvestorProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "fullName" | "dateOfBirth" | "address" | "city" | "province" | "investmentGoal" | "riskTolerance" | "totalInvested" | "totalProfit" | "createdAt" | "updatedAt", ExtArgs["result"]["investorProfile"]>
+  export type InvestorProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "fullName" | "dateOfBirth" | "address" | "city" | "province" | "district" | "postalCode" | "investmentGoal" | "riskTolerance" | "totalInvested" | "totalProfit" | "createdAt" | "updatedAt", ExtArgs["result"]["investorProfile"]>
   export type InvestorProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     investments?: boolean | InvestorProfile$investmentsArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -6131,6 +6484,8 @@ export namespace Prisma {
       address: string | null
       city: string | null
       province: string | null
+      district: string | null
+      postalCode: string | null
       investmentGoal: string | null
       riskTolerance: $Enums.RiskLevel
       totalInvested: Prisma.Decimal
@@ -6569,6 +6924,8 @@ export namespace Prisma {
     readonly address: FieldRef<"InvestorProfile", 'String'>
     readonly city: FieldRef<"InvestorProfile", 'String'>
     readonly province: FieldRef<"InvestorProfile", 'String'>
+    readonly district: FieldRef<"InvestorProfile", 'String'>
+    readonly postalCode: FieldRef<"InvestorProfile", 'String'>
     readonly investmentGoal: FieldRef<"InvestorProfile", 'String'>
     readonly riskTolerance: FieldRef<"InvestorProfile", 'RiskLevel'>
     readonly totalInvested: FieldRef<"InvestorProfile", 'Decimal'>
@@ -7050,6 +7407,8 @@ export namespace Prisma {
     location: string | null
     city: string | null
     province: string | null
+    district: string | null
+    postalCode: string | null
     establishedDate: Date | null
     employeeCount: number | null
     monthlyRevenue: Decimal | null
@@ -7069,6 +7428,8 @@ export namespace Prisma {
     location: string | null
     city: string | null
     province: string | null
+    district: string | null
+    postalCode: string | null
     establishedDate: Date | null
     employeeCount: number | null
     monthlyRevenue: Decimal | null
@@ -7088,6 +7449,8 @@ export namespace Prisma {
     location: number
     city: number
     province: number
+    district: number
+    postalCode: number
     establishedDate: number
     employeeCount: number
     monthlyRevenue: number
@@ -7119,6 +7482,8 @@ export namespace Prisma {
     location?: true
     city?: true
     province?: true
+    district?: true
+    postalCode?: true
     establishedDate?: true
     employeeCount?: true
     monthlyRevenue?: true
@@ -7138,6 +7503,8 @@ export namespace Prisma {
     location?: true
     city?: true
     province?: true
+    district?: true
+    postalCode?: true
     establishedDate?: true
     employeeCount?: true
     monthlyRevenue?: true
@@ -7157,6 +7524,8 @@ export namespace Prisma {
     location?: true
     city?: true
     province?: true
+    district?: true
+    postalCode?: true
     establishedDate?: true
     employeeCount?: true
     monthlyRevenue?: true
@@ -7263,6 +7632,8 @@ export namespace Prisma {
     location: string | null
     city: string | null
     province: string | null
+    district: string | null
+    postalCode: string | null
     establishedDate: Date | null
     employeeCount: number | null
     monthlyRevenue: Decimal | null
@@ -7301,6 +7672,8 @@ export namespace Prisma {
     location?: boolean
     city?: boolean
     province?: boolean
+    district?: boolean
+    postalCode?: boolean
     establishedDate?: boolean
     employeeCount?: boolean
     monthlyRevenue?: boolean
@@ -7313,6 +7686,8 @@ export namespace Prisma {
     campaigns?: boolean | UmkmProfile$campaignsArgs<ExtArgs>
     creditScores?: boolean | UmkmProfile$creditScoresArgs<ExtArgs>
     fundingApplications?: boolean | UmkmProfile$fundingApplicationsArgs<ExtArgs>
+    media?: boolean | UmkmProfile$mediaArgs<ExtArgs>
+    monitoringReports?: boolean | UmkmProfile$monitoringReportsArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | UmkmProfileCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["umkmProfile"]>
@@ -7327,6 +7702,8 @@ export namespace Prisma {
     location?: boolean
     city?: boolean
     province?: boolean
+    district?: boolean
+    postalCode?: boolean
     establishedDate?: boolean
     employeeCount?: boolean
     monthlyRevenue?: boolean
@@ -7347,6 +7724,8 @@ export namespace Prisma {
     location?: boolean
     city?: boolean
     province?: boolean
+    district?: boolean
+    postalCode?: boolean
     establishedDate?: boolean
     employeeCount?: boolean
     monthlyRevenue?: boolean
@@ -7367,6 +7746,8 @@ export namespace Prisma {
     location?: boolean
     city?: boolean
     province?: boolean
+    district?: boolean
+    postalCode?: boolean
     establishedDate?: boolean
     employeeCount?: boolean
     monthlyRevenue?: boolean
@@ -7376,13 +7757,15 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UmkmProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "ownerName" | "businessName" | "businessCategory" | "businessDescription" | "location" | "city" | "province" | "establishedDate" | "employeeCount" | "monthlyRevenue" | "website" | "socialMedia" | "createdAt" | "updatedAt", ExtArgs["result"]["umkmProfile"]>
+  export type UmkmProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "ownerName" | "businessName" | "businessCategory" | "businessDescription" | "location" | "city" | "province" | "district" | "postalCode" | "establishedDate" | "employeeCount" | "monthlyRevenue" | "website" | "socialMedia" | "createdAt" | "updatedAt", ExtArgs["result"]["umkmProfile"]>
   export type UmkmProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     businessData?: boolean | UmkmProfile$businessDataArgs<ExtArgs>
     businessUpdates?: boolean | UmkmProfile$businessUpdatesArgs<ExtArgs>
     campaigns?: boolean | UmkmProfile$campaignsArgs<ExtArgs>
     creditScores?: boolean | UmkmProfile$creditScoresArgs<ExtArgs>
     fundingApplications?: boolean | UmkmProfile$fundingApplicationsArgs<ExtArgs>
+    media?: boolean | UmkmProfile$mediaArgs<ExtArgs>
+    monitoringReports?: boolean | UmkmProfile$monitoringReportsArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | UmkmProfileCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -7401,6 +7784,8 @@ export namespace Prisma {
       campaigns: Prisma.$CampaignPayload<ExtArgs>[]
       creditScores: Prisma.$CreditScorePayload<ExtArgs>[]
       fundingApplications: Prisma.$FundingApplicationPayload<ExtArgs>[]
+      media: Prisma.$UmkmMediaPayload<ExtArgs>[]
+      monitoringReports: Prisma.$MonitoringReportPayload<ExtArgs>[]
       user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -7413,6 +7798,8 @@ export namespace Prisma {
       location: string | null
       city: string | null
       province: string | null
+      district: string | null
+      postalCode: string | null
       establishedDate: Date | null
       employeeCount: number | null
       monthlyRevenue: Prisma.Decimal | null
@@ -7819,6 +8206,8 @@ export namespace Prisma {
     campaigns<T extends UmkmProfile$campaignsArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfile$campaignsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     creditScores<T extends UmkmProfile$creditScoresArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfile$creditScoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CreditScorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     fundingApplications<T extends UmkmProfile$fundingApplicationsArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfile$fundingApplicationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FundingApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    media<T extends UmkmProfile$mediaArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfile$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UmkmMediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    monitoringReports<T extends UmkmProfile$monitoringReportsArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfile$monitoringReportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MonitoringReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -7858,6 +8247,8 @@ export namespace Prisma {
     readonly location: FieldRef<"UmkmProfile", 'String'>
     readonly city: FieldRef<"UmkmProfile", 'String'>
     readonly province: FieldRef<"UmkmProfile", 'String'>
+    readonly district: FieldRef<"UmkmProfile", 'String'>
+    readonly postalCode: FieldRef<"UmkmProfile", 'String'>
     readonly establishedDate: FieldRef<"UmkmProfile", 'DateTime'>
     readonly employeeCount: FieldRef<"UmkmProfile", 'Int'>
     readonly monthlyRevenue: FieldRef<"UmkmProfile", 'Decimal'>
@@ -8386,6 +8777,54 @@ export namespace Prisma {
   }
 
   /**
+   * UmkmProfile.media
+   */
+  export type UmkmProfile$mediaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UmkmMedia
+     */
+    select?: UmkmMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UmkmMedia
+     */
+    omit?: UmkmMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UmkmMediaInclude<ExtArgs> | null
+    where?: UmkmMediaWhereInput
+    orderBy?: UmkmMediaOrderByWithRelationInput | UmkmMediaOrderByWithRelationInput[]
+    cursor?: UmkmMediaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UmkmMediaScalarFieldEnum | UmkmMediaScalarFieldEnum[]
+  }
+
+  /**
+   * UmkmProfile.monitoringReports
+   */
+  export type UmkmProfile$monitoringReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitoringReport
+     */
+    select?: MonitoringReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitoringReport
+     */
+    omit?: MonitoringReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MonitoringReportInclude<ExtArgs> | null
+    where?: MonitoringReportWhereInput
+    orderBy?: MonitoringReportOrderByWithRelationInput | MonitoringReportOrderByWithRelationInput[]
+    cursor?: MonitoringReportWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MonitoringReportScalarFieldEnum | MonitoringReportScalarFieldEnum[]
+  }
+
+  /**
    * UmkmProfile without action
    */
   export type UmkmProfileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8401,6 +8840,1082 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UmkmProfileInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UmkmMedia
+   */
+
+  export type AggregateUmkmMedia = {
+    _count: UmkmMediaCountAggregateOutputType | null
+    _min: UmkmMediaMinAggregateOutputType | null
+    _max: UmkmMediaMaxAggregateOutputType | null
+  }
+
+  export type UmkmMediaMinAggregateOutputType = {
+    id: string | null
+    umkmProfileId: string | null
+    type: $Enums.MediaType | null
+    url: string | null
+    caption: string | null
+    createdAt: Date | null
+  }
+
+  export type UmkmMediaMaxAggregateOutputType = {
+    id: string | null
+    umkmProfileId: string | null
+    type: $Enums.MediaType | null
+    url: string | null
+    caption: string | null
+    createdAt: Date | null
+  }
+
+  export type UmkmMediaCountAggregateOutputType = {
+    id: number
+    umkmProfileId: number
+    type: number
+    url: number
+    caption: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type UmkmMediaMinAggregateInputType = {
+    id?: true
+    umkmProfileId?: true
+    type?: true
+    url?: true
+    caption?: true
+    createdAt?: true
+  }
+
+  export type UmkmMediaMaxAggregateInputType = {
+    id?: true
+    umkmProfileId?: true
+    type?: true
+    url?: true
+    caption?: true
+    createdAt?: true
+  }
+
+  export type UmkmMediaCountAggregateInputType = {
+    id?: true
+    umkmProfileId?: true
+    type?: true
+    url?: true
+    caption?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type UmkmMediaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UmkmMedia to aggregate.
+     */
+    where?: UmkmMediaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UmkmMedias to fetch.
+     */
+    orderBy?: UmkmMediaOrderByWithRelationInput | UmkmMediaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UmkmMediaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UmkmMedias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UmkmMedias.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UmkmMedias
+    **/
+    _count?: true | UmkmMediaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UmkmMediaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UmkmMediaMaxAggregateInputType
+  }
+
+  export type GetUmkmMediaAggregateType<T extends UmkmMediaAggregateArgs> = {
+        [P in keyof T & keyof AggregateUmkmMedia]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUmkmMedia[P]>
+      : GetScalarType<T[P], AggregateUmkmMedia[P]>
+  }
+
+
+
+
+  export type UmkmMediaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UmkmMediaWhereInput
+    orderBy?: UmkmMediaOrderByWithAggregationInput | UmkmMediaOrderByWithAggregationInput[]
+    by: UmkmMediaScalarFieldEnum[] | UmkmMediaScalarFieldEnum
+    having?: UmkmMediaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UmkmMediaCountAggregateInputType | true
+    _min?: UmkmMediaMinAggregateInputType
+    _max?: UmkmMediaMaxAggregateInputType
+  }
+
+  export type UmkmMediaGroupByOutputType = {
+    id: string
+    umkmProfileId: string
+    type: $Enums.MediaType
+    url: string
+    caption: string | null
+    createdAt: Date
+    _count: UmkmMediaCountAggregateOutputType | null
+    _min: UmkmMediaMinAggregateOutputType | null
+    _max: UmkmMediaMaxAggregateOutputType | null
+  }
+
+  type GetUmkmMediaGroupByPayload<T extends UmkmMediaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UmkmMediaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UmkmMediaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UmkmMediaGroupByOutputType[P]>
+            : GetScalarType<T[P], UmkmMediaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UmkmMediaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    umkmProfileId?: boolean
+    type?: boolean
+    url?: boolean
+    caption?: boolean
+    createdAt?: boolean
+    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["umkmMedia"]>
+
+  export type UmkmMediaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    umkmProfileId?: boolean
+    type?: boolean
+    url?: boolean
+    caption?: boolean
+    createdAt?: boolean
+    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["umkmMedia"]>
+
+  export type UmkmMediaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    umkmProfileId?: boolean
+    type?: boolean
+    url?: boolean
+    caption?: boolean
+    createdAt?: boolean
+    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["umkmMedia"]>
+
+  export type UmkmMediaSelectScalar = {
+    id?: boolean
+    umkmProfileId?: boolean
+    type?: boolean
+    url?: boolean
+    caption?: boolean
+    createdAt?: boolean
+  }
+
+  export type UmkmMediaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "umkmProfileId" | "type" | "url" | "caption" | "createdAt", ExtArgs["result"]["umkmMedia"]>
+  export type UmkmMediaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
+  }
+  export type UmkmMediaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
+  }
+  export type UmkmMediaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
+  }
+
+  export type $UmkmMediaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UmkmMedia"
+    objects: {
+      umkmProfile: Prisma.$UmkmProfilePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      umkmProfileId: string
+      type: $Enums.MediaType
+      url: string
+      caption: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["umkmMedia"]>
+    composites: {}
+  }
+
+  type UmkmMediaGetPayload<S extends boolean | null | undefined | UmkmMediaDefaultArgs> = $Result.GetResult<Prisma.$UmkmMediaPayload, S>
+
+  type UmkmMediaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UmkmMediaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UmkmMediaCountAggregateInputType | true
+    }
+
+  export interface UmkmMediaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UmkmMedia'], meta: { name: 'UmkmMedia' } }
+    /**
+     * Find zero or one UmkmMedia that matches the filter.
+     * @param {UmkmMediaFindUniqueArgs} args - Arguments to find a UmkmMedia
+     * @example
+     * // Get one UmkmMedia
+     * const umkmMedia = await prisma.umkmMedia.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UmkmMediaFindUniqueArgs>(args: SelectSubset<T, UmkmMediaFindUniqueArgs<ExtArgs>>): Prisma__UmkmMediaClient<$Result.GetResult<Prisma.$UmkmMediaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UmkmMedia that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UmkmMediaFindUniqueOrThrowArgs} args - Arguments to find a UmkmMedia
+     * @example
+     * // Get one UmkmMedia
+     * const umkmMedia = await prisma.umkmMedia.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UmkmMediaFindUniqueOrThrowArgs>(args: SelectSubset<T, UmkmMediaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UmkmMediaClient<$Result.GetResult<Prisma.$UmkmMediaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UmkmMedia that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UmkmMediaFindFirstArgs} args - Arguments to find a UmkmMedia
+     * @example
+     * // Get one UmkmMedia
+     * const umkmMedia = await prisma.umkmMedia.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UmkmMediaFindFirstArgs>(args?: SelectSubset<T, UmkmMediaFindFirstArgs<ExtArgs>>): Prisma__UmkmMediaClient<$Result.GetResult<Prisma.$UmkmMediaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UmkmMedia that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UmkmMediaFindFirstOrThrowArgs} args - Arguments to find a UmkmMedia
+     * @example
+     * // Get one UmkmMedia
+     * const umkmMedia = await prisma.umkmMedia.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UmkmMediaFindFirstOrThrowArgs>(args?: SelectSubset<T, UmkmMediaFindFirstOrThrowArgs<ExtArgs>>): Prisma__UmkmMediaClient<$Result.GetResult<Prisma.$UmkmMediaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UmkmMedias that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UmkmMediaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UmkmMedias
+     * const umkmMedias = await prisma.umkmMedia.findMany()
+     * 
+     * // Get first 10 UmkmMedias
+     * const umkmMedias = await prisma.umkmMedia.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const umkmMediaWithIdOnly = await prisma.umkmMedia.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UmkmMediaFindManyArgs>(args?: SelectSubset<T, UmkmMediaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UmkmMediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UmkmMedia.
+     * @param {UmkmMediaCreateArgs} args - Arguments to create a UmkmMedia.
+     * @example
+     * // Create one UmkmMedia
+     * const UmkmMedia = await prisma.umkmMedia.create({
+     *   data: {
+     *     // ... data to create a UmkmMedia
+     *   }
+     * })
+     * 
+     */
+    create<T extends UmkmMediaCreateArgs>(args: SelectSubset<T, UmkmMediaCreateArgs<ExtArgs>>): Prisma__UmkmMediaClient<$Result.GetResult<Prisma.$UmkmMediaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UmkmMedias.
+     * @param {UmkmMediaCreateManyArgs} args - Arguments to create many UmkmMedias.
+     * @example
+     * // Create many UmkmMedias
+     * const umkmMedia = await prisma.umkmMedia.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UmkmMediaCreateManyArgs>(args?: SelectSubset<T, UmkmMediaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UmkmMedias and returns the data saved in the database.
+     * @param {UmkmMediaCreateManyAndReturnArgs} args - Arguments to create many UmkmMedias.
+     * @example
+     * // Create many UmkmMedias
+     * const umkmMedia = await prisma.umkmMedia.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UmkmMedias and only return the `id`
+     * const umkmMediaWithIdOnly = await prisma.umkmMedia.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UmkmMediaCreateManyAndReturnArgs>(args?: SelectSubset<T, UmkmMediaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UmkmMediaPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UmkmMedia.
+     * @param {UmkmMediaDeleteArgs} args - Arguments to delete one UmkmMedia.
+     * @example
+     * // Delete one UmkmMedia
+     * const UmkmMedia = await prisma.umkmMedia.delete({
+     *   where: {
+     *     // ... filter to delete one UmkmMedia
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UmkmMediaDeleteArgs>(args: SelectSubset<T, UmkmMediaDeleteArgs<ExtArgs>>): Prisma__UmkmMediaClient<$Result.GetResult<Prisma.$UmkmMediaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UmkmMedia.
+     * @param {UmkmMediaUpdateArgs} args - Arguments to update one UmkmMedia.
+     * @example
+     * // Update one UmkmMedia
+     * const umkmMedia = await prisma.umkmMedia.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UmkmMediaUpdateArgs>(args: SelectSubset<T, UmkmMediaUpdateArgs<ExtArgs>>): Prisma__UmkmMediaClient<$Result.GetResult<Prisma.$UmkmMediaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UmkmMedias.
+     * @param {UmkmMediaDeleteManyArgs} args - Arguments to filter UmkmMedias to delete.
+     * @example
+     * // Delete a few UmkmMedias
+     * const { count } = await prisma.umkmMedia.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UmkmMediaDeleteManyArgs>(args?: SelectSubset<T, UmkmMediaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UmkmMedias.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UmkmMediaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UmkmMedias
+     * const umkmMedia = await prisma.umkmMedia.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UmkmMediaUpdateManyArgs>(args: SelectSubset<T, UmkmMediaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UmkmMedias and returns the data updated in the database.
+     * @param {UmkmMediaUpdateManyAndReturnArgs} args - Arguments to update many UmkmMedias.
+     * @example
+     * // Update many UmkmMedias
+     * const umkmMedia = await prisma.umkmMedia.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UmkmMedias and only return the `id`
+     * const umkmMediaWithIdOnly = await prisma.umkmMedia.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UmkmMediaUpdateManyAndReturnArgs>(args: SelectSubset<T, UmkmMediaUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UmkmMediaPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UmkmMedia.
+     * @param {UmkmMediaUpsertArgs} args - Arguments to update or create a UmkmMedia.
+     * @example
+     * // Update or create a UmkmMedia
+     * const umkmMedia = await prisma.umkmMedia.upsert({
+     *   create: {
+     *     // ... data to create a UmkmMedia
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UmkmMedia we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UmkmMediaUpsertArgs>(args: SelectSubset<T, UmkmMediaUpsertArgs<ExtArgs>>): Prisma__UmkmMediaClient<$Result.GetResult<Prisma.$UmkmMediaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UmkmMedias.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UmkmMediaCountArgs} args - Arguments to filter UmkmMedias to count.
+     * @example
+     * // Count the number of UmkmMedias
+     * const count = await prisma.umkmMedia.count({
+     *   where: {
+     *     // ... the filter for the UmkmMedias we want to count
+     *   }
+     * })
+    **/
+    count<T extends UmkmMediaCountArgs>(
+      args?: Subset<T, UmkmMediaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UmkmMediaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UmkmMedia.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UmkmMediaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UmkmMediaAggregateArgs>(args: Subset<T, UmkmMediaAggregateArgs>): Prisma.PrismaPromise<GetUmkmMediaAggregateType<T>>
+
+    /**
+     * Group by UmkmMedia.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UmkmMediaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UmkmMediaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UmkmMediaGroupByArgs['orderBy'] }
+        : { orderBy?: UmkmMediaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UmkmMediaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUmkmMediaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UmkmMedia model
+   */
+  readonly fields: UmkmMediaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UmkmMedia.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UmkmMediaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    umkmProfile<T extends UmkmProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfileDefaultArgs<ExtArgs>>): Prisma__UmkmProfileClient<$Result.GetResult<Prisma.$UmkmProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UmkmMedia model
+   */
+  interface UmkmMediaFieldRefs {
+    readonly id: FieldRef<"UmkmMedia", 'String'>
+    readonly umkmProfileId: FieldRef<"UmkmMedia", 'String'>
+    readonly type: FieldRef<"UmkmMedia", 'MediaType'>
+    readonly url: FieldRef<"UmkmMedia", 'String'>
+    readonly caption: FieldRef<"UmkmMedia", 'String'>
+    readonly createdAt: FieldRef<"UmkmMedia", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UmkmMedia findUnique
+   */
+  export type UmkmMediaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UmkmMedia
+     */
+    select?: UmkmMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UmkmMedia
+     */
+    omit?: UmkmMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UmkmMediaInclude<ExtArgs> | null
+    /**
+     * Filter, which UmkmMedia to fetch.
+     */
+    where: UmkmMediaWhereUniqueInput
+  }
+
+  /**
+   * UmkmMedia findUniqueOrThrow
+   */
+  export type UmkmMediaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UmkmMedia
+     */
+    select?: UmkmMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UmkmMedia
+     */
+    omit?: UmkmMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UmkmMediaInclude<ExtArgs> | null
+    /**
+     * Filter, which UmkmMedia to fetch.
+     */
+    where: UmkmMediaWhereUniqueInput
+  }
+
+  /**
+   * UmkmMedia findFirst
+   */
+  export type UmkmMediaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UmkmMedia
+     */
+    select?: UmkmMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UmkmMedia
+     */
+    omit?: UmkmMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UmkmMediaInclude<ExtArgs> | null
+    /**
+     * Filter, which UmkmMedia to fetch.
+     */
+    where?: UmkmMediaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UmkmMedias to fetch.
+     */
+    orderBy?: UmkmMediaOrderByWithRelationInput | UmkmMediaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UmkmMedias.
+     */
+    cursor?: UmkmMediaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UmkmMedias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UmkmMedias.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UmkmMedias.
+     */
+    distinct?: UmkmMediaScalarFieldEnum | UmkmMediaScalarFieldEnum[]
+  }
+
+  /**
+   * UmkmMedia findFirstOrThrow
+   */
+  export type UmkmMediaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UmkmMedia
+     */
+    select?: UmkmMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UmkmMedia
+     */
+    omit?: UmkmMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UmkmMediaInclude<ExtArgs> | null
+    /**
+     * Filter, which UmkmMedia to fetch.
+     */
+    where?: UmkmMediaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UmkmMedias to fetch.
+     */
+    orderBy?: UmkmMediaOrderByWithRelationInput | UmkmMediaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UmkmMedias.
+     */
+    cursor?: UmkmMediaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UmkmMedias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UmkmMedias.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UmkmMedias.
+     */
+    distinct?: UmkmMediaScalarFieldEnum | UmkmMediaScalarFieldEnum[]
+  }
+
+  /**
+   * UmkmMedia findMany
+   */
+  export type UmkmMediaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UmkmMedia
+     */
+    select?: UmkmMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UmkmMedia
+     */
+    omit?: UmkmMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UmkmMediaInclude<ExtArgs> | null
+    /**
+     * Filter, which UmkmMedias to fetch.
+     */
+    where?: UmkmMediaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UmkmMedias to fetch.
+     */
+    orderBy?: UmkmMediaOrderByWithRelationInput | UmkmMediaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UmkmMedias.
+     */
+    cursor?: UmkmMediaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UmkmMedias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UmkmMedias.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UmkmMedias.
+     */
+    distinct?: UmkmMediaScalarFieldEnum | UmkmMediaScalarFieldEnum[]
+  }
+
+  /**
+   * UmkmMedia create
+   */
+  export type UmkmMediaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UmkmMedia
+     */
+    select?: UmkmMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UmkmMedia
+     */
+    omit?: UmkmMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UmkmMediaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UmkmMedia.
+     */
+    data: XOR<UmkmMediaCreateInput, UmkmMediaUncheckedCreateInput>
+  }
+
+  /**
+   * UmkmMedia createMany
+   */
+  export type UmkmMediaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UmkmMedias.
+     */
+    data: UmkmMediaCreateManyInput | UmkmMediaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UmkmMedia createManyAndReturn
+   */
+  export type UmkmMediaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UmkmMedia
+     */
+    select?: UmkmMediaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UmkmMedia
+     */
+    omit?: UmkmMediaOmit<ExtArgs> | null
+    /**
+     * The data used to create many UmkmMedias.
+     */
+    data: UmkmMediaCreateManyInput | UmkmMediaCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UmkmMediaIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UmkmMedia update
+   */
+  export type UmkmMediaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UmkmMedia
+     */
+    select?: UmkmMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UmkmMedia
+     */
+    omit?: UmkmMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UmkmMediaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UmkmMedia.
+     */
+    data: XOR<UmkmMediaUpdateInput, UmkmMediaUncheckedUpdateInput>
+    /**
+     * Choose, which UmkmMedia to update.
+     */
+    where: UmkmMediaWhereUniqueInput
+  }
+
+  /**
+   * UmkmMedia updateMany
+   */
+  export type UmkmMediaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UmkmMedias.
+     */
+    data: XOR<UmkmMediaUpdateManyMutationInput, UmkmMediaUncheckedUpdateManyInput>
+    /**
+     * Filter which UmkmMedias to update
+     */
+    where?: UmkmMediaWhereInput
+    /**
+     * Limit how many UmkmMedias to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UmkmMedia updateManyAndReturn
+   */
+  export type UmkmMediaUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UmkmMedia
+     */
+    select?: UmkmMediaSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UmkmMedia
+     */
+    omit?: UmkmMediaOmit<ExtArgs> | null
+    /**
+     * The data used to update UmkmMedias.
+     */
+    data: XOR<UmkmMediaUpdateManyMutationInput, UmkmMediaUncheckedUpdateManyInput>
+    /**
+     * Filter which UmkmMedias to update
+     */
+    where?: UmkmMediaWhereInput
+    /**
+     * Limit how many UmkmMedias to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UmkmMediaIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UmkmMedia upsert
+   */
+  export type UmkmMediaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UmkmMedia
+     */
+    select?: UmkmMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UmkmMedia
+     */
+    omit?: UmkmMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UmkmMediaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UmkmMedia to update in case it exists.
+     */
+    where: UmkmMediaWhereUniqueInput
+    /**
+     * In case the UmkmMedia found by the `where` argument doesn't exist, create a new UmkmMedia with this data.
+     */
+    create: XOR<UmkmMediaCreateInput, UmkmMediaUncheckedCreateInput>
+    /**
+     * In case the UmkmMedia was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UmkmMediaUpdateInput, UmkmMediaUncheckedUpdateInput>
+  }
+
+  /**
+   * UmkmMedia delete
+   */
+  export type UmkmMediaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UmkmMedia
+     */
+    select?: UmkmMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UmkmMedia
+     */
+    omit?: UmkmMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UmkmMediaInclude<ExtArgs> | null
+    /**
+     * Filter which UmkmMedia to delete.
+     */
+    where: UmkmMediaWhereUniqueInput
+  }
+
+  /**
+   * UmkmMedia deleteMany
+   */
+  export type UmkmMediaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UmkmMedias to delete
+     */
+    where?: UmkmMediaWhereInput
+    /**
+     * Limit how many UmkmMedias to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UmkmMedia without action
+   */
+  export type UmkmMediaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UmkmMedia
+     */
+    select?: UmkmMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UmkmMedia
+     */
+    omit?: UmkmMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UmkmMediaInclude<ExtArgs> | null
   }
 
 
@@ -19766,6 +21281,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     fraudAlert?: boolean | Transaction$fraudAlertArgs<ExtArgs>
+    dokuPayment?: boolean | Transaction$dokuPaymentArgs<ExtArgs>
     wallet?: boolean | WalletDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["transaction"]>
 
@@ -19831,6 +21347,7 @@ export namespace Prisma {
   export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "walletId" | "type" | "amount" | "balanceBefore" | "balanceAfter" | "status" | "reference" | "description" | "relatedEntityId" | "relatedEntityType" | "isFlagged" | "flagReason" | "processedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["transaction"]>
   export type TransactionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     fraudAlert?: boolean | Transaction$fraudAlertArgs<ExtArgs>
+    dokuPayment?: boolean | Transaction$dokuPaymentArgs<ExtArgs>
     wallet?: boolean | WalletDefaultArgs<ExtArgs>
   }
   export type TransactionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -19844,6 +21361,7 @@ export namespace Prisma {
     name: "Transaction"
     objects: {
       fraudAlert: Prisma.$FraudAlertPayload<ExtArgs> | null
+      dokuPayment: Prisma.$DokuPaymentPayload<ExtArgs> | null
       wallet: Prisma.$WalletPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -20258,6 +21776,7 @@ export namespace Prisma {
   export interface Prisma__TransactionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     fraudAlert<T extends Transaction$fraudAlertArgs<ExtArgs> = {}>(args?: Subset<T, Transaction$fraudAlertArgs<ExtArgs>>): Prisma__FraudAlertClient<$Result.GetResult<Prisma.$FraudAlertPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    dokuPayment<T extends Transaction$dokuPaymentArgs<ExtArgs> = {}>(args?: Subset<T, Transaction$dokuPaymentArgs<ExtArgs>>): Prisma__DokuPaymentClient<$Result.GetResult<Prisma.$DokuPaymentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     wallet<T extends WalletDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WalletDefaultArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -20724,6 +22243,25 @@ export namespace Prisma {
   }
 
   /**
+   * Transaction.dokuPayment
+   */
+  export type Transaction$dokuPaymentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DokuPayment
+     */
+    select?: DokuPaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DokuPayment
+     */
+    omit?: DokuPaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DokuPaymentInclude<ExtArgs> | null
+    where?: DokuPaymentWhereInput
+  }
+
+  /**
    * Transaction without action
    */
   export type TransactionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -20739,6 +22277,1286 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: TransactionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DokuPayment
+   */
+
+  export type AggregateDokuPayment = {
+    _count: DokuPaymentCountAggregateOutputType | null
+    _avg: DokuPaymentAvgAggregateOutputType | null
+    _sum: DokuPaymentSumAggregateOutputType | null
+    _min: DokuPaymentMinAggregateOutputType | null
+    _max: DokuPaymentMaxAggregateOutputType | null
+  }
+
+  export type DokuPaymentAvgAggregateOutputType = {
+    amount: Decimal | null
+  }
+
+  export type DokuPaymentSumAggregateOutputType = {
+    amount: Decimal | null
+  }
+
+  export type DokuPaymentMinAggregateOutputType = {
+    id: string | null
+    transactionId: string | null
+    direction: $Enums.DokuDirection | null
+    invoiceNumber: string | null
+    dokuRequestId: string | null
+    channel: string | null
+    status: $Enums.DokuPaymentStatus | null
+    amount: Decimal | null
+    virtualAccountNo: string | null
+    paymentUrl: string | null
+    destinationBank: string | null
+    destinationAccountNumber: string | null
+    destinationAccountName: string | null
+    expiredAt: Date | null
+    paidAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DokuPaymentMaxAggregateOutputType = {
+    id: string | null
+    transactionId: string | null
+    direction: $Enums.DokuDirection | null
+    invoiceNumber: string | null
+    dokuRequestId: string | null
+    channel: string | null
+    status: $Enums.DokuPaymentStatus | null
+    amount: Decimal | null
+    virtualAccountNo: string | null
+    paymentUrl: string | null
+    destinationBank: string | null
+    destinationAccountNumber: string | null
+    destinationAccountName: string | null
+    expiredAt: Date | null
+    paidAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DokuPaymentCountAggregateOutputType = {
+    id: number
+    transactionId: number
+    direction: number
+    invoiceNumber: number
+    dokuRequestId: number
+    channel: number
+    status: number
+    amount: number
+    virtualAccountNo: number
+    paymentUrl: number
+    destinationBank: number
+    destinationAccountNumber: number
+    destinationAccountName: number
+    expiredAt: number
+    paidAt: number
+    rawRequest: number
+    rawResponse: number
+    rawCallback: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type DokuPaymentAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type DokuPaymentSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type DokuPaymentMinAggregateInputType = {
+    id?: true
+    transactionId?: true
+    direction?: true
+    invoiceNumber?: true
+    dokuRequestId?: true
+    channel?: true
+    status?: true
+    amount?: true
+    virtualAccountNo?: true
+    paymentUrl?: true
+    destinationBank?: true
+    destinationAccountNumber?: true
+    destinationAccountName?: true
+    expiredAt?: true
+    paidAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DokuPaymentMaxAggregateInputType = {
+    id?: true
+    transactionId?: true
+    direction?: true
+    invoiceNumber?: true
+    dokuRequestId?: true
+    channel?: true
+    status?: true
+    amount?: true
+    virtualAccountNo?: true
+    paymentUrl?: true
+    destinationBank?: true
+    destinationAccountNumber?: true
+    destinationAccountName?: true
+    expiredAt?: true
+    paidAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DokuPaymentCountAggregateInputType = {
+    id?: true
+    transactionId?: true
+    direction?: true
+    invoiceNumber?: true
+    dokuRequestId?: true
+    channel?: true
+    status?: true
+    amount?: true
+    virtualAccountNo?: true
+    paymentUrl?: true
+    destinationBank?: true
+    destinationAccountNumber?: true
+    destinationAccountName?: true
+    expiredAt?: true
+    paidAt?: true
+    rawRequest?: true
+    rawResponse?: true
+    rawCallback?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type DokuPaymentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DokuPayment to aggregate.
+     */
+    where?: DokuPaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DokuPayments to fetch.
+     */
+    orderBy?: DokuPaymentOrderByWithRelationInput | DokuPaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DokuPaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DokuPayments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DokuPayments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DokuPayments
+    **/
+    _count?: true | DokuPaymentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DokuPaymentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DokuPaymentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DokuPaymentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DokuPaymentMaxAggregateInputType
+  }
+
+  export type GetDokuPaymentAggregateType<T extends DokuPaymentAggregateArgs> = {
+        [P in keyof T & keyof AggregateDokuPayment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDokuPayment[P]>
+      : GetScalarType<T[P], AggregateDokuPayment[P]>
+  }
+
+
+
+
+  export type DokuPaymentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DokuPaymentWhereInput
+    orderBy?: DokuPaymentOrderByWithAggregationInput | DokuPaymentOrderByWithAggregationInput[]
+    by: DokuPaymentScalarFieldEnum[] | DokuPaymentScalarFieldEnum
+    having?: DokuPaymentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DokuPaymentCountAggregateInputType | true
+    _avg?: DokuPaymentAvgAggregateInputType
+    _sum?: DokuPaymentSumAggregateInputType
+    _min?: DokuPaymentMinAggregateInputType
+    _max?: DokuPaymentMaxAggregateInputType
+  }
+
+  export type DokuPaymentGroupByOutputType = {
+    id: string
+    transactionId: string
+    direction: $Enums.DokuDirection
+    invoiceNumber: string
+    dokuRequestId: string | null
+    channel: string | null
+    status: $Enums.DokuPaymentStatus
+    amount: Decimal
+    virtualAccountNo: string | null
+    paymentUrl: string | null
+    destinationBank: string | null
+    destinationAccountNumber: string | null
+    destinationAccountName: string | null
+    expiredAt: Date | null
+    paidAt: Date | null
+    rawRequest: JsonValue | null
+    rawResponse: JsonValue | null
+    rawCallback: JsonValue | null
+    createdAt: Date
+    updatedAt: Date
+    _count: DokuPaymentCountAggregateOutputType | null
+    _avg: DokuPaymentAvgAggregateOutputType | null
+    _sum: DokuPaymentSumAggregateOutputType | null
+    _min: DokuPaymentMinAggregateOutputType | null
+    _max: DokuPaymentMaxAggregateOutputType | null
+  }
+
+  type GetDokuPaymentGroupByPayload<T extends DokuPaymentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DokuPaymentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DokuPaymentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DokuPaymentGroupByOutputType[P]>
+            : GetScalarType<T[P], DokuPaymentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DokuPaymentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    transactionId?: boolean
+    direction?: boolean
+    invoiceNumber?: boolean
+    dokuRequestId?: boolean
+    channel?: boolean
+    status?: boolean
+    amount?: boolean
+    virtualAccountNo?: boolean
+    paymentUrl?: boolean
+    destinationBank?: boolean
+    destinationAccountNumber?: boolean
+    destinationAccountName?: boolean
+    expiredAt?: boolean
+    paidAt?: boolean
+    rawRequest?: boolean
+    rawResponse?: boolean
+    rawCallback?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dokuPayment"]>
+
+  export type DokuPaymentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    transactionId?: boolean
+    direction?: boolean
+    invoiceNumber?: boolean
+    dokuRequestId?: boolean
+    channel?: boolean
+    status?: boolean
+    amount?: boolean
+    virtualAccountNo?: boolean
+    paymentUrl?: boolean
+    destinationBank?: boolean
+    destinationAccountNumber?: boolean
+    destinationAccountName?: boolean
+    expiredAt?: boolean
+    paidAt?: boolean
+    rawRequest?: boolean
+    rawResponse?: boolean
+    rawCallback?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dokuPayment"]>
+
+  export type DokuPaymentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    transactionId?: boolean
+    direction?: boolean
+    invoiceNumber?: boolean
+    dokuRequestId?: boolean
+    channel?: boolean
+    status?: boolean
+    amount?: boolean
+    virtualAccountNo?: boolean
+    paymentUrl?: boolean
+    destinationBank?: boolean
+    destinationAccountNumber?: boolean
+    destinationAccountName?: boolean
+    expiredAt?: boolean
+    paidAt?: boolean
+    rawRequest?: boolean
+    rawResponse?: boolean
+    rawCallback?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dokuPayment"]>
+
+  export type DokuPaymentSelectScalar = {
+    id?: boolean
+    transactionId?: boolean
+    direction?: boolean
+    invoiceNumber?: boolean
+    dokuRequestId?: boolean
+    channel?: boolean
+    status?: boolean
+    amount?: boolean
+    virtualAccountNo?: boolean
+    paymentUrl?: boolean
+    destinationBank?: boolean
+    destinationAccountNumber?: boolean
+    destinationAccountName?: boolean
+    expiredAt?: boolean
+    paidAt?: boolean
+    rawRequest?: boolean
+    rawResponse?: boolean
+    rawCallback?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type DokuPaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "transactionId" | "direction" | "invoiceNumber" | "dokuRequestId" | "channel" | "status" | "amount" | "virtualAccountNo" | "paymentUrl" | "destinationBank" | "destinationAccountNumber" | "destinationAccountName" | "expiredAt" | "paidAt" | "rawRequest" | "rawResponse" | "rawCallback" | "createdAt" | "updatedAt", ExtArgs["result"]["dokuPayment"]>
+  export type DokuPaymentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
+  }
+  export type DokuPaymentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
+  }
+  export type DokuPaymentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
+  }
+
+  export type $DokuPaymentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DokuPayment"
+    objects: {
+      transaction: Prisma.$TransactionPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      transactionId: string
+      direction: $Enums.DokuDirection
+      invoiceNumber: string
+      dokuRequestId: string | null
+      channel: string | null
+      status: $Enums.DokuPaymentStatus
+      amount: Prisma.Decimal
+      virtualAccountNo: string | null
+      paymentUrl: string | null
+      destinationBank: string | null
+      destinationAccountNumber: string | null
+      destinationAccountName: string | null
+      expiredAt: Date | null
+      paidAt: Date | null
+      rawRequest: Prisma.JsonValue | null
+      rawResponse: Prisma.JsonValue | null
+      rawCallback: Prisma.JsonValue | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["dokuPayment"]>
+    composites: {}
+  }
+
+  type DokuPaymentGetPayload<S extends boolean | null | undefined | DokuPaymentDefaultArgs> = $Result.GetResult<Prisma.$DokuPaymentPayload, S>
+
+  type DokuPaymentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DokuPaymentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DokuPaymentCountAggregateInputType | true
+    }
+
+  export interface DokuPaymentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DokuPayment'], meta: { name: 'DokuPayment' } }
+    /**
+     * Find zero or one DokuPayment that matches the filter.
+     * @param {DokuPaymentFindUniqueArgs} args - Arguments to find a DokuPayment
+     * @example
+     * // Get one DokuPayment
+     * const dokuPayment = await prisma.dokuPayment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DokuPaymentFindUniqueArgs>(args: SelectSubset<T, DokuPaymentFindUniqueArgs<ExtArgs>>): Prisma__DokuPaymentClient<$Result.GetResult<Prisma.$DokuPaymentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DokuPayment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DokuPaymentFindUniqueOrThrowArgs} args - Arguments to find a DokuPayment
+     * @example
+     * // Get one DokuPayment
+     * const dokuPayment = await prisma.dokuPayment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DokuPaymentFindUniqueOrThrowArgs>(args: SelectSubset<T, DokuPaymentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DokuPaymentClient<$Result.GetResult<Prisma.$DokuPaymentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DokuPayment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DokuPaymentFindFirstArgs} args - Arguments to find a DokuPayment
+     * @example
+     * // Get one DokuPayment
+     * const dokuPayment = await prisma.dokuPayment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DokuPaymentFindFirstArgs>(args?: SelectSubset<T, DokuPaymentFindFirstArgs<ExtArgs>>): Prisma__DokuPaymentClient<$Result.GetResult<Prisma.$DokuPaymentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DokuPayment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DokuPaymentFindFirstOrThrowArgs} args - Arguments to find a DokuPayment
+     * @example
+     * // Get one DokuPayment
+     * const dokuPayment = await prisma.dokuPayment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DokuPaymentFindFirstOrThrowArgs>(args?: SelectSubset<T, DokuPaymentFindFirstOrThrowArgs<ExtArgs>>): Prisma__DokuPaymentClient<$Result.GetResult<Prisma.$DokuPaymentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DokuPayments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DokuPaymentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DokuPayments
+     * const dokuPayments = await prisma.dokuPayment.findMany()
+     * 
+     * // Get first 10 DokuPayments
+     * const dokuPayments = await prisma.dokuPayment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const dokuPaymentWithIdOnly = await prisma.dokuPayment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DokuPaymentFindManyArgs>(args?: SelectSubset<T, DokuPaymentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DokuPaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DokuPayment.
+     * @param {DokuPaymentCreateArgs} args - Arguments to create a DokuPayment.
+     * @example
+     * // Create one DokuPayment
+     * const DokuPayment = await prisma.dokuPayment.create({
+     *   data: {
+     *     // ... data to create a DokuPayment
+     *   }
+     * })
+     * 
+     */
+    create<T extends DokuPaymentCreateArgs>(args: SelectSubset<T, DokuPaymentCreateArgs<ExtArgs>>): Prisma__DokuPaymentClient<$Result.GetResult<Prisma.$DokuPaymentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DokuPayments.
+     * @param {DokuPaymentCreateManyArgs} args - Arguments to create many DokuPayments.
+     * @example
+     * // Create many DokuPayments
+     * const dokuPayment = await prisma.dokuPayment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DokuPaymentCreateManyArgs>(args?: SelectSubset<T, DokuPaymentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DokuPayments and returns the data saved in the database.
+     * @param {DokuPaymentCreateManyAndReturnArgs} args - Arguments to create many DokuPayments.
+     * @example
+     * // Create many DokuPayments
+     * const dokuPayment = await prisma.dokuPayment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DokuPayments and only return the `id`
+     * const dokuPaymentWithIdOnly = await prisma.dokuPayment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DokuPaymentCreateManyAndReturnArgs>(args?: SelectSubset<T, DokuPaymentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DokuPaymentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DokuPayment.
+     * @param {DokuPaymentDeleteArgs} args - Arguments to delete one DokuPayment.
+     * @example
+     * // Delete one DokuPayment
+     * const DokuPayment = await prisma.dokuPayment.delete({
+     *   where: {
+     *     // ... filter to delete one DokuPayment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DokuPaymentDeleteArgs>(args: SelectSubset<T, DokuPaymentDeleteArgs<ExtArgs>>): Prisma__DokuPaymentClient<$Result.GetResult<Prisma.$DokuPaymentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DokuPayment.
+     * @param {DokuPaymentUpdateArgs} args - Arguments to update one DokuPayment.
+     * @example
+     * // Update one DokuPayment
+     * const dokuPayment = await prisma.dokuPayment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DokuPaymentUpdateArgs>(args: SelectSubset<T, DokuPaymentUpdateArgs<ExtArgs>>): Prisma__DokuPaymentClient<$Result.GetResult<Prisma.$DokuPaymentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DokuPayments.
+     * @param {DokuPaymentDeleteManyArgs} args - Arguments to filter DokuPayments to delete.
+     * @example
+     * // Delete a few DokuPayments
+     * const { count } = await prisma.dokuPayment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DokuPaymentDeleteManyArgs>(args?: SelectSubset<T, DokuPaymentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DokuPayments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DokuPaymentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DokuPayments
+     * const dokuPayment = await prisma.dokuPayment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DokuPaymentUpdateManyArgs>(args: SelectSubset<T, DokuPaymentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DokuPayments and returns the data updated in the database.
+     * @param {DokuPaymentUpdateManyAndReturnArgs} args - Arguments to update many DokuPayments.
+     * @example
+     * // Update many DokuPayments
+     * const dokuPayment = await prisma.dokuPayment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DokuPayments and only return the `id`
+     * const dokuPaymentWithIdOnly = await prisma.dokuPayment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DokuPaymentUpdateManyAndReturnArgs>(args: SelectSubset<T, DokuPaymentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DokuPaymentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DokuPayment.
+     * @param {DokuPaymentUpsertArgs} args - Arguments to update or create a DokuPayment.
+     * @example
+     * // Update or create a DokuPayment
+     * const dokuPayment = await prisma.dokuPayment.upsert({
+     *   create: {
+     *     // ... data to create a DokuPayment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DokuPayment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DokuPaymentUpsertArgs>(args: SelectSubset<T, DokuPaymentUpsertArgs<ExtArgs>>): Prisma__DokuPaymentClient<$Result.GetResult<Prisma.$DokuPaymentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DokuPayments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DokuPaymentCountArgs} args - Arguments to filter DokuPayments to count.
+     * @example
+     * // Count the number of DokuPayments
+     * const count = await prisma.dokuPayment.count({
+     *   where: {
+     *     // ... the filter for the DokuPayments we want to count
+     *   }
+     * })
+    **/
+    count<T extends DokuPaymentCountArgs>(
+      args?: Subset<T, DokuPaymentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DokuPaymentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DokuPayment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DokuPaymentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DokuPaymentAggregateArgs>(args: Subset<T, DokuPaymentAggregateArgs>): Prisma.PrismaPromise<GetDokuPaymentAggregateType<T>>
+
+    /**
+     * Group by DokuPayment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DokuPaymentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DokuPaymentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DokuPaymentGroupByArgs['orderBy'] }
+        : { orderBy?: DokuPaymentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DokuPaymentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDokuPaymentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DokuPayment model
+   */
+  readonly fields: DokuPaymentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DokuPayment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DokuPaymentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    transaction<T extends TransactionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TransactionDefaultArgs<ExtArgs>>): Prisma__TransactionClient<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DokuPayment model
+   */
+  interface DokuPaymentFieldRefs {
+    readonly id: FieldRef<"DokuPayment", 'String'>
+    readonly transactionId: FieldRef<"DokuPayment", 'String'>
+    readonly direction: FieldRef<"DokuPayment", 'DokuDirection'>
+    readonly invoiceNumber: FieldRef<"DokuPayment", 'String'>
+    readonly dokuRequestId: FieldRef<"DokuPayment", 'String'>
+    readonly channel: FieldRef<"DokuPayment", 'String'>
+    readonly status: FieldRef<"DokuPayment", 'DokuPaymentStatus'>
+    readonly amount: FieldRef<"DokuPayment", 'Decimal'>
+    readonly virtualAccountNo: FieldRef<"DokuPayment", 'String'>
+    readonly paymentUrl: FieldRef<"DokuPayment", 'String'>
+    readonly destinationBank: FieldRef<"DokuPayment", 'String'>
+    readonly destinationAccountNumber: FieldRef<"DokuPayment", 'String'>
+    readonly destinationAccountName: FieldRef<"DokuPayment", 'String'>
+    readonly expiredAt: FieldRef<"DokuPayment", 'DateTime'>
+    readonly paidAt: FieldRef<"DokuPayment", 'DateTime'>
+    readonly rawRequest: FieldRef<"DokuPayment", 'Json'>
+    readonly rawResponse: FieldRef<"DokuPayment", 'Json'>
+    readonly rawCallback: FieldRef<"DokuPayment", 'Json'>
+    readonly createdAt: FieldRef<"DokuPayment", 'DateTime'>
+    readonly updatedAt: FieldRef<"DokuPayment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DokuPayment findUnique
+   */
+  export type DokuPaymentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DokuPayment
+     */
+    select?: DokuPaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DokuPayment
+     */
+    omit?: DokuPaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DokuPaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which DokuPayment to fetch.
+     */
+    where: DokuPaymentWhereUniqueInput
+  }
+
+  /**
+   * DokuPayment findUniqueOrThrow
+   */
+  export type DokuPaymentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DokuPayment
+     */
+    select?: DokuPaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DokuPayment
+     */
+    omit?: DokuPaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DokuPaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which DokuPayment to fetch.
+     */
+    where: DokuPaymentWhereUniqueInput
+  }
+
+  /**
+   * DokuPayment findFirst
+   */
+  export type DokuPaymentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DokuPayment
+     */
+    select?: DokuPaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DokuPayment
+     */
+    omit?: DokuPaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DokuPaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which DokuPayment to fetch.
+     */
+    where?: DokuPaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DokuPayments to fetch.
+     */
+    orderBy?: DokuPaymentOrderByWithRelationInput | DokuPaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DokuPayments.
+     */
+    cursor?: DokuPaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DokuPayments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DokuPayments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DokuPayments.
+     */
+    distinct?: DokuPaymentScalarFieldEnum | DokuPaymentScalarFieldEnum[]
+  }
+
+  /**
+   * DokuPayment findFirstOrThrow
+   */
+  export type DokuPaymentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DokuPayment
+     */
+    select?: DokuPaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DokuPayment
+     */
+    omit?: DokuPaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DokuPaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which DokuPayment to fetch.
+     */
+    where?: DokuPaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DokuPayments to fetch.
+     */
+    orderBy?: DokuPaymentOrderByWithRelationInput | DokuPaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DokuPayments.
+     */
+    cursor?: DokuPaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DokuPayments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DokuPayments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DokuPayments.
+     */
+    distinct?: DokuPaymentScalarFieldEnum | DokuPaymentScalarFieldEnum[]
+  }
+
+  /**
+   * DokuPayment findMany
+   */
+  export type DokuPaymentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DokuPayment
+     */
+    select?: DokuPaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DokuPayment
+     */
+    omit?: DokuPaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DokuPaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which DokuPayments to fetch.
+     */
+    where?: DokuPaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DokuPayments to fetch.
+     */
+    orderBy?: DokuPaymentOrderByWithRelationInput | DokuPaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DokuPayments.
+     */
+    cursor?: DokuPaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DokuPayments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DokuPayments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DokuPayments.
+     */
+    distinct?: DokuPaymentScalarFieldEnum | DokuPaymentScalarFieldEnum[]
+  }
+
+  /**
+   * DokuPayment create
+   */
+  export type DokuPaymentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DokuPayment
+     */
+    select?: DokuPaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DokuPayment
+     */
+    omit?: DokuPaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DokuPaymentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DokuPayment.
+     */
+    data: XOR<DokuPaymentCreateInput, DokuPaymentUncheckedCreateInput>
+  }
+
+  /**
+   * DokuPayment createMany
+   */
+  export type DokuPaymentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DokuPayments.
+     */
+    data: DokuPaymentCreateManyInput | DokuPaymentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DokuPayment createManyAndReturn
+   */
+  export type DokuPaymentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DokuPayment
+     */
+    select?: DokuPaymentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DokuPayment
+     */
+    omit?: DokuPaymentOmit<ExtArgs> | null
+    /**
+     * The data used to create many DokuPayments.
+     */
+    data: DokuPaymentCreateManyInput | DokuPaymentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DokuPaymentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DokuPayment update
+   */
+  export type DokuPaymentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DokuPayment
+     */
+    select?: DokuPaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DokuPayment
+     */
+    omit?: DokuPaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DokuPaymentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DokuPayment.
+     */
+    data: XOR<DokuPaymentUpdateInput, DokuPaymentUncheckedUpdateInput>
+    /**
+     * Choose, which DokuPayment to update.
+     */
+    where: DokuPaymentWhereUniqueInput
+  }
+
+  /**
+   * DokuPayment updateMany
+   */
+  export type DokuPaymentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DokuPayments.
+     */
+    data: XOR<DokuPaymentUpdateManyMutationInput, DokuPaymentUncheckedUpdateManyInput>
+    /**
+     * Filter which DokuPayments to update
+     */
+    where?: DokuPaymentWhereInput
+    /**
+     * Limit how many DokuPayments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DokuPayment updateManyAndReturn
+   */
+  export type DokuPaymentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DokuPayment
+     */
+    select?: DokuPaymentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DokuPayment
+     */
+    omit?: DokuPaymentOmit<ExtArgs> | null
+    /**
+     * The data used to update DokuPayments.
+     */
+    data: XOR<DokuPaymentUpdateManyMutationInput, DokuPaymentUncheckedUpdateManyInput>
+    /**
+     * Filter which DokuPayments to update
+     */
+    where?: DokuPaymentWhereInput
+    /**
+     * Limit how many DokuPayments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DokuPaymentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DokuPayment upsert
+   */
+  export type DokuPaymentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DokuPayment
+     */
+    select?: DokuPaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DokuPayment
+     */
+    omit?: DokuPaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DokuPaymentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DokuPayment to update in case it exists.
+     */
+    where: DokuPaymentWhereUniqueInput
+    /**
+     * In case the DokuPayment found by the `where` argument doesn't exist, create a new DokuPayment with this data.
+     */
+    create: XOR<DokuPaymentCreateInput, DokuPaymentUncheckedCreateInput>
+    /**
+     * In case the DokuPayment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DokuPaymentUpdateInput, DokuPaymentUncheckedUpdateInput>
+  }
+
+  /**
+   * DokuPayment delete
+   */
+  export type DokuPaymentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DokuPayment
+     */
+    select?: DokuPaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DokuPayment
+     */
+    omit?: DokuPaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DokuPaymentInclude<ExtArgs> | null
+    /**
+     * Filter which DokuPayment to delete.
+     */
+    where: DokuPaymentWhereUniqueInput
+  }
+
+  /**
+   * DokuPayment deleteMany
+   */
+  export type DokuPaymentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DokuPayments to delete
+     */
+    where?: DokuPaymentWhereInput
+    /**
+     * Limit how many DokuPayments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DokuPayment without action
+   */
+  export type DokuPaymentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DokuPayment
+     */
+    select?: DokuPaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DokuPayment
+     */
+    omit?: DokuPaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DokuPaymentInclude<ExtArgs> | null
   }
 
 
@@ -25393,6 +28211,1142 @@ export namespace Prisma {
 
 
   /**
+   * Model MonitoringReport
+   */
+
+  export type AggregateMonitoringReport = {
+    _count: MonitoringReportCountAggregateOutputType | null
+    _avg: MonitoringReportAvgAggregateOutputType | null
+    _sum: MonitoringReportSumAggregateOutputType | null
+    _min: MonitoringReportMinAggregateOutputType | null
+    _max: MonitoringReportMaxAggregateOutputType | null
+  }
+
+  export type MonitoringReportAvgAggregateOutputType = {
+    omzet: Decimal | null
+  }
+
+  export type MonitoringReportSumAggregateOutputType = {
+    omzet: Decimal | null
+  }
+
+  export type MonitoringReportMinAggregateOutputType = {
+    id: string | null
+    umkmProfileId: string | null
+    tanggal: Date | null
+    omzet: Decimal | null
+    penggunaan: string | null
+    catatan: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MonitoringReportMaxAggregateOutputType = {
+    id: string | null
+    umkmProfileId: string | null
+    tanggal: Date | null
+    omzet: Decimal | null
+    penggunaan: string | null
+    catatan: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MonitoringReportCountAggregateOutputType = {
+    id: number
+    umkmProfileId: number
+    tanggal: number
+    omzet: number
+    penggunaan: number
+    catatan: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type MonitoringReportAvgAggregateInputType = {
+    omzet?: true
+  }
+
+  export type MonitoringReportSumAggregateInputType = {
+    omzet?: true
+  }
+
+  export type MonitoringReportMinAggregateInputType = {
+    id?: true
+    umkmProfileId?: true
+    tanggal?: true
+    omzet?: true
+    penggunaan?: true
+    catatan?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MonitoringReportMaxAggregateInputType = {
+    id?: true
+    umkmProfileId?: true
+    tanggal?: true
+    omzet?: true
+    penggunaan?: true
+    catatan?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MonitoringReportCountAggregateInputType = {
+    id?: true
+    umkmProfileId?: true
+    tanggal?: true
+    omzet?: true
+    penggunaan?: true
+    catatan?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type MonitoringReportAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MonitoringReport to aggregate.
+     */
+    where?: MonitoringReportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MonitoringReports to fetch.
+     */
+    orderBy?: MonitoringReportOrderByWithRelationInput | MonitoringReportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MonitoringReportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MonitoringReports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MonitoringReports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MonitoringReports
+    **/
+    _count?: true | MonitoringReportCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MonitoringReportAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MonitoringReportSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MonitoringReportMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MonitoringReportMaxAggregateInputType
+  }
+
+  export type GetMonitoringReportAggregateType<T extends MonitoringReportAggregateArgs> = {
+        [P in keyof T & keyof AggregateMonitoringReport]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMonitoringReport[P]>
+      : GetScalarType<T[P], AggregateMonitoringReport[P]>
+  }
+
+
+
+
+  export type MonitoringReportGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MonitoringReportWhereInput
+    orderBy?: MonitoringReportOrderByWithAggregationInput | MonitoringReportOrderByWithAggregationInput[]
+    by: MonitoringReportScalarFieldEnum[] | MonitoringReportScalarFieldEnum
+    having?: MonitoringReportScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MonitoringReportCountAggregateInputType | true
+    _avg?: MonitoringReportAvgAggregateInputType
+    _sum?: MonitoringReportSumAggregateInputType
+    _min?: MonitoringReportMinAggregateInputType
+    _max?: MonitoringReportMaxAggregateInputType
+  }
+
+  export type MonitoringReportGroupByOutputType = {
+    id: string
+    umkmProfileId: string
+    tanggal: Date
+    omzet: Decimal
+    penggunaan: string
+    catatan: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: MonitoringReportCountAggregateOutputType | null
+    _avg: MonitoringReportAvgAggregateOutputType | null
+    _sum: MonitoringReportSumAggregateOutputType | null
+    _min: MonitoringReportMinAggregateOutputType | null
+    _max: MonitoringReportMaxAggregateOutputType | null
+  }
+
+  type GetMonitoringReportGroupByPayload<T extends MonitoringReportGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MonitoringReportGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MonitoringReportGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MonitoringReportGroupByOutputType[P]>
+            : GetScalarType<T[P], MonitoringReportGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MonitoringReportSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    umkmProfileId?: boolean
+    tanggal?: boolean
+    omzet?: boolean
+    penggunaan?: boolean
+    catatan?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["monitoringReport"]>
+
+  export type MonitoringReportSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    umkmProfileId?: boolean
+    tanggal?: boolean
+    omzet?: boolean
+    penggunaan?: boolean
+    catatan?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["monitoringReport"]>
+
+  export type MonitoringReportSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    umkmProfileId?: boolean
+    tanggal?: boolean
+    omzet?: boolean
+    penggunaan?: boolean
+    catatan?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["monitoringReport"]>
+
+  export type MonitoringReportSelectScalar = {
+    id?: boolean
+    umkmProfileId?: boolean
+    tanggal?: boolean
+    omzet?: boolean
+    penggunaan?: boolean
+    catatan?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type MonitoringReportOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "umkmProfileId" | "tanggal" | "omzet" | "penggunaan" | "catatan" | "createdAt" | "updatedAt", ExtArgs["result"]["monitoringReport"]>
+  export type MonitoringReportInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
+  }
+  export type MonitoringReportIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
+  }
+  export type MonitoringReportIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
+  }
+
+  export type $MonitoringReportPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MonitoringReport"
+    objects: {
+      umkmProfile: Prisma.$UmkmProfilePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      umkmProfileId: string
+      tanggal: Date
+      omzet: Prisma.Decimal
+      penggunaan: string
+      catatan: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["monitoringReport"]>
+    composites: {}
+  }
+
+  type MonitoringReportGetPayload<S extends boolean | null | undefined | MonitoringReportDefaultArgs> = $Result.GetResult<Prisma.$MonitoringReportPayload, S>
+
+  type MonitoringReportCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MonitoringReportFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MonitoringReportCountAggregateInputType | true
+    }
+
+  export interface MonitoringReportDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MonitoringReport'], meta: { name: 'MonitoringReport' } }
+    /**
+     * Find zero or one MonitoringReport that matches the filter.
+     * @param {MonitoringReportFindUniqueArgs} args - Arguments to find a MonitoringReport
+     * @example
+     * // Get one MonitoringReport
+     * const monitoringReport = await prisma.monitoringReport.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MonitoringReportFindUniqueArgs>(args: SelectSubset<T, MonitoringReportFindUniqueArgs<ExtArgs>>): Prisma__MonitoringReportClient<$Result.GetResult<Prisma.$MonitoringReportPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MonitoringReport that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MonitoringReportFindUniqueOrThrowArgs} args - Arguments to find a MonitoringReport
+     * @example
+     * // Get one MonitoringReport
+     * const monitoringReport = await prisma.monitoringReport.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MonitoringReportFindUniqueOrThrowArgs>(args: SelectSubset<T, MonitoringReportFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MonitoringReportClient<$Result.GetResult<Prisma.$MonitoringReportPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MonitoringReport that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MonitoringReportFindFirstArgs} args - Arguments to find a MonitoringReport
+     * @example
+     * // Get one MonitoringReport
+     * const monitoringReport = await prisma.monitoringReport.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MonitoringReportFindFirstArgs>(args?: SelectSubset<T, MonitoringReportFindFirstArgs<ExtArgs>>): Prisma__MonitoringReportClient<$Result.GetResult<Prisma.$MonitoringReportPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MonitoringReport that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MonitoringReportFindFirstOrThrowArgs} args - Arguments to find a MonitoringReport
+     * @example
+     * // Get one MonitoringReport
+     * const monitoringReport = await prisma.monitoringReport.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MonitoringReportFindFirstOrThrowArgs>(args?: SelectSubset<T, MonitoringReportFindFirstOrThrowArgs<ExtArgs>>): Prisma__MonitoringReportClient<$Result.GetResult<Prisma.$MonitoringReportPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MonitoringReports that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MonitoringReportFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MonitoringReports
+     * const monitoringReports = await prisma.monitoringReport.findMany()
+     * 
+     * // Get first 10 MonitoringReports
+     * const monitoringReports = await prisma.monitoringReport.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const monitoringReportWithIdOnly = await prisma.monitoringReport.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MonitoringReportFindManyArgs>(args?: SelectSubset<T, MonitoringReportFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MonitoringReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MonitoringReport.
+     * @param {MonitoringReportCreateArgs} args - Arguments to create a MonitoringReport.
+     * @example
+     * // Create one MonitoringReport
+     * const MonitoringReport = await prisma.monitoringReport.create({
+     *   data: {
+     *     // ... data to create a MonitoringReport
+     *   }
+     * })
+     * 
+     */
+    create<T extends MonitoringReportCreateArgs>(args: SelectSubset<T, MonitoringReportCreateArgs<ExtArgs>>): Prisma__MonitoringReportClient<$Result.GetResult<Prisma.$MonitoringReportPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MonitoringReports.
+     * @param {MonitoringReportCreateManyArgs} args - Arguments to create many MonitoringReports.
+     * @example
+     * // Create many MonitoringReports
+     * const monitoringReport = await prisma.monitoringReport.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MonitoringReportCreateManyArgs>(args?: SelectSubset<T, MonitoringReportCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MonitoringReports and returns the data saved in the database.
+     * @param {MonitoringReportCreateManyAndReturnArgs} args - Arguments to create many MonitoringReports.
+     * @example
+     * // Create many MonitoringReports
+     * const monitoringReport = await prisma.monitoringReport.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MonitoringReports and only return the `id`
+     * const monitoringReportWithIdOnly = await prisma.monitoringReport.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MonitoringReportCreateManyAndReturnArgs>(args?: SelectSubset<T, MonitoringReportCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MonitoringReportPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MonitoringReport.
+     * @param {MonitoringReportDeleteArgs} args - Arguments to delete one MonitoringReport.
+     * @example
+     * // Delete one MonitoringReport
+     * const MonitoringReport = await prisma.monitoringReport.delete({
+     *   where: {
+     *     // ... filter to delete one MonitoringReport
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MonitoringReportDeleteArgs>(args: SelectSubset<T, MonitoringReportDeleteArgs<ExtArgs>>): Prisma__MonitoringReportClient<$Result.GetResult<Prisma.$MonitoringReportPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MonitoringReport.
+     * @param {MonitoringReportUpdateArgs} args - Arguments to update one MonitoringReport.
+     * @example
+     * // Update one MonitoringReport
+     * const monitoringReport = await prisma.monitoringReport.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MonitoringReportUpdateArgs>(args: SelectSubset<T, MonitoringReportUpdateArgs<ExtArgs>>): Prisma__MonitoringReportClient<$Result.GetResult<Prisma.$MonitoringReportPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MonitoringReports.
+     * @param {MonitoringReportDeleteManyArgs} args - Arguments to filter MonitoringReports to delete.
+     * @example
+     * // Delete a few MonitoringReports
+     * const { count } = await prisma.monitoringReport.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MonitoringReportDeleteManyArgs>(args?: SelectSubset<T, MonitoringReportDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MonitoringReports.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MonitoringReportUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MonitoringReports
+     * const monitoringReport = await prisma.monitoringReport.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MonitoringReportUpdateManyArgs>(args: SelectSubset<T, MonitoringReportUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MonitoringReports and returns the data updated in the database.
+     * @param {MonitoringReportUpdateManyAndReturnArgs} args - Arguments to update many MonitoringReports.
+     * @example
+     * // Update many MonitoringReports
+     * const monitoringReport = await prisma.monitoringReport.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MonitoringReports and only return the `id`
+     * const monitoringReportWithIdOnly = await prisma.monitoringReport.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MonitoringReportUpdateManyAndReturnArgs>(args: SelectSubset<T, MonitoringReportUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MonitoringReportPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MonitoringReport.
+     * @param {MonitoringReportUpsertArgs} args - Arguments to update or create a MonitoringReport.
+     * @example
+     * // Update or create a MonitoringReport
+     * const monitoringReport = await prisma.monitoringReport.upsert({
+     *   create: {
+     *     // ... data to create a MonitoringReport
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MonitoringReport we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MonitoringReportUpsertArgs>(args: SelectSubset<T, MonitoringReportUpsertArgs<ExtArgs>>): Prisma__MonitoringReportClient<$Result.GetResult<Prisma.$MonitoringReportPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MonitoringReports.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MonitoringReportCountArgs} args - Arguments to filter MonitoringReports to count.
+     * @example
+     * // Count the number of MonitoringReports
+     * const count = await prisma.monitoringReport.count({
+     *   where: {
+     *     // ... the filter for the MonitoringReports we want to count
+     *   }
+     * })
+    **/
+    count<T extends MonitoringReportCountArgs>(
+      args?: Subset<T, MonitoringReportCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MonitoringReportCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MonitoringReport.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MonitoringReportAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MonitoringReportAggregateArgs>(args: Subset<T, MonitoringReportAggregateArgs>): Prisma.PrismaPromise<GetMonitoringReportAggregateType<T>>
+
+    /**
+     * Group by MonitoringReport.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MonitoringReportGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MonitoringReportGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MonitoringReportGroupByArgs['orderBy'] }
+        : { orderBy?: MonitoringReportGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MonitoringReportGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMonitoringReportGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MonitoringReport model
+   */
+  readonly fields: MonitoringReportFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MonitoringReport.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MonitoringReportClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    umkmProfile<T extends UmkmProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfileDefaultArgs<ExtArgs>>): Prisma__UmkmProfileClient<$Result.GetResult<Prisma.$UmkmProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MonitoringReport model
+   */
+  interface MonitoringReportFieldRefs {
+    readonly id: FieldRef<"MonitoringReport", 'String'>
+    readonly umkmProfileId: FieldRef<"MonitoringReport", 'String'>
+    readonly tanggal: FieldRef<"MonitoringReport", 'DateTime'>
+    readonly omzet: FieldRef<"MonitoringReport", 'Decimal'>
+    readonly penggunaan: FieldRef<"MonitoringReport", 'String'>
+    readonly catatan: FieldRef<"MonitoringReport", 'String'>
+    readonly createdAt: FieldRef<"MonitoringReport", 'DateTime'>
+    readonly updatedAt: FieldRef<"MonitoringReport", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MonitoringReport findUnique
+   */
+  export type MonitoringReportFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitoringReport
+     */
+    select?: MonitoringReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitoringReport
+     */
+    omit?: MonitoringReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MonitoringReportInclude<ExtArgs> | null
+    /**
+     * Filter, which MonitoringReport to fetch.
+     */
+    where: MonitoringReportWhereUniqueInput
+  }
+
+  /**
+   * MonitoringReport findUniqueOrThrow
+   */
+  export type MonitoringReportFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitoringReport
+     */
+    select?: MonitoringReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitoringReport
+     */
+    omit?: MonitoringReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MonitoringReportInclude<ExtArgs> | null
+    /**
+     * Filter, which MonitoringReport to fetch.
+     */
+    where: MonitoringReportWhereUniqueInput
+  }
+
+  /**
+   * MonitoringReport findFirst
+   */
+  export type MonitoringReportFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitoringReport
+     */
+    select?: MonitoringReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitoringReport
+     */
+    omit?: MonitoringReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MonitoringReportInclude<ExtArgs> | null
+    /**
+     * Filter, which MonitoringReport to fetch.
+     */
+    where?: MonitoringReportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MonitoringReports to fetch.
+     */
+    orderBy?: MonitoringReportOrderByWithRelationInput | MonitoringReportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MonitoringReports.
+     */
+    cursor?: MonitoringReportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MonitoringReports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MonitoringReports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MonitoringReports.
+     */
+    distinct?: MonitoringReportScalarFieldEnum | MonitoringReportScalarFieldEnum[]
+  }
+
+  /**
+   * MonitoringReport findFirstOrThrow
+   */
+  export type MonitoringReportFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitoringReport
+     */
+    select?: MonitoringReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitoringReport
+     */
+    omit?: MonitoringReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MonitoringReportInclude<ExtArgs> | null
+    /**
+     * Filter, which MonitoringReport to fetch.
+     */
+    where?: MonitoringReportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MonitoringReports to fetch.
+     */
+    orderBy?: MonitoringReportOrderByWithRelationInput | MonitoringReportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MonitoringReports.
+     */
+    cursor?: MonitoringReportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MonitoringReports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MonitoringReports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MonitoringReports.
+     */
+    distinct?: MonitoringReportScalarFieldEnum | MonitoringReportScalarFieldEnum[]
+  }
+
+  /**
+   * MonitoringReport findMany
+   */
+  export type MonitoringReportFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitoringReport
+     */
+    select?: MonitoringReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitoringReport
+     */
+    omit?: MonitoringReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MonitoringReportInclude<ExtArgs> | null
+    /**
+     * Filter, which MonitoringReports to fetch.
+     */
+    where?: MonitoringReportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MonitoringReports to fetch.
+     */
+    orderBy?: MonitoringReportOrderByWithRelationInput | MonitoringReportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MonitoringReports.
+     */
+    cursor?: MonitoringReportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MonitoringReports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MonitoringReports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MonitoringReports.
+     */
+    distinct?: MonitoringReportScalarFieldEnum | MonitoringReportScalarFieldEnum[]
+  }
+
+  /**
+   * MonitoringReport create
+   */
+  export type MonitoringReportCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitoringReport
+     */
+    select?: MonitoringReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitoringReport
+     */
+    omit?: MonitoringReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MonitoringReportInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MonitoringReport.
+     */
+    data: XOR<MonitoringReportCreateInput, MonitoringReportUncheckedCreateInput>
+  }
+
+  /**
+   * MonitoringReport createMany
+   */
+  export type MonitoringReportCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MonitoringReports.
+     */
+    data: MonitoringReportCreateManyInput | MonitoringReportCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MonitoringReport createManyAndReturn
+   */
+  export type MonitoringReportCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitoringReport
+     */
+    select?: MonitoringReportSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitoringReport
+     */
+    omit?: MonitoringReportOmit<ExtArgs> | null
+    /**
+     * The data used to create many MonitoringReports.
+     */
+    data: MonitoringReportCreateManyInput | MonitoringReportCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MonitoringReportIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MonitoringReport update
+   */
+  export type MonitoringReportUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitoringReport
+     */
+    select?: MonitoringReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitoringReport
+     */
+    omit?: MonitoringReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MonitoringReportInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MonitoringReport.
+     */
+    data: XOR<MonitoringReportUpdateInput, MonitoringReportUncheckedUpdateInput>
+    /**
+     * Choose, which MonitoringReport to update.
+     */
+    where: MonitoringReportWhereUniqueInput
+  }
+
+  /**
+   * MonitoringReport updateMany
+   */
+  export type MonitoringReportUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MonitoringReports.
+     */
+    data: XOR<MonitoringReportUpdateManyMutationInput, MonitoringReportUncheckedUpdateManyInput>
+    /**
+     * Filter which MonitoringReports to update
+     */
+    where?: MonitoringReportWhereInput
+    /**
+     * Limit how many MonitoringReports to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MonitoringReport updateManyAndReturn
+   */
+  export type MonitoringReportUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitoringReport
+     */
+    select?: MonitoringReportSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitoringReport
+     */
+    omit?: MonitoringReportOmit<ExtArgs> | null
+    /**
+     * The data used to update MonitoringReports.
+     */
+    data: XOR<MonitoringReportUpdateManyMutationInput, MonitoringReportUncheckedUpdateManyInput>
+    /**
+     * Filter which MonitoringReports to update
+     */
+    where?: MonitoringReportWhereInput
+    /**
+     * Limit how many MonitoringReports to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MonitoringReportIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MonitoringReport upsert
+   */
+  export type MonitoringReportUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitoringReport
+     */
+    select?: MonitoringReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitoringReport
+     */
+    omit?: MonitoringReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MonitoringReportInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MonitoringReport to update in case it exists.
+     */
+    where: MonitoringReportWhereUniqueInput
+    /**
+     * In case the MonitoringReport found by the `where` argument doesn't exist, create a new MonitoringReport with this data.
+     */
+    create: XOR<MonitoringReportCreateInput, MonitoringReportUncheckedCreateInput>
+    /**
+     * In case the MonitoringReport was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MonitoringReportUpdateInput, MonitoringReportUncheckedUpdateInput>
+  }
+
+  /**
+   * MonitoringReport delete
+   */
+  export type MonitoringReportDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitoringReport
+     */
+    select?: MonitoringReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitoringReport
+     */
+    omit?: MonitoringReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MonitoringReportInclude<ExtArgs> | null
+    /**
+     * Filter which MonitoringReport to delete.
+     */
+    where: MonitoringReportWhereUniqueInput
+  }
+
+  /**
+   * MonitoringReport deleteMany
+   */
+  export type MonitoringReportDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MonitoringReports to delete
+     */
+    where?: MonitoringReportWhereInput
+    /**
+     * Limit how many MonitoringReports to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MonitoringReport without action
+   */
+  export type MonitoringReportDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitoringReport
+     */
+    select?: MonitoringReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitoringReport
+     */
+    omit?: MonitoringReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MonitoringReportInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model OtpVerification
    */
 
@@ -29866,6 +33820,8 @@ export namespace Prisma {
     address: 'address',
     city: 'city',
     province: 'province',
+    district: 'district',
+    postalCode: 'postalCode',
     investmentGoal: 'investmentGoal',
     riskTolerance: 'riskTolerance',
     totalInvested: 'totalInvested',
@@ -29887,6 +33843,8 @@ export namespace Prisma {
     location: 'location',
     city: 'city',
     province: 'province',
+    district: 'district',
+    postalCode: 'postalCode',
     establishedDate: 'establishedDate',
     employeeCount: 'employeeCount',
     monthlyRevenue: 'monthlyRevenue',
@@ -29897,6 +33855,18 @@ export namespace Prisma {
   };
 
   export type UmkmProfileScalarFieldEnum = (typeof UmkmProfileScalarFieldEnum)[keyof typeof UmkmProfileScalarFieldEnum]
+
+
+  export const UmkmMediaScalarFieldEnum: {
+    id: 'id',
+    umkmProfileId: 'umkmProfileId',
+    type: 'type',
+    url: 'url',
+    caption: 'caption',
+    createdAt: 'createdAt'
+  };
+
+  export type UmkmMediaScalarFieldEnum = (typeof UmkmMediaScalarFieldEnum)[keyof typeof UmkmMediaScalarFieldEnum]
 
 
   export const KycDocumentScalarFieldEnum: {
@@ -30088,6 +34058,32 @@ export namespace Prisma {
   export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
 
 
+  export const DokuPaymentScalarFieldEnum: {
+    id: 'id',
+    transactionId: 'transactionId',
+    direction: 'direction',
+    invoiceNumber: 'invoiceNumber',
+    dokuRequestId: 'dokuRequestId',
+    channel: 'channel',
+    status: 'status',
+    amount: 'amount',
+    virtualAccountNo: 'virtualAccountNo',
+    paymentUrl: 'paymentUrl',
+    destinationBank: 'destinationBank',
+    destinationAccountNumber: 'destinationAccountNumber',
+    destinationAccountName: 'destinationAccountName',
+    expiredAt: 'expiredAt',
+    paidAt: 'paidAt',
+    rawRequest: 'rawRequest',
+    rawResponse: 'rawResponse',
+    rawCallback: 'rawCallback',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type DokuPaymentScalarFieldEnum = (typeof DokuPaymentScalarFieldEnum)[keyof typeof DokuPaymentScalarFieldEnum]
+
+
   export const BlockchainTransactionScalarFieldEnum: {
     id: 'id',
     akadId: 'akadId',
@@ -30151,6 +34147,20 @@ export namespace Prisma {
   };
 
   export type BusinessUpdateScalarFieldEnum = (typeof BusinessUpdateScalarFieldEnum)[keyof typeof BusinessUpdateScalarFieldEnum]
+
+
+  export const MonitoringReportScalarFieldEnum: {
+    id: 'id',
+    umkmProfileId: 'umkmProfileId',
+    tanggal: 'tanggal',
+    omzet: 'omzet',
+    penggunaan: 'penggunaan',
+    catatan: 'catatan',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type MonitoringReportScalarFieldEnum = (typeof MonitoringReportScalarFieldEnum)[keyof typeof MonitoringReportScalarFieldEnum]
 
 
   export const OtpVerificationScalarFieldEnum: {
@@ -30387,6 +34397,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'MediaType'
+   */
+  export type EnumMediaTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MediaType'>
+    
+
+
+  /**
+   * Reference to a field of type 'MediaType[]'
+   */
+  export type ListEnumMediaTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MediaType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -30509,6 +34533,34 @@ export namespace Prisma {
    * Reference to a field of type 'TransactionStatus[]'
    */
   export type ListEnumTransactionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'DokuDirection'
+   */
+  export type EnumDokuDirectionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DokuDirection'>
+    
+
+
+  /**
+   * Reference to a field of type 'DokuDirection[]'
+   */
+  export type ListEnumDokuDirectionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DokuDirection[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'DokuPaymentStatus'
+   */
+  export type EnumDokuPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DokuPaymentStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'DokuPaymentStatus[]'
+   */
+  export type ListEnumDokuPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DokuPaymentStatus[]'>
     
 
 
@@ -30764,6 +34816,8 @@ export namespace Prisma {
     address?: StringNullableFilter<"InvestorProfile"> | string | null
     city?: StringNullableFilter<"InvestorProfile"> | string | null
     province?: StringNullableFilter<"InvestorProfile"> | string | null
+    district?: StringNullableFilter<"InvestorProfile"> | string | null
+    postalCode?: StringNullableFilter<"InvestorProfile"> | string | null
     investmentGoal?: StringNullableFilter<"InvestorProfile"> | string | null
     riskTolerance?: EnumRiskLevelFilter<"InvestorProfile"> | $Enums.RiskLevel
     totalInvested?: DecimalFilter<"InvestorProfile"> | Decimal | DecimalJsLike | number | string
@@ -30782,6 +34836,8 @@ export namespace Prisma {
     address?: SortOrderInput | SortOrder
     city?: SortOrderInput | SortOrder
     province?: SortOrderInput | SortOrder
+    district?: SortOrderInput | SortOrder
+    postalCode?: SortOrderInput | SortOrder
     investmentGoal?: SortOrderInput | SortOrder
     riskTolerance?: SortOrder
     totalInvested?: SortOrder
@@ -30803,6 +34859,8 @@ export namespace Prisma {
     address?: StringNullableFilter<"InvestorProfile"> | string | null
     city?: StringNullableFilter<"InvestorProfile"> | string | null
     province?: StringNullableFilter<"InvestorProfile"> | string | null
+    district?: StringNullableFilter<"InvestorProfile"> | string | null
+    postalCode?: StringNullableFilter<"InvestorProfile"> | string | null
     investmentGoal?: StringNullableFilter<"InvestorProfile"> | string | null
     riskTolerance?: EnumRiskLevelFilter<"InvestorProfile"> | $Enums.RiskLevel
     totalInvested?: DecimalFilter<"InvestorProfile"> | Decimal | DecimalJsLike | number | string
@@ -30821,6 +34879,8 @@ export namespace Prisma {
     address?: SortOrderInput | SortOrder
     city?: SortOrderInput | SortOrder
     province?: SortOrderInput | SortOrder
+    district?: SortOrderInput | SortOrder
+    postalCode?: SortOrderInput | SortOrder
     investmentGoal?: SortOrderInput | SortOrder
     riskTolerance?: SortOrder
     totalInvested?: SortOrder
@@ -30845,6 +34905,8 @@ export namespace Prisma {
     address?: StringNullableWithAggregatesFilter<"InvestorProfile"> | string | null
     city?: StringNullableWithAggregatesFilter<"InvestorProfile"> | string | null
     province?: StringNullableWithAggregatesFilter<"InvestorProfile"> | string | null
+    district?: StringNullableWithAggregatesFilter<"InvestorProfile"> | string | null
+    postalCode?: StringNullableWithAggregatesFilter<"InvestorProfile"> | string | null
     investmentGoal?: StringNullableWithAggregatesFilter<"InvestorProfile"> | string | null
     riskTolerance?: EnumRiskLevelWithAggregatesFilter<"InvestorProfile"> | $Enums.RiskLevel
     totalInvested?: DecimalWithAggregatesFilter<"InvestorProfile"> | Decimal | DecimalJsLike | number | string
@@ -30866,6 +34928,8 @@ export namespace Prisma {
     location?: StringNullableFilter<"UmkmProfile"> | string | null
     city?: StringNullableFilter<"UmkmProfile"> | string | null
     province?: StringNullableFilter<"UmkmProfile"> | string | null
+    district?: StringNullableFilter<"UmkmProfile"> | string | null
+    postalCode?: StringNullableFilter<"UmkmProfile"> | string | null
     establishedDate?: DateTimeNullableFilter<"UmkmProfile"> | Date | string | null
     employeeCount?: IntNullableFilter<"UmkmProfile"> | number | null
     monthlyRevenue?: DecimalNullableFilter<"UmkmProfile"> | Decimal | DecimalJsLike | number | string | null
@@ -30878,6 +34942,8 @@ export namespace Prisma {
     campaigns?: CampaignListRelationFilter
     creditScores?: CreditScoreListRelationFilter
     fundingApplications?: FundingApplicationListRelationFilter
+    media?: UmkmMediaListRelationFilter
+    monitoringReports?: MonitoringReportListRelationFilter
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -30891,6 +34957,8 @@ export namespace Prisma {
     location?: SortOrderInput | SortOrder
     city?: SortOrderInput | SortOrder
     province?: SortOrderInput | SortOrder
+    district?: SortOrderInput | SortOrder
+    postalCode?: SortOrderInput | SortOrder
     establishedDate?: SortOrderInput | SortOrder
     employeeCount?: SortOrderInput | SortOrder
     monthlyRevenue?: SortOrderInput | SortOrder
@@ -30903,6 +34971,8 @@ export namespace Prisma {
     campaigns?: CampaignOrderByRelationAggregateInput
     creditScores?: CreditScoreOrderByRelationAggregateInput
     fundingApplications?: FundingApplicationOrderByRelationAggregateInput
+    media?: UmkmMediaOrderByRelationAggregateInput
+    monitoringReports?: MonitoringReportOrderByRelationAggregateInput
     user?: UserOrderByWithRelationInput
   }
 
@@ -30919,6 +34989,8 @@ export namespace Prisma {
     location?: StringNullableFilter<"UmkmProfile"> | string | null
     city?: StringNullableFilter<"UmkmProfile"> | string | null
     province?: StringNullableFilter<"UmkmProfile"> | string | null
+    district?: StringNullableFilter<"UmkmProfile"> | string | null
+    postalCode?: StringNullableFilter<"UmkmProfile"> | string | null
     establishedDate?: DateTimeNullableFilter<"UmkmProfile"> | Date | string | null
     employeeCount?: IntNullableFilter<"UmkmProfile"> | number | null
     monthlyRevenue?: DecimalNullableFilter<"UmkmProfile"> | Decimal | DecimalJsLike | number | string | null
@@ -30931,6 +35003,8 @@ export namespace Prisma {
     campaigns?: CampaignListRelationFilter
     creditScores?: CreditScoreListRelationFilter
     fundingApplications?: FundingApplicationListRelationFilter
+    media?: UmkmMediaListRelationFilter
+    monitoringReports?: MonitoringReportListRelationFilter
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId">
 
@@ -30944,6 +35018,8 @@ export namespace Prisma {
     location?: SortOrderInput | SortOrder
     city?: SortOrderInput | SortOrder
     province?: SortOrderInput | SortOrder
+    district?: SortOrderInput | SortOrder
+    postalCode?: SortOrderInput | SortOrder
     establishedDate?: SortOrderInput | SortOrder
     employeeCount?: SortOrderInput | SortOrder
     monthlyRevenue?: SortOrderInput | SortOrder
@@ -30971,6 +35047,8 @@ export namespace Prisma {
     location?: StringNullableWithAggregatesFilter<"UmkmProfile"> | string | null
     city?: StringNullableWithAggregatesFilter<"UmkmProfile"> | string | null
     province?: StringNullableWithAggregatesFilter<"UmkmProfile"> | string | null
+    district?: StringNullableWithAggregatesFilter<"UmkmProfile"> | string | null
+    postalCode?: StringNullableWithAggregatesFilter<"UmkmProfile"> | string | null
     establishedDate?: DateTimeNullableWithAggregatesFilter<"UmkmProfile"> | Date | string | null
     employeeCount?: IntNullableWithAggregatesFilter<"UmkmProfile"> | number | null
     monthlyRevenue?: DecimalNullableWithAggregatesFilter<"UmkmProfile"> | Decimal | DecimalJsLike | number | string | null
@@ -30978,6 +35056,66 @@ export namespace Prisma {
     socialMedia?: StringNullableWithAggregatesFilter<"UmkmProfile"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"UmkmProfile"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"UmkmProfile"> | Date | string
+  }
+
+  export type UmkmMediaWhereInput = {
+    AND?: UmkmMediaWhereInput | UmkmMediaWhereInput[]
+    OR?: UmkmMediaWhereInput[]
+    NOT?: UmkmMediaWhereInput | UmkmMediaWhereInput[]
+    id?: StringFilter<"UmkmMedia"> | string
+    umkmProfileId?: StringFilter<"UmkmMedia"> | string
+    type?: EnumMediaTypeFilter<"UmkmMedia"> | $Enums.MediaType
+    url?: StringFilter<"UmkmMedia"> | string
+    caption?: StringNullableFilter<"UmkmMedia"> | string | null
+    createdAt?: DateTimeFilter<"UmkmMedia"> | Date | string
+    umkmProfile?: XOR<UmkmProfileScalarRelationFilter, UmkmProfileWhereInput>
+  }
+
+  export type UmkmMediaOrderByWithRelationInput = {
+    id?: SortOrder
+    umkmProfileId?: SortOrder
+    type?: SortOrder
+    url?: SortOrder
+    caption?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    umkmProfile?: UmkmProfileOrderByWithRelationInput
+  }
+
+  export type UmkmMediaWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: UmkmMediaWhereInput | UmkmMediaWhereInput[]
+    OR?: UmkmMediaWhereInput[]
+    NOT?: UmkmMediaWhereInput | UmkmMediaWhereInput[]
+    umkmProfileId?: StringFilter<"UmkmMedia"> | string
+    type?: EnumMediaTypeFilter<"UmkmMedia"> | $Enums.MediaType
+    url?: StringFilter<"UmkmMedia"> | string
+    caption?: StringNullableFilter<"UmkmMedia"> | string | null
+    createdAt?: DateTimeFilter<"UmkmMedia"> | Date | string
+    umkmProfile?: XOR<UmkmProfileScalarRelationFilter, UmkmProfileWhereInput>
+  }, "id">
+
+  export type UmkmMediaOrderByWithAggregationInput = {
+    id?: SortOrder
+    umkmProfileId?: SortOrder
+    type?: SortOrder
+    url?: SortOrder
+    caption?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: UmkmMediaCountOrderByAggregateInput
+    _max?: UmkmMediaMaxOrderByAggregateInput
+    _min?: UmkmMediaMinOrderByAggregateInput
+  }
+
+  export type UmkmMediaScalarWhereWithAggregatesInput = {
+    AND?: UmkmMediaScalarWhereWithAggregatesInput | UmkmMediaScalarWhereWithAggregatesInput[]
+    OR?: UmkmMediaScalarWhereWithAggregatesInput[]
+    NOT?: UmkmMediaScalarWhereWithAggregatesInput | UmkmMediaScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UmkmMedia"> | string
+    umkmProfileId?: StringWithAggregatesFilter<"UmkmMedia"> | string
+    type?: EnumMediaTypeWithAggregatesFilter<"UmkmMedia"> | $Enums.MediaType
+    url?: StringWithAggregatesFilter<"UmkmMedia"> | string
+    caption?: StringNullableWithAggregatesFilter<"UmkmMedia"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"UmkmMedia"> | Date | string
   }
 
   export type KycDocumentWhereInput = {
@@ -31888,6 +36026,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
     fraudAlert?: XOR<FraudAlertNullableScalarRelationFilter, FraudAlertWhereInput> | null
+    dokuPayment?: XOR<DokuPaymentNullableScalarRelationFilter, DokuPaymentWhereInput> | null
     wallet?: XOR<WalletScalarRelationFilter, WalletWhereInput>
   }
 
@@ -31909,6 +36048,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     fraudAlert?: FraudAlertOrderByWithRelationInput
+    dokuPayment?: DokuPaymentOrderByWithRelationInput
     wallet?: WalletOrderByWithRelationInput
   }
 
@@ -31933,6 +36073,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
     fraudAlert?: XOR<FraudAlertNullableScalarRelationFilter, FraudAlertWhereInput> | null
+    dokuPayment?: XOR<DokuPaymentNullableScalarRelationFilter, DokuPaymentWhereInput> | null
     wallet?: XOR<WalletScalarRelationFilter, WalletWhereInput>
   }, "id">
 
@@ -31980,6 +36121,138 @@ export namespace Prisma {
     processedAt?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
+  }
+
+  export type DokuPaymentWhereInput = {
+    AND?: DokuPaymentWhereInput | DokuPaymentWhereInput[]
+    OR?: DokuPaymentWhereInput[]
+    NOT?: DokuPaymentWhereInput | DokuPaymentWhereInput[]
+    id?: StringFilter<"DokuPayment"> | string
+    transactionId?: StringFilter<"DokuPayment"> | string
+    direction?: EnumDokuDirectionFilter<"DokuPayment"> | $Enums.DokuDirection
+    invoiceNumber?: StringFilter<"DokuPayment"> | string
+    dokuRequestId?: StringNullableFilter<"DokuPayment"> | string | null
+    channel?: StringNullableFilter<"DokuPayment"> | string | null
+    status?: EnumDokuPaymentStatusFilter<"DokuPayment"> | $Enums.DokuPaymentStatus
+    amount?: DecimalFilter<"DokuPayment"> | Decimal | DecimalJsLike | number | string
+    virtualAccountNo?: StringNullableFilter<"DokuPayment"> | string | null
+    paymentUrl?: StringNullableFilter<"DokuPayment"> | string | null
+    destinationBank?: StringNullableFilter<"DokuPayment"> | string | null
+    destinationAccountNumber?: StringNullableFilter<"DokuPayment"> | string | null
+    destinationAccountName?: StringNullableFilter<"DokuPayment"> | string | null
+    expiredAt?: DateTimeNullableFilter<"DokuPayment"> | Date | string | null
+    paidAt?: DateTimeNullableFilter<"DokuPayment"> | Date | string | null
+    rawRequest?: JsonNullableFilter<"DokuPayment">
+    rawResponse?: JsonNullableFilter<"DokuPayment">
+    rawCallback?: JsonNullableFilter<"DokuPayment">
+    createdAt?: DateTimeFilter<"DokuPayment"> | Date | string
+    updatedAt?: DateTimeFilter<"DokuPayment"> | Date | string
+    transaction?: XOR<TransactionScalarRelationFilter, TransactionWhereInput>
+  }
+
+  export type DokuPaymentOrderByWithRelationInput = {
+    id?: SortOrder
+    transactionId?: SortOrder
+    direction?: SortOrder
+    invoiceNumber?: SortOrder
+    dokuRequestId?: SortOrderInput | SortOrder
+    channel?: SortOrderInput | SortOrder
+    status?: SortOrder
+    amount?: SortOrder
+    virtualAccountNo?: SortOrderInput | SortOrder
+    paymentUrl?: SortOrderInput | SortOrder
+    destinationBank?: SortOrderInput | SortOrder
+    destinationAccountNumber?: SortOrderInput | SortOrder
+    destinationAccountName?: SortOrderInput | SortOrder
+    expiredAt?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    rawRequest?: SortOrderInput | SortOrder
+    rawResponse?: SortOrderInput | SortOrder
+    rawCallback?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    transaction?: TransactionOrderByWithRelationInput
+  }
+
+  export type DokuPaymentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    transactionId?: string
+    invoiceNumber?: string
+    AND?: DokuPaymentWhereInput | DokuPaymentWhereInput[]
+    OR?: DokuPaymentWhereInput[]
+    NOT?: DokuPaymentWhereInput | DokuPaymentWhereInput[]
+    direction?: EnumDokuDirectionFilter<"DokuPayment"> | $Enums.DokuDirection
+    dokuRequestId?: StringNullableFilter<"DokuPayment"> | string | null
+    channel?: StringNullableFilter<"DokuPayment"> | string | null
+    status?: EnumDokuPaymentStatusFilter<"DokuPayment"> | $Enums.DokuPaymentStatus
+    amount?: DecimalFilter<"DokuPayment"> | Decimal | DecimalJsLike | number | string
+    virtualAccountNo?: StringNullableFilter<"DokuPayment"> | string | null
+    paymentUrl?: StringNullableFilter<"DokuPayment"> | string | null
+    destinationBank?: StringNullableFilter<"DokuPayment"> | string | null
+    destinationAccountNumber?: StringNullableFilter<"DokuPayment"> | string | null
+    destinationAccountName?: StringNullableFilter<"DokuPayment"> | string | null
+    expiredAt?: DateTimeNullableFilter<"DokuPayment"> | Date | string | null
+    paidAt?: DateTimeNullableFilter<"DokuPayment"> | Date | string | null
+    rawRequest?: JsonNullableFilter<"DokuPayment">
+    rawResponse?: JsonNullableFilter<"DokuPayment">
+    rawCallback?: JsonNullableFilter<"DokuPayment">
+    createdAt?: DateTimeFilter<"DokuPayment"> | Date | string
+    updatedAt?: DateTimeFilter<"DokuPayment"> | Date | string
+    transaction?: XOR<TransactionScalarRelationFilter, TransactionWhereInput>
+  }, "id" | "transactionId" | "invoiceNumber">
+
+  export type DokuPaymentOrderByWithAggregationInput = {
+    id?: SortOrder
+    transactionId?: SortOrder
+    direction?: SortOrder
+    invoiceNumber?: SortOrder
+    dokuRequestId?: SortOrderInput | SortOrder
+    channel?: SortOrderInput | SortOrder
+    status?: SortOrder
+    amount?: SortOrder
+    virtualAccountNo?: SortOrderInput | SortOrder
+    paymentUrl?: SortOrderInput | SortOrder
+    destinationBank?: SortOrderInput | SortOrder
+    destinationAccountNumber?: SortOrderInput | SortOrder
+    destinationAccountName?: SortOrderInput | SortOrder
+    expiredAt?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    rawRequest?: SortOrderInput | SortOrder
+    rawResponse?: SortOrderInput | SortOrder
+    rawCallback?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: DokuPaymentCountOrderByAggregateInput
+    _avg?: DokuPaymentAvgOrderByAggregateInput
+    _max?: DokuPaymentMaxOrderByAggregateInput
+    _min?: DokuPaymentMinOrderByAggregateInput
+    _sum?: DokuPaymentSumOrderByAggregateInput
+  }
+
+  export type DokuPaymentScalarWhereWithAggregatesInput = {
+    AND?: DokuPaymentScalarWhereWithAggregatesInput | DokuPaymentScalarWhereWithAggregatesInput[]
+    OR?: DokuPaymentScalarWhereWithAggregatesInput[]
+    NOT?: DokuPaymentScalarWhereWithAggregatesInput | DokuPaymentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DokuPayment"> | string
+    transactionId?: StringWithAggregatesFilter<"DokuPayment"> | string
+    direction?: EnumDokuDirectionWithAggregatesFilter<"DokuPayment"> | $Enums.DokuDirection
+    invoiceNumber?: StringWithAggregatesFilter<"DokuPayment"> | string
+    dokuRequestId?: StringNullableWithAggregatesFilter<"DokuPayment"> | string | null
+    channel?: StringNullableWithAggregatesFilter<"DokuPayment"> | string | null
+    status?: EnumDokuPaymentStatusWithAggregatesFilter<"DokuPayment"> | $Enums.DokuPaymentStatus
+    amount?: DecimalWithAggregatesFilter<"DokuPayment"> | Decimal | DecimalJsLike | number | string
+    virtualAccountNo?: StringNullableWithAggregatesFilter<"DokuPayment"> | string | null
+    paymentUrl?: StringNullableWithAggregatesFilter<"DokuPayment"> | string | null
+    destinationBank?: StringNullableWithAggregatesFilter<"DokuPayment"> | string | null
+    destinationAccountNumber?: StringNullableWithAggregatesFilter<"DokuPayment"> | string | null
+    destinationAccountName?: StringNullableWithAggregatesFilter<"DokuPayment"> | string | null
+    expiredAt?: DateTimeNullableWithAggregatesFilter<"DokuPayment"> | Date | string | null
+    paidAt?: DateTimeNullableWithAggregatesFilter<"DokuPayment"> | Date | string | null
+    rawRequest?: JsonNullableWithAggregatesFilter<"DokuPayment">
+    rawResponse?: JsonNullableWithAggregatesFilter<"DokuPayment">
+    rawCallback?: JsonNullableWithAggregatesFilter<"DokuPayment">
+    createdAt?: DateTimeWithAggregatesFilter<"DokuPayment"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"DokuPayment"> | Date | string
   }
 
   export type BlockchainTransactionWhereInput = {
@@ -32312,6 +36585,78 @@ export namespace Prisma {
     fundUsageSummary?: StringNullableWithAggregatesFilter<"BusinessUpdate"> | string | null
     attachments?: JsonNullableWithAggregatesFilter<"BusinessUpdate">
     createdAt?: DateTimeWithAggregatesFilter<"BusinessUpdate"> | Date | string
+  }
+
+  export type MonitoringReportWhereInput = {
+    AND?: MonitoringReportWhereInput | MonitoringReportWhereInput[]
+    OR?: MonitoringReportWhereInput[]
+    NOT?: MonitoringReportWhereInput | MonitoringReportWhereInput[]
+    id?: StringFilter<"MonitoringReport"> | string
+    umkmProfileId?: StringFilter<"MonitoringReport"> | string
+    tanggal?: DateTimeFilter<"MonitoringReport"> | Date | string
+    omzet?: DecimalFilter<"MonitoringReport"> | Decimal | DecimalJsLike | number | string
+    penggunaan?: StringFilter<"MonitoringReport"> | string
+    catatan?: StringNullableFilter<"MonitoringReport"> | string | null
+    createdAt?: DateTimeFilter<"MonitoringReport"> | Date | string
+    updatedAt?: DateTimeFilter<"MonitoringReport"> | Date | string
+    umkmProfile?: XOR<UmkmProfileScalarRelationFilter, UmkmProfileWhereInput>
+  }
+
+  export type MonitoringReportOrderByWithRelationInput = {
+    id?: SortOrder
+    umkmProfileId?: SortOrder
+    tanggal?: SortOrder
+    omzet?: SortOrder
+    penggunaan?: SortOrder
+    catatan?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    umkmProfile?: UmkmProfileOrderByWithRelationInput
+  }
+
+  export type MonitoringReportWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: MonitoringReportWhereInput | MonitoringReportWhereInput[]
+    OR?: MonitoringReportWhereInput[]
+    NOT?: MonitoringReportWhereInput | MonitoringReportWhereInput[]
+    umkmProfileId?: StringFilter<"MonitoringReport"> | string
+    tanggal?: DateTimeFilter<"MonitoringReport"> | Date | string
+    omzet?: DecimalFilter<"MonitoringReport"> | Decimal | DecimalJsLike | number | string
+    penggunaan?: StringFilter<"MonitoringReport"> | string
+    catatan?: StringNullableFilter<"MonitoringReport"> | string | null
+    createdAt?: DateTimeFilter<"MonitoringReport"> | Date | string
+    updatedAt?: DateTimeFilter<"MonitoringReport"> | Date | string
+    umkmProfile?: XOR<UmkmProfileScalarRelationFilter, UmkmProfileWhereInput>
+  }, "id">
+
+  export type MonitoringReportOrderByWithAggregationInput = {
+    id?: SortOrder
+    umkmProfileId?: SortOrder
+    tanggal?: SortOrder
+    omzet?: SortOrder
+    penggunaan?: SortOrder
+    catatan?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: MonitoringReportCountOrderByAggregateInput
+    _avg?: MonitoringReportAvgOrderByAggregateInput
+    _max?: MonitoringReportMaxOrderByAggregateInput
+    _min?: MonitoringReportMinOrderByAggregateInput
+    _sum?: MonitoringReportSumOrderByAggregateInput
+  }
+
+  export type MonitoringReportScalarWhereWithAggregatesInput = {
+    AND?: MonitoringReportScalarWhereWithAggregatesInput | MonitoringReportScalarWhereWithAggregatesInput[]
+    OR?: MonitoringReportScalarWhereWithAggregatesInput[]
+    NOT?: MonitoringReportScalarWhereWithAggregatesInput | MonitoringReportScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MonitoringReport"> | string
+    umkmProfileId?: StringWithAggregatesFilter<"MonitoringReport"> | string
+    tanggal?: DateTimeWithAggregatesFilter<"MonitoringReport"> | Date | string
+    omzet?: DecimalWithAggregatesFilter<"MonitoringReport"> | Decimal | DecimalJsLike | number | string
+    penggunaan?: StringWithAggregatesFilter<"MonitoringReport"> | string
+    catatan?: StringNullableWithAggregatesFilter<"MonitoringReport"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"MonitoringReport"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"MonitoringReport"> | Date | string
   }
 
   export type OtpVerificationWhereInput = {
@@ -32837,6 +37182,8 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     province?: string | null
+    district?: string | null
+    postalCode?: string | null
     investmentGoal?: string | null
     riskTolerance?: $Enums.RiskLevel
     totalInvested?: Decimal | DecimalJsLike | number | string
@@ -32855,6 +37202,8 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     province?: string | null
+    district?: string | null
+    postalCode?: string | null
     investmentGoal?: string | null
     riskTolerance?: $Enums.RiskLevel
     totalInvested?: Decimal | DecimalJsLike | number | string
@@ -32871,6 +37220,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     investmentGoal?: NullableStringFieldUpdateOperationsInput | string | null
     riskTolerance?: EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
     totalInvested?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -32889,6 +37240,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     investmentGoal?: NullableStringFieldUpdateOperationsInput | string | null
     riskTolerance?: EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
     totalInvested?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -32906,6 +37259,8 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     province?: string | null
+    district?: string | null
+    postalCode?: string | null
     investmentGoal?: string | null
     riskTolerance?: $Enums.RiskLevel
     totalInvested?: Decimal | DecimalJsLike | number | string
@@ -32921,6 +37276,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     investmentGoal?: NullableStringFieldUpdateOperationsInput | string | null
     riskTolerance?: EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
     totalInvested?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -32937,6 +37294,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     investmentGoal?: NullableStringFieldUpdateOperationsInput | string | null
     riskTolerance?: EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
     totalInvested?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -32954,6 +37313,8 @@ export namespace Prisma {
     location?: string | null
     city?: string | null
     province?: string | null
+    district?: string | null
+    postalCode?: string | null
     establishedDate?: Date | string | null
     employeeCount?: number | null
     monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
@@ -32966,6 +37327,8 @@ export namespace Prisma {
     campaigns?: CampaignCreateNestedManyWithoutUmkmProfileInput
     creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
     fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
+    media?: UmkmMediaCreateNestedManyWithoutUmkmProfileInput
+    monitoringReports?: MonitoringReportCreateNestedManyWithoutUmkmProfileInput
     user: UserCreateNestedOneWithoutUmkmProfileInput
   }
 
@@ -32979,6 +37342,8 @@ export namespace Prisma {
     location?: string | null
     city?: string | null
     province?: string | null
+    district?: string | null
+    postalCode?: string | null
     establishedDate?: Date | string | null
     employeeCount?: number | null
     monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
@@ -32991,6 +37356,8 @@ export namespace Prisma {
     campaigns?: CampaignUncheckedCreateNestedManyWithoutUmkmProfileInput
     creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
     fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
+    media?: UmkmMediaUncheckedCreateNestedManyWithoutUmkmProfileInput
+    monitoringReports?: MonitoringReportUncheckedCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileUpdateInput = {
@@ -33002,6 +37369,8 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
     monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -33014,6 +37383,8 @@ export namespace Prisma {
     campaigns?: CampaignUpdateManyWithoutUmkmProfileNestedInput
     creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
     fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
+    media?: UmkmMediaUpdateManyWithoutUmkmProfileNestedInput
+    monitoringReports?: MonitoringReportUpdateManyWithoutUmkmProfileNestedInput
     user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
   }
 
@@ -33027,6 +37398,8 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
     monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -33039,6 +37412,8 @@ export namespace Prisma {
     campaigns?: CampaignUncheckedUpdateManyWithoutUmkmProfileNestedInput
     creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
     fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    media?: UmkmMediaUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    monitoringReports?: MonitoringReportUncheckedUpdateManyWithoutUmkmProfileNestedInput
   }
 
   export type UmkmProfileCreateManyInput = {
@@ -33051,6 +37426,8 @@ export namespace Prisma {
     location?: string | null
     city?: string | null
     province?: string | null
+    district?: string | null
+    postalCode?: string | null
     establishedDate?: Date | string | null
     employeeCount?: number | null
     monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
@@ -33069,6 +37446,8 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
     monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -33088,6 +37467,8 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
     monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -33095,6 +37476,68 @@ export namespace Prisma {
     socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UmkmMediaCreateInput = {
+    id?: string
+    type: $Enums.MediaType
+    url: string
+    caption?: string | null
+    createdAt?: Date | string
+    umkmProfile: UmkmProfileCreateNestedOneWithoutMediaInput
+  }
+
+  export type UmkmMediaUncheckedCreateInput = {
+    id?: string
+    umkmProfileId: string
+    type: $Enums.MediaType
+    url: string
+    caption?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UmkmMediaUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
+    url?: StringFieldUpdateOperationsInput | string
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    umkmProfile?: UmkmProfileUpdateOneRequiredWithoutMediaNestedInput
+  }
+
+  export type UmkmMediaUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    umkmProfileId?: StringFieldUpdateOperationsInput | string
+    type?: EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
+    url?: StringFieldUpdateOperationsInput | string
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UmkmMediaCreateManyInput = {
+    id?: string
+    umkmProfileId: string
+    type: $Enums.MediaType
+    url: string
+    caption?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UmkmMediaUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
+    url?: StringFieldUpdateOperationsInput | string
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UmkmMediaUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    umkmProfileId?: StringFieldUpdateOperationsInput | string
+    type?: EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
+    url?: StringFieldUpdateOperationsInput | string
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type KycDocumentCreateInput = {
@@ -34113,6 +38556,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     fraudAlert?: FraudAlertCreateNestedOneWithoutTransactionInput
+    dokuPayment?: DokuPaymentCreateNestedOneWithoutTransactionInput
     wallet: WalletCreateNestedOneWithoutTransactionsInput
   }
 
@@ -34134,6 +38578,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     fraudAlert?: FraudAlertUncheckedCreateNestedOneWithoutTransactionInput
+    dokuPayment?: DokuPaymentUncheckedCreateNestedOneWithoutTransactionInput
   }
 
   export type TransactionUpdateInput = {
@@ -34153,6 +38598,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     fraudAlert?: FraudAlertUpdateOneWithoutTransactionNestedInput
+    dokuPayment?: DokuPaymentUpdateOneWithoutTransactionNestedInput
     wallet?: WalletUpdateOneRequiredWithoutTransactionsNestedInput
   }
 
@@ -34174,6 +38620,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     fraudAlert?: FraudAlertUncheckedUpdateOneWithoutTransactionNestedInput
+    dokuPayment?: DokuPaymentUncheckedUpdateOneWithoutTransactionNestedInput
   }
 
   export type TransactionCreateManyInput = {
@@ -34228,6 +38675,166 @@ export namespace Prisma {
     isFlagged?: BoolFieldUpdateOperationsInput | boolean
     flagReason?: NullableStringFieldUpdateOperationsInput | string | null
     processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DokuPaymentCreateInput = {
+    id?: string
+    direction: $Enums.DokuDirection
+    invoiceNumber: string
+    dokuRequestId?: string | null
+    channel?: string | null
+    status?: $Enums.DokuPaymentStatus
+    amount: Decimal | DecimalJsLike | number | string
+    virtualAccountNo?: string | null
+    paymentUrl?: string | null
+    destinationBank?: string | null
+    destinationAccountNumber?: string | null
+    destinationAccountName?: string | null
+    expiredAt?: Date | string | null
+    paidAt?: Date | string | null
+    rawRequest?: NullableJsonNullValueInput | InputJsonValue
+    rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    rawCallback?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    transaction: TransactionCreateNestedOneWithoutDokuPaymentInput
+  }
+
+  export type DokuPaymentUncheckedCreateInput = {
+    id?: string
+    transactionId: string
+    direction: $Enums.DokuDirection
+    invoiceNumber: string
+    dokuRequestId?: string | null
+    channel?: string | null
+    status?: $Enums.DokuPaymentStatus
+    amount: Decimal | DecimalJsLike | number | string
+    virtualAccountNo?: string | null
+    paymentUrl?: string | null
+    destinationBank?: string | null
+    destinationAccountNumber?: string | null
+    destinationAccountName?: string | null
+    expiredAt?: Date | string | null
+    paidAt?: Date | string | null
+    rawRequest?: NullableJsonNullValueInput | InputJsonValue
+    rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    rawCallback?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DokuPaymentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    direction?: EnumDokuDirectionFieldUpdateOperationsInput | $Enums.DokuDirection
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    dokuRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    channel?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumDokuPaymentStatusFieldUpdateOperationsInput | $Enums.DokuPaymentStatus
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    virtualAccountNo?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationBank?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    expiredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rawRequest?: NullableJsonNullValueInput | InputJsonValue
+    rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    rawCallback?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transaction?: TransactionUpdateOneRequiredWithoutDokuPaymentNestedInput
+  }
+
+  export type DokuPaymentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    transactionId?: StringFieldUpdateOperationsInput | string
+    direction?: EnumDokuDirectionFieldUpdateOperationsInput | $Enums.DokuDirection
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    dokuRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    channel?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumDokuPaymentStatusFieldUpdateOperationsInput | $Enums.DokuPaymentStatus
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    virtualAccountNo?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationBank?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    expiredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rawRequest?: NullableJsonNullValueInput | InputJsonValue
+    rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    rawCallback?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DokuPaymentCreateManyInput = {
+    id?: string
+    transactionId: string
+    direction: $Enums.DokuDirection
+    invoiceNumber: string
+    dokuRequestId?: string | null
+    channel?: string | null
+    status?: $Enums.DokuPaymentStatus
+    amount: Decimal | DecimalJsLike | number | string
+    virtualAccountNo?: string | null
+    paymentUrl?: string | null
+    destinationBank?: string | null
+    destinationAccountNumber?: string | null
+    destinationAccountName?: string | null
+    expiredAt?: Date | string | null
+    paidAt?: Date | string | null
+    rawRequest?: NullableJsonNullValueInput | InputJsonValue
+    rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    rawCallback?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DokuPaymentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    direction?: EnumDokuDirectionFieldUpdateOperationsInput | $Enums.DokuDirection
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    dokuRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    channel?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumDokuPaymentStatusFieldUpdateOperationsInput | $Enums.DokuPaymentStatus
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    virtualAccountNo?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationBank?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    expiredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rawRequest?: NullableJsonNullValueInput | InputJsonValue
+    rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    rawCallback?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DokuPaymentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    transactionId?: StringFieldUpdateOperationsInput | string
+    direction?: EnumDokuDirectionFieldUpdateOperationsInput | $Enums.DokuDirection
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    dokuRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    channel?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumDokuPaymentStatusFieldUpdateOperationsInput | $Enums.DokuPaymentStatus
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    virtualAccountNo?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationBank?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    expiredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rawRequest?: NullableJsonNullValueInput | InputJsonValue
+    rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    rawCallback?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -34596,6 +39203,82 @@ export namespace Prisma {
     fundUsageSummary?: NullableStringFieldUpdateOperationsInput | string | null
     attachments?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MonitoringReportCreateInput = {
+    id?: string
+    tanggal?: Date | string
+    omzet: Decimal | DecimalJsLike | number | string
+    penggunaan: string
+    catatan?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    umkmProfile: UmkmProfileCreateNestedOneWithoutMonitoringReportsInput
+  }
+
+  export type MonitoringReportUncheckedCreateInput = {
+    id?: string
+    umkmProfileId: string
+    tanggal?: Date | string
+    omzet: Decimal | DecimalJsLike | number | string
+    penggunaan: string
+    catatan?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MonitoringReportUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    omzet?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    penggunaan?: StringFieldUpdateOperationsInput | string
+    catatan?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    umkmProfile?: UmkmProfileUpdateOneRequiredWithoutMonitoringReportsNestedInput
+  }
+
+  export type MonitoringReportUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    umkmProfileId?: StringFieldUpdateOperationsInput | string
+    tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    omzet?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    penggunaan?: StringFieldUpdateOperationsInput | string
+    catatan?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MonitoringReportCreateManyInput = {
+    id?: string
+    umkmProfileId: string
+    tanggal?: Date | string
+    omzet: Decimal | DecimalJsLike | number | string
+    penggunaan: string
+    catatan?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MonitoringReportUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    omzet?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    penggunaan?: StringFieldUpdateOperationsInput | string
+    catatan?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MonitoringReportUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    umkmProfileId?: StringFieldUpdateOperationsInput | string
+    tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    omzet?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    penggunaan?: StringFieldUpdateOperationsInput | string
+    catatan?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OtpVerificationCreateInput = {
@@ -35309,6 +39992,8 @@ export namespace Prisma {
     address?: SortOrder
     city?: SortOrder
     province?: SortOrder
+    district?: SortOrder
+    postalCode?: SortOrder
     investmentGoal?: SortOrder
     riskTolerance?: SortOrder
     totalInvested?: SortOrder
@@ -35330,6 +40015,8 @@ export namespace Prisma {
     address?: SortOrder
     city?: SortOrder
     province?: SortOrder
+    district?: SortOrder
+    postalCode?: SortOrder
     investmentGoal?: SortOrder
     riskTolerance?: SortOrder
     totalInvested?: SortOrder
@@ -35346,6 +40033,8 @@ export namespace Prisma {
     address?: SortOrder
     city?: SortOrder
     province?: SortOrder
+    district?: SortOrder
+    postalCode?: SortOrder
     investmentGoal?: SortOrder
     riskTolerance?: SortOrder
     totalInvested?: SortOrder
@@ -35437,6 +40126,18 @@ export namespace Prisma {
     none?: FundingApplicationWhereInput
   }
 
+  export type UmkmMediaListRelationFilter = {
+    every?: UmkmMediaWhereInput
+    some?: UmkmMediaWhereInput
+    none?: UmkmMediaWhereInput
+  }
+
+  export type MonitoringReportListRelationFilter = {
+    every?: MonitoringReportWhereInput
+    some?: MonitoringReportWhereInput
+    none?: MonitoringReportWhereInput
+  }
+
   export type BusinessDataOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -35457,6 +40158,14 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type UmkmMediaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MonitoringReportOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UmkmProfileCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
@@ -35467,6 +40176,8 @@ export namespace Prisma {
     location?: SortOrder
     city?: SortOrder
     province?: SortOrder
+    district?: SortOrder
+    postalCode?: SortOrder
     establishedDate?: SortOrder
     employeeCount?: SortOrder
     monthlyRevenue?: SortOrder
@@ -35491,6 +40202,8 @@ export namespace Prisma {
     location?: SortOrder
     city?: SortOrder
     province?: SortOrder
+    district?: SortOrder
+    postalCode?: SortOrder
     establishedDate?: SortOrder
     employeeCount?: SortOrder
     monthlyRevenue?: SortOrder
@@ -35510,6 +40223,8 @@ export namespace Prisma {
     location?: SortOrder
     city?: SortOrder
     province?: SortOrder
+    district?: SortOrder
+    postalCode?: SortOrder
     establishedDate?: SortOrder
     employeeCount?: SortOrder
     monthlyRevenue?: SortOrder
@@ -35554,6 +40269,55 @@ export namespace Prisma {
     _sum?: NestedDecimalNullableFilter<$PrismaModel>
     _min?: NestedDecimalNullableFilter<$PrismaModel>
     _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
+  export type EnumMediaTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.MediaType | EnumMediaTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.MediaType[] | ListEnumMediaTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MediaType[] | ListEnumMediaTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumMediaTypeFilter<$PrismaModel> | $Enums.MediaType
+  }
+
+  export type UmkmProfileScalarRelationFilter = {
+    is?: UmkmProfileWhereInput
+    isNot?: UmkmProfileWhereInput
+  }
+
+  export type UmkmMediaCountOrderByAggregateInput = {
+    id?: SortOrder
+    umkmProfileId?: SortOrder
+    type?: SortOrder
+    url?: SortOrder
+    caption?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UmkmMediaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    umkmProfileId?: SortOrder
+    type?: SortOrder
+    url?: SortOrder
+    caption?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UmkmMediaMinOrderByAggregateInput = {
+    id?: SortOrder
+    umkmProfileId?: SortOrder
+    type?: SortOrder
+    url?: SortOrder
+    caption?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumMediaTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.MediaType | EnumMediaTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.MediaType[] | ListEnumMediaTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MediaType[] | ListEnumMediaTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumMediaTypeWithAggregatesFilter<$PrismaModel> | $Enums.MediaType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumMediaTypeFilter<$PrismaModel>
+    _max?: NestedEnumMediaTypeFilter<$PrismaModel>
   }
 
   export type KycDocumentCountOrderByAggregateInput = {
@@ -35650,11 +40414,6 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type UmkmProfileScalarRelationFilter = {
-    is?: UmkmProfileWhereInput
-    isNot?: UmkmProfileWhereInput
   }
 
   export type CreditScoreCountOrderByAggregateInput = {
@@ -36407,6 +41166,11 @@ export namespace Prisma {
     isNot?: FraudAlertWhereInput | null
   }
 
+  export type DokuPaymentNullableScalarRelationFilter = {
+    is?: DokuPaymentWhereInput | null
+    isNot?: DokuPaymentWhereInput | null
+  }
+
   export type WalletScalarRelationFilter = {
     is?: WalletWhereInput
     isNot?: WalletWhereInput
@@ -36499,6 +41263,116 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTransactionStatusFilter<$PrismaModel>
     _max?: NestedEnumTransactionStatusFilter<$PrismaModel>
+  }
+
+  export type EnumDokuDirectionFilter<$PrismaModel = never> = {
+    equals?: $Enums.DokuDirection | EnumDokuDirectionFieldRefInput<$PrismaModel>
+    in?: $Enums.DokuDirection[] | ListEnumDokuDirectionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DokuDirection[] | ListEnumDokuDirectionFieldRefInput<$PrismaModel>
+    not?: NestedEnumDokuDirectionFilter<$PrismaModel> | $Enums.DokuDirection
+  }
+
+  export type EnumDokuPaymentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.DokuPaymentStatus | EnumDokuPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DokuPaymentStatus[] | ListEnumDokuPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DokuPaymentStatus[] | ListEnumDokuPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDokuPaymentStatusFilter<$PrismaModel> | $Enums.DokuPaymentStatus
+  }
+
+  export type TransactionScalarRelationFilter = {
+    is?: TransactionWhereInput
+    isNot?: TransactionWhereInput
+  }
+
+  export type DokuPaymentCountOrderByAggregateInput = {
+    id?: SortOrder
+    transactionId?: SortOrder
+    direction?: SortOrder
+    invoiceNumber?: SortOrder
+    dokuRequestId?: SortOrder
+    channel?: SortOrder
+    status?: SortOrder
+    amount?: SortOrder
+    virtualAccountNo?: SortOrder
+    paymentUrl?: SortOrder
+    destinationBank?: SortOrder
+    destinationAccountNumber?: SortOrder
+    destinationAccountName?: SortOrder
+    expiredAt?: SortOrder
+    paidAt?: SortOrder
+    rawRequest?: SortOrder
+    rawResponse?: SortOrder
+    rawCallback?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DokuPaymentAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type DokuPaymentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    transactionId?: SortOrder
+    direction?: SortOrder
+    invoiceNumber?: SortOrder
+    dokuRequestId?: SortOrder
+    channel?: SortOrder
+    status?: SortOrder
+    amount?: SortOrder
+    virtualAccountNo?: SortOrder
+    paymentUrl?: SortOrder
+    destinationBank?: SortOrder
+    destinationAccountNumber?: SortOrder
+    destinationAccountName?: SortOrder
+    expiredAt?: SortOrder
+    paidAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DokuPaymentMinOrderByAggregateInput = {
+    id?: SortOrder
+    transactionId?: SortOrder
+    direction?: SortOrder
+    invoiceNumber?: SortOrder
+    dokuRequestId?: SortOrder
+    channel?: SortOrder
+    status?: SortOrder
+    amount?: SortOrder
+    virtualAccountNo?: SortOrder
+    paymentUrl?: SortOrder
+    destinationBank?: SortOrder
+    destinationAccountNumber?: SortOrder
+    destinationAccountName?: SortOrder
+    expiredAt?: SortOrder
+    paidAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DokuPaymentSumOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type EnumDokuDirectionWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DokuDirection | EnumDokuDirectionFieldRefInput<$PrismaModel>
+    in?: $Enums.DokuDirection[] | ListEnumDokuDirectionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DokuDirection[] | ListEnumDokuDirectionFieldRefInput<$PrismaModel>
+    not?: NestedEnumDokuDirectionWithAggregatesFilter<$PrismaModel> | $Enums.DokuDirection
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDokuDirectionFilter<$PrismaModel>
+    _max?: NestedEnumDokuDirectionFilter<$PrismaModel>
+  }
+
+  export type EnumDokuPaymentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DokuPaymentStatus | EnumDokuPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DokuPaymentStatus[] | ListEnumDokuPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DokuPaymentStatus[] | ListEnumDokuPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDokuPaymentStatusWithAggregatesFilter<$PrismaModel> | $Enums.DokuPaymentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDokuPaymentStatusFilter<$PrismaModel>
+    _max?: NestedEnumDokuPaymentStatusFilter<$PrismaModel>
   }
 
   export type BigIntNullableFilter<$PrismaModel = never> = {
@@ -36741,6 +41615,47 @@ export namespace Prisma {
   export type BusinessUpdateSumOrderByAggregateInput = {
     revenue?: SortOrder
     expenses?: SortOrder
+  }
+
+  export type MonitoringReportCountOrderByAggregateInput = {
+    id?: SortOrder
+    umkmProfileId?: SortOrder
+    tanggal?: SortOrder
+    omzet?: SortOrder
+    penggunaan?: SortOrder
+    catatan?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MonitoringReportAvgOrderByAggregateInput = {
+    omzet?: SortOrder
+  }
+
+  export type MonitoringReportMaxOrderByAggregateInput = {
+    id?: SortOrder
+    umkmProfileId?: SortOrder
+    tanggal?: SortOrder
+    omzet?: SortOrder
+    penggunaan?: SortOrder
+    catatan?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MonitoringReportMinOrderByAggregateInput = {
+    id?: SortOrder
+    umkmProfileId?: SortOrder
+    tanggal?: SortOrder
+    omzet?: SortOrder
+    penggunaan?: SortOrder
+    catatan?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MonitoringReportSumOrderByAggregateInput = {
+    omzet?: SortOrder
   }
 
   export type EnumOtpPurposeFilter<$PrismaModel = never> = {
@@ -37432,6 +42347,20 @@ export namespace Prisma {
     connect?: FundingApplicationWhereUniqueInput | FundingApplicationWhereUniqueInput[]
   }
 
+  export type UmkmMediaCreateNestedManyWithoutUmkmProfileInput = {
+    create?: XOR<UmkmMediaCreateWithoutUmkmProfileInput, UmkmMediaUncheckedCreateWithoutUmkmProfileInput> | UmkmMediaCreateWithoutUmkmProfileInput[] | UmkmMediaUncheckedCreateWithoutUmkmProfileInput[]
+    connectOrCreate?: UmkmMediaCreateOrConnectWithoutUmkmProfileInput | UmkmMediaCreateOrConnectWithoutUmkmProfileInput[]
+    createMany?: UmkmMediaCreateManyUmkmProfileInputEnvelope
+    connect?: UmkmMediaWhereUniqueInput | UmkmMediaWhereUniqueInput[]
+  }
+
+  export type MonitoringReportCreateNestedManyWithoutUmkmProfileInput = {
+    create?: XOR<MonitoringReportCreateWithoutUmkmProfileInput, MonitoringReportUncheckedCreateWithoutUmkmProfileInput> | MonitoringReportCreateWithoutUmkmProfileInput[] | MonitoringReportUncheckedCreateWithoutUmkmProfileInput[]
+    connectOrCreate?: MonitoringReportCreateOrConnectWithoutUmkmProfileInput | MonitoringReportCreateOrConnectWithoutUmkmProfileInput[]
+    createMany?: MonitoringReportCreateManyUmkmProfileInputEnvelope
+    connect?: MonitoringReportWhereUniqueInput | MonitoringReportWhereUniqueInput[]
+  }
+
   export type UserCreateNestedOneWithoutUmkmProfileInput = {
     create?: XOR<UserCreateWithoutUmkmProfileInput, UserUncheckedCreateWithoutUmkmProfileInput>
     connectOrCreate?: UserCreateOrConnectWithoutUmkmProfileInput
@@ -37471,6 +42400,20 @@ export namespace Prisma {
     connectOrCreate?: FundingApplicationCreateOrConnectWithoutUmkmProfileInput | FundingApplicationCreateOrConnectWithoutUmkmProfileInput[]
     createMany?: FundingApplicationCreateManyUmkmProfileInputEnvelope
     connect?: FundingApplicationWhereUniqueInput | FundingApplicationWhereUniqueInput[]
+  }
+
+  export type UmkmMediaUncheckedCreateNestedManyWithoutUmkmProfileInput = {
+    create?: XOR<UmkmMediaCreateWithoutUmkmProfileInput, UmkmMediaUncheckedCreateWithoutUmkmProfileInput> | UmkmMediaCreateWithoutUmkmProfileInput[] | UmkmMediaUncheckedCreateWithoutUmkmProfileInput[]
+    connectOrCreate?: UmkmMediaCreateOrConnectWithoutUmkmProfileInput | UmkmMediaCreateOrConnectWithoutUmkmProfileInput[]
+    createMany?: UmkmMediaCreateManyUmkmProfileInputEnvelope
+    connect?: UmkmMediaWhereUniqueInput | UmkmMediaWhereUniqueInput[]
+  }
+
+  export type MonitoringReportUncheckedCreateNestedManyWithoutUmkmProfileInput = {
+    create?: XOR<MonitoringReportCreateWithoutUmkmProfileInput, MonitoringReportUncheckedCreateWithoutUmkmProfileInput> | MonitoringReportCreateWithoutUmkmProfileInput[] | MonitoringReportUncheckedCreateWithoutUmkmProfileInput[]
+    connectOrCreate?: MonitoringReportCreateOrConnectWithoutUmkmProfileInput | MonitoringReportCreateOrConnectWithoutUmkmProfileInput[]
+    createMany?: MonitoringReportCreateManyUmkmProfileInputEnvelope
+    connect?: MonitoringReportWhereUniqueInput | MonitoringReportWhereUniqueInput[]
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -37559,6 +42502,34 @@ export namespace Prisma {
     deleteMany?: FundingApplicationScalarWhereInput | FundingApplicationScalarWhereInput[]
   }
 
+  export type UmkmMediaUpdateManyWithoutUmkmProfileNestedInput = {
+    create?: XOR<UmkmMediaCreateWithoutUmkmProfileInput, UmkmMediaUncheckedCreateWithoutUmkmProfileInput> | UmkmMediaCreateWithoutUmkmProfileInput[] | UmkmMediaUncheckedCreateWithoutUmkmProfileInput[]
+    connectOrCreate?: UmkmMediaCreateOrConnectWithoutUmkmProfileInput | UmkmMediaCreateOrConnectWithoutUmkmProfileInput[]
+    upsert?: UmkmMediaUpsertWithWhereUniqueWithoutUmkmProfileInput | UmkmMediaUpsertWithWhereUniqueWithoutUmkmProfileInput[]
+    createMany?: UmkmMediaCreateManyUmkmProfileInputEnvelope
+    set?: UmkmMediaWhereUniqueInput | UmkmMediaWhereUniqueInput[]
+    disconnect?: UmkmMediaWhereUniqueInput | UmkmMediaWhereUniqueInput[]
+    delete?: UmkmMediaWhereUniqueInput | UmkmMediaWhereUniqueInput[]
+    connect?: UmkmMediaWhereUniqueInput | UmkmMediaWhereUniqueInput[]
+    update?: UmkmMediaUpdateWithWhereUniqueWithoutUmkmProfileInput | UmkmMediaUpdateWithWhereUniqueWithoutUmkmProfileInput[]
+    updateMany?: UmkmMediaUpdateManyWithWhereWithoutUmkmProfileInput | UmkmMediaUpdateManyWithWhereWithoutUmkmProfileInput[]
+    deleteMany?: UmkmMediaScalarWhereInput | UmkmMediaScalarWhereInput[]
+  }
+
+  export type MonitoringReportUpdateManyWithoutUmkmProfileNestedInput = {
+    create?: XOR<MonitoringReportCreateWithoutUmkmProfileInput, MonitoringReportUncheckedCreateWithoutUmkmProfileInput> | MonitoringReportCreateWithoutUmkmProfileInput[] | MonitoringReportUncheckedCreateWithoutUmkmProfileInput[]
+    connectOrCreate?: MonitoringReportCreateOrConnectWithoutUmkmProfileInput | MonitoringReportCreateOrConnectWithoutUmkmProfileInput[]
+    upsert?: MonitoringReportUpsertWithWhereUniqueWithoutUmkmProfileInput | MonitoringReportUpsertWithWhereUniqueWithoutUmkmProfileInput[]
+    createMany?: MonitoringReportCreateManyUmkmProfileInputEnvelope
+    set?: MonitoringReportWhereUniqueInput | MonitoringReportWhereUniqueInput[]
+    disconnect?: MonitoringReportWhereUniqueInput | MonitoringReportWhereUniqueInput[]
+    delete?: MonitoringReportWhereUniqueInput | MonitoringReportWhereUniqueInput[]
+    connect?: MonitoringReportWhereUniqueInput | MonitoringReportWhereUniqueInput[]
+    update?: MonitoringReportUpdateWithWhereUniqueWithoutUmkmProfileInput | MonitoringReportUpdateWithWhereUniqueWithoutUmkmProfileInput[]
+    updateMany?: MonitoringReportUpdateManyWithWhereWithoutUmkmProfileInput | MonitoringReportUpdateManyWithWhereWithoutUmkmProfileInput[]
+    deleteMany?: MonitoringReportScalarWhereInput | MonitoringReportScalarWhereInput[]
+  }
+
   export type UserUpdateOneRequiredWithoutUmkmProfileNestedInput = {
     create?: XOR<UserCreateWithoutUmkmProfileInput, UserUncheckedCreateWithoutUmkmProfileInput>
     connectOrCreate?: UserCreateOrConnectWithoutUmkmProfileInput
@@ -37635,6 +42606,52 @@ export namespace Prisma {
     update?: FundingApplicationUpdateWithWhereUniqueWithoutUmkmProfileInput | FundingApplicationUpdateWithWhereUniqueWithoutUmkmProfileInput[]
     updateMany?: FundingApplicationUpdateManyWithWhereWithoutUmkmProfileInput | FundingApplicationUpdateManyWithWhereWithoutUmkmProfileInput[]
     deleteMany?: FundingApplicationScalarWhereInput | FundingApplicationScalarWhereInput[]
+  }
+
+  export type UmkmMediaUncheckedUpdateManyWithoutUmkmProfileNestedInput = {
+    create?: XOR<UmkmMediaCreateWithoutUmkmProfileInput, UmkmMediaUncheckedCreateWithoutUmkmProfileInput> | UmkmMediaCreateWithoutUmkmProfileInput[] | UmkmMediaUncheckedCreateWithoutUmkmProfileInput[]
+    connectOrCreate?: UmkmMediaCreateOrConnectWithoutUmkmProfileInput | UmkmMediaCreateOrConnectWithoutUmkmProfileInput[]
+    upsert?: UmkmMediaUpsertWithWhereUniqueWithoutUmkmProfileInput | UmkmMediaUpsertWithWhereUniqueWithoutUmkmProfileInput[]
+    createMany?: UmkmMediaCreateManyUmkmProfileInputEnvelope
+    set?: UmkmMediaWhereUniqueInput | UmkmMediaWhereUniqueInput[]
+    disconnect?: UmkmMediaWhereUniqueInput | UmkmMediaWhereUniqueInput[]
+    delete?: UmkmMediaWhereUniqueInput | UmkmMediaWhereUniqueInput[]
+    connect?: UmkmMediaWhereUniqueInput | UmkmMediaWhereUniqueInput[]
+    update?: UmkmMediaUpdateWithWhereUniqueWithoutUmkmProfileInput | UmkmMediaUpdateWithWhereUniqueWithoutUmkmProfileInput[]
+    updateMany?: UmkmMediaUpdateManyWithWhereWithoutUmkmProfileInput | UmkmMediaUpdateManyWithWhereWithoutUmkmProfileInput[]
+    deleteMany?: UmkmMediaScalarWhereInput | UmkmMediaScalarWhereInput[]
+  }
+
+  export type MonitoringReportUncheckedUpdateManyWithoutUmkmProfileNestedInput = {
+    create?: XOR<MonitoringReportCreateWithoutUmkmProfileInput, MonitoringReportUncheckedCreateWithoutUmkmProfileInput> | MonitoringReportCreateWithoutUmkmProfileInput[] | MonitoringReportUncheckedCreateWithoutUmkmProfileInput[]
+    connectOrCreate?: MonitoringReportCreateOrConnectWithoutUmkmProfileInput | MonitoringReportCreateOrConnectWithoutUmkmProfileInput[]
+    upsert?: MonitoringReportUpsertWithWhereUniqueWithoutUmkmProfileInput | MonitoringReportUpsertWithWhereUniqueWithoutUmkmProfileInput[]
+    createMany?: MonitoringReportCreateManyUmkmProfileInputEnvelope
+    set?: MonitoringReportWhereUniqueInput | MonitoringReportWhereUniqueInput[]
+    disconnect?: MonitoringReportWhereUniqueInput | MonitoringReportWhereUniqueInput[]
+    delete?: MonitoringReportWhereUniqueInput | MonitoringReportWhereUniqueInput[]
+    connect?: MonitoringReportWhereUniqueInput | MonitoringReportWhereUniqueInput[]
+    update?: MonitoringReportUpdateWithWhereUniqueWithoutUmkmProfileInput | MonitoringReportUpdateWithWhereUniqueWithoutUmkmProfileInput[]
+    updateMany?: MonitoringReportUpdateManyWithWhereWithoutUmkmProfileInput | MonitoringReportUpdateManyWithWhereWithoutUmkmProfileInput[]
+    deleteMany?: MonitoringReportScalarWhereInput | MonitoringReportScalarWhereInput[]
+  }
+
+  export type UmkmProfileCreateNestedOneWithoutMediaInput = {
+    create?: XOR<UmkmProfileCreateWithoutMediaInput, UmkmProfileUncheckedCreateWithoutMediaInput>
+    connectOrCreate?: UmkmProfileCreateOrConnectWithoutMediaInput
+    connect?: UmkmProfileWhereUniqueInput
+  }
+
+  export type EnumMediaTypeFieldUpdateOperationsInput = {
+    set?: $Enums.MediaType
+  }
+
+  export type UmkmProfileUpdateOneRequiredWithoutMediaNestedInput = {
+    create?: XOR<UmkmProfileCreateWithoutMediaInput, UmkmProfileUncheckedCreateWithoutMediaInput>
+    connectOrCreate?: UmkmProfileCreateOrConnectWithoutMediaInput
+    upsert?: UmkmProfileUpsertWithoutMediaInput
+    connect?: UmkmProfileWhereUniqueInput
+    update?: XOR<XOR<UmkmProfileUpdateToOneWithWhereWithoutMediaInput, UmkmProfileUpdateWithoutMediaInput>, UmkmProfileUncheckedUpdateWithoutMediaInput>
   }
 
   export type UserCreateNestedOneWithoutKycDocumentsInput = {
@@ -38181,6 +43198,12 @@ export namespace Prisma {
     connect?: FraudAlertWhereUniqueInput
   }
 
+  export type DokuPaymentCreateNestedOneWithoutTransactionInput = {
+    create?: XOR<DokuPaymentCreateWithoutTransactionInput, DokuPaymentUncheckedCreateWithoutTransactionInput>
+    connectOrCreate?: DokuPaymentCreateOrConnectWithoutTransactionInput
+    connect?: DokuPaymentWhereUniqueInput
+  }
+
   export type WalletCreateNestedOneWithoutTransactionsInput = {
     create?: XOR<WalletCreateWithoutTransactionsInput, WalletUncheckedCreateWithoutTransactionsInput>
     connectOrCreate?: WalletCreateOrConnectWithoutTransactionsInput
@@ -38191,6 +43214,12 @@ export namespace Prisma {
     create?: XOR<FraudAlertCreateWithoutTransactionInput, FraudAlertUncheckedCreateWithoutTransactionInput>
     connectOrCreate?: FraudAlertCreateOrConnectWithoutTransactionInput
     connect?: FraudAlertWhereUniqueInput
+  }
+
+  export type DokuPaymentUncheckedCreateNestedOneWithoutTransactionInput = {
+    create?: XOR<DokuPaymentCreateWithoutTransactionInput, DokuPaymentUncheckedCreateWithoutTransactionInput>
+    connectOrCreate?: DokuPaymentCreateOrConnectWithoutTransactionInput
+    connect?: DokuPaymentWhereUniqueInput
   }
 
   export type EnumTransactionTypeFieldUpdateOperationsInput = {
@@ -38211,6 +43240,16 @@ export namespace Prisma {
     update?: XOR<XOR<FraudAlertUpdateToOneWithWhereWithoutTransactionInput, FraudAlertUpdateWithoutTransactionInput>, FraudAlertUncheckedUpdateWithoutTransactionInput>
   }
 
+  export type DokuPaymentUpdateOneWithoutTransactionNestedInput = {
+    create?: XOR<DokuPaymentCreateWithoutTransactionInput, DokuPaymentUncheckedCreateWithoutTransactionInput>
+    connectOrCreate?: DokuPaymentCreateOrConnectWithoutTransactionInput
+    upsert?: DokuPaymentUpsertWithoutTransactionInput
+    disconnect?: DokuPaymentWhereInput | boolean
+    delete?: DokuPaymentWhereInput | boolean
+    connect?: DokuPaymentWhereUniqueInput
+    update?: XOR<XOR<DokuPaymentUpdateToOneWithWhereWithoutTransactionInput, DokuPaymentUpdateWithoutTransactionInput>, DokuPaymentUncheckedUpdateWithoutTransactionInput>
+  }
+
   export type WalletUpdateOneRequiredWithoutTransactionsNestedInput = {
     create?: XOR<WalletCreateWithoutTransactionsInput, WalletUncheckedCreateWithoutTransactionsInput>
     connectOrCreate?: WalletCreateOrConnectWithoutTransactionsInput
@@ -38227,6 +43266,38 @@ export namespace Prisma {
     delete?: FraudAlertWhereInput | boolean
     connect?: FraudAlertWhereUniqueInput
     update?: XOR<XOR<FraudAlertUpdateToOneWithWhereWithoutTransactionInput, FraudAlertUpdateWithoutTransactionInput>, FraudAlertUncheckedUpdateWithoutTransactionInput>
+  }
+
+  export type DokuPaymentUncheckedUpdateOneWithoutTransactionNestedInput = {
+    create?: XOR<DokuPaymentCreateWithoutTransactionInput, DokuPaymentUncheckedCreateWithoutTransactionInput>
+    connectOrCreate?: DokuPaymentCreateOrConnectWithoutTransactionInput
+    upsert?: DokuPaymentUpsertWithoutTransactionInput
+    disconnect?: DokuPaymentWhereInput | boolean
+    delete?: DokuPaymentWhereInput | boolean
+    connect?: DokuPaymentWhereUniqueInput
+    update?: XOR<XOR<DokuPaymentUpdateToOneWithWhereWithoutTransactionInput, DokuPaymentUpdateWithoutTransactionInput>, DokuPaymentUncheckedUpdateWithoutTransactionInput>
+  }
+
+  export type TransactionCreateNestedOneWithoutDokuPaymentInput = {
+    create?: XOR<TransactionCreateWithoutDokuPaymentInput, TransactionUncheckedCreateWithoutDokuPaymentInput>
+    connectOrCreate?: TransactionCreateOrConnectWithoutDokuPaymentInput
+    connect?: TransactionWhereUniqueInput
+  }
+
+  export type EnumDokuDirectionFieldUpdateOperationsInput = {
+    set?: $Enums.DokuDirection
+  }
+
+  export type EnumDokuPaymentStatusFieldUpdateOperationsInput = {
+    set?: $Enums.DokuPaymentStatus
+  }
+
+  export type TransactionUpdateOneRequiredWithoutDokuPaymentNestedInput = {
+    create?: XOR<TransactionCreateWithoutDokuPaymentInput, TransactionUncheckedCreateWithoutDokuPaymentInput>
+    connectOrCreate?: TransactionCreateOrConnectWithoutDokuPaymentInput
+    upsert?: TransactionUpsertWithoutDokuPaymentInput
+    connect?: TransactionWhereUniqueInput
+    update?: XOR<XOR<TransactionUpdateToOneWithWhereWithoutDokuPaymentInput, TransactionUpdateWithoutDokuPaymentInput>, TransactionUncheckedUpdateWithoutDokuPaymentInput>
   }
 
   export type AkadCreateNestedOneWithoutBlockchainTransactionsInput = {
@@ -38319,6 +43390,20 @@ export namespace Prisma {
     upsert?: UmkmProfileUpsertWithoutBusinessUpdatesInput
     connect?: UmkmProfileWhereUniqueInput
     update?: XOR<XOR<UmkmProfileUpdateToOneWithWhereWithoutBusinessUpdatesInput, UmkmProfileUpdateWithoutBusinessUpdatesInput>, UmkmProfileUncheckedUpdateWithoutBusinessUpdatesInput>
+  }
+
+  export type UmkmProfileCreateNestedOneWithoutMonitoringReportsInput = {
+    create?: XOR<UmkmProfileCreateWithoutMonitoringReportsInput, UmkmProfileUncheckedCreateWithoutMonitoringReportsInput>
+    connectOrCreate?: UmkmProfileCreateOrConnectWithoutMonitoringReportsInput
+    connect?: UmkmProfileWhereUniqueInput
+  }
+
+  export type UmkmProfileUpdateOneRequiredWithoutMonitoringReportsNestedInput = {
+    create?: XOR<UmkmProfileCreateWithoutMonitoringReportsInput, UmkmProfileUncheckedCreateWithoutMonitoringReportsInput>
+    connectOrCreate?: UmkmProfileCreateOrConnectWithoutMonitoringReportsInput
+    upsert?: UmkmProfileUpsertWithoutMonitoringReportsInput
+    connect?: UmkmProfileWhereUniqueInput
+    update?: XOR<XOR<UmkmProfileUpdateToOneWithWhereWithoutMonitoringReportsInput, UmkmProfileUpdateWithoutMonitoringReportsInput>, UmkmProfileUncheckedUpdateWithoutMonitoringReportsInput>
   }
 
   export type UserCreateNestedOneWithoutOtpVerificationsInput = {
@@ -38665,6 +43750,23 @@ export namespace Prisma {
     _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumMediaTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.MediaType | EnumMediaTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.MediaType[] | ListEnumMediaTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MediaType[] | ListEnumMediaTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumMediaTypeFilter<$PrismaModel> | $Enums.MediaType
+  }
+
+  export type NestedEnumMediaTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.MediaType | EnumMediaTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.MediaType[] | ListEnumMediaTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MediaType[] | ListEnumMediaTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumMediaTypeWithAggregatesFilter<$PrismaModel> | $Enums.MediaType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumMediaTypeFilter<$PrismaModel>
+    _max?: NestedEnumMediaTypeFilter<$PrismaModel>
+  }
+
   export type NestedFloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -38873,6 +43975,40 @@ export namespace Prisma {
     _max?: NestedEnumTransactionStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumDokuDirectionFilter<$PrismaModel = never> = {
+    equals?: $Enums.DokuDirection | EnumDokuDirectionFieldRefInput<$PrismaModel>
+    in?: $Enums.DokuDirection[] | ListEnumDokuDirectionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DokuDirection[] | ListEnumDokuDirectionFieldRefInput<$PrismaModel>
+    not?: NestedEnumDokuDirectionFilter<$PrismaModel> | $Enums.DokuDirection
+  }
+
+  export type NestedEnumDokuPaymentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.DokuPaymentStatus | EnumDokuPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DokuPaymentStatus[] | ListEnumDokuPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DokuPaymentStatus[] | ListEnumDokuPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDokuPaymentStatusFilter<$PrismaModel> | $Enums.DokuPaymentStatus
+  }
+
+  export type NestedEnumDokuDirectionWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DokuDirection | EnumDokuDirectionFieldRefInput<$PrismaModel>
+    in?: $Enums.DokuDirection[] | ListEnumDokuDirectionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DokuDirection[] | ListEnumDokuDirectionFieldRefInput<$PrismaModel>
+    not?: NestedEnumDokuDirectionWithAggregatesFilter<$PrismaModel> | $Enums.DokuDirection
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDokuDirectionFilter<$PrismaModel>
+    _max?: NestedEnumDokuDirectionFilter<$PrismaModel>
+  }
+
+  export type NestedEnumDokuPaymentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DokuPaymentStatus | EnumDokuPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DokuPaymentStatus[] | ListEnumDokuPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DokuPaymentStatus[] | ListEnumDokuPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDokuPaymentStatusWithAggregatesFilter<$PrismaModel> | $Enums.DokuPaymentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDokuPaymentStatusFilter<$PrismaModel>
+    _max?: NestedEnumDokuPaymentStatusFilter<$PrismaModel>
+  }
+
   export type NestedBigIntNullableFilter<$PrismaModel = never> = {
     equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
     in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
@@ -39015,6 +44151,8 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     province?: string | null
+    district?: string | null
+    postalCode?: string | null
     investmentGoal?: string | null
     riskTolerance?: $Enums.RiskLevel
     totalInvested?: Decimal | DecimalJsLike | number | string
@@ -39031,6 +44169,8 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     province?: string | null
+    district?: string | null
+    postalCode?: string | null
     investmentGoal?: string | null
     riskTolerance?: $Enums.RiskLevel
     totalInvested?: Decimal | DecimalJsLike | number | string
@@ -39186,6 +44326,8 @@ export namespace Prisma {
     location?: string | null
     city?: string | null
     province?: string | null
+    district?: string | null
+    postalCode?: string | null
     establishedDate?: Date | string | null
     employeeCount?: number | null
     monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
@@ -39198,6 +44340,8 @@ export namespace Prisma {
     campaigns?: CampaignCreateNestedManyWithoutUmkmProfileInput
     creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
     fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
+    media?: UmkmMediaCreateNestedManyWithoutUmkmProfileInput
+    monitoringReports?: MonitoringReportCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileUncheckedCreateWithoutUserInput = {
@@ -39209,6 +44353,8 @@ export namespace Prisma {
     location?: string | null
     city?: string | null
     province?: string | null
+    district?: string | null
+    postalCode?: string | null
     establishedDate?: Date | string | null
     employeeCount?: number | null
     monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
@@ -39221,6 +44367,8 @@ export namespace Prisma {
     campaigns?: CampaignUncheckedCreateNestedManyWithoutUmkmProfileInput
     creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
     fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
+    media?: UmkmMediaUncheckedCreateNestedManyWithoutUmkmProfileInput
+    monitoringReports?: MonitoringReportUncheckedCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileCreateOrConnectWithoutUserInput = {
@@ -39368,6 +44516,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     investmentGoal?: NullableStringFieldUpdateOperationsInput | string | null
     riskTolerance?: EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
     totalInvested?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -39384,6 +44534,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     investmentGoal?: NullableStringFieldUpdateOperationsInput | string | null
     riskTolerance?: EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
     totalInvested?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -39523,6 +44675,8 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
     monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -39535,6 +44689,8 @@ export namespace Prisma {
     campaigns?: CampaignUpdateManyWithoutUmkmProfileNestedInput
     creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
     fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
+    media?: UmkmMediaUpdateManyWithoutUmkmProfileNestedInput
+    monitoringReports?: MonitoringReportUpdateManyWithoutUmkmProfileNestedInput
   }
 
   export type UmkmProfileUncheckedUpdateWithoutUserInput = {
@@ -39546,6 +44702,8 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
     monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -39558,6 +44716,8 @@ export namespace Prisma {
     campaigns?: CampaignUncheckedUpdateManyWithoutUmkmProfileNestedInput
     creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
     fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    media?: UmkmMediaUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    monitoringReports?: MonitoringReportUncheckedUpdateManyWithoutUmkmProfileNestedInput
   }
 
   export type WalletUpsertWithoutUserInput = {
@@ -40112,6 +45272,62 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UmkmMediaCreateWithoutUmkmProfileInput = {
+    id?: string
+    type: $Enums.MediaType
+    url: string
+    caption?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UmkmMediaUncheckedCreateWithoutUmkmProfileInput = {
+    id?: string
+    type: $Enums.MediaType
+    url: string
+    caption?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UmkmMediaCreateOrConnectWithoutUmkmProfileInput = {
+    where: UmkmMediaWhereUniqueInput
+    create: XOR<UmkmMediaCreateWithoutUmkmProfileInput, UmkmMediaUncheckedCreateWithoutUmkmProfileInput>
+  }
+
+  export type UmkmMediaCreateManyUmkmProfileInputEnvelope = {
+    data: UmkmMediaCreateManyUmkmProfileInput | UmkmMediaCreateManyUmkmProfileInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MonitoringReportCreateWithoutUmkmProfileInput = {
+    id?: string
+    tanggal?: Date | string
+    omzet: Decimal | DecimalJsLike | number | string
+    penggunaan: string
+    catatan?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MonitoringReportUncheckedCreateWithoutUmkmProfileInput = {
+    id?: string
+    tanggal?: Date | string
+    omzet: Decimal | DecimalJsLike | number | string
+    penggunaan: string
+    catatan?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MonitoringReportCreateOrConnectWithoutUmkmProfileInput = {
+    where: MonitoringReportWhereUniqueInput
+    create: XOR<MonitoringReportCreateWithoutUmkmProfileInput, MonitoringReportUncheckedCreateWithoutUmkmProfileInput>
+  }
+
+  export type MonitoringReportCreateManyUmkmProfileInputEnvelope = {
+    data: MonitoringReportCreateManyUmkmProfileInput | MonitoringReportCreateManyUmkmProfileInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserCreateWithoutUmkmProfileInput = {
     id?: string
     email?: string | null
@@ -40333,6 +45549,64 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"FundingApplication"> | Date | string
   }
 
+  export type UmkmMediaUpsertWithWhereUniqueWithoutUmkmProfileInput = {
+    where: UmkmMediaWhereUniqueInput
+    update: XOR<UmkmMediaUpdateWithoutUmkmProfileInput, UmkmMediaUncheckedUpdateWithoutUmkmProfileInput>
+    create: XOR<UmkmMediaCreateWithoutUmkmProfileInput, UmkmMediaUncheckedCreateWithoutUmkmProfileInput>
+  }
+
+  export type UmkmMediaUpdateWithWhereUniqueWithoutUmkmProfileInput = {
+    where: UmkmMediaWhereUniqueInput
+    data: XOR<UmkmMediaUpdateWithoutUmkmProfileInput, UmkmMediaUncheckedUpdateWithoutUmkmProfileInput>
+  }
+
+  export type UmkmMediaUpdateManyWithWhereWithoutUmkmProfileInput = {
+    where: UmkmMediaScalarWhereInput
+    data: XOR<UmkmMediaUpdateManyMutationInput, UmkmMediaUncheckedUpdateManyWithoutUmkmProfileInput>
+  }
+
+  export type UmkmMediaScalarWhereInput = {
+    AND?: UmkmMediaScalarWhereInput | UmkmMediaScalarWhereInput[]
+    OR?: UmkmMediaScalarWhereInput[]
+    NOT?: UmkmMediaScalarWhereInput | UmkmMediaScalarWhereInput[]
+    id?: StringFilter<"UmkmMedia"> | string
+    umkmProfileId?: StringFilter<"UmkmMedia"> | string
+    type?: EnumMediaTypeFilter<"UmkmMedia"> | $Enums.MediaType
+    url?: StringFilter<"UmkmMedia"> | string
+    caption?: StringNullableFilter<"UmkmMedia"> | string | null
+    createdAt?: DateTimeFilter<"UmkmMedia"> | Date | string
+  }
+
+  export type MonitoringReportUpsertWithWhereUniqueWithoutUmkmProfileInput = {
+    where: MonitoringReportWhereUniqueInput
+    update: XOR<MonitoringReportUpdateWithoutUmkmProfileInput, MonitoringReportUncheckedUpdateWithoutUmkmProfileInput>
+    create: XOR<MonitoringReportCreateWithoutUmkmProfileInput, MonitoringReportUncheckedCreateWithoutUmkmProfileInput>
+  }
+
+  export type MonitoringReportUpdateWithWhereUniqueWithoutUmkmProfileInput = {
+    where: MonitoringReportWhereUniqueInput
+    data: XOR<MonitoringReportUpdateWithoutUmkmProfileInput, MonitoringReportUncheckedUpdateWithoutUmkmProfileInput>
+  }
+
+  export type MonitoringReportUpdateManyWithWhereWithoutUmkmProfileInput = {
+    where: MonitoringReportScalarWhereInput
+    data: XOR<MonitoringReportUpdateManyMutationInput, MonitoringReportUncheckedUpdateManyWithoutUmkmProfileInput>
+  }
+
+  export type MonitoringReportScalarWhereInput = {
+    AND?: MonitoringReportScalarWhereInput | MonitoringReportScalarWhereInput[]
+    OR?: MonitoringReportScalarWhereInput[]
+    NOT?: MonitoringReportScalarWhereInput | MonitoringReportScalarWhereInput[]
+    id?: StringFilter<"MonitoringReport"> | string
+    umkmProfileId?: StringFilter<"MonitoringReport"> | string
+    tanggal?: DateTimeFilter<"MonitoringReport"> | Date | string
+    omzet?: DecimalFilter<"MonitoringReport"> | Decimal | DecimalJsLike | number | string
+    penggunaan?: StringFilter<"MonitoringReport"> | string
+    catatan?: StringNullableFilter<"MonitoringReport"> | string | null
+    createdAt?: DateTimeFilter<"MonitoringReport"> | Date | string
+    updatedAt?: DateTimeFilter<"MonitoringReport"> | Date | string
+  }
+
   export type UserUpsertWithoutUmkmProfileInput = {
     update: XOR<UserUpdateWithoutUmkmProfileInput, UserUncheckedUpdateWithoutUmkmProfileInput>
     create: XOR<UserCreateWithoutUmkmProfileInput, UserUncheckedCreateWithoutUmkmProfileInput>
@@ -40390,6 +45664,130 @@ export namespace Prisma {
     otpVerifications?: OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
     wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
     beritas?: BeritaUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UmkmProfileCreateWithoutMediaInput = {
+    id?: string
+    ownerName: string
+    businessName: string
+    businessCategory: string
+    businessDescription?: string | null
+    location?: string | null
+    city?: string | null
+    province?: string | null
+    district?: string | null
+    postalCode?: string | null
+    establishedDate?: Date | string | null
+    employeeCount?: number | null
+    monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
+    website?: string | null
+    socialMedia?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    businessData?: BusinessDataCreateNestedManyWithoutUmkmProfileInput
+    businessUpdates?: BusinessUpdateCreateNestedManyWithoutUmkmProfileInput
+    campaigns?: CampaignCreateNestedManyWithoutUmkmProfileInput
+    creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
+    fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
+    monitoringReports?: MonitoringReportCreateNestedManyWithoutUmkmProfileInput
+    user: UserCreateNestedOneWithoutUmkmProfileInput
+  }
+
+  export type UmkmProfileUncheckedCreateWithoutMediaInput = {
+    id?: string
+    userId: string
+    ownerName: string
+    businessName: string
+    businessCategory: string
+    businessDescription?: string | null
+    location?: string | null
+    city?: string | null
+    province?: string | null
+    district?: string | null
+    postalCode?: string | null
+    establishedDate?: Date | string | null
+    employeeCount?: number | null
+    monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
+    website?: string | null
+    socialMedia?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    businessData?: BusinessDataUncheckedCreateNestedManyWithoutUmkmProfileInput
+    businessUpdates?: BusinessUpdateUncheckedCreateNestedManyWithoutUmkmProfileInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutUmkmProfileInput
+    creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
+    fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
+    monitoringReports?: MonitoringReportUncheckedCreateNestedManyWithoutUmkmProfileInput
+  }
+
+  export type UmkmProfileCreateOrConnectWithoutMediaInput = {
+    where: UmkmProfileWhereUniqueInput
+    create: XOR<UmkmProfileCreateWithoutMediaInput, UmkmProfileUncheckedCreateWithoutMediaInput>
+  }
+
+  export type UmkmProfileUpsertWithoutMediaInput = {
+    update: XOR<UmkmProfileUpdateWithoutMediaInput, UmkmProfileUncheckedUpdateWithoutMediaInput>
+    create: XOR<UmkmProfileCreateWithoutMediaInput, UmkmProfileUncheckedCreateWithoutMediaInput>
+    where?: UmkmProfileWhereInput
+  }
+
+  export type UmkmProfileUpdateToOneWithWhereWithoutMediaInput = {
+    where?: UmkmProfileWhereInput
+    data: XOR<UmkmProfileUpdateWithoutMediaInput, UmkmProfileUncheckedUpdateWithoutMediaInput>
+  }
+
+  export type UmkmProfileUpdateWithoutMediaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerName?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    businessCategory?: StringFieldUpdateOperationsInput | string
+    businessDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
+    monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    businessData?: BusinessDataUpdateManyWithoutUmkmProfileNestedInput
+    businessUpdates?: BusinessUpdateUpdateManyWithoutUmkmProfileNestedInput
+    campaigns?: CampaignUpdateManyWithoutUmkmProfileNestedInput
+    creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
+    fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
+    monitoringReports?: MonitoringReportUpdateManyWithoutUmkmProfileNestedInput
+    user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
+  }
+
+  export type UmkmProfileUncheckedUpdateWithoutMediaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    ownerName?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    businessCategory?: StringFieldUpdateOperationsInput | string
+    businessDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
+    monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    businessData?: BusinessDataUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    businessUpdates?: BusinessUpdateUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    monitoringReports?: MonitoringReportUncheckedUpdateManyWithoutUmkmProfileNestedInput
   }
 
   export type UserCreateWithoutKycDocumentsInput = {
@@ -40513,6 +45911,8 @@ export namespace Prisma {
     location?: string | null
     city?: string | null
     province?: string | null
+    district?: string | null
+    postalCode?: string | null
     establishedDate?: Date | string | null
     employeeCount?: number | null
     monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
@@ -40524,6 +45924,8 @@ export namespace Prisma {
     businessUpdates?: BusinessUpdateCreateNestedManyWithoutUmkmProfileInput
     campaigns?: CampaignCreateNestedManyWithoutUmkmProfileInput
     fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
+    media?: UmkmMediaCreateNestedManyWithoutUmkmProfileInput
+    monitoringReports?: MonitoringReportCreateNestedManyWithoutUmkmProfileInput
     user: UserCreateNestedOneWithoutUmkmProfileInput
   }
 
@@ -40537,6 +45939,8 @@ export namespace Prisma {
     location?: string | null
     city?: string | null
     province?: string | null
+    district?: string | null
+    postalCode?: string | null
     establishedDate?: Date | string | null
     employeeCount?: number | null
     monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
@@ -40548,6 +45952,8 @@ export namespace Prisma {
     businessUpdates?: BusinessUpdateUncheckedCreateNestedManyWithoutUmkmProfileInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutUmkmProfileInput
     fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
+    media?: UmkmMediaUncheckedCreateNestedManyWithoutUmkmProfileInput
+    monitoringReports?: MonitoringReportUncheckedCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileCreateOrConnectWithoutCreditScoresInput = {
@@ -40575,6 +45981,8 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
     monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -40586,6 +45994,8 @@ export namespace Prisma {
     businessUpdates?: BusinessUpdateUpdateManyWithoutUmkmProfileNestedInput
     campaigns?: CampaignUpdateManyWithoutUmkmProfileNestedInput
     fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
+    media?: UmkmMediaUpdateManyWithoutUmkmProfileNestedInput
+    monitoringReports?: MonitoringReportUpdateManyWithoutUmkmProfileNestedInput
     user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
   }
 
@@ -40599,6 +46009,8 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
     monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -40610,6 +46022,8 @@ export namespace Prisma {
     businessUpdates?: BusinessUpdateUncheckedUpdateManyWithoutUmkmProfileNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutUmkmProfileNestedInput
     fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    media?: UmkmMediaUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    monitoringReports?: MonitoringReportUncheckedUpdateManyWithoutUmkmProfileNestedInput
   }
 
   export type UmkmProfileCreateWithoutBusinessDataInput = {
@@ -40621,6 +46035,8 @@ export namespace Prisma {
     location?: string | null
     city?: string | null
     province?: string | null
+    district?: string | null
+    postalCode?: string | null
     establishedDate?: Date | string | null
     employeeCount?: number | null
     monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
@@ -40632,6 +46048,8 @@ export namespace Prisma {
     campaigns?: CampaignCreateNestedManyWithoutUmkmProfileInput
     creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
     fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
+    media?: UmkmMediaCreateNestedManyWithoutUmkmProfileInput
+    monitoringReports?: MonitoringReportCreateNestedManyWithoutUmkmProfileInput
     user: UserCreateNestedOneWithoutUmkmProfileInput
   }
 
@@ -40645,6 +46063,8 @@ export namespace Prisma {
     location?: string | null
     city?: string | null
     province?: string | null
+    district?: string | null
+    postalCode?: string | null
     establishedDate?: Date | string | null
     employeeCount?: number | null
     monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
@@ -40656,6 +46076,8 @@ export namespace Prisma {
     campaigns?: CampaignUncheckedCreateNestedManyWithoutUmkmProfileInput
     creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
     fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
+    media?: UmkmMediaUncheckedCreateNestedManyWithoutUmkmProfileInput
+    monitoringReports?: MonitoringReportUncheckedCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileCreateOrConnectWithoutBusinessDataInput = {
@@ -40683,6 +46105,8 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
     monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -40694,6 +46118,8 @@ export namespace Prisma {
     campaigns?: CampaignUpdateManyWithoutUmkmProfileNestedInput
     creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
     fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
+    media?: UmkmMediaUpdateManyWithoutUmkmProfileNestedInput
+    monitoringReports?: MonitoringReportUpdateManyWithoutUmkmProfileNestedInput
     user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
   }
 
@@ -40707,6 +46133,8 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
     monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -40718,6 +46146,8 @@ export namespace Prisma {
     campaigns?: CampaignUncheckedUpdateManyWithoutUmkmProfileNestedInput
     creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
     fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    media?: UmkmMediaUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    monitoringReports?: MonitoringReportUncheckedUpdateManyWithoutUmkmProfileNestedInput
   }
 
   export type CampaignCreateWithoutFundingApplicationInput = {
@@ -40774,6 +46204,8 @@ export namespace Prisma {
     location?: string | null
     city?: string | null
     province?: string | null
+    district?: string | null
+    postalCode?: string | null
     establishedDate?: Date | string | null
     employeeCount?: number | null
     monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
@@ -40785,6 +46217,8 @@ export namespace Prisma {
     businessUpdates?: BusinessUpdateCreateNestedManyWithoutUmkmProfileInput
     campaigns?: CampaignCreateNestedManyWithoutUmkmProfileInput
     creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
+    media?: UmkmMediaCreateNestedManyWithoutUmkmProfileInput
+    monitoringReports?: MonitoringReportCreateNestedManyWithoutUmkmProfileInput
     user: UserCreateNestedOneWithoutUmkmProfileInput
   }
 
@@ -40798,6 +46232,8 @@ export namespace Prisma {
     location?: string | null
     city?: string | null
     province?: string | null
+    district?: string | null
+    postalCode?: string | null
     establishedDate?: Date | string | null
     employeeCount?: number | null
     monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
@@ -40809,6 +46245,8 @@ export namespace Prisma {
     businessUpdates?: BusinessUpdateUncheckedCreateNestedManyWithoutUmkmProfileInput
     campaigns?: CampaignUncheckedCreateNestedManyWithoutUmkmProfileInput
     creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
+    media?: UmkmMediaUncheckedCreateNestedManyWithoutUmkmProfileInput
+    monitoringReports?: MonitoringReportUncheckedCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileCreateOrConnectWithoutFundingApplicationsInput = {
@@ -40887,6 +46325,8 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
     monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -40898,6 +46338,8 @@ export namespace Prisma {
     businessUpdates?: BusinessUpdateUpdateManyWithoutUmkmProfileNestedInput
     campaigns?: CampaignUpdateManyWithoutUmkmProfileNestedInput
     creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
+    media?: UmkmMediaUpdateManyWithoutUmkmProfileNestedInput
+    monitoringReports?: MonitoringReportUpdateManyWithoutUmkmProfileNestedInput
     user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
   }
 
@@ -40911,6 +46353,8 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
     monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -40922,6 +46366,8 @@ export namespace Prisma {
     businessUpdates?: BusinessUpdateUncheckedUpdateManyWithoutUmkmProfileNestedInput
     campaigns?: CampaignUncheckedUpdateManyWithoutUmkmProfileNestedInput
     creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    media?: UmkmMediaUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    monitoringReports?: MonitoringReportUncheckedUpdateManyWithoutUmkmProfileNestedInput
   }
 
   export type AkadCreateWithoutCampaignInput = {
@@ -41032,6 +46478,8 @@ export namespace Prisma {
     location?: string | null
     city?: string | null
     province?: string | null
+    district?: string | null
+    postalCode?: string | null
     establishedDate?: Date | string | null
     employeeCount?: number | null
     monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
@@ -41043,6 +46491,8 @@ export namespace Prisma {
     businessUpdates?: BusinessUpdateCreateNestedManyWithoutUmkmProfileInput
     creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
     fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
+    media?: UmkmMediaCreateNestedManyWithoutUmkmProfileInput
+    monitoringReports?: MonitoringReportCreateNestedManyWithoutUmkmProfileInput
     user: UserCreateNestedOneWithoutUmkmProfileInput
   }
 
@@ -41056,6 +46506,8 @@ export namespace Prisma {
     location?: string | null
     city?: string | null
     province?: string | null
+    district?: string | null
+    postalCode?: string | null
     establishedDate?: Date | string | null
     employeeCount?: number | null
     monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
@@ -41067,6 +46519,8 @@ export namespace Prisma {
     businessUpdates?: BusinessUpdateUncheckedCreateNestedManyWithoutUmkmProfileInput
     creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
     fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
+    media?: UmkmMediaUncheckedCreateNestedManyWithoutUmkmProfileInput
+    monitoringReports?: MonitoringReportUncheckedCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileCreateOrConnectWithoutCampaignsInput = {
@@ -41221,6 +46675,8 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
     monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -41232,6 +46688,8 @@ export namespace Prisma {
     businessUpdates?: BusinessUpdateUpdateManyWithoutUmkmProfileNestedInput
     creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
     fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
+    media?: UmkmMediaUpdateManyWithoutUmkmProfileNestedInput
+    monitoringReports?: MonitoringReportUpdateManyWithoutUmkmProfileNestedInput
     user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
   }
 
@@ -41245,6 +46703,8 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
     monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -41256,6 +46716,8 @@ export namespace Prisma {
     businessUpdates?: BusinessUpdateUncheckedUpdateManyWithoutUmkmProfileNestedInput
     creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
     fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    media?: UmkmMediaUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    monitoringReports?: MonitoringReportUncheckedUpdateManyWithoutUmkmProfileNestedInput
   }
 
   export type InvestmentUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -41383,6 +46845,8 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     province?: string | null
+    district?: string | null
+    postalCode?: string | null
     investmentGoal?: string | null
     riskTolerance?: $Enums.RiskLevel
     totalInvested?: Decimal | DecimalJsLike | number | string
@@ -41400,6 +46864,8 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     province?: string | null
+    district?: string | null
+    postalCode?: string | null
     investmentGoal?: string | null
     riskTolerance?: $Enums.RiskLevel
     totalInvested?: Decimal | DecimalJsLike | number | string
@@ -41587,6 +47053,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     investmentGoal?: NullableStringFieldUpdateOperationsInput | string | null
     riskTolerance?: EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
     totalInvested?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -41604,6 +47072,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     investmentGoal?: NullableStringFieldUpdateOperationsInput | string | null
     riskTolerance?: EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
     totalInvested?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -42160,6 +47630,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     fraudAlert?: FraudAlertCreateNestedOneWithoutTransactionInput
+    dokuPayment?: DokuPaymentCreateNestedOneWithoutTransactionInput
   }
 
   export type TransactionUncheckedCreateWithoutWalletInput = {
@@ -42179,6 +47650,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     fraudAlert?: FraudAlertUncheckedCreateNestedOneWithoutTransactionInput
+    dokuPayment?: DokuPaymentUncheckedCreateNestedOneWithoutTransactionInput
   }
 
   export type TransactionCreateOrConnectWithoutWalletInput = {
@@ -42374,6 +47846,55 @@ export namespace Prisma {
     create: XOR<FraudAlertCreateWithoutTransactionInput, FraudAlertUncheckedCreateWithoutTransactionInput>
   }
 
+  export type DokuPaymentCreateWithoutTransactionInput = {
+    id?: string
+    direction: $Enums.DokuDirection
+    invoiceNumber: string
+    dokuRequestId?: string | null
+    channel?: string | null
+    status?: $Enums.DokuPaymentStatus
+    amount: Decimal | DecimalJsLike | number | string
+    virtualAccountNo?: string | null
+    paymentUrl?: string | null
+    destinationBank?: string | null
+    destinationAccountNumber?: string | null
+    destinationAccountName?: string | null
+    expiredAt?: Date | string | null
+    paidAt?: Date | string | null
+    rawRequest?: NullableJsonNullValueInput | InputJsonValue
+    rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    rawCallback?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DokuPaymentUncheckedCreateWithoutTransactionInput = {
+    id?: string
+    direction: $Enums.DokuDirection
+    invoiceNumber: string
+    dokuRequestId?: string | null
+    channel?: string | null
+    status?: $Enums.DokuPaymentStatus
+    amount: Decimal | DecimalJsLike | number | string
+    virtualAccountNo?: string | null
+    paymentUrl?: string | null
+    destinationBank?: string | null
+    destinationAccountNumber?: string | null
+    destinationAccountName?: string | null
+    expiredAt?: Date | string | null
+    paidAt?: Date | string | null
+    rawRequest?: NullableJsonNullValueInput | InputJsonValue
+    rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    rawCallback?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DokuPaymentCreateOrConnectWithoutTransactionInput = {
+    where: DokuPaymentWhereUniqueInput
+    create: XOR<DokuPaymentCreateWithoutTransactionInput, DokuPaymentUncheckedCreateWithoutTransactionInput>
+  }
+
   export type WalletCreateWithoutTransactionsInput = {
     id?: string
     balance?: Decimal | DecimalJsLike | number | string
@@ -42436,6 +47957,61 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type DokuPaymentUpsertWithoutTransactionInput = {
+    update: XOR<DokuPaymentUpdateWithoutTransactionInput, DokuPaymentUncheckedUpdateWithoutTransactionInput>
+    create: XOR<DokuPaymentCreateWithoutTransactionInput, DokuPaymentUncheckedCreateWithoutTransactionInput>
+    where?: DokuPaymentWhereInput
+  }
+
+  export type DokuPaymentUpdateToOneWithWhereWithoutTransactionInput = {
+    where?: DokuPaymentWhereInput
+    data: XOR<DokuPaymentUpdateWithoutTransactionInput, DokuPaymentUncheckedUpdateWithoutTransactionInput>
+  }
+
+  export type DokuPaymentUpdateWithoutTransactionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    direction?: EnumDokuDirectionFieldUpdateOperationsInput | $Enums.DokuDirection
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    dokuRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    channel?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumDokuPaymentStatusFieldUpdateOperationsInput | $Enums.DokuPaymentStatus
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    virtualAccountNo?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationBank?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    expiredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rawRequest?: NullableJsonNullValueInput | InputJsonValue
+    rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    rawCallback?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DokuPaymentUncheckedUpdateWithoutTransactionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    direction?: EnumDokuDirectionFieldUpdateOperationsInput | $Enums.DokuDirection
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    dokuRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    channel?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumDokuPaymentStatusFieldUpdateOperationsInput | $Enums.DokuPaymentStatus
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    virtualAccountNo?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationBank?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    expiredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rawRequest?: NullableJsonNullValueInput | InputJsonValue
+    rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    rawCallback?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type WalletUpsertWithoutTransactionsInput = {
     update: XOR<WalletUpdateWithoutTransactionsInput, WalletUncheckedUpdateWithoutTransactionsInput>
     create: XOR<WalletCreateWithoutTransactionsInput, WalletUncheckedCreateWithoutTransactionsInput>
@@ -42463,6 +48039,102 @@ export namespace Prisma {
     lockedBalance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TransactionCreateWithoutDokuPaymentInput = {
+    id?: string
+    type: $Enums.TransactionType
+    amount: Decimal | DecimalJsLike | number | string
+    balanceBefore: Decimal | DecimalJsLike | number | string
+    balanceAfter: Decimal | DecimalJsLike | number | string
+    status?: $Enums.TransactionStatus
+    reference?: string | null
+    description?: string | null
+    relatedEntityId?: string | null
+    relatedEntityType?: string | null
+    isFlagged?: boolean
+    flagReason?: string | null
+    processedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    fraudAlert?: FraudAlertCreateNestedOneWithoutTransactionInput
+    wallet: WalletCreateNestedOneWithoutTransactionsInput
+  }
+
+  export type TransactionUncheckedCreateWithoutDokuPaymentInput = {
+    id?: string
+    walletId: string
+    type: $Enums.TransactionType
+    amount: Decimal | DecimalJsLike | number | string
+    balanceBefore: Decimal | DecimalJsLike | number | string
+    balanceAfter: Decimal | DecimalJsLike | number | string
+    status?: $Enums.TransactionStatus
+    reference?: string | null
+    description?: string | null
+    relatedEntityId?: string | null
+    relatedEntityType?: string | null
+    isFlagged?: boolean
+    flagReason?: string | null
+    processedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    fraudAlert?: FraudAlertUncheckedCreateNestedOneWithoutTransactionInput
+  }
+
+  export type TransactionCreateOrConnectWithoutDokuPaymentInput = {
+    where: TransactionWhereUniqueInput
+    create: XOR<TransactionCreateWithoutDokuPaymentInput, TransactionUncheckedCreateWithoutDokuPaymentInput>
+  }
+
+  export type TransactionUpsertWithoutDokuPaymentInput = {
+    update: XOR<TransactionUpdateWithoutDokuPaymentInput, TransactionUncheckedUpdateWithoutDokuPaymentInput>
+    create: XOR<TransactionCreateWithoutDokuPaymentInput, TransactionUncheckedCreateWithoutDokuPaymentInput>
+    where?: TransactionWhereInput
+  }
+
+  export type TransactionUpdateToOneWithWhereWithoutDokuPaymentInput = {
+    where?: TransactionWhereInput
+    data: XOR<TransactionUpdateWithoutDokuPaymentInput, TransactionUncheckedUpdateWithoutDokuPaymentInput>
+  }
+
+  export type TransactionUpdateWithoutDokuPaymentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    balanceBefore?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    balanceAfter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedEntityId?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedEntityType?: NullableStringFieldUpdateOperationsInput | string | null
+    isFlagged?: BoolFieldUpdateOperationsInput | boolean
+    flagReason?: NullableStringFieldUpdateOperationsInput | string | null
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fraudAlert?: FraudAlertUpdateOneWithoutTransactionNestedInput
+    wallet?: WalletUpdateOneRequiredWithoutTransactionsNestedInput
+  }
+
+  export type TransactionUncheckedUpdateWithoutDokuPaymentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    walletId?: StringFieldUpdateOperationsInput | string
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    balanceBefore?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    balanceAfter?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedEntityId?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedEntityType?: NullableStringFieldUpdateOperationsInput | string | null
+    isFlagged?: BoolFieldUpdateOperationsInput | boolean
+    flagReason?: NullableStringFieldUpdateOperationsInput | string | null
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fraudAlert?: FraudAlertUncheckedUpdateOneWithoutTransactionNestedInput
   }
 
   export type AkadCreateWithoutBlockchainTransactionsInput = {
@@ -42601,6 +48273,7 @@ export namespace Prisma {
     processedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    dokuPayment?: DokuPaymentCreateNestedOneWithoutTransactionInput
     wallet: WalletCreateNestedOneWithoutTransactionsInput
   }
 
@@ -42621,6 +48294,7 @@ export namespace Prisma {
     processedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    dokuPayment?: DokuPaymentUncheckedCreateNestedOneWithoutTransactionInput
   }
 
   export type TransactionCreateOrConnectWithoutFraudAlertInput = {
@@ -42655,6 +48329,7 @@ export namespace Prisma {
     processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dokuPayment?: DokuPaymentUpdateOneWithoutTransactionNestedInput
     wallet?: WalletUpdateOneRequiredWithoutTransactionsNestedInput
   }
 
@@ -42675,6 +48350,7 @@ export namespace Prisma {
     processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dokuPayment?: DokuPaymentUncheckedUpdateOneWithoutTransactionNestedInput
   }
 
   export type UserCreateWithoutSentNotificationsInput = {
@@ -42910,6 +48586,8 @@ export namespace Prisma {
     location?: string | null
     city?: string | null
     province?: string | null
+    district?: string | null
+    postalCode?: string | null
     establishedDate?: Date | string | null
     employeeCount?: number | null
     monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
@@ -42921,6 +48599,8 @@ export namespace Prisma {
     campaigns?: CampaignCreateNestedManyWithoutUmkmProfileInput
     creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
     fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
+    media?: UmkmMediaCreateNestedManyWithoutUmkmProfileInput
+    monitoringReports?: MonitoringReportCreateNestedManyWithoutUmkmProfileInput
     user: UserCreateNestedOneWithoutUmkmProfileInput
   }
 
@@ -42934,6 +48614,8 @@ export namespace Prisma {
     location?: string | null
     city?: string | null
     province?: string | null
+    district?: string | null
+    postalCode?: string | null
     establishedDate?: Date | string | null
     employeeCount?: number | null
     monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
@@ -42945,6 +48627,8 @@ export namespace Prisma {
     campaigns?: CampaignUncheckedCreateNestedManyWithoutUmkmProfileInput
     creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
     fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
+    media?: UmkmMediaUncheckedCreateNestedManyWithoutUmkmProfileInput
+    monitoringReports?: MonitoringReportUncheckedCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileCreateOrConnectWithoutBusinessUpdatesInput = {
@@ -42972,6 +48656,8 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
     monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -42983,6 +48669,8 @@ export namespace Prisma {
     campaigns?: CampaignUpdateManyWithoutUmkmProfileNestedInput
     creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
     fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
+    media?: UmkmMediaUpdateManyWithoutUmkmProfileNestedInput
+    monitoringReports?: MonitoringReportUpdateManyWithoutUmkmProfileNestedInput
     user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
   }
 
@@ -42996,6 +48684,8 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
     monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -43007,6 +48697,132 @@ export namespace Prisma {
     campaigns?: CampaignUncheckedUpdateManyWithoutUmkmProfileNestedInput
     creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
     fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    media?: UmkmMediaUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    monitoringReports?: MonitoringReportUncheckedUpdateManyWithoutUmkmProfileNestedInput
+  }
+
+  export type UmkmProfileCreateWithoutMonitoringReportsInput = {
+    id?: string
+    ownerName: string
+    businessName: string
+    businessCategory: string
+    businessDescription?: string | null
+    location?: string | null
+    city?: string | null
+    province?: string | null
+    district?: string | null
+    postalCode?: string | null
+    establishedDate?: Date | string | null
+    employeeCount?: number | null
+    monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
+    website?: string | null
+    socialMedia?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    businessData?: BusinessDataCreateNestedManyWithoutUmkmProfileInput
+    businessUpdates?: BusinessUpdateCreateNestedManyWithoutUmkmProfileInput
+    campaigns?: CampaignCreateNestedManyWithoutUmkmProfileInput
+    creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
+    fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
+    media?: UmkmMediaCreateNestedManyWithoutUmkmProfileInput
+    user: UserCreateNestedOneWithoutUmkmProfileInput
+  }
+
+  export type UmkmProfileUncheckedCreateWithoutMonitoringReportsInput = {
+    id?: string
+    userId: string
+    ownerName: string
+    businessName: string
+    businessCategory: string
+    businessDescription?: string | null
+    location?: string | null
+    city?: string | null
+    province?: string | null
+    district?: string | null
+    postalCode?: string | null
+    establishedDate?: Date | string | null
+    employeeCount?: number | null
+    monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
+    website?: string | null
+    socialMedia?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    businessData?: BusinessDataUncheckedCreateNestedManyWithoutUmkmProfileInput
+    businessUpdates?: BusinessUpdateUncheckedCreateNestedManyWithoutUmkmProfileInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutUmkmProfileInput
+    creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
+    fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
+    media?: UmkmMediaUncheckedCreateNestedManyWithoutUmkmProfileInput
+  }
+
+  export type UmkmProfileCreateOrConnectWithoutMonitoringReportsInput = {
+    where: UmkmProfileWhereUniqueInput
+    create: XOR<UmkmProfileCreateWithoutMonitoringReportsInput, UmkmProfileUncheckedCreateWithoutMonitoringReportsInput>
+  }
+
+  export type UmkmProfileUpsertWithoutMonitoringReportsInput = {
+    update: XOR<UmkmProfileUpdateWithoutMonitoringReportsInput, UmkmProfileUncheckedUpdateWithoutMonitoringReportsInput>
+    create: XOR<UmkmProfileCreateWithoutMonitoringReportsInput, UmkmProfileUncheckedCreateWithoutMonitoringReportsInput>
+    where?: UmkmProfileWhereInput
+  }
+
+  export type UmkmProfileUpdateToOneWithWhereWithoutMonitoringReportsInput = {
+    where?: UmkmProfileWhereInput
+    data: XOR<UmkmProfileUpdateWithoutMonitoringReportsInput, UmkmProfileUncheckedUpdateWithoutMonitoringReportsInput>
+  }
+
+  export type UmkmProfileUpdateWithoutMonitoringReportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerName?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    businessCategory?: StringFieldUpdateOperationsInput | string
+    businessDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
+    monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    businessData?: BusinessDataUpdateManyWithoutUmkmProfileNestedInput
+    businessUpdates?: BusinessUpdateUpdateManyWithoutUmkmProfileNestedInput
+    campaigns?: CampaignUpdateManyWithoutUmkmProfileNestedInput
+    creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
+    fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
+    media?: UmkmMediaUpdateManyWithoutUmkmProfileNestedInput
+    user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
+  }
+
+  export type UmkmProfileUncheckedUpdateWithoutMonitoringReportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    ownerName?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    businessCategory?: StringFieldUpdateOperationsInput | string
+    businessDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
+    monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    businessData?: BusinessDataUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    businessUpdates?: BusinessUpdateUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    media?: UmkmMediaUncheckedUpdateManyWithoutUmkmProfileNestedInput
   }
 
   export type UserCreateWithoutOtpVerificationsInput = {
@@ -43757,6 +49573,24 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type UmkmMediaCreateManyUmkmProfileInput = {
+    id?: string
+    type: $Enums.MediaType
+    url: string
+    caption?: string | null
+    createdAt?: Date | string
+  }
+
+  export type MonitoringReportCreateManyUmkmProfileInput = {
+    id?: string
+    tanggal?: Date | string
+    omzet: Decimal | DecimalJsLike | number | string
+    penggunaan: string
+    catatan?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type BusinessDataUpdateWithoutUmkmProfileInput = {
     id?: StringFieldUpdateOperationsInput | string
     reportDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -43963,6 +49797,60 @@ export namespace Prisma {
     reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rejectReason?: NullableStringFieldUpdateOperationsInput | string | null
     creditScoreId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UmkmMediaUpdateWithoutUmkmProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
+    url?: StringFieldUpdateOperationsInput | string
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UmkmMediaUncheckedUpdateWithoutUmkmProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
+    url?: StringFieldUpdateOperationsInput | string
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UmkmMediaUncheckedUpdateManyWithoutUmkmProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
+    url?: StringFieldUpdateOperationsInput | string
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MonitoringReportUpdateWithoutUmkmProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    omzet?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    penggunaan?: StringFieldUpdateOperationsInput | string
+    catatan?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MonitoringReportUncheckedUpdateWithoutUmkmProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    omzet?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    penggunaan?: StringFieldUpdateOperationsInput | string
+    catatan?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MonitoringReportUncheckedUpdateManyWithoutUmkmProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    omzet?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    penggunaan?: StringFieldUpdateOperationsInput | string
+    catatan?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -44338,6 +50226,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     fraudAlert?: FraudAlertUpdateOneWithoutTransactionNestedInput
+    dokuPayment?: DokuPaymentUpdateOneWithoutTransactionNestedInput
   }
 
   export type TransactionUncheckedUpdateWithoutWalletInput = {
@@ -44357,6 +50246,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     fraudAlert?: FraudAlertUncheckedUpdateOneWithoutTransactionNestedInput
+    dokuPayment?: DokuPaymentUncheckedUpdateOneWithoutTransactionNestedInput
   }
 
   export type TransactionUncheckedUpdateManyWithoutWalletInput = {

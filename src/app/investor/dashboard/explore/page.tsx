@@ -3,12 +3,15 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./page.module.css";
+import { Search, Building, ArrowRight, FileText } from "@/components/icons";
 
 interface Campaign {
   id: string;
   name: string;
   category: string;
   city: string;
+  logoUrl: string | null;
+  coverPhotoUrl: string | null;
   risk: string;
   aiScore: number;
   targetAmount: number;
@@ -64,7 +67,7 @@ export default function ExplorePage() {
     <div className={styles.page}>
       <div className={styles.filtersBar}>
         <div className={styles.searchBox}>
-          <span className={styles.searchIcon}>🔍</span>
+          <span className={styles.searchIcon}><Search /></span>
           <input
             type="text"
             placeholder="Cari UMKM atau kota..."
@@ -93,10 +96,22 @@ export default function ExplorePage() {
       <div className={styles.cardGrid}>
         {filtered.map((c) => (
           <div key={c.id} className={styles.umkmCard}>
+            {c.coverPhotoUrl && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={c.coverPhotoUrl} alt={`Kegiatan usaha ${c.name}`} style={{ width: "100%", height: 120, objectFit: "cover", borderRadius: 10, marginBottom: "0.75rem" }} />
+            )}
             <div className={styles.umkmCardHeader}>
-              <div>
-                <h3 className={styles.umkmName}>{c.name}</h3>
-                <p className={styles.umkmMeta}>{c.category} • {c.city}</p>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                {c.logoUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={c.logoUrl} alt={`Logo ${c.name}`} style={{ width: 36, height: 36, borderRadius: 8, objectFit: "cover", flexShrink: 0 }} />
+                ) : (
+                  <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(0,0,0,0.06)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><Building /></div>
+                )}
+                <div>
+                  <h3 className={styles.umkmName}>{c.name}</h3>
+                  <p className={styles.umkmMeta}>{c.category} • {c.city}</p>
+                </div>
               </div>
               <span className={`${styles.riskBadge} ${riskColor(c.risk)}`}>{c.risk} Risk</span>
             </div>
@@ -130,15 +145,15 @@ export default function ExplorePage() {
               <span className={styles.investorCount}>{c.investorCount} Investor bergabung</span>
             </div>
 
-            <Link href={`/investor/dashboard/investasi?campaignId=${c.id}`} className={styles.investBtn}>
-              Investasi Sekarang →
+            <Link href={`/investor/dashboard/explore/${c.id}`} className={styles.investBtn}>
+              <FileText style={{ verticalAlign: "-0.125em" }} /> Lihat Detail & Investasi <ArrowRight style={{ verticalAlign: "-0.125em" }} />
             </Link>
           </div>
         ))}
       </div>
 
       {filtered.length === 0 && (
-        <div className={styles.noResult}><span>🔍</span><p>Tidak ada UMKM yang sesuai filter.</p></div>
+        <div className={styles.noResult}><span><Search /></span><p>Tidak ada UMKM yang sesuai filter.</p></div>
       )}
     </div>
   );

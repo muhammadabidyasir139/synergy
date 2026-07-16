@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
+import { Chain, Pencil, CheckCircle, Refresh, FileText } from "@/components/icons";
 
 interface AkadItem {
   id: string;
@@ -81,7 +82,7 @@ export default function AkadPage() {
   return (
     <div className={styles.page}>
       <div className={styles.headerNote}>
-        <span className={styles.noteIcon}>⛓️</span>
+        <span className={styles.noteIcon}><Chain /></span>
         <p>Semua akad ditandatangani secara digital dan disimpan permanen di blockchain (immutable). Hash transaksi menjadi bukti hukum yang tidak dapat diubah.</p>
       </div>
 
@@ -104,7 +105,7 @@ export default function AkadPage() {
                 </div>
                 {a.status === "PENDING" && !a.investorSigned && (
                   <button className={styles.signBtn} disabled={isSigning} onClick={(e) => { e.stopPropagation(); handleSign(a.id); }}>
-                    ✍️ Tanda Tangan Digital
+                    <Pencil style={{ verticalAlign: "-0.125em" }} /> Tanda Tangan Digital
                   </button>
                 )}
               </div>
@@ -130,11 +131,11 @@ export default function AkadPage() {
                 <h4 className={styles.sigTitle}>Status Tanda Tangan</h4>
                 <div className={styles.sigRow}>
                   <div className={`${styles.sigItem} ${selectedAkad.umkmSigned ? styles.sigDone : styles.sigPending}`}>
-                    <span>{selectedAkad.umkmSigned ? "✅" : "⏳"}</span>
+                    <span>{selectedAkad.umkmSigned ? <CheckCircle /> : <Refresh />}</span>
                     <span>UMKM ({selectedAkad.umkm})</span>
                   </div>
                   <div className={`${styles.sigItem} ${selectedAkad.investorSigned ? styles.sigDone : styles.sigPending}`}>
-                    <span>{selectedAkad.investorSigned ? "✅" : "⏳"}</span>
+                    <span>{selectedAkad.investorSigned ? <CheckCircle /> : <Refresh />}</span>
                     <span>Investor (Anda)</span>
                   </div>
                 </div>
@@ -143,9 +144,9 @@ export default function AkadPage() {
               {selectedAkad.blockchainHash && (
                 <div className={styles.blockchainBox}>
                   <div className={styles.bcHeader}>
-                    <span className={styles.bcIcon}>⛓️</span>
+                    <span className={styles.bcIcon}><Chain /></span>
                     <span className={styles.bcTitle}>Blockchain Record</span>
-                    <span className={styles.bcStatus}>✅ Confirmed</span>
+                    <span className={styles.bcStatus}><CheckCircle style={{ verticalAlign: "-0.125em" }} /> Confirmed</span>
                   </div>
                   <div className={styles.bcField}><span className={styles.bcLabel}>Transaction Hash</span><span className={styles.bcVal}>{selectedAkad.blockchainHash}</span></div>
                   <div className={styles.bcField}><span className={styles.bcLabel}>Smart Contract Address</span><span className={styles.bcVal}>{selectedAkad.contractAddress}</span></div>
@@ -154,13 +155,13 @@ export default function AkadPage() {
 
               {selectedAkad.status === "PENDING" && !selectedAkad.investorSigned && (
                 <button className={styles.signBtnLarge} disabled={isSigning} onClick={() => handleSign(selectedAkad.id)}>
-                  {isSigning ? "Memproses..." : "✍️ Tanda Tangan Digital Sekarang"}
+                  {isSigning ? "Memproses..." : <><Pencil style={{ verticalAlign: "-0.125em" }} /> Tanda Tangan Digital Sekarang</>}
                 </button>
               )}
             </>
           ) : (
             <div className={styles.emptyDetail}>
-              <span>📄</span>
+              <span><FileText /></span>
               <p>Pilih akad dari daftar untuk melihat detail dan blockchain record.</p>
             </div>
           )}

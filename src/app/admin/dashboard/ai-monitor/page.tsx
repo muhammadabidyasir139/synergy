@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import styles from './page.module.css';
+import { Search } from '@/components/icons';
 
 interface ScoreEntry {
   umkmName: string;
@@ -29,7 +30,7 @@ export default function AIMonitorPage() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>🔍 Manajemen AI – Monitoring Credit Scoring</h1>
+      <h1 className={styles.title}><Search style={{ verticalAlign: "-0.125em" }} /> Manajemen AI – Monitoring Credit Scoring</h1>
       <table className={styles.table}>
         <thead>
           <tr>

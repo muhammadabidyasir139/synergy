@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
+import { Building, TrendingUp, AlertTriangle, Clipboard } from "@/components/icons";
 
 interface MonitoringData {
   investmentId: string;
@@ -64,7 +65,7 @@ export default function MonitoringPage() {
             <button key={u.investmentId}
               className={`${styles.selectorBtn} ${selected === u.investmentId ? styles.selectorBtnActive : ""}`}
               onClick={() => setSelected(u.investmentId)}>
-              🏢 {u.businessName}
+              <Building style={{ verticalAlign: "-0.125em" }} /> {u.businessName}
             </button>
           ))}
         </div>
@@ -125,7 +126,7 @@ export default function MonitoringPage() {
             const type = u.title.toLowerCase().includes("turun") ? "warn" : isGood ? "good" : "neutral";
             return (
               <div key={i} className={`${styles.updateItem} ${type === "good" ? styles.updateGood : type === "warn" ? styles.updateWarn : styles.updateNeutral}`}>
-                <span className={styles.updateIcon}>{type === "good" ? "📈" : type === "warn" ? "⚠️" : "📋"}</span>
+                <span className={styles.updateIcon}>{type === "good" ? <TrendingUp /> : type === "warn" ? <AlertTriangle /> : <Clipboard />}</span>
                 <div>
                   <p className={styles.updateTitle}>{u.title}</p>
                   <p className={styles.updateDate}>{u.date}</p>

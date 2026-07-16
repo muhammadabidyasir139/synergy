@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import styles from "../page.module.css";
+import { Refresh, Chain, CheckCircle, AlertTriangle, Pencil } from "@/components/icons";
 
 interface Akad {
   id: string;
@@ -84,9 +85,9 @@ export default function ManajemenAkad() {
       {/* Summary Stats */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.25rem" }}>
         {[
-          { label: "Menunggu TTD", count: pending.length, color: "#f59e0b", icon: "⏳" },
-          { label: "Akad Aktif", count: aktif.length, color: "#10b981", icon: "⛓️" },
-          { label: "Akad Selesai", count: selesai.length, color: "var(--text-muted)", icon: "✅" },
+          { label: "Menunggu TTD", count: pending.length, color: "#f59e0b", icon: <Refresh /> },
+          { label: "Akad Aktif", count: aktif.length, color: "#1d4ed8", icon: <Chain /> },
+          { label: "Akad Selesai", count: selesai.length, color: "var(--text-muted)", icon: <CheckCircle /> },
         ].map((stat) => (
           <div key={stat.label} className={`${styles.metricCard} glass`}>
             <div className={styles.metricHeader}>
@@ -112,7 +113,7 @@ export default function ManajemenAkad() {
         }}>
           <div>
             <p style={{ fontWeight: 800, color: "var(--text-color)", marginBottom: "0.25rem" }}>
-              ⚠️ {pending.length} Akad Menunggu Tanda Tangan Digital Anda
+              <AlertTriangle style={{ verticalAlign: "-0.125em" }} /> {pending.length} Akad Menunggu Tanda Tangan Digital Anda
             </p>
             <p style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>
               Investor telah mengkonfirmasi investasi. Tanda tangan Anda diperlukan untuk mendeploy smart contract.
@@ -158,7 +159,7 @@ export default function ManajemenAkad() {
                     </span>
                   </td>
                   <td style={{ fontWeight: 700 }}>{akad.dana}</td>
-                  <td style={{ color: "#10b981", fontWeight: 700 }}>{akad.nisbah}</td>
+                  <td style={{ color: "#1d4ed8", fontWeight: 700 }}>{akad.nisbah}</td>
                   <td style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>{akad.mulai} – {akad.selesai}</td>
                   <td>
                     {akad.hash ? (
@@ -181,7 +182,7 @@ export default function ManajemenAkad() {
                         className={`${styles.btnSm} ${styles.btnSmGreen}`}
                         style={{ border: "none", cursor: "pointer" }}
                       >
-                        ✍️ Tanda Tangan
+                        <Pencil style={{ verticalAlign: "-0.125em" }} /> Tanda Tangan
                       </button>
                     ) : (
                       <button
@@ -224,15 +225,15 @@ export default function ManajemenAkad() {
               ))}
 
               {selectedAkad.hash && (
-                <div style={{ padding: "0.75rem 1rem", background: "rgba(16,185,129,0.08)", borderRadius: 10, marginTop: "0.5rem" }}>
+                <div style={{ padding: "0.75rem 1rem", background: "rgba(29,78,216,0.08)", borderRadius: 10, marginTop: "0.5rem" }}>
                   <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", fontWeight: 600, marginBottom: "0.25rem" }}>Blockchain Hash</p>
-                  <p style={{ fontFamily: "monospace", fontSize: "0.85rem", color: "#10b981" }}>{selectedAkad.hash}</p>
+                  <p style={{ fontFamily: "monospace", fontSize: "0.85rem", color: "#1d4ed8" }}>{selectedAkad.hash}</p>
                 </div>
               )}
 
               {selectedAkad.status === "Menunggu TTD" && (
                 <div style={{ padding: "1rem", background: "rgba(245,158,11,0.08)", borderRadius: 10, border: "1px solid rgba(245,158,11,0.2)", fontSize: "0.85rem", color: "var(--text-color)", lineHeight: 1.6 }}>
-                  ⚠️ Dengan menandatangani akad ini, Anda menyetujui seluruh syarat dan ketentuan yang tercantum.
+                  <AlertTriangle style={{ verticalAlign: "-0.125em" }} /> Dengan menandatangani akad ini, Anda menyetujui seluruh syarat dan ketentuan yang tercantum.
                   Smart contract akan di-deploy otomatis ke blockchain dan bersifat <strong>immutable</strong>.
                 </div>
               )}
@@ -248,7 +249,11 @@ export default function ManajemenAkad() {
                   disabled={isSigning}
                   style={{ padding: "0.8rem 1.5rem", border: "none", borderRadius: 10, cursor: "pointer", fontWeight: 700 }}
                 >
-                  {isSigning ? "🔄 Deploy Smart Contract..." : "✍️ Tanda Tangan & Deploy Blockchain"}
+                  {isSigning ? (
+                    <><Refresh style={{ verticalAlign: "-0.125em" }} /> Deploy Smart Contract...</>
+                  ) : (
+                    <><Pencil style={{ verticalAlign: "-0.125em" }} /> Tanda Tangan & Deploy Blockchain</>
+                  )}
                 </button>
               </div>
             )}

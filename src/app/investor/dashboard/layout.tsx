@@ -5,6 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import styles from "./layout.module.css";
 import ThemeToggle from "@/components/ThemeToggle";
+import { Wallet, Menu } from "@/components/icons";
 
 interface SessionData {
   investorProfileId: string;
@@ -120,23 +121,6 @@ export default function InvestorLayout({
           <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
           <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
           <line x1="12" y1="22.08" x2="12" y2="12" />
-        </svg>
-      ),
-    },
-    {
-      name: "Proses Investasi",
-      path: "/investor/dashboard/investasi",
-      icon: (
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <line x1="12" y1="1" x2="12" y2="23" />
-          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
         </svg>
       ),
     },
@@ -299,7 +283,9 @@ export default function InvestorLayout({
       >
         <div className={styles.sidebarHeader}>
           <div className={styles.logoGroup}>
-            <span className={styles.logoGlow}>💰</span>
+            <span className={styles.logoGlow}>
+              <Wallet />
+            </span>
             <div>
               <span className={styles.sidebarLogo}>SYNERGY</span>
               <span className={styles.sidebarSub}>INVESTOR PORTAL</span>
@@ -375,7 +361,7 @@ export default function InvestorLayout({
                 onClick={() => setIsSidebarOpen(true)}
                 className={styles.hamburgerBtn}
               >
-                ☰
+                <Menu />
               </button>
             )}
             <h2 className={styles.headerTitle}>{getPageTitle()}</h2>

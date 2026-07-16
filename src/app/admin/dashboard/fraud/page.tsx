@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import styles from "./page.module.css";
+import { AlertTriangle } from "@/components/icons";
 
 interface FraudAlert {
   id: string;
@@ -67,7 +68,7 @@ export default function FraudAlertsPage() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>⚠️ Fraud Alerts</h1>
+      <h1 className={styles.title}><AlertTriangle style={{ verticalAlign: "-0.125em" }} /> Fraud Alerts</h1>
 
       {loading ? (
         <div style={{ textAlign: "center", padding: "3rem", opacity: 0.6 }}>Memuat data...</div>

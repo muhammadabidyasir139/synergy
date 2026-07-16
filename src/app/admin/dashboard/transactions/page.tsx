@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import styles from "./page.module.css";
+import { Package, Flag } from "@/components/icons";
 
 interface Transaction {
   id: string;
@@ -79,7 +80,7 @@ export default function TransactionsPage() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>📦 Manajemen Transaksi</h1>
+      <h1 className={styles.title}><Package style={{ verticalAlign: "-0.125em" }} /> Manajemen Transaksi</h1>
 
       <div className={styles.filterBar}>
         {STATUS_FILTERS.map((f) => (
@@ -142,7 +143,12 @@ export default function TransactionsPage() {
                       }}
                     >
                       {tx.status}
-                      {tx.isFlagged && " 🚩"}
+                      {tx.isFlagged && (
+                        <>
+                          {" "}
+                          <Flag style={{ verticalAlign: "-0.125em" }} />
+                        </>
+                      )}
                     </span>
                   </td>
                   <td style={{ fontSize: "0.8rem" }}>{fmtDate(tx.createdAt)}</td>

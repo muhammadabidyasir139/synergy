@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./page.module.css";
 import ThemeToggle from "@/components/ThemeToggle";
+import { Wallet, Building, Lock } from "@/components/icons";
 
 function LoginForm() {
   const router = useRouter();
@@ -47,7 +48,7 @@ function LoginForm() {
       if (userRole === "investor") {
         sessionStorage.setItem("synergy_investor_session", JSON.stringify(data.session));
       } else if (userRole === "umkm") {
-        sessionStorage.setItem("synergy_umkm_session", "true"); // UMKM layout currently expects string "true"
+        sessionStorage.setItem("synergy_umkm_session", JSON.stringify(data.session));
       }
 
       router.push(userRole === "umkm" ? "/umkm/dashboard" : "/investor/dashboard");
@@ -92,7 +93,7 @@ function LoginForm() {
               className={`${styles.roleTab} ${role === "investor" ? styles.activeTab : ""}`}
               onClick={() => setRole("investor")}
             >
-              <span className={styles.roleIcon}>💰</span>
+              <span className={styles.roleIcon}><Wallet /></span>
               <span>Investor</span>
             </button>
             <button
@@ -100,7 +101,7 @@ function LoginForm() {
               className={`${styles.roleTab} ${role === "umkm" ? styles.activeTab : ""}`}
               onClick={() => setRole("umkm")}
             >
-              <span className={styles.roleIcon}>🏢</span>
+              <span className={styles.roleIcon}><Building /></span>
               <span>UMKM</span>
             </button>
           </div>
@@ -179,7 +180,7 @@ function LoginForm() {
           {/* Elegant and subtle link to Admin portal */}
           <div className={styles.adminPortalLink}>
             <Link href="/admin/login" className={styles.adminBtn}>
-              <span className={styles.adminIcon}>🔐</span>
+              <span className={styles.adminIcon}><Lock /></span>
               <span>Portal Admin</span>
             </Link>
           </div>

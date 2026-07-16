@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import styles from "./page.module.css";
+import { Building, Wallet, Chain, BarChart, TrendingDown, Shield, AlertOctagon, AlertTriangle, CreditCard, Refresh, Dot } from "@/components/icons";
 
 interface StatsData {
   totalUmkm: number;
@@ -103,7 +104,7 @@ export default function AdminDashboardHome() {
         <div className={styles.metricCard}>
           <div className={styles.metricHeader}>
             <span className={styles.metricTitle}>Total UMKM Terdaftar</span>
-            <span className={styles.metricIcon}>🏢</span>
+            <span className={styles.metricIcon}><Building /></span>
           </div>
           <div className={styles.metricValue}>{stats.totalUmkm.toLocaleString("id-ID")}</div>
           <div className={styles.metricFooter}>
@@ -114,7 +115,7 @@ export default function AdminDashboardHome() {
         <div className={styles.metricCard}>
           <div className={styles.metricHeader}>
             <span className={styles.metricTitle}>Total Investor Aktif</span>
-            <span className={styles.metricIcon}>💰</span>
+            <span className={styles.metricIcon}><Wallet /></span>
           </div>
           <div className={styles.metricValue}>{stats.totalInvestor.toLocaleString("id-ID")}</div>
           <div className={styles.metricFooter}>
@@ -125,7 +126,7 @@ export default function AdminDashboardHome() {
         <div className={styles.metricCard}>
           <div className={styles.metricHeader}>
             <span className={styles.metricTitle}>Smart Contract Akad Aktif</span>
-            <span className={styles.metricIcon}>⛓️</span>
+            <span className={styles.metricIcon}><Chain /></span>
           </div>
           <div className={styles.metricValue}>{stats.activeAkads.toLocaleString("id-ID")}</div>
           <div className={styles.metricFooter}>
@@ -136,7 +137,7 @@ export default function AdminDashboardHome() {
         <div className={styles.metricCard}>
           <div className={styles.metricHeader}>
             <span className={styles.metricTitle}>Dana Terhimpun</span>
-            <span className={styles.metricIcon}>📊</span>
+            <span className={styles.metricIcon}><BarChart /></span>
           </div>
           <div className={styles.metricValue}>{fmtRupiah(stats.totalFundingTarget)}</div>
           <div className={styles.metricFooter}>
@@ -147,7 +148,7 @@ export default function AdminDashboardHome() {
         <div className={styles.metricCard}>
           <div className={styles.metricHeader}>
             <span className={styles.metricTitle}>Dana Tersalurkan</span>
-            <span className={styles.metricIcon}>💸</span>
+            <span className={styles.metricIcon}><TrendingDown /></span>
           </div>
           <div className={styles.metricValue}>{fmtRupiah(stats.totalFundingCollected)}</div>
           <div className={styles.metricFooter}>
@@ -175,7 +176,7 @@ export default function AdminDashboardHome() {
           <div className={styles.alertList}>
             {stats.recentFraud.length === 0 ? (
               <div style={{ textAlign: "center", padding: "2rem", color: "var(--text-muted)" }}>
-                <span style={{ fontSize: "2rem", display: "block", marginBottom: "0.5rem" }}>🛡️</span>
+                <span style={{ fontSize: "2rem", display: "block", marginBottom: "0.5rem" }}><Shield /></span>
                 <span>Sistem aman dari ancaman kecurangan.</span>
               </div>
             ) : (
@@ -189,7 +190,7 @@ export default function AdminDashboardHome() {
                   }`}
                 >
                   <div className={styles.alertIconBox}>
-                    {alert.severity === "HIGH" || alert.severity === "CRITICAL" ? "🚨" : "⚠️"}
+                    {alert.severity === "HIGH" || alert.severity === "CRITICAL" ? <AlertOctagon /> : <AlertTriangle />}
                   </div>
                   <div className={styles.alertContent}>
                     <h4 className={styles.alertMsg}>{alert.userName ?? "Unknown"}</h4>
@@ -219,9 +220,9 @@ export default function AdminDashboardHome() {
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem", padding: "0.5rem 0" }}>
             {[
-              { label: "Total Transaksi", value: stats.totalTransactions.toLocaleString("id-ID"), icon: "💳" },
-              { label: "Fraud Aktif", value: stats.fraudAlerts.toLocaleString("id-ID"), icon: "🚨" },
-              { label: "KYC Menunggu", value: stats.pendingKyc.toLocaleString("id-ID"), icon: "⏳" },
+              { label: "Total Transaksi", value: stats.totalTransactions.toLocaleString("id-ID"), icon: <CreditCard /> },
+              { label: "Fraud Aktif", value: stats.fraudAlerts.toLocaleString("id-ID"), icon: <AlertOctagon /> },
+              { label: "KYC Menunggu", value: stats.pendingKyc.toLocaleString("id-ID"), icon: <Refresh /> },
             ].map((item) => (
               <div
                 key={item.label}
@@ -259,7 +260,7 @@ export default function AdminDashboardHome() {
             className={styles.blockchainIndicator}
             style={{ color: "#10b981", background: "rgba(16,185,129,0.08)", borderColor: "rgba(16,185,129,0.2)" }}
           >
-            🟢 Node Blockchain sinkron
+<Dot color="#22c55e" style={{ verticalAlign: "-0.125em" }} /> Node Blockchain sinkron
           </span>
         </div>
 
@@ -280,7 +281,7 @@ export default function AdminDashboardHome() {
                   <td>{user.name ?? "-"}</td>
                   <td>
                     <span style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem" }}>
-                      <span>{user.role === "UMKM" ? "🏢" : "💰"}</span>
+                      <span>{user.role === "UMKM" ? <Building /> : <Wallet />}</span>
                       <span>{user.role}</span>
                     </span>
                   </td>

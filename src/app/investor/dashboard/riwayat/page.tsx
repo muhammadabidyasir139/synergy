@@ -1,7 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import styles from "./page.module.css";
+import {
+  ArrowUpTray,
+  ArrowDownTray,
+  Banknote,
+  CreditCard,
+  CheckCircle,
+  Clipboard,
+} from "@/components/icons";
 
 type TxType = "Semua" | "INVESTMENT" | "PROFIT_SHARING" | "DEPOSIT" | "WITHDRAWAL";
 
@@ -27,7 +35,7 @@ const formatRp = (n: number) => {
 };
 
 const typeLabel: Record<string, string> = { INVESTMENT: "Investasi", PROFIT_SHARING: "Bagi Hasil", DEPOSIT: "Deposit", WITHDRAWAL: "Penarikan" };
-const typeIcon: Record<string, string> = { INVESTMENT: "📤", PROFIT_SHARING: "💵", DEPOSIT: "📥", WITHDRAWAL: "📤" };
+const typeIcon: Record<string, ReactNode> = { INVESTMENT: <ArrowUpTray />, PROFIT_SHARING: <Banknote />, DEPOSIT: <ArrowDownTray />, WITHDRAWAL: <ArrowUpTray /> };
 
 export default function RiwayatPage() {
   const [transactions, setTransactions] = useState<TxItem[]>([]);
@@ -65,7 +73,7 @@ export default function RiwayatPage() {
           ))}
         </div>
         <button className={styles.exportBtn} onClick={() => { setExportMsg("Riwayat diekspor sebagai PDF."); setTimeout(() => setExportMsg(""), 3000); }}>
-          📥 Export
+          <ArrowDownTray style={{ verticalAlign: "-0.125em" }} /> Export
         </button>
       </div>
 
@@ -77,7 +85,7 @@ export default function RiwayatPage() {
           return (
             <div key={tx.id} className={styles.txItem}>
               <div className={`${styles.txIconBox} ${signed > 0 ? styles.iconIn : styles.iconOut}`}>
-                {typeIcon[tx.type] ?? "💳"}
+                {typeIcon[tx.type] ?? <CreditCard />}
               </div>
               <div className={styles.txInfo}>
                 <p className={styles.txDesc}>{tx.description}</p>
@@ -91,7 +99,10 @@ export default function RiwayatPage() {
                 <span className={`${styles.txAmount} ${signed > 0 ? styles.amountIn : styles.amountOut}`}>
                   {formatRp(signed)}
                 </span>
-                <span className={styles.txStatus}>✅ {tx.status}</span>
+                <span className={styles.txStatus}>
+                  <CheckCircle style={{ verticalAlign: "-0.125em" }} />{" "}
+                  {tx.status}
+                </span>
               </div>
             </div>
           );
@@ -99,7 +110,7 @@ export default function RiwayatPage() {
       </div>
 
       {filtered.length === 0 && (
-        <div className={styles.emptyState}><span>📋</span><p>Tidak ada transaksi ditemukan.</p></div>
+        <div className={styles.emptyState}><span><Clipboard /></span><p>Tidak ada transaksi ditemukan.</p></div>
       )}
     </div>
   );

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "../page.module.css";
+import { Refresh, CheckCircle, Calendar, Chain, Check } from "@/components/icons";
 
 interface BagiHasil {
   id: string;
@@ -17,62 +18,51 @@ interface BagiHasil {
 
 export default function BagiHasil() {
   const [isConfirming, setIsConfirming] = useState<string | null>(null);
+  const [bagiHasilList, setBagiHasilList] = useState<BagiHasil[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const [bagiHasilList, setBagiHasilList] = useState<BagiHasil[]>([
-    {
-      id: "BH-021",
-      akad: "AKD-042",
-      investor: "Rahmat Wijaya",
-      periode: "Mei 2026",
-      omzet: "Rp 27.100.000",
-      bagianInvestor: "Rp 8.130.000",
-      bagianUMKM: "Rp 18.970.000",
-      jatuhTempo: "10 Jun 2026",
-      status: "Pending",
-    },
-    {
-      id: "BH-018",
-      akad: "AKD-038",
-      investor: "Ahmad Fauzi",
-      periode: "Mei 2026",
-      omzet: "Rp 27.100.000",
-      bagianInvestor: "Rp 750.000",
-      bagianUMKM: "Rp 26.350.000",
-      jatuhTempo: "15 Jun 2026",
-      status: "Pending",
-    },
-    {
-      id: "BH-015",
-      akad: "AKD-042",
-      investor: "Rahmat Wijaya",
-      periode: "Apr 2026",
-      omzet: "Rp 24.300.000",
-      bagianInvestor: "Rp 7.290.000",
-      bagianUMKM: "Rp 17.010.000",
-      jatuhTempo: "10 Mei 2026",
-      status: "Paid",
-    },
-    {
-      id: "BH-012",
-      akad: "AKD-038",
-      investor: "Ahmad Fauzi",
-      periode: "Apr 2026",
-      omzet: "Rp 24.300.000",
-      bagianInvestor: "Rp 750.000",
-      bagianUMKM: "Rp 23.550.000",
-      jatuhTempo: "15 Mei 2026",
-      status: "Paid",
-    },
-  ]);
+  useEffect(() => {
+    fetch("/api/umkm/bagi-hasil")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          const formatted = data.map((d: any) => ({
+            id: d.id,
+            akad: d.akad?.id || "N/A",
+            investor: d.investment?.investorProfile?.fullName || "Investor",
+            periode: new Date(d.periodStart).toLocaleDateString("id-ID", { month: "short", year: "numeric" }),
+            omzet: `Rp ${Number(d.grossRevenue).toLocaleString("id-ID")}`,
+            bagianInvestor: `Rp ${Number(d.investorShare).toLocaleString("id-ID")}`,
+            bagianUMKM: `Rp ${Number(d.umkmShare).toLocaleString("id-ID")}`,
+            jatuhTempo: new Date(d.dueDate).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" }),
+            status: d.status === "PAID" ? "Paid" : d.status === "OVERDUE" ? "Overdue" : "Pending"
+          }));
+          setBagiHasilList(formatted);
+        }
+      })
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
+  }, []);
 
-  const handleConfirm = (id: string) => {
+  const handleConfirm = async (id: string) => {
     setIsConfirming(id);
-    setTimeout(() => {
-      setBagiHasilList((prev) =>
-        prev.map((bh) => bh.id === id ? { ...bh, status: "Paid" } : bh)
-      );
+    try {
+      const res = await fetch("/api/umkm/bagi-hasil", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status: "PAID" })
+      });
+      
+      if (res.ok) {
+        setBagiHasilList((prev) =>
+          prev.map((bh) => bh.id === id ? { ...bh, status: "Paid" } : bh)
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
       setIsConfirming(null);
-    }, 1800);
+    }
   };
 
   const totalPending = bagiHasilList
@@ -99,7 +89,7 @@ export default function BagiHasil() {
         <div className={`${styles.metricCard} glass`}>
           <div className={styles.metricHeader}>
             <span className={styles.metricTitle}>Menunggu Pembayaran</span>
-            <span className={styles.metricIcon}>⏳</span>
+            <span className={styles.metricIcon}><Refresh /></span>
           </div>
           <div className={styles.metricValue} style={{ color: "#f59e0b" }}>
             Rp {totalPending.toLocaleString("id-ID")}
@@ -112,9 +102,9 @@ export default function BagiHasil() {
         <div className={`${styles.metricCard} glass`}>
           <div className={styles.metricHeader}>
             <span className={styles.metricTitle}>Total Sudah Dibayar</span>
-            <span className={styles.metricIcon}>✅</span>
+            <span className={styles.metricIcon}><CheckCircle /></span>
           </div>
-          <div className={styles.metricValue} style={{ color: "#10b981" }}>
+          <div className={styles.metricValue} style={{ color: "#1d4ed8" }}>
             Rp {totalPaid.toLocaleString("id-ID")}
           </div>
           <div className={styles.metricFooter}>
@@ -125,7 +115,7 @@ export default function BagiHasil() {
         <div className={`${styles.metricCard} glass`}>
           <div className={styles.metricHeader}>
             <span className={styles.metricTitle}>Jatuh Tempo Terdekat</span>
-            <span className={styles.metricIcon}>📅</span>
+            <span className={styles.metricIcon}><Calendar /></span>
           </div>
           <div className={styles.metricValue} style={{ fontSize: "1.25rem" }}>10 Jun 2026</div>
           <div className={styles.metricFooter}>
@@ -168,7 +158,7 @@ export default function BagiHasil() {
                   <td>{bh.periode}</td>
                   <td>{bh.omzet}</td>
                   <td style={{ fontWeight: 700, color: "#ef4444" }}>{bh.bagianInvestor}</td>
-                  <td style={{ fontWeight: 700, color: "#10b981" }}>{bh.bagianUMKM}</td>
+                  <td style={{ fontWeight: 700, color: "#1d4ed8" }}>{bh.bagianUMKM}</td>
                   <td style={{ fontSize: "0.85rem", color: bh.status === "Pending" ? "#f59e0b" : "var(--text-muted)" }}>
                     {bh.jatuhTempo}
                   </td>
@@ -187,10 +177,14 @@ export default function BagiHasil() {
                         className={`${styles.btnSm} ${styles.btnSmGreen}`}
                         style={{ border: "none", cursor: "pointer" }}
                       >
-                        {isConfirming === bh.id ? "⏳ Memproses..." : "✅ Konfirmasi Bayar"}
+                        {isConfirming === bh.id ? (
+                          <><Refresh style={{ verticalAlign: "-0.125em" }} /> Memproses...</>
+                        ) : (
+                          <><CheckCircle style={{ verticalAlign: "-0.125em" }} /> Konfirmasi Bayar</>
+                        )}
                       </button>
                     ) : (
-                      <span style={{ fontSize: "0.75rem", color: "var(--text-muted)", fontWeight: 600 }}>Lunas ✓</span>
+                      <span style={{ fontSize: "0.75rem", color: "var(--text-muted)", fontWeight: 600 }}>Lunas <Check style={{ verticalAlign: "-0.125em" }} /></span>
                     )}
                   </td>
                 </tr>
@@ -201,9 +195,9 @@ export default function BagiHasil() {
       </div>
 
       {/* Smart Contract Info */}
-      <div className={`${styles.sectionCard} glass`} style={{ background: "rgba(16,185,129,0.04)", border: "1px solid rgba(16,185,129,0.15)" }}>
+      <div className={`${styles.sectionCard} glass`} style={{ background: "rgba(29,78,216,0.04)", border: "1px solid rgba(29,78,216,0.15)" }}>
         <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-          <span style={{ fontSize: "2rem" }}>⛓️</span>
+          <span style={{ fontSize: "2rem" }}><Chain /></span>
           <div>
             <h4 style={{ fontWeight: 800, color: "var(--text-color)", marginBottom: "0.5rem" }}>Cara Kerja Pembayaran Smart Contract</h4>
             <p style={{ fontSize: "0.875rem", color: "var(--text-muted)", lineHeight: 1.65 }}>

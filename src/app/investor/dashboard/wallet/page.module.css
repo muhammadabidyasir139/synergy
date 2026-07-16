@@ -279,6 +279,32 @@
 .successBox h3 { font-size: 1.1rem; font-weight: 800; color: var(--text-color); }
 .successBox p { font-size: 0.85rem; color: var(--text-muted); }
 
+.vaBox {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background: var(--bg-color);
+  border: 1.5px dashed var(--border-color);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.vaNumber {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--text-color);
+  font-family: monospace;
+}
+
+.payBtnActive {
+  border-color: #1d4ed8 !important;
+  color: #1d4ed8 !important;
+  background: rgba(29, 78, 216, 0.08) !important;
+}
+.dark .payBtnActive { color: #60a5fa !important; }
+
 /* History */
 .historyCard {
   background: var(--surface-bg);

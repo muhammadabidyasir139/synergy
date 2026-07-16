@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import styles from "./page.module.css";
+import { Sparkles, BarChart, Refresh, CheckCircle, AlertTriangle, AlertOctagon, Rocket } from "@/components/icons";
 
 interface AIInsight {
   type: "positive" | "negative" | "warning";
@@ -61,7 +62,7 @@ export default function UmkmApprovalPage() {
         const remaining = applications.filter((a) => a.id !== id);
         setApplications(remaining);
         setSelectedUmkm(remaining[0] ?? null);
-        toast("🚀 UMKM berhasil disetujui dan diorbitkan ke Marketplace Investor!");
+        toast("UMKM berhasil disetujui dan diorbitkan ke Marketplace Investor!");
       }
     } finally {
       setSubmitting(false);
@@ -82,7 +83,7 @@ export default function UmkmApprovalPage() {
         const remaining = applications.filter((a) => a.id !== id);
         setApplications(remaining);
         setSelectedUmkm(remaining[0] ?? null);
-        toast("❌ Pengajuan UMKM ditolak.");
+        toast("Pengajuan UMKM ditolak.");
       }
     } finally {
       setSubmitting(false);
@@ -91,7 +92,7 @@ export default function UmkmApprovalPage() {
 
   const handleRetrainScoring = () => {
     if (selectedUmkm) {
-      toast("🔄 Memicu ulang model XGBoost AI untuk recalculation...");
+      toast("Memicu ulang model XGBoost AI untuk recalculation...");
     }
   };
 
@@ -147,7 +148,7 @@ export default function UmkmApprovalPage() {
           <div className={styles.appList}>
             {applications.length === 0 ? (
               <div className={styles.emptyList}>
-                <span className={styles.emptyIcon}>✨</span>
+                <span className={styles.emptyIcon}><Sparkles /></span>
                 <p>Semua permohonan telah selesai di-review.</p>
               </div>
             ) : (
@@ -190,7 +191,7 @@ export default function UmkmApprovalPage() {
         <main className={`${styles.detailPane} glass`}>
           {!selectedUmkm ? (
             <div className={styles.emptyDetail}>
-              <span className={styles.emptyIconLg}>📊</span>
+              <span className={styles.emptyIconLg}><BarChart /></span>
               <h3>Pilih UMKM untuk dianalisis</h3>
               <p>
                 Pilih pengajuan dari daftar di sebelah kiri untuk melihat detail skor kelayakan
@@ -212,7 +213,7 @@ export default function UmkmApprovalPage() {
                     className={styles.btnSecondary}
                     title="Jalankan ulang prediksi AI dengan data terbaru"
                   >
-                    <span className={styles.iconSync}>🔄</span> Trigger AI Ulang
+                    <span className={styles.iconSync}><Refresh /></span> Trigger AI Ulang
                   </button>
                 </div>
               </div>
@@ -294,7 +295,7 @@ export default function UmkmApprovalPage() {
                                 : styles.iconNeg
                             }`}
                           >
-                            {insight.type === "positive" ? "✅" : insight.type === "warning" ? "⚠️" : "🚨"}
+                            {insight.type === "positive" ? <CheckCircle /> : insight.type === "warning" ? <AlertTriangle /> : <AlertOctagon />}
                           </span>
                           <span className={styles.insightText}>{insight.text}</span>
                         </li>
@@ -348,13 +349,21 @@ export default function UmkmApprovalPage() {
                       : ""
                   }
                 >
-                  {submitting ? "⏳ Memproses..." : "🚀 Setujui & Orbitkan ke Marketplace"}
+                  {submitting ? (
+                    <>
+                      <Refresh style={{ verticalAlign: "-0.125em" }} /> Memproses...
+                    </>
+                  ) : (
+                    <>
+                      <Rocket style={{ verticalAlign: "-0.125em" }} /> Setujui & Orbitkan ke Marketplace
+                    </>
+                  )}
                 </button>
               </div>
 
               {selectedUmkm.score !== null && selectedUmkm.score < 50 && (
                 <div className={styles.systemWarning}>
-                  <span style={{ color: "#ef4444", fontWeight: "bold" }}>⚠️ Peringatan Sistem:</span>{" "}
+                  <span style={{ color: "#ef4444", fontWeight: "bold" }}><AlertTriangle style={{ verticalAlign: "-0.125em" }} /> Peringatan Sistem:</span>{" "}
                   Skor AI di bawah ambang batas aman (50). Sistem menonaktifkan persetujuan otomatis.
                 </div>
               )}

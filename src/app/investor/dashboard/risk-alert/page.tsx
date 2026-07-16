@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
+import { Zap, CheckCircle, Lightbulb, Shield } from "@/components/icons";
 
 interface RiskAlert {
   id: string;
@@ -97,7 +98,7 @@ export default function RiskAlertPage() {
                 <p className={styles.alertTime}>{new Date(alert.detectedAt).toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })} WIB</p>
               </div>
               <div className={styles.alertActions}>
-                {alert.status === "Active" ? <span className={styles.statusActive}>⚡ Aktif</span> : <span className={styles.statusResolved}>✅ Selesai</span>}
+                {alert.status === "Active" ? <span className={styles.statusActive}><Zap style={{ verticalAlign: "-0.125em" }} /> Aktif</span> : <span className={styles.statusResolved}><CheckCircle style={{ verticalAlign: "-0.125em" }} /> Selesai</span>}
                 <span className={styles.expandArrow}>{expandedId === alert.id ? "▲" : "▼"}</span>
               </div>
             </div>
@@ -105,14 +106,16 @@ export default function RiskAlertPage() {
             {expandedId === alert.id && (
               <div className={styles.alertExpanded}>
                 <div className={styles.recBox}>
-                  <span className={styles.recIcon}>💡</span>
+                  <span className={styles.recIcon}>
+                    <Lightbulb />
+                  </span>
                   <div>
                     <p className={styles.recTitle}>Rekomendasi AI</p>
                     <p className={styles.recText}>{alert.recommendation || "Pantau kondisi UMKM secara berkala."}</p>
                   </div>
                 </div>
                 {alert.status === "Active" && (
-                  <button className={styles.ackBtn} onClick={() => handleAcknowledge(alert.id)}>✅ Tandai Sebagai Selesai</button>
+                  <button className={styles.ackBtn} onClick={() => handleAcknowledge(alert.id)}><CheckCircle style={{ verticalAlign: "-0.125em" }} /> Tandai Sebagai Selesai</button>
                 )}
               </div>
             )}
@@ -121,10 +124,10 @@ export default function RiskAlertPage() {
       </div>
 
       {activeCount === 0 && alerts.length > 0 && (
-        <div className={styles.allClear}><span>🛡️</span><h3>Semua Risiko Teratasi</h3><p>Tidak ada alert aktif. Investasi Anda dalam kondisi aman.</p></div>
+        <div className={styles.allClear}><span><Shield /></span><h3>Semua Risiko Teratasi</h3><p>Tidak ada alert aktif. Investasi Anda dalam kondisi aman.</p></div>
       )}
       {alerts.length === 0 && (
-        <div className={styles.allClear}><span>🛡️</span><h3>Tidak Ada Alert</h3><p>Investasi Anda dalam kondisi aman.</p></div>
+        <div className={styles.allClear}><span><Shield /></span><h3>Tidak Ada Alert</h3><p>Investasi Anda dalam kondisi aman.</p></div>
       )}
     </div>
   );

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import styles from "./page.module.css";
+import { Sparkles, Pencil, Check } from "@/components/icons";
 
 interface AkadItem {
   id: string;
@@ -59,7 +60,7 @@ export default function AkadApprovalPage() {
       setAkads((prev) =>
         prev.map((a) => (a.id === akad.id ? { ...a, uiStatus: "Deployed" } : a))
       );
-      showToast(`✅ Smart Contract untuk ${akad.umkmName} berhasil di-deploy ke Blockchain Ledger!`);
+      showToast(`Smart Contract untuk ${akad.umkmName} berhasil di-deploy ke Blockchain Ledger!`);
       setTimeout(() => {
         setAkads((prev) => prev.filter((a) => a.id !== akad.id));
       }, 1500);
@@ -67,7 +68,7 @@ export default function AkadApprovalPage() {
       setAkads((prev) =>
         prev.map((a) => (a.id === akad.id ? { ...a, uiStatus: "Waiting Approval" } : a))
       );
-      showToast("❌ Gagal deploy akad. Coba lagi.");
+      showToast("Gagal deploy akad. Coba lagi.");
     }
   };
 
@@ -103,7 +104,7 @@ export default function AkadApprovalPage() {
       <div className={styles.cardGrid}>
         {akads.length === 0 ? (
           <div className={`${styles.emptyState} glass`}>
-            <span className={styles.emptyIcon}>🎉</span>
+            <span className={styles.emptyIcon}><Sparkles /></span>
             <h3>Semua Akad Telah Disahkan</h3>
             <p>
               Tidak ada kampanye UMKM yang menunggu persetujuan smart contract saat ini.
@@ -157,7 +158,7 @@ export default function AkadApprovalPage() {
               <div className={styles.cardFooter}>
                 {akad.uiStatus === "Waiting Approval" && (
                   <button className={styles.deployBtn} onClick={() => handleDeploy(akad)}>
-                    <span className={styles.btnIcon}>✍️</span> Sahkan & Deploy Contract
+                    <span className={styles.btnIcon}><Pencil /></span> Sahkan & Deploy Contract
                   </button>
                 )}
 
@@ -174,7 +175,7 @@ export default function AkadApprovalPage() {
 
                 {akad.uiStatus === "Deployed" && (
                   <div className={styles.deployedState}>
-                    <span className={styles.successIcon}>✓</span>
+                    <span className={styles.successIcon}><Check /></span>
                     <p className={styles.successText}>Akad Ter-deploy di Ledger</p>
                   </div>
                 )}

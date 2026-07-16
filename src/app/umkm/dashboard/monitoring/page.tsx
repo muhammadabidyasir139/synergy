@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "../page.module.css";
+import { CheckCircle, Pencil, ArrowUpTray, TrendingUp } from "@/components/icons";
 
 interface OmzetReport {
   id: string;
@@ -15,33 +16,74 @@ export default function MonitoringUsaha() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [saved, setSaved] = useState(false);
   const [form, setForm] = useState({ tanggal: "", omzet: "", penggunaan: "", catatan: "" });
+  const [reports, setReports] = useState<OmzetReport[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const [reports, setReports] = useState<OmzetReport[]>([
-    { id: "RPT-018", tanggal: "5 Jun 2026", omzet: 27100000, penggunaan: "Operasional rutin & restock barang dagangan", catatan: "Penjualan meningkat 12% minggu ini" },
-    { id: "RPT-017", tanggal: "1 Jun 2026", omzet: 25600000, penggunaan: "Operasional rutin", catatan: "Stabil, tidak ada kendala" },
-    { id: "RPT-016", tanggal: "1 Mei 2026", omzet: 24300000, penggunaan: "Restock + bayar listrik", catatan: "Pengeluaran lebih tinggi dari biasanya" },
-  ]);
+  useEffect(() => {
+    fetch("/api/umkm/monitoring")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          const formatted = data.map((d: any) => ({
+            id: d.id,
+            tanggal: new Date(d.tanggal).toLocaleDateString("id-ID", {
+              day: "numeric",
+              month: "short",
+              year: "numeric"
+            }),
+            omzet: Number(d.omzet),
+            penggunaan: d.penggunaan,
+            catatan: d.catatan || ""
+          }));
+          setReports(formatted);
+        }
+      })
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
+  }, []);
 
   const chartData = reports.slice(0, 5).reverse();
   const maxOmzet = Math.max(...chartData.map((r) => r.omzet), 1);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
-      const newReport: OmzetReport = {
-        id: `RPT-${Date.now()}`,
-        tanggal: form.tanggal || new Date().toLocaleDateString("id-ID"),
-        omzet: parseInt(form.omzet) || 0,
-        penggunaan: form.penggunaan,
-        catatan: form.catatan,
-      };
-      setReports((prev) => [newReport, ...prev]);
-      setForm({ tanggal: "", omzet: "", penggunaan: "", catatan: "" });
+    
+    try {
+      const res = await fetch("/api/umkm/monitoring", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          tanggal: form.tanggal || new Date().toISOString(),
+          omzet: Number(form.omzet) || 0,
+          penggunaan: form.penggunaan,
+          catatan: form.catatan
+        })
+      });
+
+      if (res.ok) {
+        const d = await res.json();
+        const newReport: OmzetReport = {
+          id: d.id,
+          tanggal: new Date(d.tanggal).toLocaleDateString("id-ID", {
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+          }),
+          omzet: Number(d.omzet),
+          penggunaan: d.penggunaan,
+          catatan: d.catatan || ""
+        };
+        setReports((prev) => [newReport, ...prev]);
+        setForm({ tanggal: "", omzet: "", penggunaan: "", catatan: "" });
+        setSaved(true);
+        setTimeout(() => setSaved(false), 3000);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
       setIsSubmitting(false);
-      setSaved(true);
-      setTimeout(() => setSaved(false), 3000);
-    }, 1200);
+    }
   };
 
   return (
@@ -53,7 +95,7 @@ export default function MonitoringUsaha() {
             Update omzet berkala dan laporan penggunaan dana untuk investor dan sistem risk management AI.
           </p>
         </div>
-        {saved && <span style={{ color: "#10b981", fontWeight: 700, fontSize: "0.9rem" }}>✅ Laporan terkirim & investor dinotifikasi!</span>}
+        {saved && <span style={{ color: "#1d4ed8", fontWeight: 700, fontSize: "0.9rem" }}><CheckCircle style={{ verticalAlign: "-0.125em" }} /> Laporan terkirim & investor dinotifikasi!</span>}
       </header>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
@@ -61,7 +103,7 @@ export default function MonitoringUsaha() {
         {/* Input Form */}
         <form onSubmit={handleSubmit} className={`${styles.sectionCard} glass`}>
           <div className={styles.sectionHeader}>
-            <h3>📝 Input Update Omzet</h3>
+            <h3><Pencil style={{ verticalAlign: "-0.125em" }} /> Input Update Omzet</h3>
             <span className={`${styles.badge} ${styles.badgeGreen}`}>Akad AKD-042 & AKD-038</span>
           </div>
 
@@ -97,7 +139,7 @@ export default function MonitoringUsaha() {
               className={styles.btnPrimary}
               style={{ padding: "0.8rem 1.75rem", border: "none", borderRadius: 10, cursor: "pointer", fontWeight: 700, fontSize: "0.9rem" }}
             >
-              {isSubmitting ? "Mengirim laporan..." : "📤 Kirim Laporan ke Investor"}
+              {isSubmitting ? "Mengirim laporan..." : (<><ArrowUpTray style={{ verticalAlign: "-0.125em" }} /> Kirim Laporan ke Investor</>)}
             </button>
           </div>
         </form>
@@ -105,7 +147,7 @@ export default function MonitoringUsaha() {
         {/* Progress Chart */}
         <div className={`${styles.sectionCard} glass`}>
           <div className={styles.sectionHeader}>
-            <h3>📈 Grafik Progres Omzet</h3>
+            <h3><TrendingUp style={{ verticalAlign: "-0.125em" }} /> Grafik Progres Omzet</h3>
             <span className={`${styles.badge} ${styles.badgeGreen}`}>3 Bulan Terakhir</span>
           </div>
 
@@ -134,7 +176,7 @@ export default function MonitoringUsaha() {
           <div style={{ marginTop: "1.5rem" }}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.4rem" }}>
               <span style={{ fontSize: "0.85rem", color: "var(--text-muted)", fontWeight: 600 }}>Progres Target Dana Akad</span>
-              <span style={{ fontSize: "0.85rem", fontWeight: 800, color: "#10b981" }}>75%</span>
+              <span style={{ fontSize: "0.85rem", fontWeight: 800, color: "#1d4ed8" }}>75%</span>
             </div>
             <div className={styles.progressBar}>
               <div className={styles.progressFill} style={{ width: "75%" }} />
@@ -168,7 +210,7 @@ export default function MonitoringUsaha() {
                 <tr key={r.id}>
                   <td style={{ fontFamily: "monospace", color: "var(--text-muted)" }}>{r.id}</td>
                   <td style={{ fontWeight: 600 }}>{r.tanggal}</td>
-                  <td style={{ fontWeight: 800, color: "#10b981" }}>Rp {r.omzet.toLocaleString("id-ID")}</td>
+                  <td style={{ fontWeight: 800, color: "#1d4ed8" }}>Rp {r.omzet.toLocaleString("id-ID")}</td>
                   <td style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>{r.penggunaan}</td>
                   <td style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>{r.catatan || "-"}</td>
                 </tr>

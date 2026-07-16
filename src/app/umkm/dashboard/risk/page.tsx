@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import styles from "../page.module.css";
+import { AlertTriangle, CheckCircle, AlertOctagon, Lock, BarChart, Dot, Lightbulb } from "@/components/icons";
 
 interface RiskAlert {
   id: string;
@@ -51,8 +52,8 @@ export default function RiskWarning() {
   const active = alerts.filter((a) => a.status === "Active");
   const resolved = alerts.filter((a) => a.status === "Resolved");
 
-  const severityColor = (s: string) => s === "High" ? "#ef4444" : s === "Medium" ? "#f59e0b" : "#10b981";
-  const severityBg = (s: string) => s === "High" ? "rgba(239,68,68,0.1)" : s === "Medium" ? "rgba(245,158,11,0.1)" : "rgba(16,185,129,0.1)";
+  const severityColor = (s: string) => s === "High" ? "#ef4444" : s === "Medium" ? "#f59e0b" : "#1d4ed8";
+  const severityBg = (s: string) => s === "High" ? "rgba(239,68,68,0.1)" : s === "Medium" ? "rgba(245,158,11,0.1)" : "rgba(29,78,216,0.1)";
 
   return (
     <div className={styles.container}>
@@ -68,9 +69,9 @@ export default function RiskWarning() {
       {/* Risk Summary */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.25rem" }}>
         {[
-          { label: "Alert Aktif", count: active.length, color: active.length > 0 ? "#f59e0b" : "#10b981", icon: active.length > 0 ? "⚠️" : "✅" },
-          { label: "Alert High Severity", count: active.filter((a) => a.severity === "High").length, color: "#ef4444", icon: "🚨" },
-          { label: "Alert Resolved", count: resolved.length, color: "#10b981", icon: "🔒" },
+          { label: "Alert Aktif", count: active.length, color: active.length > 0 ? "#f59e0b" : "#1d4ed8", icon: active.length > 0 ? <AlertTriangle /> : <CheckCircle /> },
+          { label: "Alert High Severity", count: active.filter((a) => a.severity === "High").length, color: "#ef4444", icon: <AlertOctagon /> },
+          { label: "Alert Resolved", count: resolved.length, color: "#1d4ed8", icon: <Lock /> },
         ].map((stat) => (
           <div key={stat.label} className={`${styles.metricCard} glass`}>
             <div className={styles.metricHeader}>
@@ -85,15 +86,15 @@ export default function RiskWarning() {
       {/* Skor Risiko Saat Ini */}
       <div className={`${styles.sectionCard} glass`}>
         <div className={styles.sectionHeader}>
-          <h3>📊 Profil Risiko Usaha Saat Ini</h3>
+          <h3><BarChart style={{ verticalAlign: "-0.125em" }} /> Profil Risiko Usaha Saat Ini</h3>
           <span className={`${styles.badge} ${styles.badgeGreen}`}>Low Risk</span>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem" }}>
           {[
-            { label: "Risiko Kredit", level: "Low", score: 22, color: "#10b981" },
+            { label: "Risiko Kredit", level: "Low", score: 22, color: "#1d4ed8" },
             { label: "Risiko Operasional", level: "Medium", score: 48, color: "#f59e0b" },
-            { label: "Risiko Pasar", level: "Low", score: 30, color: "#10b981" },
-            { label: "Risiko Keterlambatan", level: "Low", score: 15, color: "#10b981" },
+            { label: "Risiko Pasar", level: "Low", score: 30, color: "#1d4ed8" },
+            { label: "Risiko Keterlambatan", level: "Low", score: 15, color: "#1d4ed8" },
           ].map((r) => (
             <div key={r.label} style={{ padding: "1rem", border: "1px solid var(--border-color)", borderRadius: 12, background: "rgba(0,0,0,0.01)" }}>
               <p style={{ fontSize: "0.8rem", color: "var(--text-muted)", fontWeight: 600, marginBottom: "0.5rem" }}>{r.label}</p>
@@ -112,7 +113,7 @@ export default function RiskWarning() {
       {/* Active Alerts */}
       {active.length > 0 && (
         <div>
-          <h3 style={{ fontWeight: 800, color: "var(--text-color)", marginBottom: "1rem" }}>🔴 Alert Aktif ({active.length})</h3>
+          <h3 style={{ fontWeight: 800, color: "var(--text-color)", marginBottom: "1rem" }}><Dot color="#ef4444" style={{ verticalAlign: "-0.125em" }} /> Alert Aktif ({active.length})</h3>
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
             {active.map((alert) => (
               <div
@@ -149,7 +150,7 @@ export default function RiskWarning() {
                   <span style={{ fontSize: "0.75rem", color: "var(--text-muted)", whiteSpace: "nowrap", marginLeft: "1rem" }}>{alert.tanggal}</span>
                 </div>
                 <div style={{ padding: "0.75rem 1rem", background: "rgba(255,255,255,0.5)", borderRadius: 10, borderLeft: `3px solid ${severityColor(alert.severity)}` }}>
-                  <p style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-color)", marginBottom: "0.2rem" }}>💡 Rekomendasi AI:</p>
+                  <p style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-color)", marginBottom: "0.2rem" }}><Lightbulb style={{ verticalAlign: "-0.125em" }} /> Rekomendasi AI:</p>
                   <p style={{ fontSize: "0.85rem", color: "var(--text-muted)", lineHeight: 1.5 }}>{alert.rekomendasi}</p>
                 </div>
                 <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -158,7 +159,7 @@ export default function RiskWarning() {
                     className={`${styles.btnSm} ${styles.btnSmGreen}`}
                     style={{ border: "none", cursor: "pointer" }}
                   >
-                    ✅ Tandai Sudah Ditindaklanjuti
+                    <CheckCircle style={{ verticalAlign: "-0.125em" }} /> Tandai Sudah Ditindaklanjuti
                   </button>
                 </div>
               </div>
@@ -171,7 +172,7 @@ export default function RiskWarning() {
       {resolved.length > 0 && (
         <div className={`${styles.tableSection} glass`}>
           <div style={{ padding: "1.5rem", borderBottom: "1px solid var(--border-color)" }}>
-            <h3 style={{ fontWeight: 800, color: "var(--text-color)" }}>✅ Alert Sudah Diselesaikan ({resolved.length})</h3>
+            <h3 style={{ fontWeight: 800, color: "var(--text-color)" }}><CheckCircle style={{ verticalAlign: "-0.125em" }} /> Alert Sudah Diselesaikan ({resolved.length})</h3>
           </div>
           <div className={styles.tableWrapper}>
             <table className={styles.table}>
