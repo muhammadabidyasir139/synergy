@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import styles from "./page.module.css";
+import { Settings, Refresh, CheckCircle, Save } from "@/components/icons";
 
 interface ConfigField {
   id: string;
@@ -74,7 +75,7 @@ export default function ConfigurationPage() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>⚙️ Konfigurasi Nisbah & AI</h1>
+      <h1 className={styles.title}><Settings style={{ verticalAlign: "-0.125em" }} /> Konfigurasi Nisbah & AI</h1>
       <p className={styles.subtitle}>Atur parameter bagi hasil, fee, dan threshold AI scoring</p>
 
       <div className={styles.configGrid}>
@@ -96,7 +97,7 @@ export default function ConfigurationPage() {
 
       <div className={styles.actions}>
         <button className={styles.saveBtn} onClick={handleSave} disabled={saving}>
-          {saving ? "⏳ Menyimpan..." : saved ? "✅ Tersimpan!" : "💾 Simpan Konfigurasi"}
+          {saving ? <><Refresh style={{ verticalAlign: "-0.125em" }} /> Menyimpan...</> : saved ? <><CheckCircle style={{ verticalAlign: "-0.125em" }} /> Tersimpan!</> : <><Save style={{ verticalAlign: "-0.125em" }} /> Simpan Konfigurasi</>}
         </button>
       </div>
     </div>

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import styles from "../page.module.css";
+import { CheckCircle, Chain, TrendingDown, Banknote, Handshake, Landmark, AlertTriangle, Refresh } from "@/components/icons";
 
 interface WalletHistory {
   id: string;
@@ -66,11 +67,11 @@ export default function Wallet() {
       <div style={{
         padding: "2rem 2.5rem",
         borderRadius: 24,
-        background: "linear-gradient(135deg, #10b981, #059669)",
+        background: "linear-gradient(135deg, #1d4ed8, #0ea5e9)",
         color: "#ffffff",
         position: "relative",
         overflow: "hidden",
-        boxShadow: "0 12px 30px rgba(16,185,129,0.25)",
+        boxShadow: "0 12px 30px rgba(29,78,216,0.25)",
       }}>
         {/* Decorative circles */}
         <div style={{ position: "absolute", right: -40, top: -40, width: 200, height: 200, borderRadius: "50%", background: "rgba(255,255,255,0.08)" }} />
@@ -88,20 +89,20 @@ export default function Wallet() {
             </div>
             <div>
               <p style={{ fontSize: "0.75rem", opacity: 0.75 }}>Status KYC</p>
-              <p style={{ fontWeight: 700 }}>✅ Terverifikasi</p>
+              <p style={{ fontWeight: 700 }}><CheckCircle style={{ verticalAlign: "-0.125em" }} /> Terverifikasi</p>
             </div>
             <div>
               <p style={{ fontSize: "0.75rem", opacity: 0.75 }}>Blockchain</p>
-              <p style={{ fontWeight: 700 }}>⛓️ Sinkron</p>
+              <p style={{ fontWeight: 700 }}><Chain style={{ verticalAlign: "-0.125em" }} /> Sinkron</p>
             </div>
           </div>
 
           <div style={{ display: "flex", gap: "1rem", marginTop: "1.75rem" }}>
             <button
               onClick={() => setIsWithdrawOpen(true)}
-              style={{ background: "#fff", color: "#059669", border: "none", padding: "0.8rem 2rem", borderRadius: 12, fontWeight: 800, cursor: "pointer", fontSize: "0.95rem" }}
+              style={{ background: "#fff", color: "#0ea5e9", border: "none", padding: "0.8rem 2rem", borderRadius: 12, fontWeight: 800, cursor: "pointer", fontSize: "0.95rem" }}
             >
-              💸 Withdraw Dana
+              <TrendingDown style={{ verticalAlign: "-0.125em" }} /> Withdraw Dana
             </button>
           </div>
         </div>
@@ -112,9 +113,9 @@ export default function Wallet() {
         <div className={`${styles.metricCard} glass`}>
           <div className={styles.metricHeader}>
             <span className={styles.metricTitle}>Total Dana Diterima</span>
-            <span className={styles.metricIcon}>💵</span>
+            <span className={styles.metricIcon}><Banknote /></span>
           </div>
-          <div className={styles.metricValue} style={{ color: "#10b981" }}>Rp 175 Jt</div>
+          <div className={styles.metricValue} style={{ color: "#1d4ed8" }}>Rp 175 Jt</div>
           <div className={styles.metricFooter}>
             <span className={styles.trendPositive}>3 akad aktif</span>
           </div>
@@ -122,7 +123,7 @@ export default function Wallet() {
         <div className={`${styles.metricCard} glass`}>
           <div className={styles.metricHeader}>
             <span className={styles.metricTitle}>Total Bagi Hasil Dibayar</span>
-            <span className={styles.metricIcon}>🤝</span>
+            <span className={styles.metricIcon}><Handshake /></span>
           </div>
           <div className={styles.metricValue} style={{ color: "#ef4444" }}>Rp 16.08 Jt</div>
           <div className={styles.metricFooter}>
@@ -132,7 +133,7 @@ export default function Wallet() {
         <div className={`${styles.metricCard} glass`}>
           <div className={styles.metricHeader}>
             <span className={styles.metricTitle}>Total Withdraw</span>
-            <span className={styles.metricIcon}>🏦</span>
+            <span className={styles.metricIcon}><Landmark /></span>
           </div>
           <div className={styles.metricValue} style={{ color: "var(--text-color)" }}>Rp 20 Jt</div>
           <div className={styles.metricFooter}>
@@ -172,7 +173,7 @@ export default function Wallet() {
                     }`}>{h.tipe}</span>
                   </td>
                   <td style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>{h.ket}</td>
-                  <td style={{ textAlign: "right", fontWeight: 800, fontFamily: "monospace", color: h.jumlah > 0 ? "#10b981" : "#ef4444" }}>
+                  <td style={{ textAlign: "right", fontWeight: 800, fontFamily: "monospace", color: h.jumlah > 0 ? "#1d4ed8" : "#ef4444" }}>
                     {h.jumlah > 0 ? "+" : ""}Rp {Math.abs(h.jumlah).toLocaleString("id-ID")}
                   </td>
                   <td>
@@ -192,14 +193,14 @@ export default function Wallet() {
         <div className={styles.modalOverlay} onClick={() => !isProcessing && setIsWithdrawOpen(false)}>
           <div className={`${styles.modal} glass`} onClick={(e) => e.stopPropagation()}>
             <div className={styles.modalHeader}>
-              <h2>💸 Withdraw Dana</h2>
+              <h2><TrendingDown style={{ verticalAlign: "-0.125em" }} /> Withdraw Dana</h2>
               <button className={styles.closeBtn} onClick={() => !isProcessing && setIsWithdrawOpen(false)}>×</button>
             </div>
             <form onSubmit={handleWithdraw}>
               <div className={styles.modalBody}>
-                <div style={{ padding: "1rem 1.25rem", background: "rgba(16,185,129,0.08)", borderRadius: 12, marginBottom: "0.5rem" }}>
+                <div style={{ padding: "1rem 1.25rem", background: "rgba(29,78,216,0.08)", borderRadius: 12, marginBottom: "0.5rem" }}>
                   <p style={{ fontSize: "0.8rem", color: "var(--text-muted)", fontWeight: 600 }}>Saldo Tersedia</p>
-                  <p style={{ fontSize: "1.5rem", fontWeight: 800, color: "#10b981" }}>Rp {walletSaldo.toLocaleString("id-ID")}</p>
+                  <p style={{ fontSize: "1.5rem", fontWeight: 800, color: "#1d4ed8" }}>Rp {walletSaldo.toLocaleString("id-ID")}</p>
                 </div>
 
                 <div className={styles.inputGroup}>
@@ -236,7 +237,7 @@ export default function Wallet() {
                 </div>
 
                 <div style={{ padding: "0.75rem 1rem", background: "rgba(245,158,11,0.08)", borderRadius: 10, border: "1px solid rgba(245,158,11,0.2)", fontSize: "0.8rem", color: "var(--text-muted)", lineHeight: 1.6 }}>
-                  ⚠️ Withdrawal akan diproses dalam 1x24 jam kerja. Pastikan nomor rekening BSI Anda sudah benar sebelum konfirmasi.
+                  <AlertTriangle style={{ verticalAlign: "-0.125em" }} /> Withdrawal akan diproses dalam 1x24 jam kerja. Pastikan nomor rekening BSI Anda sudah benar sebelum konfirmasi.
                 </div>
               </div>
               <div className={styles.modalFooter}>
@@ -249,7 +250,11 @@ export default function Wallet() {
                   className={styles.btnPrimary}
                   style={{ padding: "0.8rem 1.5rem", border: "none", borderRadius: 10, cursor: "pointer", fontWeight: 700 }}
                 >
-                  {isProcessing ? "⏳ Memproses..." : "💸 Konfirmasi Withdraw"}
+                  {isProcessing ? (
+                    <><Refresh style={{ verticalAlign: "-0.125em" }} /> Memproses...</>
+                  ) : (
+                    <><TrendingDown style={{ verticalAlign: "-0.125em" }} /> Konfirmasi Withdraw</>
+                  )}
                 </button>
               </div>
             </form>

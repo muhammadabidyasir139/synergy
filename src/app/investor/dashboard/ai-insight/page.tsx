@@ -3,6 +3,16 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./page.module.css";
+import {
+  Bot,
+  Shield,
+  Scale,
+  Rocket,
+  BarChart,
+  Target,
+  Refresh,
+  Lightbulb,
+} from "@/components/icons";
 
 interface RecommendedUMKM {
   id: string;
@@ -66,7 +76,9 @@ export default function AIInsightPage() {
   return (
     <div className={styles.page}>
       <div className={styles.aiHeader}>
-        <div className={styles.aiIconBox}>🤖</div>
+        <div className={styles.aiIconBox}>
+          <Bot />
+        </div>
         <div>
           <h2 className={styles.aiTitle}>AI Scoring</h2>
           <p className={styles.aiDesc}>
@@ -88,7 +100,13 @@ export default function AIInsightPage() {
                 onClick={() => setActiveProfile(p)}
               >
                 <span>
-                  {p === "conservative" ? "🛡️" : p === "balanced" ? "⚖️" : "🚀"}
+                  {p === "conservative" ? (
+                    <Shield />
+                  ) : p === "balanced" ? (
+                    <Scale />
+                  ) : (
+                    <Rocket />
+                  )}
                 </span>
                 <span className={styles.profileLabel}>
                   {p === "conservative"
@@ -108,21 +126,27 @@ export default function AIInsightPage() {
 
       <div className={styles.statsRow}>
         <div className={styles.statCard}>
-          <span className={styles.statIcon}>📊</span>
+          <span className={styles.statIcon}>
+            <BarChart />
+          </span>
           <div>
             <p className={styles.statVal}>50.000+</p>
             <p className={styles.statLabel}>Data Training XGBoost</p>
           </div>
         </div>
         <div className={styles.statCard}>
-          <span className={styles.statIcon}>🎯</span>
+          <span className={styles.statIcon}>
+            <Target />
+          </span>
           <div>
             <p className={styles.statVal}>94.2%</p>
             <p className={styles.statLabel}>Akurasi Prediksi Model</p>
           </div>
         </div>
         <div className={styles.statCard}>
-          <span className={styles.statIcon}>🔄</span>
+          <span className={styles.statIcon}>
+            <Refresh />
+          </span>
           <div>
             <p className={styles.statVal}>Real-time</p>
             <p className={styles.statLabel}>Update Scoring Harian</p>
@@ -168,7 +192,10 @@ export default function AIInsightPage() {
                   />
                 </div>
 
-                <p className={styles.recReason}>💡 {umkm.reason}</p>
+                <p className={styles.recReason}>
+                  <Lightbulb style={{ verticalAlign: "-0.125em" }} />{" "}
+                  {umkm.reason}
+                </p>
 
                 <div className={styles.recMetrics}>
                   <div className={styles.recMetric}>

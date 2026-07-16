@@ -8,6 +8,7 @@ import styles from "./page.module.css";
 import Link from "next/link";
 import Image from "next/image";
 import ScrollReveal from "@/components/ScrollReveal";
+import { AlertTriangle, Lightbulb } from "@/components/icons";
 
 const teamMembers = [
   {
@@ -140,7 +141,7 @@ export default function Home() {
                   </p>
                 </div>
                 <div className={`${styles.statCard} glass`}>
-                  <div className={styles.statNumber}>⚠ Risiko</div>
+                  <div className={styles.statNumber}><AlertTriangle style={{ verticalAlign: "-0.125em" }} /> Risiko</div>
                   <div className={styles.statLabel}>Sentralisasi Data</div>
                   <p className={styles.statDesc}>
                     Sistem perbankan konvensional rawan terhadap kegagalan
@@ -159,7 +160,7 @@ export default function Home() {
               </div>
 
               <div className={`${styles.solutionBox} glass`}>
-                <div className={styles.solutionIcon}>💡</div>
+                <div className={styles.solutionIcon}><Lightbulb /></div>
                 <div>
                   <h3>Solusi SYNERGY</h3>
                   <p>

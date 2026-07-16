@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
+import { Banknote, Calendar, ArrowDownTray, Refresh } from "@/components/icons";
 
 type FilterStatus = "Semua" | "PAID" | "PENDING" | "OVERDUE";
 
@@ -63,16 +64,16 @@ export default function ProfitSharingPage() {
     <div className={styles.page}>
       <div className={styles.summaryRow}>
         <div className={styles.summaryCard}>
-          <span className={styles.sumIcon}>💵</span>
+          <span className={styles.sumIcon}><Banknote /></span>
           <div><p className={styles.sumVal} style={{ color: "#10b981" }}>{formatRp(totalReceived)}</p><p className={styles.sumLabel}>Total Diterima</p></div>
         </div>
         <div className={styles.summaryCard}>
-          <span className={styles.sumIcon}>⏳</span>
+          <span className={styles.sumIcon}><Refresh /></span>
           <div><p className={styles.sumVal} style={{ color: "#f59e0b" }}>{formatRp(totalPending)}</p><p className={styles.sumLabel}>Menunggu Pembayaran</p></div>
         </div>
         {nextPaymentDate && (
           <div className={styles.summaryCard}>
-            <span className={styles.sumIcon}>📅</span>
+            <span className={styles.sumIcon}><Calendar /></span>
             <div><p className={styles.sumVal}>{new Date(nextPaymentDate).toLocaleDateString("id-ID")}</p><p className={styles.sumLabel}>Jadwal Pembayaran Berikutnya</p></div>
           </div>
         )}
@@ -85,7 +86,7 @@ export default function ProfitSharingPage() {
           ))}
         </div>
         <button className={styles.exportBtn} onClick={() => { setExportMsg("Laporan diekspor sebagai PDF."); setTimeout(() => setExportMsg(""), 3000); }}>
-          📥 Export PDF
+          <ArrowDownTray style={{ verticalAlign: "-0.125em" }} /> Export PDF
         </button>
       </div>
 

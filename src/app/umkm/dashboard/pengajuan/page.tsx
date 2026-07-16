@@ -5,6 +5,7 @@ import { createPengajuan, getPengajuans } from "../../actions/pengajuan";
 import styles from "../page.module.css";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { CheckCircle, Pencil, Clipboard, BarChart, Rocket, Check, Refresh } from "@/components/icons";
 
 const MySwal = withReactContent(Swal);
 
@@ -50,7 +51,7 @@ export default function PengajuanPendanaan() {
       showCancelButton: true,
       confirmButtonText: "Ya, Ajukan",
       cancelButtonText: "Batal",
-      confirmButtonColor: "#10b981",
+      confirmButtonColor: "#1d4ed8",
       cancelButtonColor: "#ef4444",
     }).then((result) => {
       if (result.isConfirmed) {
@@ -70,7 +71,7 @@ export default function PengajuanPendanaan() {
             title: "Berhasil!",
             text: "Pengajuan pendanaan berhasil dikirim ke Admin untuk di-review.",
             icon: "success",
-            confirmButtonColor: "#10b981",
+            confirmButtonColor: "#1d4ed8",
           }).then(() => {
             setSubmitted(false);
             setActiveTab("history");
@@ -93,22 +94,22 @@ export default function PengajuanPendanaan() {
         <div>
           <h1 className={styles.title}>Pengajuan Pendanaan</h1>
           <p className={styles.subtitle}>
-            Ajukan kebutuhan modal usaha dengan akad syariah. Skor kredit AI Anda saat ini: <strong style={{ color: "#10b981" }}>78/100 (Low Risk)</strong>
+            Ajukan kebutuhan modal usaha dengan akad syariah. Skor kredit AI Anda saat ini: <strong style={{ color: "#1d4ed8" }}>78/100 (Low Risk)</strong>
           </p>
         </div>
         {submitted && (
-          <span style={{ color: "#10b981", fontWeight: 700, fontSize: "0.9rem" }}>
-            ✅ Pengajuan berhasil dikirim ke Admin!
+          <span style={{ color: "#1d4ed8", fontWeight: 700, fontSize: "0.9rem" }}>
+            <CheckCircle style={{ verticalAlign: "-0.125em" }} /> Pengajuan berhasil dikirim ke Admin!
           </span>
         )}
       </header>
 
       <div className={styles.tabContainer}>
         <button className={`${styles.tabBtn} ${activeTab === "form" ? styles.tabActive : ""}`} onClick={() => setActiveTab("form")}>
-          📝 Form Pengajuan Baru
+          <Pencil style={{ verticalAlign: "-0.125em" }} /> Form Pengajuan Baru
         </button>
         <button className={`${styles.tabBtn} ${activeTab === "history" ? styles.tabActive : ""}`} onClick={() => setActiveTab("history")}>
-          📋 Riwayat Pengajuan
+          <Clipboard style={{ verticalAlign: "-0.125em" }} /> Riwayat Pengajuan
           {pengajuanList.filter((p) => p.status === "Pending").length > 0 && (
             <span style={{ background: "#f59e0b", color: "#fff", fontSize: "0.65rem", padding: "0.1rem 0.4rem", borderRadius: 20, marginLeft: "0.25rem" }}>
               {pengajuanList.filter((p) => p.status === "Pending").length}
@@ -177,9 +178,9 @@ export default function PengajuanPendanaan() {
             </div>
 
             {/* Simulasi */}
-            <div style={{ marginTop: "1.5rem", padding: "1.25rem", background: "rgba(16,185,129,0.06)", borderRadius: 12, border: "1px solid rgba(16,185,129,0.15)" }}>
+            <div style={{ marginTop: "1.5rem", padding: "1.25rem", background: "rgba(29,78,216,0.06)", borderRadius: 12, border: "1px solid rgba(29,78,216,0.15)" }}>
               <h4 style={{ fontWeight: 800, color: "var(--text-color)", marginBottom: "0.75rem", fontSize: "0.9rem" }}>
-                📊 Simulasi Akad
+                <BarChart style={{ verticalAlign: "-0.125em" }} /> Simulasi Akad
               </h4>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "1rem", fontSize: "0.85rem" }}>
                 <div>
@@ -188,11 +189,11 @@ export default function PengajuanPendanaan() {
                 </div>
                 <div>
                   <p style={{ color: "var(--text-muted)", fontWeight: 600 }}>Nisbah / Margin</p>
-                  <p style={{ fontWeight: 700, color: "#10b981" }}>{nisbah}</p>
+                  <p style={{ fontWeight: 700, color: "#1d4ed8" }}>{nisbah}</p>
                 </div>
                 <div>
                   <p style={{ color: "var(--text-muted)", fontWeight: 600 }}>Est. Return Investor</p>
-                  <p style={{ fontWeight: 700, color: "#10b981" }}>{estimasiReturn}</p>
+                  <p style={{ fontWeight: 700, color: "#1d4ed8" }}>{estimasiReturn}</p>
                 </div>
               </div>
             </div>
@@ -204,7 +205,9 @@ export default function PengajuanPendanaan() {
                 className={styles.btnPrimary}
                 style={{ padding: "0.85rem 2rem", border: "none", borderRadius: 10, cursor: "pointer", fontWeight: 700, fontSize: "0.95rem" }}
               >
-                {isSubmitting ? "Mengirim ke Admin..." : "🚀 Submit Pengajuan"}
+                {isSubmitting ? "Mengirim ke Admin..." : (
+                  <><Rocket style={{ verticalAlign: "-0.125em" }} /> Submit Pengajuan</>
+                )}
               </button>
             </div>
           </form>
@@ -212,13 +215,13 @@ export default function PengajuanPendanaan() {
           {/* Info Sidebar */}
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem", minWidth: 240 }}>
             <div className={`${styles.sectionCard} glass`} style={{ padding: "1.25rem" }}>
-              <h4 style={{ fontWeight: 800, color: "var(--text-color)", marginBottom: "0.75rem", fontSize: "0.9rem" }}>✅ Syarat Kelayakan</h4>
+              <h4 style={{ fontWeight: 800, color: "var(--text-color)", marginBottom: "0.75rem", fontSize: "0.9rem" }}><CheckCircle style={{ verticalAlign: "-0.125em" }} /> Syarat Kelayakan</h4>
               {["Skor kredit ≥ 60", "Akun sudah KYC", "Tidak ada akad menunggak", "Data usaha lengkap"].map((s, i) => (
-                <p key={i} style={{ fontSize: "0.8rem", color: "#10b981", fontWeight: 600, marginBottom: "0.35rem" }}>✓ {s}</p>
+                <p key={i} style={{ fontSize: "0.8rem", color: "#1d4ed8", fontWeight: 600, marginBottom: "0.35rem" }}><Check style={{ verticalAlign: "-0.125em" }} /> {s}</p>
               ))}
             </div>
             <div className={`${styles.sectionCard} glass`} style={{ padding: "1.25rem" }}>
-              <h4 style={{ fontWeight: 800, color: "var(--text-color)", marginBottom: "0.75rem", fontSize: "0.9rem" }}>⏱️ Proses Review</h4>
+              <h4 style={{ fontWeight: 800, color: "var(--text-color)", marginBottom: "0.75rem", fontSize: "0.9rem" }}><Refresh style={{ verticalAlign: "-0.125em" }} /> Proses Review</h4>
               {["Pengajuan diterima", "Review AI scoring", "Validasi Admin", "Tayang di Marketplace"].map((s, i) => (
                 <p key={i} style={{ fontSize: "0.8rem", color: "var(--text-muted)", fontWeight: 600, marginBottom: "0.35rem" }}>
                   <span style={{ color: "var(--primary)", marginRight: "0.35rem" }}>{i + 1}.</span>{s}

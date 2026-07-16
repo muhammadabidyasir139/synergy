@@ -47,55 +47,10 @@ export async function POST(request: NextRequest) {
     const passwordHash = await bcrypt.hash(password, 12);
     const userRole = role === "UMKM" ? Role.UMKM : Role.INVESTOR;
 
-    const user = await db.user.create({
-      data: {
-        email: email || null,
-        phoneNumber: normalised,
-        passwordHash,
-        role: userRole,
-        wallet: { create: {} },
-      },
-    });
-
-    if (userRole === Role.INVESTOR && profile) {
-      await db.investorProfile.create({
-        data: {
-          userId: user.id,
-          fullName: profile.fullName,
-          dateOfBirth: profile.dateOfBirth ? new Date(profile.dateOfBirth) : null,
-          address: profile.address || null,
-          city: profile.city || null,
-          province: profile.province || null,
-          investmentGoal: profile.investmentGoal || null,
-          riskTolerance: profile.riskTolerance || "MEDIUM",
-        },
-      });
-    }
-
-    if (userRole === Role.UMKM && profile) {
-      await db.umkmProfile.create({
-        data: {
-          userId: user.id,
-          ownerName: profile.ownerName,
-          businessName: profile.businessName,
-          businessCategory: profile.businessCategory,
-          businessDescription: profile.businessDescription || null,
-          location: profile.location || null,
-          city: profile.city || null,
-          province: profile.province || null,
-          establishedDate: profile.establishedDate ? new Date(profile.establishedDate) : null,
-          employeeCount: profile.employeeCount ? parseInt(profile.employeeCount) : null,
-          monthlyRevenue: profile.monthlyRevenue ? parseFloat(profile.monthlyRevenue) : null,
-          website: profile.website || null,
-          socialMedia: profile.socialMedia && Array.isArray(profile.socialMedia) ? JSON.stringify(profile.socialMedia.filter((sm: any) => sm.platform && sm.handle)) : null,
-        },
-      });
-    }
-
     if (kycFile && kycFile.size > 0) {
       const buffer = Buffer.from(await kycFile.arrayBuffer());
       const fileName = `kyc/${Date.now()}_${kycFile.name.replace(/\s+/g, '_')}`;
-      
+
       await s3Client.send(new PutObjectCommand({
         Bucket: process.env.S3_BUCKET_NAME,
         Key: fileName,
@@ -104,15 +59,70 @@ export async function POST(request: NextRequest) {
       }));
 
       kycDocumentUrl = `${process.env.S3_ENDPOINT}/${process.env.S3_BUCKET_NAME}/${fileName}`;
+    }
 
-      await db.kycDocument.create({
+    const user = await db.$transaction(async (tx) => {
+      const createdUser = await tx.user.create({
         data: {
-          userId: user.id,
-          documentType: "E-KTP",
-          documentUrl: kycDocumentUrl,
+          email: email || null,
+          phoneNumber: normalised,
+          passwordHash,
+          role: userRole,
+          wallet: { create: {} },
         },
       });
-    }
+
+      if (userRole === Role.INVESTOR && profile) {
+        await tx.investorProfile.create({
+          data: {
+            userId: createdUser.id,
+            fullName: profile.fullName,
+            dateOfBirth: profile.dateOfBirth ? new Date(profile.dateOfBirth) : null,
+            address: profile.address || null,
+            city: profile.city || null,
+            province: profile.province || null,
+            district: profile.district || null,
+            postalCode: profile.postalCode || null,
+            investmentGoal: profile.investmentGoal || null,
+            riskTolerance: profile.riskTolerance || "MEDIUM",
+          },
+        });
+      }
+
+      if (userRole === Role.UMKM && profile) {
+        await tx.umkmProfile.create({
+          data: {
+            userId: createdUser.id,
+            ownerName: profile.ownerName,
+            businessName: profile.businessName,
+            businessCategory: profile.businessCategory,
+            businessDescription: profile.businessDescription || null,
+            location: profile.location || null,
+            city: profile.city || null,
+            province: profile.province || null,
+            district: profile.district || null,
+            postalCode: profile.postalCode || null,
+            establishedDate: profile.establishedDate ? new Date(profile.establishedDate) : null,
+            employeeCount: profile.employeeCount ? parseInt(profile.employeeCount) : null,
+            monthlyRevenue: profile.monthlyRevenue ? parseFloat(profile.monthlyRevenue) : null,
+            website: profile.website || null,
+            socialMedia: profile.socialMedia && Array.isArray(profile.socialMedia) ? JSON.stringify(profile.socialMedia.filter((sm: any) => sm.platform && sm.handle)) : null,
+          },
+        });
+      }
+
+      if (kycDocumentUrl) {
+        await tx.kycDocument.create({
+          data: {
+            userId: createdUser.id,
+            documentType: "E-KTP",
+            documentUrl: kycDocumentUrl,
+          },
+        });
+      }
+
+      return createdUser;
+    });
 
     return NextResponse.json({ success: true, userId: user.id }, { status: 201 });
   } catch (err) {

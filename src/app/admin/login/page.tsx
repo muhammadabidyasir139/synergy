@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
+import { User, Key, Eye, EyeOff, Shield, ArrowLeft } from "@/components/icons";
 
 export default function AdminLogin() {
   const router = useRouter();
@@ -99,7 +100,7 @@ export default function AdminLogin() {
             <div className={styles.inputGroup}>
               <label htmlFor="username">Username Admin</label>
               <div className={styles.inputWrapper}>
-                <span className={styles.inputIcon}>👤</span>
+                <span className={styles.inputIcon}><User /></span>
                 <input
                   id="username"
                   type="text"
@@ -116,7 +117,7 @@ export default function AdminLogin() {
             <div className={styles.inputGroup}>
               <label htmlFor="password">Password</label>
               <div className={styles.inputWrapper}>
-                <span className={styles.inputIcon}>🔑</span>
+                <span className={styles.inputIcon}><Key /></span>
                 <input
                   id="password"
                   type={showPassword ? "text" : "password"}
@@ -133,7 +134,7 @@ export default function AdminLogin() {
                   className={styles.eyeBtn}
                   tabIndex={-1}
                 >
-                  {showPassword ? "👁️" : "🙈"}
+                  {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
                 </button>
               </div>
             </div>
@@ -144,7 +145,7 @@ export default function AdminLogin() {
                 <span className={styles.hintText}>Demo: 999999</span>
               </div>
               <div className={styles.inputWrapper}>
-                <span className={styles.inputIcon}>🛡️</span>
+                <span className={styles.inputIcon}><Shield /></span>
                 <input
                   id="securityKey"
                   type="text"
@@ -175,7 +176,7 @@ export default function AdminLogin() {
 
           <div className={styles.cardFooter}>
             <Link href="/" className={styles.backLink}>
-              ← Kembali ke Beranda
+              <ArrowLeft style={{ verticalAlign: "-0.125em" }} /> Kembali ke Beranda
             </Link>
           </div>
         </div>

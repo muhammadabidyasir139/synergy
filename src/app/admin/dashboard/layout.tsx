@@ -5,6 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import styles from "./page.module.css";
 import ThemeToggle from "@/components/ThemeToggle";
+import { Lock, Menu, Chain } from "@/components/icons";
 
 interface SidebarItem {
   name: string;
@@ -209,7 +210,7 @@ export default function AdminLayout({
       <aside className={`${styles.sidebar} glass ${isSidebarOpen ? "" : styles.sidebarClosed}`}>
         <div className={styles.sidebarHeader}>
           <div className={styles.logoGroup}>
-            <span className={styles.shieldGlowMini}>🔐</span>
+            <span className={styles.shieldGlowMini}><Lock /></span>
             <div>
               <span className={styles.sidebarLogo}>SYNERGY</span>
               <span className={styles.sidebarSub}>ADMIN PANEL</span>
@@ -278,7 +279,7 @@ export default function AdminLayout({
                 onClick={() => setIsSidebarOpen(true)} 
                 className={styles.hamburgerBtn}
               >
-                ☰
+                <Menu />
               </button>
             )}
             <h2 className={styles.headerTitle}>
@@ -288,7 +289,7 @@ export default function AdminLayout({
 
           <div className={styles.headerActions}>
             <div className={styles.blockchainIndicator}>
-              <span className={styles.indicatorIcon}>⛓️</span>
+              <span className={styles.indicatorIcon}><Chain /></span>
               <span className={styles.indicatorText}>Secured Smart Contract</span>
             </div>
             <ThemeToggle />

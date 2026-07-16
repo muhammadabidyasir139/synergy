@@ -1,15 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { TransactionType, TransactionStatus } from "@/generated/prisma";
+import { TransactionType } from "@/generated/prisma";
+import { requireInvestorProfileId } from "@/lib/auth-guard";
+import { initiateOutboundPayment } from "@/lib/doku/payments";
 
 export async function POST(request: NextRequest) {
   try {
-    const investorProfileId = request.headers.get("x-investor-id");
-    if (!investorProfileId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const guard = await requireInvestorProfileId();
+    if (guard.error) return guard.error;
+    const investorProfileId = guard.id;
 
-    const { amount, bankAccount } = await request.json();
+    const { amount, bankCode, accountNumber, accountName } = await request.json();
     if (!amount || amount < 10000) {
       return NextResponse.json({ error: "Minimal penarikan Rp 10.000." }, { status: 400 });
+    }
+    if (!bankCode || !accountNumber || !accountName) {
+      return NextResponse.json({ error: "Detail rekening tujuan wajib diisi." }, { status: 400 });
     }
 
     const profile = await db.investorProfile.findUnique({
@@ -24,30 +30,42 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Saldo tersedia tidak mencukupi." }, { status: 400 });
     }
 
-    const result = await db.$transaction(async (tx) => {
-      const txn = await tx.transaction.create({
-        data: {
-          walletId: wallet.id,
-          type: TransactionType.WITHDRAWAL,
-          amount,
-          balanceBefore: Number(wallet.balance),
-          balanceAfter: Number(wallet.balance) - amount,
-          status: TransactionStatus.COMPLETED,
-          description: `Penarikan ke ${bankAccount ?? "Rekening Terdaftar"}`,
-          processedAt: new Date(),
-        },
+    const balanceBefore = Number(wallet.balance);
+    const balanceAfter = balanceBefore - amount;
+    await db.wallet.update({ where: { id: wallet.id }, data: { balance: { decrement: amount } } });
+
+    let result;
+    try {
+      result = await initiateOutboundPayment({
+        walletId: wallet.id,
+        amount,
+        type: TransactionType.WITHDRAWAL,
+        description: `Penarikan ke ${bankCode} ${accountNumber}`,
+        destination: { bankCode, accountNumber, accountName },
+        invoicePrefix: "WD",
+        balanceBefore,
+        balanceAfter,
       });
-      const updated = await tx.wallet.update({
-        where: { id: wallet.id },
-        data: { balance: { decrement: amount } },
-      });
-      return { txn, newBalance: Number(updated.balance) };
-    });
+    } catch (dokuErr) {
+      console.error("[DOKU withdraw]", dokuErr);
+      await db.wallet.update({ where: { id: wallet.id }, data: { balance: { increment: amount } } });
+      return NextResponse.json({ error: "Gateway pencairan DOKU belum dikonfigurasi." }, { status: 502 });
+    }
+
+    if (!result.success && result.status === "FAILED") {
+      const refreshed = await db.wallet.findUnique({ where: { id: wallet.id } });
+      return NextResponse.json({
+        error: result.error ?? "Pencairan dana gagal.",
+        newBalance: refreshed ? Number(refreshed.balance) : balanceBefore,
+      }, { status: 502 });
+    }
 
     return NextResponse.json({
       success: true,
-      transactionId: result.txn.id,
-      newBalance: result.newBalance,
+      transactionId: result.transactionId,
+      invoiceNumber: result.invoiceNumber,
+      status: result.status,
+      newBalance: balanceAfter,
     }, { status: 201 });
   } catch (err) {
     console.error(err);

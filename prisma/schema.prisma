@@ -55,6 +55,8 @@ model InvestorProfile {
   address        String?
   city           String?
   province       String?
+  district       String?
+  postalCode     String?
   investmentGoal String?
   riskTolerance  RiskLevel    @default(MEDIUM)
   totalInvested  Decimal      @default(0.00)
@@ -77,6 +79,8 @@ model UmkmProfile {
   location            String?
   city                String?
   province            String?
+  district            String?
+  postalCode          String?
   establishedDate     DateTime?
   employeeCount       Int?
   monthlyRevenue      Decimal?
@@ -89,9 +93,24 @@ model UmkmProfile {
   campaigns           Campaign[]
   creditScores        CreditScore[]
   fundingApplications FundingApplication[]
+  media               UmkmMedia[]
+  monitoringReports   MonitoringReport[]
   user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("umkm_profiles")
+}
+
+model UmkmMedia {
+  id            String      @id @default(cuid())
+  umkmProfileId String
+  type          MediaType
+  url           String
+  caption       String?
+  createdAt     DateTime    @default(now())
+  umkmProfile   UmkmProfile @relation(fields: [umkmProfileId], references: [id], onDelete: Cascade)
+
+  @@index([umkmProfileId], map: "idx_umkm_media_umkmProfileId")
+  @@map("umkm_media")
 }
 
 model KycDocument {
@@ -301,10 +320,37 @@ model Transaction {
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
   fraudAlert        FraudAlert?
+  dokuPayment       DokuPayment?
   wallet            Wallet            @relation(fields: [walletId], references: [id], onDelete: Cascade)
 
   @@index([walletId], map: "idx_transactions_walletId")
   @@map("transactions")
+}
+
+model DokuPayment {
+  id                       String            @id @default(cuid())
+  transactionId            String            @unique
+  direction                DokuDirection
+  invoiceNumber            String            @unique
+  dokuRequestId             String?
+  channel                  String?
+  status                   DokuPaymentStatus @default(PENDING)
+  amount                   Decimal
+  virtualAccountNo         String?
+  paymentUrl               String?
+  destinationBank          String?
+  destinationAccountNumber String?
+  destinationAccountName   String?
+  expiredAt                DateTime?
+  paidAt                   DateTime?
+  rawRequest               Json?
+  rawResponse              Json?
+  rawCallback              Json?
+  createdAt                DateTime          @default(now())
+  updatedAt                DateTime          @updatedAt
+  transaction              Transaction       @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+
+  @@map("doku_payments")
 }
 
 model BlockchainTransaction {
@@ -375,6 +421,21 @@ model BusinessUpdate {
 
   @@index([umkmProfileId], map: "idx_business_updates_umkmProfileId")
   @@map("business_updates")
+}
+
+model MonitoringReport {
+  id            String      @id @default(cuid())
+  umkmProfileId String
+  tanggal       DateTime    @default(now())
+  omzet         Decimal
+  penggunaan    String
+  catatan       String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  umkmProfile   UmkmProfile @relation(fields: [umkmProfileId], references: [id], onDelete: Cascade)
+
+  @@index([umkmProfileId], map: "idx_monitoring_reports_umkmProfileId")
+  @@map("monitoring_reports")
 }
 
 model OtpVerification {
@@ -499,6 +560,20 @@ enum TransactionType {
   PROFIT_SHARING
   PLATFORM_FEE
   REFUND
+  DISBURSEMENT
+}
+
+enum DokuDirection {
+  INBOUND
+  OUTBOUND
+}
+
+enum DokuPaymentStatus {
+  PENDING
+  PAID
+  EXPIRED
+  FAILED
+  CANCELLED
 }
 
 enum TransactionStatus {
@@ -539,4 +614,9 @@ enum OtpPurpose {
   EMAIL_VERIFY
   PHONE_VERIFY
   TRANSACTION
+}
+
+enum MediaType {
+  LOGO
+  GALLERY
 }

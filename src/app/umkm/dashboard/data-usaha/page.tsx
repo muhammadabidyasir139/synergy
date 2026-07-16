@@ -5,6 +5,7 @@ import { createDataUsaha, getDataUsaha } from "../../actions/dataUsaha";
 import styles from "../page.module.css";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { CheckCircle, Pencil, Clipboard, Link, Save, ShoppingCart, ShoppingBag, Monitor, Dot } from "@/components/icons";
 
 const MySwal = withReactContent(Swal);
 
@@ -42,7 +43,7 @@ export default function DataUsaha() {
       showCancelButton: true,
       confirmButtonText: "Ya, Simpan",
       cancelButtonText: "Batal",
-      confirmButtonColor: "#10b981",
+      confirmButtonColor: "#1d4ed8",
       cancelButtonColor: "#ef4444",
     }).then((result) => {
       if (result.isConfirmed) {
@@ -65,7 +66,7 @@ export default function DataUsaha() {
             title: "Berhasil!",
             text: "Data usaha berhasil disimpan & dikirim ke AI XGBoost.",
             icon: "success",
-            confirmButtonColor: "#10b981",
+            confirmButtonColor: "#1d4ed8",
           });
 
           setTimeout(() => setSaved(false), 3000);
@@ -95,19 +96,19 @@ export default function DataUsaha() {
           </p>
         </div>
         {saved && (
-          <span style={{ color: "#10b981", fontWeight: 700, fontSize: "0.9rem" }}>✅ Data tersimpan & dikirim ke AI!</span>
+          <span style={{ color: "#1d4ed8", fontWeight: 700, fontSize: "0.9rem" }}><CheckCircle style={{ verticalAlign: "-0.125em" }} /> Data tersimpan & dikirim ke AI!</span>
         )}
       </header>
 
       <div className={styles.tabContainer}>
         <button className={`${styles.tabBtn} ${activeTab === "input" ? styles.tabActive : ""}`} onClick={() => setActiveTab("input")}>
-          ✏️ Input Manual
+          <Pencil style={{ verticalAlign: "-0.125em" }} /> Input Manual
         </button>
         <button className={`${styles.tabBtn} ${activeTab === "history" ? styles.tabActive : ""}`} onClick={() => setActiveTab("history")}>
-          📋 Riwayat Data
+          <Clipboard style={{ verticalAlign: "-0.125em" }} /> Riwayat Data
         </button>
         <button className={`${styles.tabBtn} ${activeTab === "api" ? styles.tabActive : ""}`} onClick={() => setActiveTab("api")}>
-          🔗 Integrasi API
+          <Link style={{ verticalAlign: "-0.125em" }} /> Integrasi API
         </button>
       </div>
 
@@ -162,7 +163,7 @@ export default function DataUsaha() {
                     : "Otomatis dihitung"
                 }
                 disabled
-                style={{ color: "#10b981", fontWeight: 700 }}
+                style={{ color: "#1d4ed8", fontWeight: 700 }}
               />
             </div>
             <div className={styles.inputGroup} style={{ gridColumn: "1 / -1" }}>
@@ -184,7 +185,9 @@ export default function DataUsaha() {
               className={styles.btnPrimary}
               style={{ padding: "0.8rem 2rem", borderRadius: 10, border: "none", cursor: "pointer", fontWeight: 700, fontSize: "0.95rem" }}
             >
-              {isSaving ? "Menyimpan ke Database AI..." : "💾 Simpan & Kirim ke AI"}
+              {isSaving ? "Menyimpan ke Database AI..." : (
+                <><Save style={{ verticalAlign: "-0.125em" }} /> Simpan & Kirim ke AI</>
+              )}
             </button>
           </div>
         </form>
@@ -215,7 +218,7 @@ export default function DataUsaha() {
                     <td>{entry.tanggal}</td>
                     <td style={{ fontWeight: 700, color: "var(--text-color)" }}>{entry.omzet}</td>
                     <td style={{ color: "#ef4444" }}>{entry.pengeluaran}</td>
-                    <td style={{ fontWeight: 700, color: "#10b981" }}>{entry.laba}</td>
+                    <td style={{ fontWeight: 700, color: "#1d4ed8" }}>{entry.laba}</td>
                     <td>
                       <span className={`${styles.badge} ${entry.sumber === "API" ? styles.badgeBlue : styles.badgePurple}`}>
                         {entry.sumber}
@@ -233,9 +236,9 @@ export default function DataUsaha() {
       {activeTab === "api" && (
         <div className={styles.cardGrid}>
           {[
-            { key: "tokopedia" as const, name: "Tokopedia Seller", icon: "🛒", desc: "Sinkronisasi otomatis data penjualan dari toko Tokopedia Anda." },
-            { key: "shopee" as const, name: "Shopee API", icon: "🛍️", desc: "Tarik data transaksi real-time dari Shopee Seller Center." },
-            { key: "pos" as const, name: "POS Kasir Digital", icon: "🖥️", desc: "Integrasi dengan sistem kasir POS yang sudah Anda gunakan." },
+            { key: "tokopedia" as const, name: "Tokopedia Seller", icon: <ShoppingCart />, desc: "Sinkronisasi otomatis data penjualan dari toko Tokopedia Anda." },
+            { key: "shopee" as const, name: "Shopee API", icon: <ShoppingBag />, desc: "Tarik data transaksi real-time dari Shopee Seller Center." },
+            { key: "pos" as const, name: "POS Kasir Digital", icon: <Monitor />, desc: "Integrasi dengan sistem kasir POS yang sudah Anda gunakan." },
           ].map((platform) => (
             <div key={platform.key} className={`${styles.infoCard} glass`}>
               <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
@@ -247,7 +250,11 @@ export default function DataUsaha() {
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <span className={`${styles.badge} ${apiConnected[platform.key] ? styles.badgeGreen : styles.badgeYellow}`}>
-                  {apiConnected[platform.key] ? "🟢 Terhubung" : "⚪ Belum Terhubung"}
+                  {apiConnected[platform.key] ? (
+                    <><Dot color="#22c55e" style={{ verticalAlign: "-0.125em" }} /> Terhubung</>
+                  ) : (
+                    <><Dot color="#9ca3af" style={{ verticalAlign: "-0.125em" }} /> Belum Terhubung</>
+                  )}
                 </span>
                 <button
                   onClick={() => toggleAPI(platform.key)}
@@ -258,8 +265,8 @@ export default function DataUsaha() {
                 </button>
               </div>
               {apiConnected[platform.key] && (
-                <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", padding: "0.5rem", background: "rgba(16,185,129,0.05)", borderRadius: 8, borderLeft: "3px solid #10b981" }}>
-                  ✅ Sinkronisasi terakhir: 7 Jun 2026, 08:30 WIB
+                <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", padding: "0.5rem", background: "rgba(29,78,216,0.05)", borderRadius: 8, borderLeft: "3px solid #1d4ed8" }}>
+                  <CheckCircle style={{ verticalAlign: "-0.125em" }} /> Sinkronisasi terakhir: 7 Jun 2026, 08:30 WIB
                 </div>
               )}
             </div>

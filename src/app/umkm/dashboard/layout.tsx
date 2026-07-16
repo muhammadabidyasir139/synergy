@@ -5,11 +5,18 @@ import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import styles from "./page.module.css";
 import ThemeToggle from "@/components/ThemeToggle";
+import { Building, Menu, Chain, ArrowLeft, ArrowRight } from "@/components/icons";
 
 interface SidebarItem {
   name: string;
   path: string;
   icon: React.ReactNode;
+}
+
+interface UmkmSession {
+  userId: string;
+  fullName: string;
+  umkmProfileId?: string;
 }
 
 export default function UMKMLayout({ children }: { children: React.ReactNode }) {
@@ -18,11 +25,20 @@ export default function UMKMLayout({ children }: { children: React.ReactNode }) 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [session, setSession] = useState<UmkmSession | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const session = sessionStorage.getItem("synergy_umkm_session");
-      if (session === "true") {
+      const raw = sessionStorage.getItem("synergy_umkm_session");
+      let parsed: UmkmSession | null = null;
+      try {
+        parsed = raw ? JSON.parse(raw) : null;
+      } catch {
+        parsed = null;
+      }
+
+      if (parsed?.umkmProfileId) {
+        setSession(parsed);
         setIsAuthenticated(true);
         setIsChecking(false);
       } else {
@@ -189,7 +205,7 @@ export default function UMKMLayout({ children }: { children: React.ReactNode }) 
       <aside className={`${styles.sidebar} glass ${isSidebarOpen ? "" : styles.sidebarClosed}`}>
         <div className={styles.sidebarHeader}>
           <div className={styles.logoGroup}>
-            <span className={styles.shieldGlowMini}>🏢</span>
+            <span className={styles.shieldGlowMini}><Building /></span>
             <div>
               <span className={styles.sidebarLogo}>SYNERGY</span>
               <span className={styles.sidebarSub}>UMKM PORTAL</span>
@@ -200,7 +216,7 @@ export default function UMKMLayout({ children }: { children: React.ReactNode }) 
             className={styles.toggleCollapseBtn}
             title={isSidebarOpen ? "Sembunyikan Sidebar" : "Tampilkan Sidebar"}
           >
-            {isSidebarOpen ? "◀" : "▶"}
+            {isSidebarOpen ? <ArrowLeft /> : <ArrowRight />}
           </button>
         </div>
 
@@ -234,9 +250,11 @@ export default function UMKMLayout({ children }: { children: React.ReactNode }) 
         {isSidebarOpen && (
           <div className={`${styles.userCard} glass`}>
             <div className={styles.avatarGroup}>
-              <div className={styles.avatar}>UK</div>
+              <div className={styles.avatar}>
+                {(session?.fullName ?? "UK").slice(0, 2).toUpperCase()}
+              </div>
               <div>
-                <p className={styles.userName}>Toko Berkah</p>
+                <p className={styles.userName}>{session?.fullName ?? "UMKM"}</p>
                 <p className={styles.userRole}>UMKM Terverifikasi</p>
               </div>
             </div>
@@ -253,14 +271,14 @@ export default function UMKMLayout({ children }: { children: React.ReactNode }) 
           <div className={styles.headerLeft}>
             {!isSidebarOpen && (
               <button onClick={() => setIsSidebarOpen(true)} className={styles.hamburgerBtn}>
-                ☰
+                <Menu />
               </button>
             )}
             <h2 className={styles.headerTitle}>{getPageTitle()}</h2>
           </div>
           <div className={styles.headerActions}>
             <div className={styles.blockchainIndicator}>
-              <span className={styles.indicatorIcon}>⛓️</span>
+              <span className={styles.indicatorIcon}><Chain /></span>
               <span className={styles.indicatorText}>Smart Contract Aktif</span>
             </div>
             <ThemeToggle />

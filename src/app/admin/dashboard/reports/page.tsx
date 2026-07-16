@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import styles from "./page.module.css";
+import { Store, Users, Wallet, BarChart, CheckCircle, AlertOctagon, TrendingUp, Refresh, FileText } from "@/components/icons";
 
 const reportTypes = [
   "Laporan Transaksi Harian",
@@ -14,16 +15,16 @@ const reportTypes = [
 interface KPI {
   label: string;
   value: string;
-  icon: string;
+  icon: ReactNode;
 }
 
 const kpiData: KPI[] = [
-  { label: "Total UMKM", value: "1,248", icon: "🏪" },
-  { label: "Total Investor", value: "3,562", icon: "👥" },
-  { label: "Dana Terhimpun", value: "Rp 12.4M", icon: "💰" },
-  { label: "Transaksi Bulan Ini", value: "8,921", icon: "📊" },
-  { label: "Tingkat Keberhasilan", value: "94.2%", icon: "✅" },
-  { label: "Fraud Terdeteksi", value: "12", icon: "🚨" },
+  { label: "Total UMKM", value: "1,248", icon: <Store /> },
+  { label: "Total Investor", value: "3,562", icon: <Users /> },
+  { label: "Dana Terhimpun", value: "Rp 12.4M", icon: <Wallet /> },
+  { label: "Transaksi Bulan Ini", value: "8,921", icon: <BarChart /> },
+  { label: "Tingkat Keberhasilan", value: "94.2%", icon: <CheckCircle /> },
+  { label: "Fraud Terdeteksi", value: "12", icon: <AlertOctagon /> },
 ];
 
 export default function ReportsPage() {
@@ -36,13 +37,13 @@ export default function ReportsPage() {
     setExporting(true);
     setTimeout(() => {
       setExporting(false);
-      alert(`✅ ${selectedReport} berhasil di-export sebagai ${format}!`);
+      alert(`${selectedReport} berhasil di-export sebagai ${format}!`);
     }, 1500);
   };
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>📈 Reporting & Export</h1>
+      <h1 className={styles.title}><TrendingUp style={{ verticalAlign: "-0.125em" }} /> Reporting & Export</h1>
       <p className={styles.subtitle}>Ringkasan performa platform dan export laporan</p>
 
       {/* KPI Cards */}
@@ -79,10 +80,10 @@ export default function ReportsPage() {
         </div>
         <div className={styles.btnRow}>
           <button className={styles.btnPdf} onClick={() => handleExport("PDF")} disabled={exporting}>
-            {exporting ? "⏳ Exporting..." : "📄 Export PDF"}
+            {exporting ? <><Refresh style={{ verticalAlign: "-0.125em" }} /> Exporting...</> : <><FileText style={{ verticalAlign: "-0.125em" }} /> Export PDF</>}
           </button>
           <button className={styles.btnExcel} onClick={() => handleExport("Excel")} disabled={exporting}>
-            {exporting ? "⏳ Exporting..." : "📊 Export Excel"}
+            {exporting ? <><Refresh style={{ verticalAlign: "-0.125em" }} /> Exporting...</> : <><BarChart style={{ verticalAlign: "-0.125em" }} /> Export Excel</>}
           </button>
         </div>
       </div>

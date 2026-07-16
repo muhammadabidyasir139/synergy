@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import styles from "./page.module.css";
+import { Handshake, Clipboard, ArrowRight, ArrowLeft, Wallet, CheckCircle, Sparkles } from "@/components/icons";
 
 interface Campaign {
   id: string;
@@ -130,7 +131,7 @@ export default function InvestasiPage() {
                 <div className={styles.akadBtns}>
                   {(["MUSYARAKAH", "MURABAHAH"] as const).map((a) => (
                     <button key={a} type="button" className={`${styles.akadBtn} ${akadType === a ? styles.akadBtnActive : ""}`} onClick={() => setAkadType(a)}>
-                      <span className={styles.akadIcon}>{a === "MUSYARAKAH" ? "🤝" : "📋"}</span>
+                      <span className={styles.akadIcon}>{a === "MUSYARAKAH" ? <Handshake /> : <Clipboard />}</span>
                       <div>
                         <p className={styles.akadName}>{a}</p>
                         <p className={styles.akadDesc}>{a === "MUSYARAKAH" ? "Bagi hasil proporsional" : "Margin tetap syariah"}</p>
@@ -151,7 +152,7 @@ export default function InvestasiPage() {
                 <p className={styles.fieldHint}>Minimal investasi: Rp 1.000.000</p>
               </div>
 
-              <button type="submit" className={styles.primaryBtn}>Lihat Simulasi Profit →</button>
+              <button type="submit" className={styles.primaryBtn}>Lihat Simulasi Profit <ArrowRight style={{ verticalAlign: "-0.125em" }} /></button>
             </form>
           )}
 
@@ -159,18 +160,18 @@ export default function InvestasiPage() {
             <div className={styles.formCard}>
               <h3 className={styles.formTitle}>Simulasi Profit Sharing</h3>
               <div className={styles.simBox}>
-                <div className={styles.simHeader}><span>💰</span><div><p className={styles.simUmkm}>{selected.name}</p><p className={styles.simSub}>{akadType} • {selected.durationMonths} Bulan</p></div></div>
+                <div className={styles.simHeader}><span><Wallet /></span><div><p className={styles.simUmkm}>{selected.name}</p><p className={styles.simSub}>{akadType} • {selected.durationMonths} Bulan</p></div></div>
                 <div className={styles.simGrid}>
                   <div className={styles.simItem}><span className={styles.simLabel}>Total Investasi</span><span className={styles.simVal}>{formatRp(amountNum)}</span></div>
                   <div className={styles.simItem}><span className={styles.simLabel}>Est. Gross Profit</span><span className={styles.simValGreen}>{formatRp(estProfit)}</span></div>
                   <div className={styles.simItem}><span className={styles.simLabel}>Platform Fee (2.5%)</span><span className={styles.simValRed}>- {formatRp(platformFee)}</span></div>
                   <div className={styles.simItem}><span className={styles.simLabel}>Net Profit Anda</span><span className={styles.simValBig}>{formatRp(netProfit)}</span></div>
                 </div>
-                <div className={styles.shariahNote}>✅ Akad <strong>{akadType}</strong> sesuai prinsip syariah, bebas riba.</div>
+                <div className={styles.shariahNote}><CheckCircle style={{ verticalAlign: "-0.125em" }} /> Akad <strong>{akadType}</strong> sesuai prinsip syariah, bebas riba.</div>
               </div>
               <div className={styles.simActions}>
-                <button className={styles.secondaryBtn} onClick={() => setStep("form")}>← Ubah</button>
-                <button className={styles.primaryBtn} onClick={() => setStep("confirm")}>Konfirmasi Investasi →</button>
+                <button className={styles.secondaryBtn} onClick={() => setStep("form")}><ArrowLeft style={{ verticalAlign: "-0.125em" }} /> Ubah</button>
+                <button className={styles.primaryBtn} onClick={() => setStep("confirm")}>Konfirmasi Investasi <ArrowRight style={{ verticalAlign: "-0.125em" }} /></button>
               </div>
             </div>
           )}
@@ -191,9 +192,9 @@ export default function InvestasiPage() {
               </div>
               {error && <p style={{ color: "red", marginTop: "0.5rem" }}>{error}</p>}
               <div className={styles.simActions}>
-                <button className={styles.secondaryBtn} onClick={() => setStep("simulation")}>← Kembali</button>
+                <button className={styles.secondaryBtn} onClick={() => setStep("simulation")}><ArrowLeft style={{ verticalAlign: "-0.125em" }} /> Kembali</button>
                 <button className={styles.primaryBtn} onClick={handleFinalConfirm} disabled={isSubmitting}>
-                  {isSubmitting ? "Memproses..." : "✅ Konfirmasi & Deploy Smart Contract"}
+                  {isSubmitting ? "Memproses..." : <><CheckCircle style={{ verticalAlign: "-0.125em" }} /> Konfirmasi & Deploy Smart Contract</>}
                 </button>
               </div>
             </div>
@@ -201,7 +202,7 @@ export default function InvestasiPage() {
         </>
       ) : (
         <div className={styles.successCard}>
-          <div className={styles.successIcon}>🎉</div>
+          <div className={styles.successIcon}><Sparkles /></div>
           <h2 className={styles.successTitle}>Investasi Berhasil!</h2>
           <p className={styles.successDesc}>
             Investasi <strong>{formatRp(amountNum)}</strong> ke <strong>{selected?.name}</strong> telah dikonfirmasi.

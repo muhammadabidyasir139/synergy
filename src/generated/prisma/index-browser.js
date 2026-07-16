@@ -153,6 +153,8 @@ exports.Prisma.InvestorProfileScalarFieldEnum = {
   address: 'address',
   city: 'city',
   province: 'province',
+  district: 'district',
+  postalCode: 'postalCode',
   investmentGoal: 'investmentGoal',
   riskTolerance: 'riskTolerance',
   totalInvested: 'totalInvested',
@@ -171,6 +173,8 @@ exports.Prisma.UmkmProfileScalarFieldEnum = {
   location: 'location',
   city: 'city',
   province: 'province',
+  district: 'district',
+  postalCode: 'postalCode',
   establishedDate: 'establishedDate',
   employeeCount: 'employeeCount',
   monthlyRevenue: 'monthlyRevenue',
@@ -178,6 +182,15 @@ exports.Prisma.UmkmProfileScalarFieldEnum = {
   socialMedia: 'socialMedia',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.UmkmMediaScalarFieldEnum = {
+  id: 'id',
+  umkmProfileId: 'umkmProfileId',
+  type: 'type',
+  url: 'url',
+  caption: 'caption',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.KycDocumentScalarFieldEnum = {
@@ -339,6 +352,29 @@ exports.Prisma.TransactionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.DokuPaymentScalarFieldEnum = {
+  id: 'id',
+  transactionId: 'transactionId',
+  direction: 'direction',
+  invoiceNumber: 'invoiceNumber',
+  dokuRequestId: 'dokuRequestId',
+  channel: 'channel',
+  status: 'status',
+  amount: 'amount',
+  virtualAccountNo: 'virtualAccountNo',
+  paymentUrl: 'paymentUrl',
+  destinationBank: 'destinationBank',
+  destinationAccountNumber: 'destinationAccountNumber',
+  destinationAccountName: 'destinationAccountName',
+  expiredAt: 'expiredAt',
+  paidAt: 'paidAt',
+  rawRequest: 'rawRequest',
+  rawResponse: 'rawResponse',
+  rawCallback: 'rawCallback',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.BlockchainTransactionScalarFieldEnum = {
   id: 'id',
   akadId: 'akadId',
@@ -390,6 +426,17 @@ exports.Prisma.BusinessUpdateScalarFieldEnum = {
   fundUsageSummary: 'fundUsageSummary',
   attachments: 'attachments',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.MonitoringReportScalarFieldEnum = {
+  id: 'id',
+  umkmProfileId: 'umkmProfileId',
+  tanggal: 'tanggal',
+  omzet: 'omzet',
+  penggunaan: 'penggunaan',
+  catatan: 'catatan',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.OtpVerificationScalarFieldEnum = {
@@ -495,6 +542,11 @@ exports.RiskLevel = exports.$Enums.RiskLevel = {
   HIGH: 'HIGH'
 };
 
+exports.MediaType = exports.$Enums.MediaType = {
+  LOGO: 'LOGO',
+  GALLERY: 'GALLERY'
+};
+
 exports.AkadType = exports.$Enums.AkadType = {
   MUSYARAKAH: 'MUSYARAKAH',
   MURABAHAH: 'MURABAHAH'
@@ -534,7 +586,8 @@ exports.TransactionType = exports.$Enums.TransactionType = {
   INVESTMENT: 'INVESTMENT',
   PROFIT_SHARING: 'PROFIT_SHARING',
   PLATFORM_FEE: 'PLATFORM_FEE',
-  REFUND: 'REFUND'
+  REFUND: 'REFUND',
+  DISBURSEMENT: 'DISBURSEMENT'
 };
 
 exports.TransactionStatus = exports.$Enums.TransactionStatus = {
@@ -544,6 +597,19 @@ exports.TransactionStatus = exports.$Enums.TransactionStatus = {
   FAILED: 'FAILED',
   FLAGGED: 'FLAGGED',
   BLOCKED: 'BLOCKED'
+};
+
+exports.DokuDirection = exports.$Enums.DokuDirection = {
+  INBOUND: 'INBOUND',
+  OUTBOUND: 'OUTBOUND'
+};
+
+exports.DokuPaymentStatus = exports.$Enums.DokuPaymentStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  EXPIRED: 'EXPIRED',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED'
 };
 
 exports.FraudStatus = exports.$Enums.FraudStatus = {
@@ -576,6 +642,7 @@ exports.Prisma.ModelName = {
   AdminProfile: 'AdminProfile',
   InvestorProfile: 'InvestorProfile',
   UmkmProfile: 'UmkmProfile',
+  UmkmMedia: 'UmkmMedia',
   KycDocument: 'KycDocument',
   CreditScore: 'CreditScore',
   BusinessData: 'BusinessData',
@@ -586,10 +653,12 @@ exports.Prisma.ModelName = {
   ProfitSharing: 'ProfitSharing',
   Wallet: 'Wallet',
   Transaction: 'Transaction',
+  DokuPayment: 'DokuPayment',
   BlockchainTransaction: 'BlockchainTransaction',
   FraudAlert: 'FraudAlert',
   Notification: 'Notification',
   BusinessUpdate: 'BusinessUpdate',
+  MonitoringReport: 'MonitoringReport',
   OtpVerification: 'OtpVerification',
   AuditLog: 'AuditLog',
   SystemConfig: 'SystemConfig',

@@ -3,6 +3,18 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./page.module.css";
+import {
+  BarChart,
+  Banknote,
+  Building,
+  Chain,
+  CreditCard,
+  CheckCircle,
+  Wallet,
+  AlertTriangle,
+  Lightbulb,
+  ArrowRight,
+} from "@/components/icons";
 
 interface Notification {
   id: string;
@@ -100,7 +112,10 @@ export default function InvestorDashboardHome() {
       {/* Welcome Banner */}
       <section className={styles.welcomeBanner}>
         <div className={styles.bannerContent}>
-          <h1>Selamat Datang, {profile.fullName} 💰</h1>
+          <h1>
+            Selamat Datang, {profile.fullName}{" "}
+            <Wallet style={{ verticalAlign: "-0.125em" }} />
+          </h1>
           <p>
             Portfolio investasi syariah Anda aktif dan berkembang. Total
             investasi: <strong>{formatRp(profile.totalInvested)}</strong> •
@@ -109,7 +124,8 @@ export default function InvestorDashboardHome() {
           </p>
         </div>
         <Link href="/investor/dashboard/explore" className={styles.exploreCta}>
-          Explore UMKM Baru →
+          Explore UMKM Baru{" "}
+          <ArrowRight style={{ verticalAlign: "-0.125em" }} />
         </Link>
       </section>
 
@@ -118,7 +134,9 @@ export default function InvestorDashboardHome() {
         <div className={styles.metricCard}>
           <div className={styles.metricHeader}>
             <span className={styles.metricLabel}>Total Diinvestasikan</span>
-            <span className={styles.metricIcon}>📊</span>
+            <span className={styles.metricIcon}>
+              <BarChart />
+            </span>
           </div>
           <div className={styles.metricValue}>
             {formatRp(profile.totalInvested)}
@@ -131,7 +149,9 @@ export default function InvestorDashboardHome() {
         <div className={styles.metricCard}>
           <div className={styles.metricHeader}>
             <span className={styles.metricLabel}>Total Profit Sharing</span>
-            <span className={styles.metricIcon}>💵</span>
+            <span className={styles.metricIcon}>
+              <Banknote />
+            </span>
           </div>
           <div className={styles.metricValue}>
             {formatRp(profile.totalProfit)}
@@ -144,7 +164,9 @@ export default function InvestorDashboardHome() {
         <div className={styles.metricCard}>
           <div className={styles.metricHeader}>
             <span className={styles.metricLabel}>UMKM Didanai</span>
-            <span className={styles.metricIcon}>🏢</span>
+            <span className={styles.metricIcon}>
+              <Building />
+            </span>
           </div>
           <div className={styles.metricValue}>{metrics.umkmCount}</div>
           <div className={styles.metricFooter}>
@@ -155,7 +177,9 @@ export default function InvestorDashboardHome() {
         <div className={styles.metricCard}>
           <div className={styles.metricHeader}>
             <span className={styles.metricLabel}>Akad Blockchain</span>
-            <span className={styles.metricIcon}>⛓️</span>
+            <span className={styles.metricIcon}>
+              <Chain />
+            </span>
           </div>
           <div className={styles.metricValue}>{metrics.akadBlockchain}</div>
           <div className={styles.metricFooter}>
@@ -166,7 +190,9 @@ export default function InvestorDashboardHome() {
         <div className={styles.metricCard}>
           <div className={styles.metricHeader}>
             <span className={styles.metricLabel}>Saldo Wallet</span>
-            <span className={styles.metricIcon}>💳</span>
+            <span className={styles.metricIcon}>
+              <CreditCard />
+            </span>
           </div>
           <div className={styles.metricValue}>{formatRp(wallet.balance)}</div>
           <div className={styles.metricFooter}>
@@ -222,7 +248,9 @@ export default function InvestorDashboardHome() {
           <div className={styles.notifList}>
             {notifications.length === 0 ? (
               <div className={styles.emptyState}>
-                <span>✅</span>
+                <span>
+                  <CheckCircle />
+                </span>
                 <p>Semua notifikasi sudah dibaca.</p>
               </div>
             ) : (
@@ -239,11 +267,13 @@ export default function InvestorDashboardHome() {
                     className={`${styles.notifItem} ${type === "warning" ? styles.notifWarn : type === "profit" ? styles.notifProfit : styles.notifInfo}`}
                   >
                     <span className={styles.notifIcon}>
-                      {type === "profit"
-                        ? "💰"
-                        : type === "warning"
-                          ? "⚠️"
-                          : "ℹ️"}
+                      {type === "profit" ? (
+                        <Wallet />
+                      ) : type === "warning" ? (
+                        <AlertTriangle />
+                      ) : (
+                        <Lightbulb />
+                      )}
                     </span>
                     <div className={styles.notifContent}>
                       <p className={styles.notifMsg}>{n.message}</p>
@@ -280,7 +310,7 @@ export default function InvestorDashboardHome() {
             href="/investor/dashboard/portfolio"
             className={styles.viewAllBtn}
           >
-            Lihat Semua →
+            Lihat Semua <ArrowRight style={{ verticalAlign: "-0.125em" }} />
           </Link>
         </div>
         <div className={styles.tableWrap}>

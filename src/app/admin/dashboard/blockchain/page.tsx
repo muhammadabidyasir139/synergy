@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
+import { Layers, Package, ArrowRight } from "@/components/icons";
 
 interface BlockInfo {
   height: number;
@@ -66,7 +67,7 @@ export default function BlockchainExplorerPage() {
       </header>
 
       <section className={styles.sectionBlock}>
-        <h2 className={styles.sectionTitle}>🧱 Blok Terbaru</h2>
+        <h2 className={styles.sectionTitle}><Layers style={{ verticalAlign: "-0.125em" }} /> Blok Terbaru</h2>
         <table className={styles.table}>
           <thead>
             <tr>
@@ -90,13 +91,13 @@ export default function BlockchainExplorerPage() {
       </section>
 
       <section className={styles.sectionTx}>
-        <h2 className={styles.sectionTitle}>📦 Transaksi Terbaru</h2>
+        <h2 className={styles.sectionTitle}><Package style={{ verticalAlign: "-0.125em" }} /> Transaksi Terbaru</h2>
         <table className={styles.table}>
           <thead>
             <tr>
               <th>TxHash</th>
               <th>Type</th>
-              <th>From → To</th>
+              <th>From <ArrowRight style={{ verticalAlign: "-0.125em" }} /> To</th>
               <th>Amount</th>
               <th>Status</th>
             </tr>
@@ -106,7 +107,7 @@ export default function BlockchainExplorerPage() {
               <tr key={tx.txHash} className={tx.status === "Pending" ? styles.rowPending : ""}>
                 <td className={styles.mono}>{tx.txHash}</td>
                 <td>{tx.type}</td>
-                <td>{tx.from} → {tx.to}</td>
+                <td>{tx.from} <ArrowRight style={{ verticalAlign: "-0.125em" }} /> {tx.to}</td>
                 <td>{tx.amount}</td>
                 <td>
                   <span className={`${styles.statusBadge} ${tx.status === "Success" ? styles.success : styles.pending}`}> {tx.status} </span>

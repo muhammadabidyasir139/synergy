@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
+import { Shield, Mail, Phone, Lock, Eye, EyeOff, Camera } from "@/components/icons";
 
 type Role = "INVESTOR" | "UMKM";
 type Step = 1 | 2 | 3;
@@ -22,6 +23,8 @@ interface InvestorProfileData {
   address: string;
   city: string;
   province: string;
+  district: string;
+  postalCode: string;
   investmentGoal: string;
   riskTolerance: "LOW" | "MEDIUM" | "HIGH";
 }
@@ -34,6 +37,8 @@ interface UmkmProfileData {
   location: string;
   city: string;
   province: string;
+  district: string;
+  postalCode: string;
   establishedDate: string;
   employeeCount: string;
   monthlyRevenue: string;
@@ -48,17 +53,10 @@ const BUSINESS_CATEGORIES = [
   "Pendidikan", "Transportasi & Logistik", "Lainnya",
 ];
 
-const PROVINCES = [
-  "Aceh", "Sumatera Utara", "Sumatera Barat", "Riau", "Kepulauan Riau",
-  "Jambi", "Bengkulu", "Sumatera Selatan", "Kepulauan Bangka Belitung",
-  "Lampung", "DKI Jakarta", "Jawa Barat", "Banten", "Jawa Tengah",
-  "DI Yogyakarta", "Jawa Timur", "Bali", "Nusa Tenggara Barat",
-  "Nusa Tenggara Timur", "Kalimantan Barat", "Kalimantan Tengah",
-  "Kalimantan Selatan", "Kalimantan Timur", "Kalimantan Utara",
-  "Sulawesi Utara", "Gorontalo", "Sulawesi Tengah", "Sulawesi Barat",
-  "Sulawesi Selatan", "Sulawesi Tenggara", "Maluku", "Maluku Utara",
-  "Papua Barat", "Papua",
-];
+interface Region {
+  code: string;
+  name: string;
+}
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -82,14 +80,69 @@ export default function RegisterPage() {
 
   const [investorProfile, setInvestorProfile] = useState<InvestorProfileData>({
     fullName: "", dateOfBirth: "", address: "", city: "", province: "",
+    district: "", postalCode: "",
     investmentGoal: "", riskTolerance: "MEDIUM",
   });
 
   const [umkmProfile, setUmkmProfile] = useState<UmkmProfileData>({
     ownerName: "", businessName: "", businessCategory: "", businessDescription: "",
-    location: "", city: "", province: "", establishedDate: "", employeeCount: "",
+    location: "", city: "", province: "", district: "", postalCode: "",
+    establishedDate: "", employeeCount: "",
     monthlyRevenue: "", website: "", socialMedia: [],
   });
+
+  const [businessCategoryOther, setBusinessCategoryOther] = useState("");
+
+  const [provinces, setProvinces] = useState<Region[]>([]);
+  const [investorProvinceCode, setInvestorProvinceCode] = useState("");
+  const [investorRegencies, setInvestorRegencies] = useState<Region[]>([]);
+  const [investorRegenciesLoading, setInvestorRegenciesLoading] = useState(false);
+  const [investorRegencyCode, setInvestorRegencyCode] = useState("");
+  const [investorDistricts, setInvestorDistricts] = useState<Region[]>([]);
+  const [investorDistrictsLoading, setInvestorDistrictsLoading] = useState(false);
+  const [umkmProvinceCode, setUmkmProvinceCode] = useState("");
+  const [umkmRegencies, setUmkmRegencies] = useState<Region[]>([]);
+  const [umkmRegenciesLoading, setUmkmRegenciesLoading] = useState(false);
+  const [umkmRegencyCode, setUmkmRegencyCode] = useState("");
+  const [umkmDistricts, setUmkmDistricts] = useState<Region[]>([]);
+  const [umkmDistrictsLoading, setUmkmDistrictsLoading] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/wilayah/provinces")
+      .then(res => res.json())
+      .then(data => setProvinces(data.data || []))
+      .catch(() => setProvinces([]));
+  }, []);
+
+  async function loadRegencies(provinceCode: string, setRegencies: (r: Region[]) => void, setLoading: (l: boolean) => void) {
+    setRegencies([]);
+    if (!provinceCode) return;
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/wilayah/regencies/${provinceCode}`);
+      const data = await res.json();
+      setRegencies(data.data || []);
+    } catch {
+      setRegencies([]);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function loadDistricts(regencyCode: string, setDistricts: (r: Region[]) => void, setLoading: (l: boolean) => void) {
+    setDistricts([]);
+    if (!regencyCode) return;
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/wilayah/districts/${regencyCode}`);
+      const data = await res.json();
+      setDistricts(data.data || []);
+    } catch {
+      setDistricts([]);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   function validateStep1(): string {
     if (!account.email) return "Email wajib diisi.";
@@ -103,14 +156,19 @@ export default function RegisterPage() {
     if (account.role === "INVESTOR") {
       if (!investorProfile.fullName) return "Nama lengkap wajib diisi.";
       if (!investorProfile.dateOfBirth) return "Tanggal lahir wajib diisi.";
-      if (!investorProfile.city) return "Kota wajib diisi.";
       if (!investorProfile.province) return "Provinsi wajib dipilih.";
+      if (!investorProfile.city) return "Kota wajib diisi.";
+      if (!investorProfile.district) return "Kecamatan wajib dipilih.";
+      if (!/^\d{5}$/.test(investorProfile.postalCode)) return "Kode pos harus 5 digit angka.";
     } else {
       if (!umkmProfile.ownerName) return "Nama pemilik wajib diisi.";
       if (!umkmProfile.businessName) return "Nama usaha wajib diisi.";
       if (!umkmProfile.businessCategory) return "Kategori usaha wajib dipilih.";
-      if (!umkmProfile.city) return "Kota wajib diisi.";
+      if (umkmProfile.businessCategory === "Lainnya" && !businessCategoryOther.trim()) return "Sebutkan kategori usaha Anda.";
       if (!umkmProfile.province) return "Provinsi wajib dipilih.";
+      if (!umkmProfile.city) return "Kota wajib diisi.";
+      if (!umkmProfile.district) return "Kecamatan wajib dipilih.";
+      if (!/^\d{5}$/.test(umkmProfile.postalCode)) return "Kode pos harus 5 digit angka.";
     }
     return "";
   }
@@ -148,7 +206,10 @@ export default function RegisterPage() {
       formData.append("email", account.email);
       formData.append("phoneNumber", account.phoneNumber);
       formData.append("password", account.password);
-      formData.append("profile", JSON.stringify(account.role === "INVESTOR" ? investorProfile : umkmProfile));
+      const umkmProfileToSend = umkmProfile.businessCategory === "Lainnya"
+        ? { ...umkmProfile, businessCategory: businessCategoryOther.trim() }
+        : umkmProfile;
+      formData.append("profile", JSON.stringify(account.role === "INVESTOR" ? investorProfile : umkmProfileToSend));
       formData.append("kycFile", kycFile);
 
       const res = await fetch("/api/auth/register", { method: "POST", body: formData });
@@ -174,7 +235,7 @@ export default function RegisterPage() {
         
         <div className={styles.leftContent}>
           <div className={styles.badge}>
-            <span className={styles.badgeIcon}>🛡️</span>
+            <span className={styles.badgeIcon}><Shield /></span>
             ENTERPRISE IDENTITY LAYER
           </div>
           <h1 className={styles.leftTitle}>
@@ -229,7 +290,7 @@ export default function RegisterPage() {
                   <div className={styles.inputGroup}>
                     <label>Email Kerja / Pribadi</label>
                     <div className={styles.inputWrapper}>
-                      <span className={styles.inputIcon}>✉</span>
+                      <span className={styles.inputIcon}><Mail /></span>
                       <input type="email" placeholder="nama@email.com"
                         value={account.email}
                         onChange={e => setAccount(a => ({ ...a, email: e.target.value }))}
@@ -245,7 +306,7 @@ export default function RegisterPage() {
                         <span style={{ fontSize: "0.7rem", color: "#94a3b8" }}>▼</span>
                       </div>
                       <div className={styles.inputWrapper} style={{ flex: 1 }}>
-                        <span className={styles.inputIcon}>📞</span>
+                        <span className={styles.inputIcon}><Phone /></span>
                         <input type="tel" placeholder="812 3456 7890"
                           value={account.phoneNumber}
                           onChange={e => setAccount(a => ({ ...a, phoneNumber: e.target.value.replace(/\D/g, "") }))}
@@ -257,13 +318,13 @@ export default function RegisterPage() {
                   <div className={styles.inputGroup}>
                     <label>Kata Sandi</label>
                     <div className={styles.passwordWrapper}>
-                      <span className={styles.inputIcon}>🔒</span>
+                      <span className={styles.inputIcon}><Lock /></span>
                       <input type={showPassword ? "text" : "password"} placeholder="Min. 8 karakter"
                         value={account.password}
                         onChange={e => setAccount(a => ({ ...a, password: e.target.value }))}
                         className={`${styles.input} ${styles.inputWithIcon}`} />
                       <button type="button" className={styles.eyeBtn} onClick={() => setShowPassword(p => !p)}>
-                        {showPassword ? "👁️" : "👁️‍🗨️"}
+                        {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
                       </button>
                     </div>
                   </div>
@@ -271,13 +332,13 @@ export default function RegisterPage() {
                   <div className={styles.inputGroup}>
                     <label>Konfirmasi Kata Sandi</label>
                     <div className={styles.passwordWrapper}>
-                      <span className={styles.inputIcon}>🔒</span>
+                      <span className={styles.inputIcon}><Lock /></span>
                       <input type={showConfirmPassword ? "text" : "password"} placeholder="Ulangi kata sandi"
                         value={account.confirmPassword}
                         onChange={e => setAccount(a => ({ ...a, confirmPassword: e.target.value }))}
                         className={`${styles.input} ${styles.inputWithIcon}`} />
                       <button type="button" className={styles.eyeBtn} onClick={() => setShowConfirmPassword(p => !p)}>
-                        {showConfirmPassword ? "👁️" : "👁️‍🗨️"}
+                        {showConfirmPassword ? <Eye size={18} /> : <EyeOff size={18} />}
                       </button>
                     </div>
                   </div>
@@ -312,15 +373,48 @@ export default function RegisterPage() {
                       </div>
                       <div className={styles.row2}>
                         <div className={styles.inputGroup}>
-                          <label>Kota <span className={styles.required}>*</span></label>
-                          <input type="text" placeholder="Yogyakarta" value={investorProfile.city} onChange={e => setInvestorProfile(p => ({ ...p, city: e.target.value }))} className={styles.input} />
+                          <label>Provinsi <span className={styles.required}>*</span></label>
+                          <select value={investorProvinceCode} onChange={e => {
+                            const code = e.target.value;
+                            const prov = provinces.find(p => p.code === code);
+                            setInvestorProvinceCode(code);
+                            setInvestorRegencyCode("");
+                            setInvestorDistricts([]);
+                            setInvestorProfile(p => ({ ...p, province: prov?.name || "", city: "", district: "" }));
+                            loadRegencies(code, setInvestorRegencies, setInvestorRegenciesLoading);
+                          }} className={styles.select}>
+                            <option value="">Pilih Provinsi</option>
+                            {provinces.map(p => <option key={p.code} value={p.code}>{p.name}</option>)}
+                          </select>
                         </div>
                         <div className={styles.inputGroup}>
-                          <label>Provinsi <span className={styles.required}>*</span></label>
-                          <select value={investorProfile.province} onChange={e => setInvestorProfile(p => ({ ...p, province: e.target.value }))} className={styles.select}>
-                            <option value="">Pilih</option>
-                            {PROVINCES.map(p => <option key={p} value={p}>{p}</option>)}
+                          <label>Kota <span className={styles.required}>*</span></label>
+                          <select value={investorRegencyCode} onChange={e => {
+                            const code = e.target.value;
+                            const reg = investorRegencies.find(r => r.code === code);
+                            setInvestorRegencyCode(code);
+                            setInvestorProfile(p => ({ ...p, city: reg?.name || "", district: "" }));
+                            loadDistricts(code, setInvestorDistricts, setInvestorDistrictsLoading);
+                          }} className={styles.select} disabled={!investorProvinceCode || investorRegenciesLoading}>
+                            <option value="">{investorRegenciesLoading ? "Memuat..." : "Pilih Kota/Kabupaten"}</option>
+                            {investorRegencies.map(r => <option key={r.code} value={r.code}>{r.name}</option>)}
                           </select>
+                        </div>
+                      </div>
+                      <div className={styles.row2}>
+                        <div className={styles.inputGroup}>
+                          <label>Kecamatan <span className={styles.required}>*</span></label>
+                          <select value={investorProfile.district} onChange={e => setInvestorProfile(p => ({ ...p, district: e.target.value }))} className={styles.select} disabled={!investorRegencyCode || investorDistrictsLoading}>
+                            <option value="">{investorDistrictsLoading ? "Memuat..." : "Pilih Kecamatan"}</option>
+                            {investorDistricts.map(d => <option key={d.code} value={d.name}>{d.name}</option>)}
+                          </select>
+                        </div>
+                        <div className={styles.inputGroup}>
+                          <label>Kode Pos <span className={styles.required}>*</span></label>
+                          <input type="text" inputMode="numeric" placeholder="12345" maxLength={5}
+                            value={investorProfile.postalCode}
+                            onChange={e => setInvestorProfile(p => ({ ...p, postalCode: e.target.value.replace(/\D/g, "").slice(0, 5) }))}
+                            className={styles.input} />
                         </div>
                       </div>
                     </>
@@ -342,18 +436,56 @@ export default function RegisterPage() {
                           <option value="">Pilih Kategori</option>
                           {BUSINESS_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                         </select>
+                        {umkmProfile.businessCategory === "Lainnya" && (
+                          <input type="text" placeholder="Sebutkan kategori usaha Anda" value={businessCategoryOther}
+                            onChange={e => setBusinessCategoryOther(e.target.value)}
+                            className={styles.input} style={{ marginTop: "0.5rem" }} />
+                        )}
                       </div>
                       <div className={styles.row2}>
                         <div className={styles.inputGroup}>
-                          <label>Kota <span className={styles.required}>*</span></label>
-                          <input type="text" placeholder="Yogyakarta" value={umkmProfile.city} onChange={e => setUmkmProfile(p => ({ ...p, city: e.target.value }))} className={styles.input} />
+                          <label>Provinsi <span className={styles.required}>*</span></label>
+                          <select value={umkmProvinceCode} onChange={e => {
+                            const code = e.target.value;
+                            const prov = provinces.find(p => p.code === code);
+                            setUmkmProvinceCode(code);
+                            setUmkmRegencyCode("");
+                            setUmkmDistricts([]);
+                            setUmkmProfile(p => ({ ...p, province: prov?.name || "", city: "", district: "" }));
+                            loadRegencies(code, setUmkmRegencies, setUmkmRegenciesLoading);
+                          }} className={styles.select}>
+                            <option value="">Pilih Provinsi</option>
+                            {provinces.map(p => <option key={p.code} value={p.code}>{p.name}</option>)}
+                          </select>
                         </div>
                         <div className={styles.inputGroup}>
-                          <label>Provinsi <span className={styles.required}>*</span></label>
-                          <select value={umkmProfile.province} onChange={e => setUmkmProfile(p => ({ ...p, province: e.target.value }))} className={styles.select}>
-                            <option value="">Pilih</option>
-                            {PROVINCES.map(p => <option key={p} value={p}>{p}</option>)}
+                          <label>Kota <span className={styles.required}>*</span></label>
+                          <select value={umkmRegencyCode} onChange={e => {
+                            const code = e.target.value;
+                            const reg = umkmRegencies.find(r => r.code === code);
+                            setUmkmRegencyCode(code);
+                            setUmkmProfile(p => ({ ...p, city: reg?.name || "", district: "" }));
+                            loadDistricts(code, setUmkmDistricts, setUmkmDistrictsLoading);
+                          }} className={styles.select} disabled={!umkmProvinceCode || umkmRegenciesLoading}>
+                            <option value="">{umkmRegenciesLoading ? "Memuat..." : "Pilih Kota/Kabupaten"}</option>
+                            {umkmRegencies.map(r => <option key={r.code} value={r.code}>{r.name}</option>)}
                           </select>
+                        </div>
+                      </div>
+                      <div className={styles.row2}>
+                        <div className={styles.inputGroup}>
+                          <label>Kecamatan <span className={styles.required}>*</span></label>
+                          <select value={umkmProfile.district} onChange={e => setUmkmProfile(p => ({ ...p, district: e.target.value }))} className={styles.select} disabled={!umkmRegencyCode || umkmDistrictsLoading}>
+                            <option value="">{umkmDistrictsLoading ? "Memuat..." : "Pilih Kecamatan"}</option>
+                            {umkmDistricts.map(d => <option key={d.code} value={d.name}>{d.name}</option>)}
+                          </select>
+                        </div>
+                        <div className={styles.inputGroup}>
+                          <label>Kode Pos <span className={styles.required}>*</span></label>
+                          <input type="text" inputMode="numeric" placeholder="12345" maxLength={5}
+                            value={umkmProfile.postalCode}
+                            onChange={e => setUmkmProfile(p => ({ ...p, postalCode: e.target.value.replace(/\D/g, "").slice(0, 5) }))}
+                            className={styles.input} />
                         </div>
                       </div>
                     </>
@@ -389,7 +521,7 @@ export default function RegisterPage() {
                         <img src={kycPreview} alt="Preview KTP" className={styles.kycPreview} />
                       ) : (
                         <>
-                          <div className={styles.uploadIconWrap}>📷</div>
+                          <div className={styles.uploadIconWrap}><Camera /></div>
                           <span className={styles.uploadText}>Klik untuk unggah atau seret & lepas</span>
                           <span className={styles.uploadSub}>E-KTP / Kartu Identitas Nasional (PNG, JPG maks 5MB)</span>
                         </>
@@ -398,14 +530,13 @@ export default function RegisterPage() {
                     <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/jpg" onChange={handleFileChange} className={styles.hiddenInput} />
                     {kycFile && (
                       <div className={styles.fileInfo}>
-                        <span className={styles.validBadge}>✓ VALID</span>
                         <span>{kycFile.name}</span>
                       </div>
                     )}
                   </div>
                   
                   <div className={styles.encryptionNotice}>
-                    <span>🔒</span> Dokumen Anda dienkripsi secara lokal sebelum transmisi.
+                    <span><Lock /></span> Dokumen Anda dienkripsi secara lokal sebelum transmisi.
                   </div>
 
                   <div className={styles.navRow}>

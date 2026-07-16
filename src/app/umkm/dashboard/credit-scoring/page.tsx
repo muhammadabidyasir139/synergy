@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import styles from "../page.module.css";
+import { TrendingUp, Calendar, BarChart, Link, Refresh, Lightbulb } from "@/components/icons";
 
 export default function CreditScoring() {
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -21,10 +22,10 @@ export default function CreditScoring() {
   ];
 
   const recommendations = [
-    { icon: "📈", text: "Tingkatkan konsistensi pelaporan omzet harian untuk meningkatkan skor AI." },
-    { icon: "📅", text: "Pastikan pembayaran bagi hasil selalu tepat waktu agar histori tetap baik." },
-    { icon: "📊", text: "Pertumbuhan omzet bulan-ke-bulan masih di bawah rata-rata. Target +10% per bulan." },
-    { icon: "🔗", text: "Integrasikan data dari platform e-commerce untuk data yang lebih akurat." },
+    { icon: <TrendingUp />, text: "Tingkatkan konsistensi pelaporan omzet harian untuk meningkatkan skor AI." },
+    { icon: <Calendar />, text: "Pastikan pembayaran bagi hasil selalu tepat waktu agar histori tetap baik." },
+    { icon: <BarChart />, text: "Pertumbuhan omzet bulan-ke-bulan masih di bawah rata-rata. Target +10% per bulan." },
+    { icon: <Link />, text: "Integrasikan data dari platform e-commerce untuk data yang lebih akurat." },
   ];
 
   const handleRefresh = () => {
@@ -35,7 +36,7 @@ export default function CreditScoring() {
     }, 2500);
   };
 
-  const scoreColor = score >= 75 ? "#10b981" : score >= 50 ? "#f59e0b" : "#ef4444";
+  const scoreColor = score >= 75 ? "#1d4ed8" : score >= 50 ? "#f59e0b" : "#ef4444";
   const riskBadge = score >= 75 ? styles.badgeGreen : score >= 50 ? styles.badgeYellow : styles.badgeRed;
 
   // SVG circle ring calculation
@@ -58,7 +59,11 @@ export default function CreditScoring() {
           className={styles.btnPrimary}
           style={{ padding: "0.65rem 1.25rem", border: "none", borderRadius: 10, cursor: "pointer", fontWeight: 700, fontSize: "0.9rem" }}
         >
-          {isRefreshing ? "🔄 Memproses AI..." : "🔄 Trigger Scoring Ulang"}
+          {isRefreshing ? (
+            <><Refresh style={{ verticalAlign: "-0.125em" }} /> Memproses AI...</>
+          ) : (
+            <><Refresh style={{ verticalAlign: "-0.125em" }} /> Trigger Scoring Ulang</>
+          )}
         </button>
       </header>
 
@@ -117,7 +122,7 @@ export default function CreditScoring() {
                   <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--text-color)" }}>{factor.label}</span>
                   <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
                     <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>Bobot: {factor.weight}</span>
-                    <span style={{ fontSize: "0.8rem", fontWeight: 800, color: factor.status === "good" ? "#10b981" : "#f59e0b" }}>
+                    <span style={{ fontSize: "0.8rem", fontWeight: 800, color: factor.status === "good" ? "#1d4ed8" : "#f59e0b" }}>
                       {factor.value}/100
                     </span>
                   </div>
@@ -128,7 +133,7 @@ export default function CreditScoring() {
                     style={{
                       width: `${factor.value}%`,
                       background: factor.status === "good"
-                        ? "linear-gradient(90deg, #10b981, #059669)"
+                        ? "linear-gradient(90deg, #1d4ed8, #0ea5e9)"
                         : "linear-gradient(90deg, #f59e0b, #d97706)",
                     }}
                   />
@@ -142,16 +147,16 @@ export default function CreditScoring() {
       {/* Recommendations */}
       <div className={`${styles.sectionCard} glass`}>
         <div className={styles.sectionHeader}>
-          <h3>💡 Rekomendasi Peningkatan Usaha</h3>
+          <h3><Lightbulb style={{ verticalAlign: "-0.125em" }} /> Rekomendasi Peningkatan Usaha</h3>
           <span className={`${styles.badge} ${styles.badgeYellow}`}>AI Insights</span>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
           {recommendations.map((rec, i) => (
             <div key={i} style={{
               display: "flex", gap: "0.75rem", padding: "1rem",
-              background: "rgba(16,185,129,0.04)",
+              background: "rgba(29,78,216,0.04)",
               borderRadius: 12,
-              border: "1px solid rgba(16,185,129,0.1)"
+              border: "1px solid rgba(29,78,216,0.1)"
             }}>
               <span style={{ fontSize: "1.5rem", flexShrink: 0 }}>{rec.icon}</span>
               <p style={{ fontSize: "0.875rem", color: "var(--text-color)", lineHeight: 1.5 }}>{rec.text}</p>
@@ -191,7 +196,7 @@ export default function CreditScoring() {
                       {row.risk}
                     </span>
                   </td>
-                  <td style={{ fontWeight: 700, color: row.change.startsWith("+") ? "#10b981" : "#ef4444" }}>{row.change}</td>
+                  <td style={{ fontWeight: 700, color: row.change.startsWith("+") ? "#1d4ed8" : "#ef4444" }}>{row.change}</td>
                   <td style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>{row.trigger}</td>
                 </tr>
               ))}

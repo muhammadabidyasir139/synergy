@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import styles from "./page.module.css";
+import { Megaphone, Refresh, Rocket, CheckCircle } from "@/components/icons";
 
 interface Broadcast {
   id: string;
@@ -65,7 +66,7 @@ export default function NotificationsPage() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>📢 Broadcast Notifikasi</h1>
+      <h1 className={styles.title}><Megaphone style={{ verticalAlign: "-0.125em" }} /> Broadcast Notifikasi</h1>
       <p className={styles.subtitle}>Kirim pesan ke seluruh pengguna platform</p>
 
       <div className={styles.composePanel}>
@@ -110,12 +111,20 @@ export default function NotificationsPage() {
           onClick={handleSend}
           disabled={sending || !message.trim()}
         >
-          {sending ? "⏳ Mengirim..." : "🚀 Kirim Broadcast"}
+          {sending ? (
+            <>
+              <Refresh style={{ verticalAlign: "-0.125em" }} /> Mengirim...
+            </>
+          ) : (
+            <>
+              <Rocket style={{ verticalAlign: "-0.125em" }} /> Kirim Broadcast
+            </>
+          )}
         </button>
 
         {sentCount !== null && (
           <p style={{ marginTop: "0.75rem", color: "#10b981", fontWeight: 500 }}>
-            ✅ Berhasil dikirim ke {sentCount} pengguna.
+            <CheckCircle style={{ verticalAlign: "-0.125em" }} /> Berhasil dikirim ke {sentCount} pengguna.
           </p>
         )}
       </div>

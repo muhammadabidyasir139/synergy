@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import styles from "./page.module.css";
+import { Refresh, Users, Sparkles, FileText } from "@/components/icons";
 
 interface KycUser {
   id: string;
@@ -185,7 +186,7 @@ export default function KYCManagement() {
           className={`${styles.tabBtn} ${activeTab === "pending" ? styles.tabActive : ""}`}
           onClick={() => setActiveTab("pending")}
         >
-          <span className={styles.tabIcon}>⏳</span>
+          <span className={styles.tabIcon}><Refresh /></span>
           Menunggu KYC
           {pendingUsers.length > 0 && <span className={styles.badge}>{pendingUsers.length}</span>}
         </button>
@@ -193,7 +194,7 @@ export default function KYCManagement() {
           className={`${styles.tabBtn} ${activeTab === "active" ? styles.tabActive : ""}`}
           onClick={() => setActiveTab("active")}
         >
-          <span className={styles.tabIcon}>👥</span>
+          <span className={styles.tabIcon}><Users /></span>
           Pengguna Aktif
         </button>
       </div>
@@ -203,7 +204,7 @@ export default function KYCManagement() {
           <div className={styles.listSection}>
             {pendingUsers.length === 0 ? (
               <div className={styles.emptyState}>
-                <div className={styles.emptyIcon}>✨</div>
+                <div className={styles.emptyIcon}><Sparkles /></div>
                 <h3>Semua Pendaftar Telah Ditinjau</h3>
                 <p>Tidak ada pengguna yang menunggu verifikasi saat ini.</p>
               </div>
@@ -230,7 +231,7 @@ export default function KYCManagement() {
                         <div className={styles.docTags}>
                           {user.documents.map((doc) => (
                             <span key={doc.id} className={styles.docTag}>
-                              📄 {doc.type}
+                              <FileText style={{ verticalAlign: "-0.125em" }} /> {doc.type}
                             </span>
                           ))}
                           {user.documents.length === 0 && (
@@ -338,7 +339,7 @@ export default function KYCManagement() {
       {/* AUDIT LOG */}
       <div className={`${styles.auditSection} glass`}>
         <div className={styles.auditHeader}>
-          <h3>📜 Live Audit Trail</h3>
+          <h3><FileText style={{ verticalAlign: "-0.125em" }} /> Live Audit Trail</h3>
           <span className={styles.pulseDot}></span>
         </div>
         <div className={styles.auditList}>
