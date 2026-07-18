@@ -4,7 +4,6 @@ import { db } from "@/lib/db";
 
 const DEFAULT_ADMIN_EMAIL = "admin@synergy.id";
 const DEFAULT_ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
-const DEFAULT_ADMIN_SECURITY_KEY = process.env.ADMIN_SECURITY_KEY || "999999";
 
 function hashPassword(value: string) {
   return crypto.createHash("sha256").update(value).digest("hex");
@@ -13,19 +12,12 @@ function hashPassword(value: string) {
 export async function POST(request: Request) {
   try {
     const rawBody = await request.text();
-    const { username, password, securityKey } = rawBody ? JSON.parse(rawBody) : {};
+    const { username, password } = rawBody ? JSON.parse(rawBody) : {};
 
-    if (!username || !password || !securityKey) {
+    if (!username || !password) {
       return NextResponse.json(
-        { error: "Username, password, dan security key wajib diisi." },
+        { error: "Username dan password wajib diisi." },
         { status: 400 }
-      );
-    }
-
-    if (securityKey !== DEFAULT_ADMIN_SECURITY_KEY) {
-      return NextResponse.json(
-        { error: "Security Key (MFA) salah! Hubungi Super Admin." },
-        { status: 401 }
       );
     }
 
@@ -41,6 +33,16 @@ export async function POST(request: Request) {
         kycStatus: "APPROVED",
         isEmailVerified: true,
         isPhoneVerified: true,
+        adminProfile: {
+          upsert: {
+            update: { fullName: "Super Admin" },
+            create: {
+              fullName: "Super Admin",
+              isSuperAdmin: true,
+              department: "System",
+            },
+          },
+        },
       },
       create: {
         email: DEFAULT_ADMIN_EMAIL,
@@ -53,7 +55,7 @@ export async function POST(request: Request) {
         isPhoneVerified: true,
         adminProfile: {
           create: {
-            fullName: "Super Admin Taufan",
+            fullName: "Super Admin",
             isSuperAdmin: true,
             department: "System",
           },

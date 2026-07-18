@@ -83,15 +83,21 @@ export default function TransactionsPage() {
       <h1 className={styles.title}><Package style={{ verticalAlign: "-0.125em" }} /> Manajemen Transaksi</h1>
 
       <div className={styles.filterBar}>
-        {STATUS_FILTERS.map((f) => (
-          <button
-            key={f}
-            className={`${styles.filterBtn} ${filter === f ? styles.active : ""}`}
-            onClick={() => setFilter(f)}
-          >
-            {f}
-          </button>
-        ))}
+        <label htmlFor="statusFilter" className={styles.filterLabel}>
+          Filter Status
+        </label>
+        <select
+          id="statusFilter"
+          className={styles.filterSelect}
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        >
+          {STATUS_FILTERS.map((f) => (
+            <option key={f} value={f}>
+              {f === "All" ? "Semua Status" : f}
+            </option>
+          ))}
+        </select>
       </div>
 
       {loading ? (

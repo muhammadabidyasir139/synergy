@@ -258,8 +258,7 @@ export default function AdminLayout({
             <div className={styles.avatarGroup}>
               <div className={styles.avatar}>SA</div>
               <div>
-                <p className={styles.userName}>Taufan A.</p>
-                <p className={styles.userRole}>Super Admin</p>
+                <p className={styles.userName}>Super Admin</p>
               </div>
             </div>
             <div className={styles.systemStatus}>

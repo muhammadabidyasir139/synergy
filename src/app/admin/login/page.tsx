@@ -4,18 +4,16 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
-import { User, Key, Eye, EyeOff, Shield, ArrowLeft } from "@/components/icons";
+import ThemeToggle from "@/components/ThemeToggle";
+import { User, Lock, Eye, EyeOff } from "@/components/icons";
 
 export default function AdminLogin() {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [securityKey, setSecurityKey] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [shake, setShake] = useState(false);
-  const [success, setSuccess] = useState(false);
 
   // Clear session on load to ensure logged out
   useEffect(() => {
@@ -27,7 +25,6 @@ export default function AdminLogin() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    setShake(false);
     setLoading(true);
 
     try {
@@ -37,7 +34,6 @@ export default function AdminLogin() {
         body: JSON.stringify({
           username: username.trim(),
           password,
-          securityKey: securityKey.trim(),
         }),
       });
 
@@ -47,60 +43,55 @@ export default function AdminLogin() {
         throw new Error(data.error || "Login gagal");
       }
 
-      setSuccess(true);
-      setLoading(false);
       if (typeof window !== "undefined") {
         sessionStorage.setItem("synergy_admin_session", "true");
       }
 
-      setTimeout(() => {
-        router.push("/admin/dashboard");
-      }, 800);
+      router.push("/admin/dashboard");
     } catch (err) {
-      setLoading(false);
-      setShake(true);
       setError(err instanceof Error ? err.message : "Login gagal. Silakan coba lagi.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className={`${styles.container} ${success ? styles.bgSuccess : ""}`}>
-      {/* High-tech matrix/particle animated line backgrounds */}
-      <div className={styles.particleBg}>
-        <div className={styles.glowLine}></div>
-        <div className={styles.gridBg}></div>
+    <div className={styles.container}>
+      {/* Background orbs */}
+      <div className={styles.orbContainer}>
+        <div className={`${styles.orb} ${styles.orb1}`}></div>
+        <div className={`${styles.orb} ${styles.orb2}`}></div>
       </div>
 
+      {/* Header element */}
+      <header className={styles.header}>
+        <div className={styles.logoGroup}>
+          <Link href="/" className={styles.logo}>
+            SYNERGY
+          </Link>
+          <span className={styles.badge}>PKM KC</span>
+        </div>
+        <ThemeToggle />
+      </header>
+
+      {/* Main card */}
       <main className={styles.main}>
-        <div className={`${styles.card} glass ${shake ? styles.shake : ""} ${success ? styles.successCard : ""}`}>
-          <div className={styles.brandHeader}>
-            <div className={styles.shieldGlow}>
-              <svg className={styles.shieldIcon} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M12 8v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <circle cx="12" cy="16" r="1" fill="currentColor"/>
-              </svg>
+        <div className={`${styles.card} glass`}>
+          <div className={styles.cardHeader}>
+            <div className={styles.lockIconWrap}>
+              <Lock size={22} />
             </div>
-            <h1>Portal Role Admin</h1>
-            <span className={styles.securityBadge}>Akses Khusus Role Admin</span>
+            <h1>Portal Admin</h1>
+            <p>Akses khusus untuk administrator Synergy</p>
           </div>
 
           <form onSubmit={handleLogin} className={styles.form}>
-            {error && (
-              <div className={styles.errorAlert}>
-                <svg className={styles.alertIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="12" y1="8" x2="12" y2="12" />
-                  <line x1="12" y1="16" x2="12.01" y2="16" />
-                </svg>
-                <span>{error}</span>
-              </div>
-            )}
+            {error && <div className={styles.errorAlert}>{error}</div>}
 
             <div className={styles.inputGroup}>
               <label htmlFor="username">Username Admin</label>
               <div className={styles.inputWrapper}>
-                <span className={styles.inputIcon}><User /></span>
+                <span className={styles.inputIcon}><User size={18} /></span>
                 <input
                   id="username"
                   type="text"
@@ -108,16 +99,15 @@ export default function AdminLogin() {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   required
-                  disabled={loading || success}
+                  disabled={loading}
                   className={styles.input}
                 />
               </div>
             </div>
 
             <div className={styles.inputGroup}>
-              <label htmlFor="password">Password</label>
-              <div className={styles.inputWrapper}>
-                <span className={styles.inputIcon}><Key /></span>
+              <label htmlFor="password">Kata Sandi</label>
+              <div className={styles.passwordWrapper}>
                 <input
                   id="password"
                   type={showPassword ? "text" : "password"}
@@ -125,13 +115,14 @@ export default function AdminLogin() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  disabled={loading || success}
-                  className={styles.input}
+                  disabled={loading}
+                  className={styles.passwordInput}
                 />
                 <button
                   type="button"
+                  className={styles.togglePasswordBtn}
                   onClick={() => setShowPassword(!showPassword)}
-                  className={styles.eyeBtn}
+                  aria-label={showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
                   tabIndex={-1}
                 >
                   {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
@@ -139,44 +130,14 @@ export default function AdminLogin() {
               </div>
             </div>
 
-            <div className={styles.inputGroup}>
-              <div className={styles.labelWithHint}>
-                <label htmlFor="securityKey">Security Key (MFA)</label>
-                <span className={styles.hintText}>Demo: 999999</span>
-              </div>
-              <div className={styles.inputWrapper}>
-                <span className={styles.inputIcon}><Shield /></span>
-                <input
-                  id="securityKey"
-                  type="text"
-                  placeholder="6 Digit PIN"
-                  maxLength={6}
-                  value={securityKey}
-                  onChange={(e) => setSecurityKey(e.target.value.replace(/\D/g, ""))}
-                  required
-                  disabled={loading || success}
-                  className={styles.input}
-                />
-              </div>
-            </div>
-
-            <button type="submit" disabled={loading || success} className={styles.submitBtn}>
-              {loading ? (
-                <div className={styles.loadingWrapper}>
-                  <span className={styles.spinner}></span>
-                  <span>Mengautentikasi...</span>
-                </div>
-              ) : success ? (
-                <span>Akses Diberikan!</span>
-              ) : (
-                <span>Masuk Ke Dashboard Admin</span>
-              )}
+            <button type="submit" disabled={loading} className={styles.submitBtn}>
+              {loading ? <span className={styles.spinner}></span> : "Masuk sebagai Admin"}
             </button>
           </form>
 
           <div className={styles.cardFooter}>
-            <Link href="/" className={styles.backLink}>
-              <ArrowLeft style={{ verticalAlign: "-0.125em" }} /> Kembali ke Beranda
+            <Link href="/auth/login" className={styles.footerLink}>
+              Kembali ke Login Umum
             </Link>
           </div>
         </div>

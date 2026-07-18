@@ -15,25 +15,47 @@
 
 .filterBar {
   display: flex;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.filterLabel {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.filterSelect {
+  padding: 0.5rem 0.8rem;
+  min-width: 180px;
+  background: var(--surface-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.filterSelect:focus,
+.filterSelect:hover {
+  border-color: var(--primary);
 }
 
 .filterBtn {
   padding: 0.4rem 0.8rem;
-  background: var(--primary);
-  color: #fff;
-  border: none;
+  background: var(--surface-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
+  transition: border-color 0.2s, transform 0.2s;
 }
 
 .filterBtn:hover {
   transform: translateY(-2px);
-}
-
-.active {
-  background: var(--secondary);
+  border-color: var(--primary);
 }
 
 .table {
@@ -41,6 +63,7 @@
   max-width: 900px;
   border-collapse: collapse;
   background: var(--surface-bg);
+  color: var(--text-color);
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 

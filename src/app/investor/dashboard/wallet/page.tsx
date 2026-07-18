@@ -16,6 +16,7 @@ interface TxItem {
 }
 
 interface DepositResult {
+  transactionId: string;
   invoiceNumber: string;
   paymentUrl: string | null;
   virtualAccountNumber: string | null;
@@ -48,6 +49,8 @@ export default function WalletPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [depositResult, setDepositResult] = useState<DepositResult | null>(null);
+  const [checkingStatus, setCheckingStatus] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const loadWallet = useCallback(async () => {
@@ -106,6 +109,7 @@ export default function WalletPage() {
 
       if (action === "deposit") {
         setDepositResult({
+          transactionId: data.transactionId,
           invoiceNumber: data.invoiceNumber,
           paymentUrl: data.paymentUrl ?? null,
           virtualAccountNumber: data.virtualAccountNumber ?? null,
@@ -132,6 +136,34 @@ export default function WalletPage() {
   const copyVaNumber = () => {
     if (depositResult?.virtualAccountNumber) {
       navigator.clipboard?.writeText(depositResult.virtualAccountNumber);
+    }
+  };
+
+  const checkPaymentStatus = async () => {
+    if (!depositResult) return;
+    setCheckingStatus(true);
+    setStatusMessage("");
+    try {
+      const res = await fetch(`/api/investor/wallet/deposit/${depositResult.transactionId}/status`, {
+        headers: { "x-investor-id": getInvestorId() },
+      });
+      const data = await res.json();
+      if (!res.ok) { setStatusMessage(data.error ?? "Gagal memeriksa status."); return; }
+
+      if (data.status === "PAID") {
+        setStatusMessage("Pembayaran berhasil dikonfirmasi! Saldo telah diperbarui.");
+        await loadWallet();
+      } else if (data.status === "EXPIRED") {
+        setStatusMessage("Batas waktu pembayaran telah habis. Silakan buat deposit baru.");
+      } else if (data.status === "FAILED") {
+        setStatusMessage("Pembayaran gagal atau dibatalkan.");
+      } else {
+        setStatusMessage("Pembayaran belum diterima. Selesaikan dulu di halaman DOKU, lalu cek lagi.");
+      }
+    } catch {
+      setStatusMessage("Tidak dapat terhubung ke server.");
+    } finally {
+      setCheckingStatus(false);
     }
   };
 
@@ -248,7 +280,7 @@ export default function WalletPage() {
             <div className={styles.successBox}>
               <span className={styles.successIcon}><CreditCard /></span>
               <h3>Selesaikan Pembayaran</h3>
-              <p>Selesaikan pembayaran untuk menambah saldo wallet Anda. Saldo akan diperbarui otomatis setelah pembayaran dikonfirmasi DOKU.</p>
+              <p>Transfer ke nomor Virtual Account di bawah dari bank/m-banking Anda, lalu klik &quot;Cek Status Pembayaran&quot; untuk memperbarui saldo wallet Anda.</p>
               {depositResult.virtualAccountNumber && (
                 <div className={styles.vaBox}>
                   <span className={styles.hint}>Nomor Virtual Account {paymentMethod}</span>
@@ -258,9 +290,13 @@ export default function WalletPage() {
               )}
               {depositResult.paymentUrl && (
                 <a href={depositResult.paymentUrl} target="_blank" rel="noopener noreferrer" className={styles.submitBtn} style={{ textDecoration: "none", textAlign: "center" }}>
-                  Lanjutkan Pembayaran <ArrowRight style={{ verticalAlign: "-0.125em" }} />
+                  Lihat Cara Bayar <ArrowRight style={{ verticalAlign: "-0.125em" }} />
                 </a>
               )}
+              {statusMessage && <p style={{ fontSize: "0.875rem", color: statusMessage.startsWith("Pembayaran berhasil") ? "#16a34a" : "var(--text-muted)" }}>{statusMessage}</p>}
+              <button className={styles.cancelBtn} onClick={checkPaymentStatus} disabled={checkingStatus}>
+                {checkingStatus ? "Memeriksa..." : "Cek Status Pembayaran"}
+              </button>
               <button className={styles.submitBtn} onClick={resetForm}>Kembali ke Wallet</button>
             </div>
           )}

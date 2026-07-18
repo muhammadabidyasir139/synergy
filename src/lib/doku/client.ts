@@ -1,5 +1,5 @@
 import { getDokuConfig } from "./config";
-import { buildRequestHeaders } from "./signature";
+import { buildRequestHeaders, buildGetRequestHeaders } from "./signature";
 
 interface DokuCallResult {
   ok: boolean;
@@ -43,35 +43,40 @@ export interface CreateCheckoutPaymentInput {
   invoiceNumber: string;
   amount: number;
   customer: CheckoutCustomer;
-  channel: "VIRTUAL_ACCOUNT_BCA" | "VIRTUAL_ACCOUNT_MANDIRI" | "VIRTUAL_ACCOUNT_BNI" | "VIRTUAL_ACCOUNT_BRI";
-  notificationUrl: string;
+  channel: "VIRTUAL_ACCOUNT_BCA" | "VIRTUAL_ACCOUNT_BANK_MANDIRI" | "VIRTUAL_ACCOUNT_BNI" | "VIRTUAL_ACCOUNT_BRI";
   expiredTimeMinutes?: number;
 }
 
-const VA_BANK_BY_CHANNEL: Record<CreateCheckoutPaymentInput["channel"], string> = {
-  VIRTUAL_ACCOUNT_BCA: "BCA",
-  VIRTUAL_ACCOUNT_MANDIRI: "MANDIRI",
-  VIRTUAL_ACCOUNT_BNI: "BNI",
-  VIRTUAL_ACCOUNT_BRI: "BRI",
+// Per-bank Jokul Direct "Create VA" endpoints — each returns a virtual_account_number
+// immediately in the response, no hosted checkout redirect required.
+const VA_PATH_BY_CHANNEL: Record<CreateCheckoutPaymentInput["channel"], string> = {
+  VIRTUAL_ACCOUNT_BCA: "/bca-virtual-account/v2/payment-code",
+  VIRTUAL_ACCOUNT_BANK_MANDIRI: "/mandiri-virtual-account/v2/payment-code",
+  VIRTUAL_ACCOUNT_BNI: "/bni-virtual-account/v2/payment-code",
+  VIRTUAL_ACCOUNT_BRI: "/bri-virtual-account/v2/payment-code",
 };
 
-export async function createCheckoutPayment(input: CreateCheckoutPaymentInput): Promise<DokuCallResult> {
-  const { checkoutPath } = getDokuConfig();
+export async function createVirtualAccount(input: CreateCheckoutPaymentInput): Promise<DokuCallResult> {
+  const path = VA_PATH_BY_CHANNEL[input.channel];
+
+  const virtualAccountInfo: Record<string, unknown> = {
+    billing_type: "FIX_BILL",
+    expired_time: input.expiredTimeMinutes ?? 60,
+    reusable_status: false,
+    info1: "Synergy Investama",
+    info2: "Deposit Wallet Investor",
+  };
+  // BNI requires a numeric dedup reference under 13 digits, unlike the other banks.
+  if (input.channel === "VIRTUAL_ACCOUNT_BNI") {
+    virtualAccountInfo.merchant_unique_reference = String(Date.now()).slice(-11);
+  }
 
   const body = {
     order: {
       invoice_number: input.invoiceNumber,
       amount: input.amount,
-      callback_url: input.notificationUrl,
     },
-    virtual_account_info: {
-      billing_type: "FIX_BILL",
-      expired_time: input.expiredTimeMinutes ?? 60,
-      reusable_status: false,
-      bank: VA_BANK_BY_CHANNEL[input.channel],
-      info1: "Synergy Investama",
-      info2: "Deposit Wallet Investor",
-    },
+    virtual_account_info: virtualAccountInfo,
     customer: {
       name: input.customer.name,
       email: input.customer.email,
@@ -79,7 +84,7 @@ export async function createCheckoutPayment(input: CreateCheckoutPaymentInput): 
     },
   };
 
-  return dokuPost(checkoutPath, body);
+  return dokuPost(path, body);
 }
 
 export interface CreateDisbursementInput {
@@ -110,4 +115,22 @@ export async function createDisbursement(input: CreateDisbursementInput): Promis
   };
 
   return dokuPost(disbursementPath, body);
+}
+
+export async function checkOrderStatus(invoiceNumber: string): Promise<DokuCallResult> {
+  const { baseUrl, clientId, secretKey } = getDokuConfig();
+  const path = `/orders/v1/status/${invoiceNumber}`;
+  const headers = buildGetRequestHeaders(path, clientId, secretKey);
+
+  const res = await fetch(`${baseUrl}${path}`, { method: "GET", headers });
+
+  const rawText = await res.text();
+  let json: Record<string, unknown> | null = null;
+  try {
+    json = rawText ? JSON.parse(rawText) : null;
+  } catch {
+    json = null;
+  }
+
+  return { ok: res.ok, status: res.status, json, rawText };
 }

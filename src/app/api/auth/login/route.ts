@@ -5,7 +5,7 @@ import { createSessionToken, sessionCookieOptions } from "@/lib/session";
 
 export async function POST(request: NextRequest) {
   try {
-    const { identifier, password } = await request.json();
+    const { identifier, password, role } = await request.json();
 
     if (!identifier || !password) {
       return NextResponse.json({ error: "Email/HP dan kata sandi wajib diisi." }, { status: 400 });
@@ -30,6 +30,13 @@ export async function POST(request: NextRequest) {
     const passwordOk = await bcrypt.compare(password, user.passwordHash);
     if (!passwordOk) {
       return NextResponse.json({ error: "Kata sandi salah." }, { status: 401 });
+    }
+
+    if (role && user.role !== role) {
+      return NextResponse.json(
+        { error: `Akun ini tidak terdaftar sebagai ${role === "INVESTOR" ? "Investor" : "UMKM"}.` },
+        { status: 403 }
+      );
     }
 
     const token = await createSessionToken({ userId: user.id, role: user.role as "INVESTOR" | "UMKM" | "ADMIN" });

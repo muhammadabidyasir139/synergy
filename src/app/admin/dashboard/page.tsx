@@ -64,11 +64,8 @@ export default function AdminDashboardHome() {
     await fetchStats();
   };
 
-  const fmtRupiah = (n: number) => {
-    if (n >= 1_000_000_000) return `Rp ${(n / 1_000_000_000).toFixed(2)} M`;
-    if (n >= 1_000_000) return `Rp ${(n / 1_000_000).toFixed(2)} Jt`;
-    return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(n);
-  };
+  const fmtRupiah = (n: number) =>
+    new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(n);
 
   const fmtDate = (d: string) =>
     new Date(d).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
@@ -91,7 +88,7 @@ export default function AdminDashboardHome() {
       {/* 1. Welcome Banner */}
       <section className={styles.welcomeBanner}>
         <div className={styles.welcomeContent}>
-          <h1>Assalamu&apos;alaikum, Super Admin Taufan</h1>
+          <h1>Assalamu&apos;alaikum, Super Admin</h1>
           <p>
             Platform pembiayaan syariah cerdas berjalan lancar. Smart Contract aktif dan AI
             XGBoost memproses data credit scoring secara optimal.

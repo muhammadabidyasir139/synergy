@@ -47,6 +47,13 @@ export async function POST(request: NextRequest) {
     const passwordHash = await bcrypt.hash(password, 12);
     const userRole = role === "UMKM" ? Role.UMKM : Role.INVESTOR;
 
+    if (userRole === Role.INVESTOR && !profile?.fullName) {
+      return NextResponse.json({ error: "Nama lengkap investor wajib diisi." }, { status: 400 });
+    }
+    if (userRole === Role.UMKM && (!profile?.ownerName || !profile?.businessName)) {
+      return NextResponse.json({ error: "Nama pemilik dan nama usaha wajib diisi." }, { status: 400 });
+    }
+
     if (kycFile && kycFile.size > 0) {
       const buffer = Buffer.from(await kycFile.arrayBuffer());
       const fileName = `kyc/${Date.now()}_${kycFile.name.replace(/\s+/g, '_')}`;

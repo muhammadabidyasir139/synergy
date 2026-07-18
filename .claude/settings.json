@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pkill -f \"next dev\")",
+      "Bash(npm run *)",
+      "Bash(jobs -p)",
+      "Bash(netstat -ano)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/admin/dashboard)",
+      "Bash(chromium-cli --session admincheck)",
+      "Read(//usr/local/**)",
+      "Bash(npx --version)",
+      "Bash(where chromium-cli *)",
+      "Bash(timeout 100 npx --yes playwright@1 --version)",
+      "Bash(cp \"C:/Users/muham/AppData/Local/Temp/claude/e--applications-Synergy/ac183f53-34af-4f77-9d0e-32f6ff4f3862/scratchpad/check_user.ts\" ./__check_user.ts)",
+      "Bash(npx tsx *)",
+      "Bash(curl -s -i -X POST http://localhost:3000/api/auth/login -H 'Content-Type: application/json' -d '{\"identifier\":\"investor@synergy.com\",\"password\":\"12345678\",\"role\":\"INVESTOR\"}')",
+      "Bash(rm -f ./__repair_investor_profile.ts)",
+      "Bash(node \"C:\\\\Users\\\\muham\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\e--applications-Synergy\\\\df222b6b-f065-4de1-8977-6cebb92dbdce\\\\scratchpad\\\\doku-test.mjs\")",
+      "Bash(timeout 20 npx tsx ./__check3.ts)",
+      "Bash(cat /tmp_check3_out.txt)",
+      "Bash(node -e \"require\\('dns'\\).lookup\\('api-sandbox.doku.com', \\(err, addr\\) => console.log\\('dns:', err || addr\\)\\)\")"
+    ]
+  }
+}

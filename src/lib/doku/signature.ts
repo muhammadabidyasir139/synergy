@@ -49,6 +49,29 @@ export function buildRequestHeaders(
   };
 }
 
+export function buildGetRequestHeaders(
+  requestTarget: string,
+  clientId: string,
+  secretKey: string
+): Omit<DokuSignedHeaders, "Digest"> {
+  const requestId = crypto.randomUUID();
+  const timestamp = new Date().toISOString().replace(/\.\d{3}Z$/, "Z");
+  const component = [
+    `Client-Id:${clientId}`,
+    `Request-Id:${requestId}`,
+    `Request-Timestamp:${timestamp}`,
+    `Request-Target:${requestTarget}`,
+  ].join("\n");
+  const signature = "HMACSHA256=" + crypto.createHmac("sha256", secretKey).update(component, "utf8").digest("base64");
+
+  return {
+    "Client-Id": clientId,
+    "Request-Id": requestId,
+    "Request-Timestamp": timestamp,
+    Signature: signature,
+  };
+}
+
 export function verifyIncomingSignature(
   headers: { clientId: string | null; requestId: string | null; timestamp: string | null; signature: string | null; digest: string | null },
   requestTarget: string,
