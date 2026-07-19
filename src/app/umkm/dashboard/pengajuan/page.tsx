@@ -9,6 +9,15 @@ import { CheckCircle, Pencil, Clipboard, BarChart, Rocket, Check, Refresh, XCirc
 
 const MySwal = withReactContent(Swal);
 
+function getUmkmId(): string {
+  if (typeof window === "undefined") return "";
+  try {
+    return JSON.parse(sessionStorage.getItem("synergy_umkm_session") ?? "{}").umkmProfileId ?? "";
+  } catch {
+    return "";
+  }
+}
+
 interface Pengajuan {
   id: string;
   jenis: string;
@@ -28,19 +37,23 @@ export default function PengajuanPendanaan() {
     jumlah: "",
     jenis: "Musyarakah",
     durasi: "12",
+    durasiCustom: "1",
     tujuan: "",
     deskripsi: "",
   });
 
   const nisbah = form.jenis === "Musyarakah" ? "70:30 (UMKM:Investor)" : "Fixed margin 1.5%/bulan";
   const estimasiReturn = form.jenis === "Musyarakah" ? "15-25% p.a." : "18% p.a. (fixed)";
+  const jenisLabel = (jenis: string) => (jenis === "Murabahah" ? "Mudhorobah" : jenis);
+  const durasiBulan = form.durasi === "custom" ? parseInt(form.durasiCustom || "1") : parseInt(form.durasi || "12");
 
   const [pengajuanList, setPengajuanList] = useState<Pengajuan[]>([]);
   const [financeComplete, setFinanceComplete] = useState<boolean | null>(null);
 
   useEffect(() => {
-    getPengajuans().then((data) => setPengajuanList(data as Pengajuan[])).catch(console.error);
-    isFinanceProfileComplete().then(setFinanceComplete).catch(() => setFinanceComplete(false));
+    const umkmId = getUmkmId();
+    getPengajuans(umkmId).then((data) => setPengajuanList(data as Pengajuan[])).catch(console.error);
+    isFinanceProfileComplete(umkmId).then(setFinanceComplete).catch(() => setFinanceComplete(false));
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -58,7 +71,7 @@ export default function PengajuanPendanaan() {
 
     MySwal.fire({
       title: "Konfirmasi Pengajuan",
-      text: `Apakah Anda yakin ingin mengajukan pendanaan sebesar Rp ${parseInt(form.jumlah || "0").toLocaleString("id-ID")} dengan akad ${form.jenis}?`,
+      text: `Apakah Anda yakin ingin mengajukan pendanaan sebesar Rp ${parseInt(form.jumlah || "0").toLocaleString("id-ID")} dengan akad ${jenisLabel(form.jenis)}?`,
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Ya, Ajukan",
@@ -68,16 +81,17 @@ export default function PengajuanPendanaan() {
     }).then((result) => {
       if (result.isConfirmed) {
         setIsSubmitting(true);
-        createPengajuan({
+        const umkmId = getUmkmId();
+        createPengajuan(umkmId, {
           jumlah: parseInt(form.jumlah || "0"),
           jenis: form.jenis as "Musyarakah" | "Murabahah",
-          durasi: parseInt(form.durasi || "12"),
+          durasi: durasiBulan,
           tujuan: form.tujuan + " - " + form.deskripsi
         }).then(() => {
           setIsSubmitting(false);
           setSubmitted(true);
-          setForm({ jumlah: "", jenis: "Musyarakah", durasi: "12", tujuan: "", deskripsi: "" });
-          getPengajuans().then((data) => setPengajuanList(data as Pengajuan[]));
+          setForm({ jumlah: "", jenis: "Musyarakah", durasi: "12", durasiCustom: "1", tujuan: "", deskripsi: "" });
+          getPengajuans(umkmId).then((data) => setPengajuanList(data as Pengajuan[]));
 
           MySwal.fire({
             title: "Berhasil!",
@@ -161,7 +175,7 @@ export default function PengajuanPendanaan() {
                 <label>Jenis Akad Syariah</label>
                 <select className={styles.select} value={form.jenis} onChange={(e) => setForm({ ...form, jenis: e.target.value })}>
                   <option value="Musyarakah">Musyarakah (Bagi Hasil)</option>
-                  <option value="Murabahah">Murabahah (Jual Beli)</option>
+                  <option value="Murabahah">Mudhorobah (Jual Beli)</option>
                 </select>
               </div>
               <div className={styles.inputGroup}>
@@ -171,18 +185,33 @@ export default function PengajuanPendanaan() {
                   <option value="6">6 Bulan</option>
                   <option value="12">12 Bulan</option>
                   <option value="24">24 Bulan</option>
+                  <option value="custom">Custom</option>
                 </select>
+                {form.durasi === "custom" && (
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginTop: "0.5rem" }}>
+                    <select
+                      className={styles.select}
+                      value={form.durasiCustom}
+                      onChange={(e) => setForm({ ...form, durasiCustom: e.target.value })}
+                    >
+                      {Array.from({ length: 60 }, (_, i) => i + 1).map((n) => (
+                        <option key={n} value={n}>{n}</option>
+                      ))}
+                    </select>
+                    <span style={{ fontWeight: 600, color: "var(--text-color)" }}>Bulan</span>
+                  </div>
+                )}
               </div>
               <div className={styles.inputGroup}>
                 <label>Tujuan Penggunaan Dana</label>
-                <select className={styles.select} value={form.tujuan} onChange={(e) => setForm({ ...form, tujuan: e.target.value })} required>
-                  <option value="">-- Pilih Tujuan --</option>
-                  <option>Pengembangan Stok / Modal Kerja</option>
-                  <option>Pembelian Peralatan & Aset</option>
-                  <option>Renovasi & Ekspansi Lokasi</option>
-                  <option>Pemasaran & Digitalisasi</option>
-                  <option>Lainnya</option>
-                </select>
+                <input
+                  type="text"
+                  className={styles.input}
+                  placeholder="Contoh: Pengembangan Stok / Modal Kerja"
+                  value={form.tujuan}
+                  onChange={(e) => setForm({ ...form, tujuan: e.target.value })}
+                  required
+                />
               </div>
               <div className={styles.inputGroup} style={{ gridColumn: "1 / -1" }}>
                 <label>Deskripsi Penggunaan Dana (Detail)</label>
@@ -205,7 +234,7 @@ export default function PengajuanPendanaan() {
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "1rem", fontSize: "0.85rem" }}>
                 <div>
                   <p style={{ color: "var(--text-muted)", fontWeight: 600 }}>Jenis Akad</p>
-                  <p style={{ fontWeight: 700, color: "var(--text-color)" }}>{form.jenis}</p>
+                  <p style={{ fontWeight: 700, color: "var(--text-color)" }}>{jenisLabel(form.jenis)}</p>
                 </div>
                 <div>
                   <p style={{ color: "var(--text-muted)", fontWeight: 600 }}>Nisbah / Margin</p>
@@ -276,7 +305,7 @@ export default function PengajuanPendanaan() {
                 {pengajuanList.map((p) => (
                   <tr key={p.id}>
                     <td style={{ fontFamily: "monospace", fontWeight: 700 }}>{p.id}</td>
-                    <td>{p.jenis}</td>
+                    <td>{jenisLabel(p.jenis)}</td>
                     <td style={{ fontWeight: 700 }}>{p.jumlah}</td>
                     <td>{p.durasi}</td>
                     <td style={{ color: "var(--text-muted)" }}>{p.tanggal}</td>

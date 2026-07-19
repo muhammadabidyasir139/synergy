@@ -33,6 +33,13 @@ const formatRp = (n: number) => "Rp " + Math.abs(n).toLocaleString("id-ID");
 
 const VA_BANKS = ["BCA", "MANDIRI", "BNI", "BRI"];
 
+const BANK_LOGOS: Record<string, string> = {
+  BCA: "/source/960px-Bank_Central_Asia.svg.webp",
+  MANDIRI: "/source/960px-Bank_Mandiri_logo_2016.svg.webp",
+  BNI: "/source/Bank_Negara_Indonesia_logo_(2004).svg.webp",
+  BRI: "/source/960px-BANK_BRI_logo.svg.webp",
+};
+
 export default function WalletPage() {
   const [balance, setBalance] = useState(0);
   const [lockedBalance, setLockedBalance] = useState(0);
@@ -217,6 +224,7 @@ export default function WalletPage() {
                           className={`${styles.payBtn} ${paymentMethod === m ? styles.payBtnActive : ""}`}
                           onClick={() => setPaymentMethod(m)}
                         >
+                          <img src={BANK_LOGOS[m]} alt={m} className={styles.bankLogo} />
                           {m}
                         </div>
                       ))}
@@ -234,6 +242,7 @@ export default function WalletPage() {
                             className={`${styles.payBtn} ${bankCode === m ? styles.payBtnActive : ""}`}
                             onClick={() => setBankCode(m)}
                           >
+                            <img src={BANK_LOGOS[m]} alt={m} className={styles.bankLogo} />
                             {m}
                           </div>
                         ))}

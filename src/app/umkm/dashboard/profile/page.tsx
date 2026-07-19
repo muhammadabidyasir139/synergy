@@ -90,6 +90,7 @@ export default function ProfilUsaha() {
   const [error, setError] = useState("");
   const [uploadingLogo, setUploadingLogo] = useState(false);
   const [uploadingGallery, setUploadingGallery] = useState(false);
+  const [galleryUploadProgress, setGalleryUploadProgress] = useState({ done: 0, total: 0 });
   const [uploadingKyc, setUploadingKyc] = useState(false);
 
   const [finance, setFinance] = useState<FinanceData | null>(null);
@@ -217,26 +218,34 @@ export default function ProfilUsaha() {
   };
 
   const handleGalleryUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = Array.from(e.target.files ?? []);
+    if (files.length === 0) return;
     setUploadingGallery(true);
+    setGalleryUploadProgress({ done: 0, total: files.length });
     setError("");
     try {
       const id = getUmkmId();
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("type", "GALLERY");
-      const res = await fetch("/api/umkm/profile/media", { method: "POST", headers: { "x-umkm-id": id }, body: formData });
-      if (!res.ok) {
-        const data = await res.json();
-        setError(data.error ?? "Gagal mengunggah foto.");
-        return;
+      const failures: string[] = [];
+      for (const file of files) {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("type", "GALLERY");
+        try {
+          const res = await fetch("/api/umkm/profile/media", { method: "POST", headers: { "x-umkm-id": id }, body: formData });
+          if (!res.ok) {
+            const data = await res.json();
+            failures.push(`${file.name}: ${data.error ?? "gagal diunggah"}`);
+          }
+        } catch {
+          failures.push(`${file.name}: tidak dapat terhubung ke server`);
+        }
+        setGalleryUploadProgress((p) => ({ ...p, done: p.done + 1 }));
       }
+      if (failures.length > 0) setError(`Sebagian foto gagal diunggah: ${failures.join("; ")}`);
       loadProfile();
-    } catch {
-      setError("Tidak dapat terhubung ke server.");
     } finally {
       setUploadingGallery(false);
+      setGalleryUploadProgress({ done: 0, total: 0 });
       if (galleryInputRef.current) galleryInputRef.current.value = "";
     }
   };
@@ -358,18 +367,20 @@ export default function ProfilUsaha() {
                   </div>
                 ))}
                 <div
-                  onClick={() => galleryInputRef.current?.click()}
+                  onClick={() => !uploadingGallery && galleryInputRef.current?.click()}
                   style={{
                     width: 100, height: 100, borderRadius: 10, border: "2px dashed var(--border-color)",
-                    display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer",
+                    display: "flex", alignItems: "center", justifyContent: "center", cursor: uploadingGallery ? "default" : "pointer",
                     background: "rgba(0,0,0,0.02)",
                   }}
                 >
-                  <span style={{ fontSize: "0.75rem", textAlign: "center" }}>{uploadingGallery ? "Mengunggah..." : "+ Tambah"}</span>
+                  <span style={{ fontSize: "0.75rem", textAlign: "center" }}>
+                    {uploadingGallery ? `${galleryUploadProgress.done}/${galleryUploadProgress.total}...` : "+ Tambah"}
+                  </span>
                 </div>
               </div>
-              <input ref={galleryInputRef} type="file" accept="image/png,image/jpeg,image/jpg,image/webp" onChange={handleGalleryUpload} style={{ display: "none" }} />
-              <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "0.5rem" }}>PNG, JPG, atau WEBP maks. 5 MB per foto.</p>
+              <input ref={galleryInputRef} type="file" accept="image/png,image/jpeg,image/jpg,image/webp" multiple onChange={handleGalleryUpload} style={{ display: "none" }} />
+              <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "0.5rem" }}>PNG, JPG, atau WEBP maks. 5 MB per foto. Dapat memilih beberapa foto sekaligus.</p>
             </div>
           </div>
         </div>

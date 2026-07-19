@@ -9,6 +9,15 @@ import { CheckCircle, Pencil, Clipboard, Link, Save, ShoppingCart, ShoppingBag, 
 
 const MySwal = withReactContent(Swal);
 
+function getUmkmId(): string {
+  if (typeof window === "undefined") return "";
+  try {
+    return JSON.parse(sessionStorage.getItem("synergy_umkm_session") ?? "{}").umkmProfileId ?? "";
+  } catch {
+    return "";
+  }
+}
+
 interface DataEntry {
   id: string;
   tanggal: string;
@@ -28,7 +37,7 @@ export default function DataUsaha() {
   const [history, setHistory] = useState<DataEntry[]>([]);
 
   useEffect(() => {
-    getDataUsaha().then(setHistory).catch(console.error);
+    getDataUsaha(getUmkmId()).then(setHistory).catch(console.error);
   }, []);
 
   const [apiConnected, setApiConnected] = useState({ tokopedia: false, shopee: false, pos: true });
@@ -51,7 +60,8 @@ export default function DataUsaha() {
         const omzetNum = parseInt(form.omzet.replace(/\D/g, "")) || 0;
         const pengeluaranNum = parseInt(form.pengeluaran.replace(/\D/g, "")) || 0;
         
-        createDataUsaha({
+        const umkmId = getUmkmId();
+        createDataUsaha(umkmId, {
           tanggal: form.tanggal || new Date().toISOString().split("T")[0],
           omzet: omzetNum,
           pengeluaran: pengeluaranNum,
@@ -60,7 +70,7 @@ export default function DataUsaha() {
           setForm({ tanggal: "", omzet: "", pengeluaran: "", keterangan: "" });
           setIsSaving(false);
           setSaved(true);
-          getDataUsaha().then(setHistory);
+          getDataUsaha(umkmId).then(setHistory);
 
           MySwal.fire({
             title: "Berhasil!",
