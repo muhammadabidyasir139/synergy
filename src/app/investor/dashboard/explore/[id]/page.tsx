@@ -37,6 +37,16 @@ interface CampaignDetail {
     dailyRevenue: number | null;
     dailyExpense: number | null;
   }[];
+  financeProfile: {
+    asetLancar: number;
+    asetTidakLancar: number;
+    totalHutangKas: number;
+    totalPendapatan: number;
+    totalBeban: number;
+    labaBersih: number;
+    rataRataArusKas: number;
+  } | null;
+  omzetHistory: { tanggal: string; omzet: number }[];
 }
 
 const formatRp = (n: number) => "Rp " + n.toLocaleString("id-ID");
@@ -74,6 +84,18 @@ export default function CampaignDetailPage() {
 
   const cover = data.media.find((m) => m.type === "GALLERY");
   const logo = data.media.find((m) => m.type === "LOGO");
+  const omzetChartData = data.omzetHistory.slice(-6);
+  const maxOmzet = Math.max(...omzetChartData.map((r) => r.omzet), 1);
+
+  const FINANCE_FIELDS: { key: keyof NonNullable<CampaignDetail["financeProfile"]>; label: string }[] = [
+    { key: "asetLancar", label: "Aset Lancar" },
+    { key: "asetTidakLancar", label: "Aset Tidak Lancar" },
+    { key: "totalHutangKas", label: "Total Hutang Kas" },
+    { key: "totalPendapatan", label: "Total Pendapatan" },
+    { key: "totalBeban", label: "Total Beban" },
+    { key: "labaBersih", label: "Laba Bersih" },
+    { key: "rataRataArusKas", label: "Rata-rata Arus Kas" },
+  ];
 
   return (
     <div className={styles.page}>
@@ -155,6 +177,52 @@ export default function CampaignDetailPage() {
                     ))}
                   </tbody>
                 </table>
+              </div>
+            )}
+          </div>
+
+          <div className={styles.card}>
+            <h3 className={styles.cardTitle}>Profil Keuangan</h3>
+            {data.financeProfile ? (
+              <div className={styles.factGrid}>
+                {FINANCE_FIELDS.map(({ key, label }) => (
+                  <div className={styles.factItem} key={key}>
+                    <span className={styles.factLabel}>{label}</span>
+                    <span className={styles.factVal}>{formatRp(data.financeProfile![key])}</span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className={styles.emptyNote}>UMKM belum melengkapi profil keuangan.</p>
+            )}
+          </div>
+
+          <div className={styles.card}>
+            <h3 className={styles.cardTitle}>
+              <TrendingUp style={{ verticalAlign: "-0.125em" }} /> Pertumbuhan Omzet
+            </h3>
+            {omzetChartData.length === 0 ? (
+              <p className={styles.emptyNote}>Belum ada laporan omzet dari Monitoring Usaha.</p>
+            ) : (
+              <div className={styles.chartContainer}>
+                <div className={styles.chartLabelY}>
+                  <span>{(maxOmzet / 1_000_000).toFixed(0)} Jt</span>
+                  <span>{((maxOmzet * 0.66) / 1_000_000).toFixed(0)} Jt</span>
+                  <span>{((maxOmzet * 0.33) / 1_000_000).toFixed(0)} Jt</span>
+                  <span>0</span>
+                </div>
+                {omzetChartData.map((r, i) => {
+                  const h = (r.omzet / maxOmzet) * 100;
+                  const label = new Date(r.tanggal).toLocaleDateString("id-ID", { day: "2-digit", month: "short" });
+                  return (
+                    <div key={i} className={styles.chartBarWrapper}>
+                      <div className={styles.chartBar} style={{ height: `${h}%` }}>
+                        <div className={styles.chartTooltip}>Rp {(r.omzet / 1_000_000).toFixed(1)} Jt</div>
+                      </div>
+                      <span className={styles.chartLabelX}>{label}</span>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>

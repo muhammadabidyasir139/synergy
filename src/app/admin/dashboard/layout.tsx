@@ -5,7 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import styles from "./page.module.css";
 import ThemeToggle from "@/components/ThemeToggle";
-import { Lock, Menu, Chain } from "@/components/icons";
+import { Menu, Chain } from "@/components/icons";
 
 interface SidebarItem {
   name: string;
@@ -210,7 +210,7 @@ export default function AdminLayout({
       <aside className={`${styles.sidebar} glass ${isSidebarOpen ? "" : styles.sidebarClosed}`}>
         <div className={styles.sidebarHeader}>
           <div className={styles.logoGroup}>
-            <span className={styles.shieldGlowMini}><Lock /></span>
+            <img src="/source/Logo-Synergy.png" alt="Synergy" className={styles.shieldGlowMini} />
             <div>
               <span className={styles.sidebarLogo}>SYNERGY</span>
               <span className={styles.sidebarSub}>ADMIN PANEL</span>

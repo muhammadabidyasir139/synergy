@@ -5,7 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import styles from "./page.module.css";
 import ThemeToggle from "@/components/ThemeToggle";
-import { Building, Menu, Chain, ArrowLeft, ArrowRight } from "@/components/icons";
+import { Menu, Chain, ArrowLeft, ArrowRight } from "@/components/icons";
 
 interface SidebarItem {
   name: string;
@@ -205,7 +205,7 @@ export default function UMKMLayout({ children }: { children: React.ReactNode }) 
       <aside className={`${styles.sidebar} glass ${isSidebarOpen ? "" : styles.sidebarClosed}`}>
         <div className={styles.sidebarHeader}>
           <div className={styles.logoGroup}>
-            <span className={styles.shieldGlowMini}><Building /></span>
+            <img src="/source/Logo-Synergy.png" alt="Synergy" className={styles.shieldGlowMini} />
             <div>
               <span className={styles.sidebarLogo}>SYNERGY</span>
               <span className={styles.sidebarSub}>UMKM PORTAL</span>

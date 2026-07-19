@@ -1,0 +1,425 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Synergy Fabric Gateway API",
+    "version": "1.0.0",
+    "description": "API documentation for the Hyperledger Fabric Gateway for Synergy Blockchain"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/api/v1",
+      "description": "Local Gateway Server"
+    }
+  ],
+  "paths": {
+    "/akad": {
+      "post": {
+        "summary": "Create Akad",
+        "tags": ["Akad"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string" },
+                  "campaignId": { "type": "string" },
+                  "investmentId": { "type": "string" },
+                  "investorId": { "type": "string" },
+                  "umkmId": { "type": "string" },
+                  "akadType": { "type": "string" },
+                  "principalAmount": { "type": "number" },
+                  "nisbahInvestor": { "type": "number" },
+                  "nisbahUmkm": { "type": "number" },
+                  "platformFeeRate": { "type": "number" },
+                  "durationMonths": { "type": "integer" },
+                  "startDate": { "type": "string" },
+                  "endDate": { "type": "string" }
+                },
+                "required": ["id", "campaignId", "investmentId", "investorId", "umkmId", "akadType", "principalAmount", "nisbahInvestor", "nisbahUmkm", "durationMonths", "startDate", "endDate"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Akad created" },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/akad/{id}": {
+      "get": {
+        "summary": "Get Akad by ID",
+        "tags": ["Akad"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Akad details" },
+          "404": { "description": "Not Found" }
+        }
+      }
+    },
+    "/akad/{id}/history": {
+      "get": {
+        "summary": "Get Akad History",
+        "tags": ["Akad"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Akad history" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/akad/{id}/sign": {
+      "post": {
+        "summary": "Sign Akad",
+        "tags": ["Akad"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "signer": { "type": "string" },
+                  "signerId": { "type": "string" }
+                },
+                "required": ["signer", "signerId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Akad signed" },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/akad/{id}/status": {
+      "patch": {
+        "summary": "Update Akad Status",
+        "tags": ["Akad"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": { "type": "string" },
+                  "actorId": { "type": "string" }
+                },
+                "required": ["status", "actorId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Akad status updated" },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/akad/investor/{investorId}": {
+      "get": {
+        "summary": "Query Akad by Investor",
+        "tags": ["Akad"],
+        "parameters": [
+          {
+            "name": "investorId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "List of Akad" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/akad/umkm/{umkmId}": {
+      "get": {
+        "summary": "Query Akad by UMKM",
+        "tags": ["Akad"],
+        "parameters": [
+          {
+            "name": "umkmId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "List of Akad" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/investment": {
+      "post": {
+        "summary": "Record Investment",
+        "tags": ["Investment"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string" },
+                  "investorId": { "type": "string" },
+                  "campaignId": { "type": "string" },
+                  "umkmId": { "type": "string" },
+                  "amount": { "type": "number" },
+                  "akadType": { "type": "string" }
+                },
+                "required": ["id", "investorId", "campaignId", "umkmId", "amount", "akadType"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Investment recorded" },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/investment/{id}": {
+      "get": {
+        "summary": "Get Investment by ID",
+        "tags": ["Investment"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Investment details" },
+          "404": { "description": "Not Found" }
+        }
+      }
+    },
+    "/investment/{id}/link-akad": {
+      "post": {
+        "summary": "Link Akad to Investment",
+        "tags": ["Investment"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "akadId": { "type": "string" }
+                },
+                "required": ["akadId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Akad linked to investment" },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/investment/investor/{investorId}": {
+      "get": {
+        "summary": "Query Investments by Investor",
+        "tags": ["Investment"],
+        "parameters": [
+          {
+            "name": "investorId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "List of Investments" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/profit-sharing": {
+      "post": {
+        "summary": "Create Profit Sharing Period",
+        "tags": ["Profit Sharing"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string" },
+                  "akadId": { "type": "string" },
+                  "investmentId": { "type": "string" },
+                  "investorId": { "type": "string" },
+                  "umkmId": { "type": "string" },
+                  "periodStart": { "type": "string" },
+                  "periodEnd": { "type": "string" },
+                  "dueDate": { "type": "string" },
+                  "grossRevenue": { "type": "number" },
+                  "investorShare": { "type": "number" },
+                  "umkmShare": { "type": "number" },
+                  "platformFee": { "type": "number" }
+                },
+                "required": ["id", "akadId", "investmentId", "investorId", "umkmId", "periodStart", "periodEnd", "dueDate", "grossRevenue", "investorShare", "umkmShare"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Profit sharing period created" },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/profit-sharing/{id}": {
+      "get": {
+        "summary": "Get Profit Sharing Period by ID",
+        "tags": ["Profit Sharing"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Profit Sharing Period details" },
+          "404": { "description": "Not Found" }
+        }
+      }
+    },
+    "/profit-sharing/{id}/pay": {
+      "post": {
+        "summary": "Record Payment",
+        "tags": ["Profit Sharing"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "actorId": { "type": "string" }
+                },
+                "required": ["actorId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Payment recorded" },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/profit-sharing/akad/{akadId}": {
+      "get": {
+        "summary": "Query Periods by Akad",
+        "tags": ["Profit Sharing"],
+        "parameters": [
+          {
+            "name": "akadId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "List of Profit Sharing Periods" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/profit-sharing/overdue": {
+      "get": {
+        "summary": "Query Overdue Periods",
+        "tags": ["Profit Sharing"],
+        "responses": {
+          "200": { "description": "List of Overdue Profit Sharing Periods" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/audit/akad/{akadId}": {
+      "get": {
+        "summary": "Get Audit Events by Akad",
+        "tags": ["Audit"],
+        "parameters": [
+          {
+            "name": "akadId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "List of Audit Events" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    }
+  }
+}

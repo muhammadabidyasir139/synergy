@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import styles from "./page.module.css";
-import { Handshake, Clipboard, ArrowRight, ArrowLeft, Wallet, CheckCircle, Sparkles } from "@/components/icons";
+import { Handshake, Clipboard, ArrowRight, ArrowLeft, Wallet, CheckCircle, Sparkles, Lock } from "@/components/icons";
 
 interface Campaign {
   id: string;
@@ -35,6 +36,8 @@ export default function InvestasiPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [result, setResult] = useState<{ investmentId: string; txHash: string } | null>(null);
   const [error, setError] = useState("");
+  const [pin, setPin] = useState("");
+  const [hasPin, setHasPin] = useState<boolean | null>(null);
 
   useEffect(() => {
     fetch("/api/investor/campaigns")
@@ -46,6 +49,12 @@ export default function InvestasiPage() {
       })
       .catch(console.error)
       .finally(() => setIsLoading(false));
+
+    const investorId = getInvestorId();
+    fetch("/api/investor/profile/pin", { headers: { "x-investor-id": investorId } })
+      .then((r) => r.json())
+      .then((d: { hasPin?: boolean }) => setHasPin(!!d.hasPin))
+      .catch(() => setHasPin(false));
   }, [preselect]);
 
   const selected = campaigns.find((c) => c.id === selectedId);
@@ -63,6 +72,7 @@ export default function InvestasiPage() {
 
   const handleFinalConfirm = async () => {
     if (!selected) return;
+    if (!/^\d{6}$/.test(pin)) { setError("Masukkan PIN transaksi 6 digit."); return; }
     setIsSubmitting(true);
     setError("");
     try {
@@ -70,11 +80,12 @@ export default function InvestasiPage() {
       const res = await fetch("/api/investor/investments", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-investor-id": investorId },
-        body: JSON.stringify({ campaignId: selected.id, akadType, amount: amountNum }),
+        body: JSON.stringify({ campaignId: selected.id, akadType, amount: amountNum, pin }),
       });
       const data = await res.json();
-      if (!res.ok) { setError(data.error ?? "Gagal membuat investasi."); return; }
+      if (!res.ok) { setError(data.error ?? "Gagal membuat investasi."); setPin(""); return; }
       setResult({ investmentId: data.investmentId, txHash: data.txHash });
+      setPin("");
       setStep("success");
     } catch {
       setError("Tidak dapat terhubung ke server.");
@@ -190,10 +201,33 @@ export default function InvestasiPage() {
                 <div className={styles.infoRow}><span>Durasi</span><span className={styles.infoVal}>{selected.durationMonths} Bulan</span></div>
                 <div className={styles.infoRow}><span>Est. ROI</span><span className={styles.infoVal}>{selected.estimatedRoi}%</span></div>
               </div>
+              {hasPin === false && (
+                <div className={styles.pinWarningBox}>
+                  <Lock style={{ verticalAlign: "-0.125em" }} /> Anda belum mengatur PIN transaksi. Atur PIN terlebih dahulu di{" "}
+                  <Link href="/investor/dashboard/profile" className={styles.pinWarningLink}>Profil &amp; Keamanan</Link> sebelum melanjutkan investasi.
+                </div>
+              )}
+
+              {hasPin && (
+                <div className={styles.field}>
+                  <label className={styles.label}><Lock style={{ verticalAlign: "-0.125em" }} /> Masukkan PIN Transaksi</label>
+                  <input
+                    type="password"
+                    inputMode="numeric"
+                    maxLength={6}
+                    className={styles.pinInput}
+                    placeholder="••••••"
+                    value={pin}
+                    onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                  />
+                  <p className={styles.fieldHint}>PIN 6 digit yang Anda atur di menu Profil &amp; Keamanan.</p>
+                </div>
+              )}
+
               {error && <p style={{ color: "red", marginTop: "0.5rem" }}>{error}</p>}
               <div className={styles.simActions}>
                 <button className={styles.secondaryBtn} onClick={() => setStep("simulation")}><ArrowLeft style={{ verticalAlign: "-0.125em" }} /> Kembali</button>
-                <button className={styles.primaryBtn} onClick={handleFinalConfirm} disabled={isSubmitting}>
+                <button className={styles.primaryBtn} onClick={handleFinalConfirm} disabled={isSubmitting || !hasPin || pin.length !== 6}>
                   {isSubmitting ? "Memproses..." : <><CheckCircle style={{ verticalAlign: "-0.125em" }} /> Konfirmasi & Deploy Smart Contract</>}
                 </button>
               </div>

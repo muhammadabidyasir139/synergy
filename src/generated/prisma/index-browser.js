@@ -159,6 +159,10 @@ exports.Prisma.InvestorProfileScalarFieldEnum = {
   riskTolerance: 'riskTolerance',
   totalInvested: 'totalInvested',
   totalProfit: 'totalProfit',
+  transactionPinHash: 'transactionPinHash',
+  pinSetAt: 'pinSetAt',
+  pinFailedAttempts: 'pinFailedAttempts',
+  pinLockedUntil: 'pinLockedUntil',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

@@ -5,7 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import styles from "./layout.module.css";
 import ThemeToggle from "@/components/ThemeToggle";
-import { Wallet, Menu } from "@/components/icons";
+import { Menu, Settings } from "@/components/icons";
 
 interface SessionData {
   investorProfileId: string;
@@ -249,6 +249,11 @@ export default function InvestorLayout({
         </svg>
       ),
     },
+    {
+      name: "Profil & Keamanan",
+      path: "/investor/dashboard/profile",
+      icon: <Settings />,
+    },
   ];
 
   const getPageTitle = () => {
@@ -283,9 +288,7 @@ export default function InvestorLayout({
       >
         <div className={styles.sidebarHeader}>
           <div className={styles.logoGroup}>
-            <span className={styles.logoGlow}>
-              <Wallet />
-            </span>
+            <img src="/source/Logo-Synergy.png" alt="Synergy" className={styles.logoGlow} />
             <div>
               <span className={styles.sidebarLogo}>SYNERGY</span>
               <span className={styles.sidebarSub}>INVESTOR PORTAL</span>

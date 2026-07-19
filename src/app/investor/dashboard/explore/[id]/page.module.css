@@ -246,3 +246,80 @@
   text-align: center;
   color: var(--text-muted);
 }
+
+.chartContainer {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 1rem 0;
+  position: relative;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.chartLabelY {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.chartBarWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.chartBar {
+  width: 55%;
+  border-radius: 8px 8px 0 0;
+  background: linear-gradient(to top, #0ea5e9, #1d4ed8);
+  position: relative;
+  transition: all 0.3s ease;
+  min-height: 10px;
+  cursor: pointer;
+}
+
+.chartBar:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 0 15px rgba(29, 78, 216, 0.4);
+}
+
+.chartTooltip {
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text-color);
+  color: var(--bg-color);
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.chartBar:hover .chartTooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.chartLabelX {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}

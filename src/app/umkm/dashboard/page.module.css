@@ -80,7 +80,9 @@
 }
 
 .shieldGlowMini {
-  font-size: 1.5rem;
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
   filter: drop-shadow(0 0 8px rgba(29, 78, 216, 0.4));
 }
 

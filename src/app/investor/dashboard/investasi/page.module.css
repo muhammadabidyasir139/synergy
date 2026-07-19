@@ -341,6 +341,46 @@
   gap: 0.65rem;
 }
 
+/* PIN */
+.pinInput {
+  width: 100%;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.6em;
+  text-align: center;
+  color: var(--text-color);
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+}
+
+.pinInput:focus {
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.08);
+}
+
+.pinWarningBox {
+  font-size: 0.85rem;
+  color: var(--text-color);
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  padding: 0.85rem 1.1rem;
+  border-radius: 10px;
+  line-height: 1.6;
+}
+
+.pinWarningLink {
+  color: #1d4ed8;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.dark .pinWarningLink { color: #60a5fa; }
+
 /* Buttons */
 .primaryBtn {
   flex: 1;
