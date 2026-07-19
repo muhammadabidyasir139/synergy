@@ -17,6 +17,8 @@ export async function GET(
             creditScores: { orderBy: { predictedAt: "desc" }, take: 1 },
             businessData: { orderBy: { reportDate: "desc" }, take: 6 },
             media: true,
+            akadVariables: { orderBy: { id: "desc" }, take: 1 },
+            monitoringReports: { orderBy: { tanggal: "desc" }, take: 6 },
           },
         },
       },
@@ -58,6 +60,27 @@ export async function GET(
         dailyExpense: b.dailyExpense ? Number(b.dailyExpense) : null,
       }));
 
+    const financeVariable = umkmProfile.akadVariables[0];
+    const financeProfile = financeVariable
+      ? {
+          asetLancar: Number(financeVariable.asetLancar),
+          asetTidakLancar: Number(financeVariable.asetTidakLancar),
+          totalHutangKas: Number(financeVariable.totalHutangKas),
+          totalPendapatan: Number(financeVariable.totalPendapatan),
+          totalBeban: Number(financeVariable.totalBeban),
+          labaBersih: Number(financeVariable.labaBersih),
+          rataRataArusKas: Number(financeVariable.rataRataArusKas),
+        }
+      : null;
+
+    const omzetHistory = umkmProfile.monitoringReports
+      .slice()
+      .reverse()
+      .map((r) => ({
+        tanggal: r.tanggal,
+        omzet: Number(r.omzet),
+      }));
+
     return NextResponse.json({
       id: campaign.id,
       name: umkmProfile.businessName,
@@ -83,6 +106,8 @@ export async function GET(
       durationMonths: campaign.durationMonths,
       investorCount: campaign.investorCount,
       financialReports,
+      financeProfile,
+      omzetHistory,
     });
   } catch (err) {
     console.error(err);

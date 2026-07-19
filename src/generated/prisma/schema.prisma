@@ -48,23 +48,27 @@ model AdminProfile {
 }
 
 model InvestorProfile {
-  id             String       @id @default(cuid())
-  userId         String       @unique
-  fullName       String
-  dateOfBirth    DateTime?
-  address        String?
-  city           String?
-  province       String?
-  district       String?
-  postalCode     String?
-  investmentGoal String?
-  riskTolerance  RiskLevel    @default(MEDIUM)
-  totalInvested  Decimal      @default(0.00)
-  totalProfit    Decimal      @default(0.00)
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
-  investments    Investment[]
-  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                 String       @id @default(cuid())
+  userId             String       @unique
+  fullName           String
+  dateOfBirth        DateTime?
+  address            String?
+  city               String?
+  province           String?
+  district           String?
+  postalCode         String?
+  investmentGoal     String?
+  riskTolerance      RiskLevel    @default(MEDIUM)
+  totalInvested      Decimal      @default(0.00)
+  totalProfit        Decimal      @default(0.00)
+  transactionPinHash String?
+  pinSetAt           DateTime?
+  pinFailedAttempts  Int          @default(0)
+  pinLockedUntil     DateTime?
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+  investments        Investment[]
+  user               User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("investor_profiles")
 }

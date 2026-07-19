@@ -61,6 +61,10 @@ model InvestorProfile {
   riskTolerance  RiskLevel    @default(MEDIUM)
   totalInvested  Decimal      @default(0.00)
   totalProfit    Decimal      @default(0.00)
+  transactionPinHash    String?
+  pinSetAt              DateTime?
+  pinFailedAttempts     Int          @default(0)
+  pinLockedUntil        DateTime?
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   investments    Investment[]

@@ -6229,11 +6229,13 @@ export namespace Prisma {
   export type InvestorProfileAvgAggregateOutputType = {
     totalInvested: Decimal | null
     totalProfit: Decimal | null
+    pinFailedAttempts: number | null
   }
 
   export type InvestorProfileSumAggregateOutputType = {
     totalInvested: Decimal | null
     totalProfit: Decimal | null
+    pinFailedAttempts: number | null
   }
 
   export type InvestorProfileMinAggregateOutputType = {
@@ -6250,6 +6252,10 @@ export namespace Prisma {
     riskTolerance: $Enums.RiskLevel | null
     totalInvested: Decimal | null
     totalProfit: Decimal | null
+    transactionPinHash: string | null
+    pinSetAt: Date | null
+    pinFailedAttempts: number | null
+    pinLockedUntil: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6268,6 +6274,10 @@ export namespace Prisma {
     riskTolerance: $Enums.RiskLevel | null
     totalInvested: Decimal | null
     totalProfit: Decimal | null
+    transactionPinHash: string | null
+    pinSetAt: Date | null
+    pinFailedAttempts: number | null
+    pinLockedUntil: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6286,6 +6296,10 @@ export namespace Prisma {
     riskTolerance: number
     totalInvested: number
     totalProfit: number
+    transactionPinHash: number
+    pinSetAt: number
+    pinFailedAttempts: number
+    pinLockedUntil: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -6295,11 +6309,13 @@ export namespace Prisma {
   export type InvestorProfileAvgAggregateInputType = {
     totalInvested?: true
     totalProfit?: true
+    pinFailedAttempts?: true
   }
 
   export type InvestorProfileSumAggregateInputType = {
     totalInvested?: true
     totalProfit?: true
+    pinFailedAttempts?: true
   }
 
   export type InvestorProfileMinAggregateInputType = {
@@ -6316,6 +6332,10 @@ export namespace Prisma {
     riskTolerance?: true
     totalInvested?: true
     totalProfit?: true
+    transactionPinHash?: true
+    pinSetAt?: true
+    pinFailedAttempts?: true
+    pinLockedUntil?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6334,6 +6354,10 @@ export namespace Prisma {
     riskTolerance?: true
     totalInvested?: true
     totalProfit?: true
+    transactionPinHash?: true
+    pinSetAt?: true
+    pinFailedAttempts?: true
+    pinLockedUntil?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6352,6 +6376,10 @@ export namespace Prisma {
     riskTolerance?: true
     totalInvested?: true
     totalProfit?: true
+    transactionPinHash?: true
+    pinSetAt?: true
+    pinFailedAttempts?: true
+    pinLockedUntil?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -6457,6 +6485,10 @@ export namespace Prisma {
     riskTolerance: $Enums.RiskLevel
     totalInvested: Decimal
     totalProfit: Decimal
+    transactionPinHash: string | null
+    pinSetAt: Date | null
+    pinFailedAttempts: number
+    pinLockedUntil: Date | null
     createdAt: Date
     updatedAt: Date
     _count: InvestorProfileCountAggregateOutputType | null
@@ -6494,6 +6526,10 @@ export namespace Prisma {
     riskTolerance?: boolean
     totalInvested?: boolean
     totalProfit?: boolean
+    transactionPinHash?: boolean
+    pinSetAt?: boolean
+    pinFailedAttempts?: boolean
+    pinLockedUntil?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     investments?: boolean | InvestorProfile$investmentsArgs<ExtArgs>
@@ -6515,6 +6551,10 @@ export namespace Prisma {
     riskTolerance?: boolean
     totalInvested?: boolean
     totalProfit?: boolean
+    transactionPinHash?: boolean
+    pinSetAt?: boolean
+    pinFailedAttempts?: boolean
+    pinLockedUntil?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -6534,6 +6574,10 @@ export namespace Prisma {
     riskTolerance?: boolean
     totalInvested?: boolean
     totalProfit?: boolean
+    transactionPinHash?: boolean
+    pinSetAt?: boolean
+    pinFailedAttempts?: boolean
+    pinLockedUntil?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -6553,11 +6597,15 @@ export namespace Prisma {
     riskTolerance?: boolean
     totalInvested?: boolean
     totalProfit?: boolean
+    transactionPinHash?: boolean
+    pinSetAt?: boolean
+    pinFailedAttempts?: boolean
+    pinLockedUntil?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type InvestorProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "fullName" | "dateOfBirth" | "address" | "city" | "province" | "district" | "postalCode" | "investmentGoal" | "riskTolerance" | "totalInvested" | "totalProfit" | "createdAt" | "updatedAt", ExtArgs["result"]["investorProfile"]>
+  export type InvestorProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "fullName" | "dateOfBirth" | "address" | "city" | "province" | "district" | "postalCode" | "investmentGoal" | "riskTolerance" | "totalInvested" | "totalProfit" | "transactionPinHash" | "pinSetAt" | "pinFailedAttempts" | "pinLockedUntil" | "createdAt" | "updatedAt", ExtArgs["result"]["investorProfile"]>
   export type InvestorProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     investments?: boolean | InvestorProfile$investmentsArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -6590,6 +6638,10 @@ export namespace Prisma {
       riskTolerance: $Enums.RiskLevel
       totalInvested: Prisma.Decimal
       totalProfit: Prisma.Decimal
+      transactionPinHash: string | null
+      pinSetAt: Date | null
+      pinFailedAttempts: number
+      pinLockedUntil: Date | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["investorProfile"]>
@@ -7030,6 +7082,10 @@ export namespace Prisma {
     readonly riskTolerance: FieldRef<"InvestorProfile", 'RiskLevel'>
     readonly totalInvested: FieldRef<"InvestorProfile", 'Decimal'>
     readonly totalProfit: FieldRef<"InvestorProfile", 'Decimal'>
+    readonly transactionPinHash: FieldRef<"InvestorProfile", 'String'>
+    readonly pinSetAt: FieldRef<"InvestorProfile", 'DateTime'>
+    readonly pinFailedAttempts: FieldRef<"InvestorProfile", 'Int'>
+    readonly pinLockedUntil: FieldRef<"InvestorProfile", 'DateTime'>
     readonly createdAt: FieldRef<"InvestorProfile", 'DateTime'>
     readonly updatedAt: FieldRef<"InvestorProfile", 'DateTime'>
   }
@@ -35131,6 +35187,10 @@ export namespace Prisma {
     riskTolerance: 'riskTolerance',
     totalInvested: 'totalInvested',
     totalProfit: 'totalProfit',
+    transactionPinHash: 'transactionPinHash',
+    pinSetAt: 'pinSetAt',
+    pinFailedAttempts: 'pinFailedAttempts',
+    pinLockedUntil: 'pinLockedUntil',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -36142,6 +36202,10 @@ export namespace Prisma {
     riskTolerance?: EnumRiskLevelFilter<"InvestorProfile"> | $Enums.RiskLevel
     totalInvested?: DecimalFilter<"InvestorProfile"> | Decimal | DecimalJsLike | number | string
     totalProfit?: DecimalFilter<"InvestorProfile"> | Decimal | DecimalJsLike | number | string
+    transactionPinHash?: StringNullableFilter<"InvestorProfile"> | string | null
+    pinSetAt?: DateTimeNullableFilter<"InvestorProfile"> | Date | string | null
+    pinFailedAttempts?: IntFilter<"InvestorProfile"> | number
+    pinLockedUntil?: DateTimeNullableFilter<"InvestorProfile"> | Date | string | null
     createdAt?: DateTimeFilter<"InvestorProfile"> | Date | string
     updatedAt?: DateTimeFilter<"InvestorProfile"> | Date | string
     investments?: InvestmentListRelationFilter
@@ -36162,6 +36226,10 @@ export namespace Prisma {
     riskTolerance?: SortOrder
     totalInvested?: SortOrder
     totalProfit?: SortOrder
+    transactionPinHash?: SortOrderInput | SortOrder
+    pinSetAt?: SortOrderInput | SortOrder
+    pinFailedAttempts?: SortOrder
+    pinLockedUntil?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     investments?: InvestmentOrderByRelationAggregateInput
@@ -36185,6 +36253,10 @@ export namespace Prisma {
     riskTolerance?: EnumRiskLevelFilter<"InvestorProfile"> | $Enums.RiskLevel
     totalInvested?: DecimalFilter<"InvestorProfile"> | Decimal | DecimalJsLike | number | string
     totalProfit?: DecimalFilter<"InvestorProfile"> | Decimal | DecimalJsLike | number | string
+    transactionPinHash?: StringNullableFilter<"InvestorProfile"> | string | null
+    pinSetAt?: DateTimeNullableFilter<"InvestorProfile"> | Date | string | null
+    pinFailedAttempts?: IntFilter<"InvestorProfile"> | number
+    pinLockedUntil?: DateTimeNullableFilter<"InvestorProfile"> | Date | string | null
     createdAt?: DateTimeFilter<"InvestorProfile"> | Date | string
     updatedAt?: DateTimeFilter<"InvestorProfile"> | Date | string
     investments?: InvestmentListRelationFilter
@@ -36205,6 +36277,10 @@ export namespace Prisma {
     riskTolerance?: SortOrder
     totalInvested?: SortOrder
     totalProfit?: SortOrder
+    transactionPinHash?: SortOrderInput | SortOrder
+    pinSetAt?: SortOrderInput | SortOrder
+    pinFailedAttempts?: SortOrder
+    pinLockedUntil?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: InvestorProfileCountOrderByAggregateInput
@@ -36231,6 +36307,10 @@ export namespace Prisma {
     riskTolerance?: EnumRiskLevelWithAggregatesFilter<"InvestorProfile"> | $Enums.RiskLevel
     totalInvested?: DecimalWithAggregatesFilter<"InvestorProfile"> | Decimal | DecimalJsLike | number | string
     totalProfit?: DecimalWithAggregatesFilter<"InvestorProfile"> | Decimal | DecimalJsLike | number | string
+    transactionPinHash?: StringNullableWithAggregatesFilter<"InvestorProfile"> | string | null
+    pinSetAt?: DateTimeNullableWithAggregatesFilter<"InvestorProfile"> | Date | string | null
+    pinFailedAttempts?: IntWithAggregatesFilter<"InvestorProfile"> | number
+    pinLockedUntil?: DateTimeNullableWithAggregatesFilter<"InvestorProfile"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"InvestorProfile"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"InvestorProfile"> | Date | string
   }
@@ -38588,6 +38668,10 @@ export namespace Prisma {
     riskTolerance?: $Enums.RiskLevel
     totalInvested?: Decimal | DecimalJsLike | number | string
     totalProfit?: Decimal | DecimalJsLike | number | string
+    transactionPinHash?: string | null
+    pinSetAt?: Date | string | null
+    pinFailedAttempts?: number
+    pinLockedUntil?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     investments?: InvestmentCreateNestedManyWithoutInvestorProfileInput
@@ -38608,6 +38692,10 @@ export namespace Prisma {
     riskTolerance?: $Enums.RiskLevel
     totalInvested?: Decimal | DecimalJsLike | number | string
     totalProfit?: Decimal | DecimalJsLike | number | string
+    transactionPinHash?: string | null
+    pinSetAt?: Date | string | null
+    pinFailedAttempts?: number
+    pinLockedUntil?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     investments?: InvestmentUncheckedCreateNestedManyWithoutInvestorProfileInput
@@ -38626,6 +38714,10 @@ export namespace Prisma {
     riskTolerance?: EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
     totalInvested?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalProfit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    transactionPinHash?: NullableStringFieldUpdateOperationsInput | string | null
+    pinSetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pinFailedAttempts?: IntFieldUpdateOperationsInput | number
+    pinLockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     investments?: InvestmentUpdateManyWithoutInvestorProfileNestedInput
@@ -38646,6 +38738,10 @@ export namespace Prisma {
     riskTolerance?: EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
     totalInvested?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalProfit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    transactionPinHash?: NullableStringFieldUpdateOperationsInput | string | null
+    pinSetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pinFailedAttempts?: IntFieldUpdateOperationsInput | number
+    pinLockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     investments?: InvestmentUncheckedUpdateManyWithoutInvestorProfileNestedInput
@@ -38665,6 +38761,10 @@ export namespace Prisma {
     riskTolerance?: $Enums.RiskLevel
     totalInvested?: Decimal | DecimalJsLike | number | string
     totalProfit?: Decimal | DecimalJsLike | number | string
+    transactionPinHash?: string | null
+    pinSetAt?: Date | string | null
+    pinFailedAttempts?: number
+    pinLockedUntil?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -38682,6 +38782,10 @@ export namespace Prisma {
     riskTolerance?: EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
     totalInvested?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalProfit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    transactionPinHash?: NullableStringFieldUpdateOperationsInput | string | null
+    pinSetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pinFailedAttempts?: IntFieldUpdateOperationsInput | number
+    pinLockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -38700,6 +38804,10 @@ export namespace Prisma {
     riskTolerance?: EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
     totalInvested?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalProfit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    transactionPinHash?: NullableStringFieldUpdateOperationsInput | string | null
+    pinSetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pinFailedAttempts?: IntFieldUpdateOperationsInput | number
+    pinLockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -41458,6 +41566,17 @@ export namespace Prisma {
     not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type InvestmentListRelationFilter = {
     every?: InvestmentWhereInput
     some?: InvestmentWhereInput
@@ -41482,6 +41601,10 @@ export namespace Prisma {
     riskTolerance?: SortOrder
     totalInvested?: SortOrder
     totalProfit?: SortOrder
+    transactionPinHash?: SortOrder
+    pinSetAt?: SortOrder
+    pinFailedAttempts?: SortOrder
+    pinLockedUntil?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -41489,6 +41612,7 @@ export namespace Prisma {
   export type InvestorProfileAvgOrderByAggregateInput = {
     totalInvested?: SortOrder
     totalProfit?: SortOrder
+    pinFailedAttempts?: SortOrder
   }
 
   export type InvestorProfileMaxOrderByAggregateInput = {
@@ -41505,6 +41629,10 @@ export namespace Prisma {
     riskTolerance?: SortOrder
     totalInvested?: SortOrder
     totalProfit?: SortOrder
+    transactionPinHash?: SortOrder
+    pinSetAt?: SortOrder
+    pinFailedAttempts?: SortOrder
+    pinLockedUntil?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -41523,6 +41651,10 @@ export namespace Prisma {
     riskTolerance?: SortOrder
     totalInvested?: SortOrder
     totalProfit?: SortOrder
+    transactionPinHash?: SortOrder
+    pinSetAt?: SortOrder
+    pinFailedAttempts?: SortOrder
+    pinLockedUntil?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -41530,6 +41662,7 @@ export namespace Prisma {
   export type InvestorProfileSumOrderByAggregateInput = {
     totalInvested?: SortOrder
     totalProfit?: SortOrder
+    pinFailedAttempts?: SortOrder
   }
 
   export type EnumRiskLevelWithAggregatesFilter<$PrismaModel = never> = {
@@ -41556,6 +41689,22 @@ export namespace Prisma {
     _sum?: NestedDecimalFilter<$PrismaModel>
     _min?: NestedDecimalFilter<$PrismaModel>
     _max?: NestedDecimalFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type IntNullableFilter<$PrismaModel = never> = {
@@ -41765,17 +41914,6 @@ export namespace Prisma {
     _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type UmkmProfileScalarRelationFilter = {
     is?: UmkmProfileWhereInput
     isNot?: UmkmProfileWhereInput
@@ -41837,22 +41975,6 @@ export namespace Prisma {
     totalBeban?: SortOrder
     rataRataArusKas?: SortOrder
     asetTidakLancar?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type EnumMediaTypeFilter<$PrismaModel = never> = {
@@ -43828,6 +43950,14 @@ export namespace Prisma {
     divide?: Decimal | DecimalJsLike | number | string
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type InvestmentUpdateManyWithoutInvestorProfileNestedInput = {
     create?: XOR<InvestmentCreateWithoutInvestorProfileInput, InvestmentUncheckedCreateWithoutInvestorProfileInput> | InvestmentCreateWithoutInvestorProfileInput[] | InvestmentUncheckedCreateWithoutInvestorProfileInput[]
     connectOrCreate?: InvestmentCreateOrConnectWithoutInvestorProfileInput | InvestmentCreateOrConnectWithoutInvestorProfileInput[]
@@ -44242,14 +44372,6 @@ export namespace Prisma {
     upsert?: UmkmProfileUpsertWithoutAkadVariablesInput
     connect?: UmkmProfileWhereUniqueInput
     update?: XOR<XOR<UmkmProfileUpdateToOneWithWhereWithoutAkadVariablesInput, UmkmProfileUpdateWithoutAkadVariablesInput>, UmkmProfileUncheckedUpdateWithoutAkadVariablesInput>
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type UmkmProfileCreateNestedOneWithoutMediaInput = {
@@ -45304,6 +45426,33 @@ export namespace Prisma {
     _max?: NestedDecimalFilter<$PrismaModel>
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type NestedDecimalNullableFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
     in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
@@ -45356,33 +45505,6 @@ export namespace Prisma {
     _sum?: NestedDecimalNullableFilter<$PrismaModel>
     _min?: NestedDecimalNullableFilter<$PrismaModel>
     _max?: NestedDecimalNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type NestedEnumMediaTypeFilter<$PrismaModel = never> = {
@@ -45765,6 +45887,10 @@ export namespace Prisma {
     riskTolerance?: $Enums.RiskLevel
     totalInvested?: Decimal | DecimalJsLike | number | string
     totalProfit?: Decimal | DecimalJsLike | number | string
+    transactionPinHash?: string | null
+    pinSetAt?: Date | string | null
+    pinFailedAttempts?: number
+    pinLockedUntil?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     investments?: InvestmentCreateNestedManyWithoutInvestorProfileInput
@@ -45783,6 +45909,10 @@ export namespace Prisma {
     riskTolerance?: $Enums.RiskLevel
     totalInvested?: Decimal | DecimalJsLike | number | string
     totalProfit?: Decimal | DecimalJsLike | number | string
+    transactionPinHash?: string | null
+    pinSetAt?: Date | string | null
+    pinFailedAttempts?: number
+    pinLockedUntil?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     investments?: InvestmentUncheckedCreateNestedManyWithoutInvestorProfileInput
@@ -46132,6 +46262,10 @@ export namespace Prisma {
     riskTolerance?: EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
     totalInvested?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalProfit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    transactionPinHash?: NullableStringFieldUpdateOperationsInput | string | null
+    pinSetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pinFailedAttempts?: IntFieldUpdateOperationsInput | number
+    pinLockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     investments?: InvestmentUpdateManyWithoutInvestorProfileNestedInput
@@ -46150,6 +46284,10 @@ export namespace Prisma {
     riskTolerance?: EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
     totalInvested?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalProfit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    transactionPinHash?: NullableStringFieldUpdateOperationsInput | string | null
+    pinSetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pinFailedAttempts?: IntFieldUpdateOperationsInput | number
+    pinLockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     investments?: InvestmentUncheckedUpdateManyWithoutInvestorProfileNestedInput
@@ -48673,6 +48811,10 @@ export namespace Prisma {
     riskTolerance?: $Enums.RiskLevel
     totalInvested?: Decimal | DecimalJsLike | number | string
     totalProfit?: Decimal | DecimalJsLike | number | string
+    transactionPinHash?: string | null
+    pinSetAt?: Date | string | null
+    pinFailedAttempts?: number
+    pinLockedUntil?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutInvestorProfileInput
@@ -48692,6 +48834,10 @@ export namespace Prisma {
     riskTolerance?: $Enums.RiskLevel
     totalInvested?: Decimal | DecimalJsLike | number | string
     totalProfit?: Decimal | DecimalJsLike | number | string
+    transactionPinHash?: string | null
+    pinSetAt?: Date | string | null
+    pinFailedAttempts?: number
+    pinLockedUntil?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -48881,6 +49027,10 @@ export namespace Prisma {
     riskTolerance?: EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
     totalInvested?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalProfit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    transactionPinHash?: NullableStringFieldUpdateOperationsInput | string | null
+    pinSetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pinFailedAttempts?: IntFieldUpdateOperationsInput | number
+    pinLockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutInvestorProfileNestedInput
@@ -48900,6 +49050,10 @@ export namespace Prisma {
     riskTolerance?: EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
     totalInvested?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalProfit?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    transactionPinHash?: NullableStringFieldUpdateOperationsInput | string | null
+    pinSetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pinFailedAttempts?: IntFieldUpdateOperationsInput | number
+    pinLockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
