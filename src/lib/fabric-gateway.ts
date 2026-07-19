@@ -3,6 +3,25 @@
 
 const GATEWAY_TIMEOUT_MS = 8000;
 
+interface NodeErrorLike extends Error {
+  code?: string;
+  errors?: unknown[];
+  cause?: unknown;
+}
+
+function describeGatewayError(err: unknown, depth = 0): string {
+  if (!(err instanceof Error)) return String(err);
+  const e = err as NodeErrorLike;
+  let out = `${e.name}: ${e.message || "(no message)"}`;
+  if (e.code) out += ` [code=${e.code}]`;
+  if (Array.isArray(e.errors) && e.errors.length > 0) {
+    out += ` -> [${e.errors.map((sub) => describeGatewayError(sub, depth + 1)).join("; ")}]`;
+  } else if (e.cause && depth < 3) {
+    out += ` -> ${describeGatewayError(e.cause, depth + 1)}`;
+  }
+  return out;
+}
+
 function gatewayBaseUrl() {
   const raw = process.env.BLOCKCHAIN_API_URL;
   if (!raw) return null;
@@ -43,10 +62,7 @@ async function callGateway<T = unknown>(
     }
     return { ok: true, data: data as T };
   } catch (err) {
-    let message = err instanceof Error ? err.message : "Unknown gateway error";
-    const cause = err instanceof Error ? (err.cause as Error | undefined) : undefined;
-    if (cause) message += ` (cause: ${cause.message ?? cause})`;
-    return { ok: false, error: message };
+    return { ok: false, error: describeGatewayError(err) };
   } finally {
     clearTimeout(timeout);
   }
