@@ -373,15 +373,30 @@ export default function KYCManagement() {
                 {docLightbox.documents.length === 0 ? (
                   <p style={{ opacity: 0.6 }}>Tidak ada dokumen yang diunggah.</p>
                 ) : (
-                  docLightbox.documents.map((doc) => (
-                    <div key={doc.id} className={styles.docBox}>
-                      <div className={styles.docBoxHeader}>{doc.type}</div>
-                      <div className={styles.docMockup}>
-                        <span className={styles.docMockupText}>{doc.url}</span>
-                        <div className={styles.docMockupWatermark}>DOCUMENT PREVIEW</div>
+                  docLightbox.documents.map((doc) => {
+                    const isImage = /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(doc.url);
+                    return (
+                      <div key={doc.id} className={styles.docBox}>
+                        <div className={styles.docBoxHeader}>{doc.type}</div>
+                        {isImage ? (
+                          <a href={doc.url} target="_blank" rel="noopener noreferrer" className={styles.docImageWrap}>
+                            <img src={doc.url} alt={doc.type} className={styles.docImage} />
+                          </a>
+                        ) : (
+                          <div className={styles.docMockup}>
+                            <a
+                              href={doc.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={styles.docMockupText}
+                            >
+                              Buka Dokumen
+                            </a>
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  ))
+                    );
+                  })
                 )}
               </div>
             </div>

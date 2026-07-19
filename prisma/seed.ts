@@ -16,23 +16,18 @@ import {
   FraudStatus,
   OtpPurpose,
 } from "../src/generated/prisma";
-import { PrismaMariaDb } from "@prisma/adapter-mariadb";
+import { Pool } from "pg";
+import { PrismaPg } from "@prisma/adapter-pg";
+import bcrypt from "bcryptjs";
 import crypto from "crypto";
 
-const adapter = new PrismaMariaDb({
-  host: process.env.DB_HOST!,
-  port: parseInt(process.env.DB_PORT ?? "3306"),
-  user: process.env.DB_USER!,
-  password: process.env.DB_PASSWORD!,
-  database: process.env.DB_NAME!,
-  connectionLimit: 5,
-  connectTimeout: 10000,
-});
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const adapter = new PrismaPg(pool);
 
 const prisma = new PrismaClient({ adapter });
 
-function sha256(value: string) {
-  return crypto.createHash("sha256").update(value).digest("hex");
+function hashPassword(value: string) {
+  return bcrypt.hashSync(value, 12);
 }
 
 async function main() {
@@ -66,7 +61,7 @@ async function main() {
       data: {
         email: "admin@synergy.id",
         phoneNumber: adminPhone,
-        passwordHash: sha256("admin123"),
+        passwordHash: hashPassword("admin123"),
         role: Role.ADMIN,
         status: UserStatus.ACTIVE,
         kycStatus: KycStatus.APPROVED,
@@ -89,7 +84,7 @@ async function main() {
       data: {
         email: "investor@synergy.id",
         phoneNumber: investorPhone,
-        passwordHash: sha256("investor123"),
+        passwordHash: hashPassword("investor123"),
         role: Role.INVESTOR,
         status: UserStatus.ACTIVE,
         kycStatus: KycStatus.APPROVED,
@@ -208,7 +203,7 @@ async function main() {
         data: {
           email: d.email,
           phoneNumber: d.phone,
-          passwordHash: sha256("umkm123"),
+          passwordHash: hashPassword("umkm123"),
           role: Role.UMKM,
           status: UserStatus.ACTIVE,
           kycStatus: KycStatus.APPROVED,

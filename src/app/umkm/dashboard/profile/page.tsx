@@ -19,6 +19,27 @@ interface MediaItem {
   createdAt: string;
 }
 
+interface FinanceData {
+  asetLancar: number | null;
+  totalHutangKas: number | null;
+  labaBersih: number | null;
+  totalPendapatan: number | null;
+  totalBeban: number | null;
+  rataRataArusKas: number | null;
+  asetTidakLancar: number | null;
+  isComplete: boolean;
+}
+
+const FINANCE_FIELDS: { key: keyof Omit<FinanceData, "isComplete">; label: string }[] = [
+  { key: "asetLancar", label: "Aset Lancar (Rp)" },
+  { key: "asetTidakLancar", label: "Aset Tidak Lancar (Rp)" },
+  { key: "totalHutangKas", label: "Total Hutang Kas (Rp)" },
+  { key: "totalPendapatan", label: "Total Pendapatan (Rp)" },
+  { key: "totalBeban", label: "Total Beban (Rp)" },
+  { key: "labaBersih", label: "Laba Bersih (Rp)" },
+  { key: "rataRataArusKas", label: "Rata-rata Arus Kas (Rp)" },
+];
+
 interface ProfileData {
   businessName: string;
   businessCategory: string;
@@ -70,6 +91,63 @@ export default function ProfilUsaha() {
   const [uploadingLogo, setUploadingLogo] = useState(false);
   const [uploadingGallery, setUploadingGallery] = useState(false);
   const [uploadingKyc, setUploadingKyc] = useState(false);
+
+  const [finance, setFinance] = useState<FinanceData | null>(null);
+  const [financeForm, setFinanceForm] = useState<Record<string, string>>({});
+  const [isFinanceLoading, setIsFinanceLoading] = useState(true);
+  const [isFinanceEditing, setIsFinanceEditing] = useState(false);
+  const [isFinanceSaving, setIsFinanceSaving] = useState(false);
+  const [financeSaved, setFinanceSaved] = useState(false);
+  const [financeError, setFinanceError] = useState("");
+
+  const loadFinance = () => {
+    const id = getUmkmId();
+    Promise.resolve()
+      .then(() => {
+        if (!id) return null;
+        return fetch("/api/umkm/profile/finance", { headers: { "x-umkm-id": id } })
+          .then(async (r) => (r.ok ? ((await r.json()) as FinanceData) : null));
+      })
+      .then((d: FinanceData | null) => {
+        if (d) {
+          setFinance(d);
+          const next: Record<string, string> = {};
+          FINANCE_FIELDS.forEach(({ key }) => { next[key] = d[key] !== null ? String(d[key]) : ""; });
+          setFinanceForm(next);
+        }
+      })
+      .catch(console.error)
+      .finally(() => setIsFinanceLoading(false));
+  };
+
+  useEffect(() => { loadFinance(); }, []);
+
+  const handleFinanceSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsFinanceSaving(true);
+    setFinanceError("");
+    try {
+      const id = getUmkmId();
+      const res = await fetch("/api/umkm/profile/finance", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", "x-umkm-id": id },
+        body: JSON.stringify(financeForm),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setFinanceError(data.error ?? "Gagal menyimpan profil keuangan.");
+        return;
+      }
+      setFinanceSaved(true);
+      setIsFinanceEditing(false);
+      loadFinance();
+      setTimeout(() => setFinanceSaved(false), 3000);
+    } catch {
+      setFinanceError("Tidak dapat terhubung ke server.");
+    } finally {
+      setIsFinanceSaving(false);
+    }
+  };
 
   const loadProfile = () => {
     const id = getUmkmId();
@@ -389,6 +467,70 @@ export default function ProfilUsaha() {
             <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "1.5rem" }}>
               <button type="submit" className={styles.btnPrimary} disabled={isSaving} style={{ padding: "0.8rem 2rem", borderRadius: 10, border: "none", cursor: "pointer", fontWeight: 700, fontSize: "0.95rem" }}>
                 {isSaving ? "Menyimpan..." : "Simpan Perubahan"}
+              </button>
+            </div>
+          )}
+        </form>
+
+        {/* Financial Profile */}
+        <form onSubmit={handleFinanceSave} className={`${styles.sectionCard} glass`} style={{ gridColumn: "1 / -1" }}>
+          <div className={styles.sectionHeader}>
+            <h3>Profil Keuangan</h3>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+              {finance && (
+                <span className={`${styles.badge} ${finance.isComplete ? styles.badgeGreen : styles.badgeYellow}`}>
+                  {finance.isComplete ? <CheckCircle /> : <Refresh />} {finance.isComplete ? "Lengkap" : "Belum Lengkap"}
+                </span>
+              )}
+              {financeSaved && (
+                <span style={{ color: "#1d4ed8", fontWeight: 700, fontSize: "0.9rem", display: "flex", alignItems: "center", gap: "0.35rem" }}>
+                  <CheckCircle style={{ verticalAlign: "-0.125em" }} /> Tersimpan!
+                </span>
+              )}
+              {!isFinanceEditing ? (
+                <button type="button" className={styles.btnPrimary} style={{ padding: "0.5rem 1rem", borderRadius: 8, border: "none", cursor: "pointer", fontWeight: 700, fontSize: "0.8rem" }} onClick={() => setIsFinanceEditing(true)}>
+                  <Pencil style={{ verticalAlign: "-0.125em" }} /> {finance?.isComplete ? "Edit" : "Lengkapi"}
+                </button>
+              ) : (
+                <button type="button" className={`${styles.btn} ${styles.btnGhost}`} onClick={() => { setIsFinanceEditing(false); setFinanceError(""); loadFinance(); }}>
+                  Batal
+                </button>
+              )}
+            </div>
+          </div>
+          <p style={{ fontSize: "0.8rem", color: "var(--text-muted)", margin: "0 0 1rem" }}>
+            Data ini digunakan untuk penilaian kelayakan (credit scoring) dan wajib diisi sebelum Anda dapat mengajukan pendanaan.
+          </p>
+
+          {financeError && <p style={{ color: "#ef4444", marginBottom: "1rem" }}>{financeError}</p>}
+
+          {isFinanceLoading ? (
+            <p style={{ color: "var(--text-muted)" }}>Memuat data keuangan...</p>
+          ) : (
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }}>
+              {FINANCE_FIELDS.map(({ key, label }) => (
+                <div className={styles.inputGroup} key={key}>
+                  <label>{label}</label>
+                  <input
+                    className={styles.input}
+                    type="number"
+                    min={0}
+                    step="0.01"
+                    placeholder="0"
+                    value={financeForm[key] ?? ""}
+                    onChange={(e) => setFinanceForm({ ...financeForm, [key]: e.target.value })}
+                    disabled={!isFinanceEditing}
+                    required
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+
+          {isFinanceEditing && (
+            <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "1.5rem" }}>
+              <button type="submit" className={styles.btnPrimary} disabled={isFinanceSaving} style={{ padding: "0.8rem 2rem", borderRadius: 10, border: "none", cursor: "pointer", fontWeight: 700, fontSize: "0.95rem" }}>
+                {isFinanceSaving ? "Menyimpan..." : "Simpan Profil Keuangan"}
               </button>
             </div>
           )}

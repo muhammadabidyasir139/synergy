@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { DokuDirection, DokuPaymentStatus, TransactionStatus, TransactionType, Prisma } from "@/generated/prisma";
 import { getDokuConfig } from "./config";
-import { createCheckoutPayment, createDisbursement, CheckoutCustomer, CreateCheckoutPaymentInput } from "./client";
+import { createVirtualAccount, createDisbursement, checkOrderStatus, CheckoutCustomer, CreateCheckoutPaymentInput } from "./client";
 import { recordBlockchainNote } from "@/lib/blockchain";
 
 export interface InitiateInboundPaymentParams {
@@ -53,28 +53,23 @@ export async function initiateInboundPayment(params: InitiateInboundPaymentParam
     return { transaction, dokuPayment };
   });
 
-  const notificationUrl = `${getDokuConfig().appBaseUrl}/api/payments/doku/checkout-webhook`;
-
-  const result = await createCheckoutPayment({
+  const result = await createVirtualAccount({
     invoiceNumber: dokuPayment.invoiceNumber,
     amount: params.amount,
     customer: params.customer,
     channel: params.channel,
-    notificationUrl,
   });
 
   const responseBody = result.json as Record<string, any> | null;
-  const paymentUrl: string | null = responseBody?.payment?.url ?? null;
-  const virtualAccountNumber: string | null =
-    responseBody?.virtual_account_info?.virtual_account_number ??
-    responseBody?.virtual_account_parameter?.virtual_account_number ??
-    null;
-  const dokuRequestId: string | null = responseBody?.request_id ?? responseBody?.order?.session_id ?? null;
-  const expiredAt: Date | null = responseBody?.virtual_account_info?.expired_date
-    ? new Date(responseBody.virtual_account_info.expired_date)
-    : null;
+  const vaInfo = responseBody?.virtual_account_info;
+  const isFailed = !result.ok || !!responseBody?.error || vaInfo?.status === "FAILED";
 
-  if (!result.ok) {
+  const virtualAccountNumber: string | null = vaInfo?.virtual_account_number ?? null;
+  const paymentUrl: string | null = vaInfo?.how_to_pay_page ?? null;
+  const dokuRequestId: string | null = vaInfo?.merchant_unique_reference ?? null;
+  const expiredAt: Date | null = vaInfo?.expired_date_utc ? new Date(vaInfo.expired_date_utc) : null;
+
+  if (isFailed) {
     await db.$transaction([
       db.dokuPayment.update({
         where: { id: dokuPayment.id },
@@ -116,6 +111,47 @@ export async function initiateInboundPayment(params: InitiateInboundPaymentParam
     virtualAccountNumber,
     expiredAt: expiredAt ? expiredAt.toISOString() : null,
   };
+}
+
+export interface RefreshDepositStatusResult {
+  status: DokuPaymentStatus;
+  balance: number;
+}
+
+/**
+ * On-demand replacement for the DOKU webhook: DOKU's sandbox can't reach a
+ * localhost notification URL, so the frontend polls this on click instead of
+ * waiting for finalizeDokuPayment to be triggered by the checkout webhook.
+ */
+export async function refreshDepositStatus(transactionId: string): Promise<RefreshDepositStatusResult> {
+  const dokuPayment = await db.dokuPayment.findUnique({
+    where: { transactionId },
+    include: { transaction: { include: { wallet: true } } },
+  });
+  if (!dokuPayment) throw new Error("Payment not found");
+
+  if (dokuPayment.status !== DokuPaymentStatus.PENDING) {
+    return { status: dokuPayment.status, balance: Number(dokuPayment.transaction.wallet.balance) };
+  }
+
+  const result = await checkOrderStatus(dokuPayment.invoiceNumber);
+  const body = result.json as Record<string, any> | null;
+  const dokuStatus: string | undefined = body?.transaction?.status;
+
+  if (dokuStatus === "SUCCESS") {
+    await finalizeDokuPayment(dokuPayment.id, "PAID", (body ?? { rawText: result.rawText }) as Prisma.InputJsonValue);
+  } else if (dokuStatus === "EXPIRED") {
+    await finalizeDokuPayment(dokuPayment.id, "EXPIRED", (body ?? { rawText: result.rawText }) as Prisma.InputJsonValue);
+  } else if (dokuStatus === "FAILED") {
+    await finalizeDokuPayment(dokuPayment.id, "FAILED", (body ?? { rawText: result.rawText }) as Prisma.InputJsonValue);
+  }
+  // else PENDING / ORDER_GENERATED — payment not completed yet, leave as is
+
+  const refreshed = await db.dokuPayment.findUniqueOrThrow({
+    where: { id: dokuPayment.id },
+    include: { transaction: { include: { wallet: true } } },
+  });
+  return { status: refreshed.status, balance: Number(refreshed.transaction.wallet.balance) };
 }
 
 export interface OutboundDestination {

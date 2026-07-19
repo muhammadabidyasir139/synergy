@@ -5,6 +5,7 @@
 
   --primary: #0052CC;
   --primary-hover: #003A99;
+  --secondary: #0077B6;
   --accent: #00D2FF;
   --accent-hover: #00B8E0;
   --accent-glow: rgba(0, 210, 255, 0.25);
@@ -25,6 +26,7 @@
 
   --primary: #0066FF;
   --primary-hover: #0052CC;
+  --secondary: #0096C7;
   --accent: #00F0FF;
   --accent-hover: #00D2FF;
   --accent-glow: rgba(0, 240, 255, 0.2);

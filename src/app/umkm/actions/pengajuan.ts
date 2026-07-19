@@ -10,6 +10,14 @@ async function getUmkmProfileId() {
   return profile?.id || "";
 }
 
+export async function isFinanceProfileComplete(): Promise<boolean> {
+  const profileId = await getUmkmProfileId();
+  if (!profileId) return false;
+
+  const variable = await db.akadVariable.findFirst({ where: { umkmProfileId: profileId } });
+  return !!variable;
+}
+
 export async function createPengajuan(data: {
   jumlah: number;
   jenis: "Musyarakah" | "Murabahah";
@@ -18,6 +26,11 @@ export async function createPengajuan(data: {
 }) {
   const profileId = await getUmkmProfileId();
   if (!profileId) throw new Error("UMKM Profile not found");
+
+  const financeComplete = await isFinanceProfileComplete();
+  if (!financeComplete) {
+    throw new Error("Lengkapi Profil Keuangan terlebih dahulu di halaman Profil & Setup Usaha sebelum mengajukan pendanaan.");
+  }
 
   const akadType = data.jenis === "Musyarakah" ? AkadType.MUSYARAKAH : AkadType.MURABAHAH;
 

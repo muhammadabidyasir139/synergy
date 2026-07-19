@@ -6,7 +6,7 @@ import { CreateCheckoutPaymentInput } from "@/lib/doku/client";
 
 const VA_CHANNELS: Record<string, CreateCheckoutPaymentInput["channel"]> = {
   BCA: "VIRTUAL_ACCOUNT_BCA",
-  MANDIRI: "VIRTUAL_ACCOUNT_MANDIRI",
+  MANDIRI: "VIRTUAL_ACCOUNT_BANK_MANDIRI",
   BNI: "VIRTUAL_ACCOUNT_BNI",
   BRI: "VIRTUAL_ACCOUNT_BRI",
 };
@@ -46,7 +46,11 @@ export async function POST(request: NextRequest) {
       });
     } catch (dokuErr) {
       console.error("[DOKU deposit]", dokuErr);
-      return NextResponse.json({ error: "Gateway pembayaran DOKU belum dikonfigurasi." }, { status: 502 });
+      const message =
+        dokuErr instanceof Error && dokuErr.message.startsWith("Missing required env var")
+          ? "Gateway pembayaran DOKU belum dikonfigurasi."
+          : "Gagal menghubungi gateway pembayaran DOKU. Coba lagi beberapa saat.";
+      return NextResponse.json({ error: message }, { status: 502 });
     }
 
     if (!result.success) {
