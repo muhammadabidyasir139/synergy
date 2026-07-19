@@ -6,7 +6,10 @@ const GATEWAY_TIMEOUT_MS = 8000;
 function gatewayBaseUrl() {
   const raw = process.env.BLOCKCHAIN_API_URL;
   if (!raw) return null;
-  return raw.replace(/\/+$/, "") + "/api/v1";
+  // Force https: the gateway host redirects http->https, and a 301 on a POST
+  // is converted to a bodyless GET by fetch, silently dropping the payload.
+  const httpsUrl = raw.replace(/^http:\/\//i, "https://");
+  return httpsUrl.replace(/\/+$/, "") + "/api/v1";
 }
 
 export type GatewayResult<T = unknown> =

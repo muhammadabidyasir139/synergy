@@ -26,7 +26,7 @@ export default function BagiHasil() {
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
-          const formatted = data.map((d: any) => ({
+          const formatted = data.map((d: any): BagiHasil => ({
             id: d.id,
             akad: d.akad?.id || "N/A",
             investor: d.investment?.investorProfile?.fullName || "Investor",
