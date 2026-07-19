@@ -4,30 +4,23 @@ import { db } from "@/lib/db";
 import { AkadType, FundingStatus } from "@/generated/prisma";
 import { revalidatePath } from "next/cache";
 
-// Mock function to get the current UMKM ID for testing
-async function getUmkmProfileId() {
-  const profile = await db.umkmProfile.findFirst();
-  return profile?.id || "";
-}
+export async function isFinanceProfileComplete(umkmProfileId: string): Promise<boolean> {
+  if (!umkmProfileId) return false;
 
-export async function isFinanceProfileComplete(): Promise<boolean> {
-  const profileId = await getUmkmProfileId();
-  if (!profileId) return false;
-
-  const variable = await db.akadVariable.findFirst({ where: { umkmProfileId: profileId } });
+  const variable = await db.akadVariable.findFirst({ where: { umkmProfileId } });
   return !!variable;
 }
 
-export async function createPengajuan(data: {
+export async function createPengajuan(umkmProfileId: string, data: {
   jumlah: number;
   jenis: "Musyarakah" | "Murabahah";
   durasi: number;
   tujuan: string;
 }) {
-  const profileId = await getUmkmProfileId();
+  const profileId = umkmProfileId;
   if (!profileId) throw new Error("UMKM Profile not found");
 
-  const financeComplete = await isFinanceProfileComplete();
+  const financeComplete = await isFinanceProfileComplete(profileId);
   if (!financeComplete) {
     throw new Error("Lengkapi Profil Keuangan terlebih dahulu di halaman Profil & Setup Usaha sebelum mengajukan pendanaan.");
   }
@@ -49,12 +42,11 @@ export async function createPengajuan(data: {
   return { success: true, id: result.id };
 }
 
-export async function getPengajuans() {
-  const profileId = await getUmkmProfileId();
-  if (!profileId) return [];
+export async function getPengajuans(umkmProfileId: string) {
+  if (!umkmProfileId) return [];
 
   const pengajuans = await db.fundingApplication.findMany({
-    where: { umkmProfileId: profileId },
+    where: { umkmProfileId },
     orderBy: { createdAt: "desc" }
   });
 

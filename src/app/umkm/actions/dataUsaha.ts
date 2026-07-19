@@ -3,18 +3,13 @@
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 
-async function getUmkmProfileId() {
-  const profile = await db.umkmProfile.findFirst();
-  return profile?.id || "";
-}
-
-export async function createDataUsaha(data: {
+export async function createDataUsaha(umkmProfileId: string, data: {
   tanggal: string;
   omzet: number;
   pengeluaran: number;
   keterangan: string;
 }) {
-  const profileId = await getUmkmProfileId();
+  const profileId = umkmProfileId;
   if (!profileId) throw new Error("UMKM Profile not found");
 
   const [year, month, day] = data.tanggal.split("-").map(Number);
@@ -35,12 +30,11 @@ export async function createDataUsaha(data: {
   return { success: true, id: result.id };
 }
 
-export async function getDataUsaha() {
-  const profileId = await getUmkmProfileId();
-  if (!profileId) return [];
+export async function getDataUsaha(umkmProfileId: string) {
+  if (!umkmProfileId) return [];
 
   const dataUsaha = await db.businessData.findMany({
-    where: { umkmProfileId: profileId, dataSource: "MANUAL" },
+    where: { umkmProfileId, dataSource: "MANUAL" },
     orderBy: { reportDate: "desc" }
   });
 

@@ -192,6 +192,9 @@
 .payBtns { display: flex; gap: 0.6rem; flex-wrap: wrap; }
 
 .payBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   padding: 0.5rem 1rem;
   border-radius: 8px;
   border: 1.5px solid var(--border-color);
@@ -201,6 +204,13 @@
   cursor: pointer;
   transition: all 0.2s ease;
   background: var(--bg-color);
+}
+
+.bankLogo {
+  height: 18px;
+  width: auto;
+  max-width: 40px;
+  object-fit: contain;
 }
 
 .payBtn:hover { border-color: #1d4ed8; color: #1d4ed8; }
