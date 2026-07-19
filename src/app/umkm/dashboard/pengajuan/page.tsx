@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createPengajuan, getPengajuans } from "../../actions/pengajuan";
+import { createPengajuan, getPengajuans, isFinanceProfileComplete } from "../../actions/pengajuan";
 import styles from "../page.module.css";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { CheckCircle, Pencil, Clipboard, BarChart, Rocket, Check, Refresh } from "@/components/icons";
+import { CheckCircle, Pencil, Clipboard, BarChart, Rocket, Check, Refresh, XCircle } from "@/components/icons";
 
 const MySwal = withReactContent(Swal);
 
@@ -36,13 +36,25 @@ export default function PengajuanPendanaan() {
   const estimasiReturn = form.jenis === "Musyarakah" ? "15-25% p.a." : "18% p.a. (fixed)";
 
   const [pengajuanList, setPengajuanList] = useState<Pengajuan[]>([]);
+  const [financeComplete, setFinanceComplete] = useState<boolean | null>(null);
 
   useEffect(() => {
     getPengajuans().then((data) => setPengajuanList(data as Pengajuan[])).catch(console.error);
+    isFinanceProfileComplete().then(setFinanceComplete).catch(() => setFinanceComplete(false));
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!financeComplete) {
+      MySwal.fire({
+        title: "Profil Keuangan Belum Lengkap",
+        text: "Lengkapi dulu Profil Keuangan (aset lancar, laba bersih, dll.) di halaman Profil & Setup Usaha sebelum mengajukan pendanaan.",
+        icon: "warning",
+        confirmButtonColor: "#1d4ed8",
+      });
+      return;
+    }
 
     MySwal.fire({
       title: "Konfirmasi Pengajuan",
@@ -117,6 +129,14 @@ export default function PengajuanPendanaan() {
           )}
         </button>
       </div>
+
+      {financeComplete === false && (
+        <div style={{ padding: "1rem 1.25rem", borderRadius: 10, background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.3)", marginBottom: "1.25rem", color: "#b91c1c", fontWeight: 600, fontSize: "0.9rem" }}>
+          Profil Keuangan Anda belum lengkap. Lengkapi data keuangan (aset lancar, total hutang, laba bersih, dll.) di halaman{" "}
+          <a href="/umkm/dashboard/profile" style={{ color: "#b91c1c", textDecoration: "underline" }}>Profil & Setup Usaha</a>{" "}
+          sebelum mengajukan pendanaan.
+        </div>
+      )}
 
       {activeTab === "form" && (
         <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "1.5rem" }}>
@@ -201,9 +221,9 @@ export default function PengajuanPendanaan() {
             <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "1.5rem" }}>
               <button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || financeComplete === false}
                 className={styles.btnPrimary}
-                style={{ padding: "0.85rem 2rem", border: "none", borderRadius: 10, cursor: "pointer", fontWeight: 700, fontSize: "0.95rem" }}
+                style={{ padding: "0.85rem 2rem", border: "none", borderRadius: 10, cursor: financeComplete === false ? "not-allowed" : "pointer", fontWeight: 700, fontSize: "0.95rem", opacity: financeComplete === false ? 0.6 : 1 }}
               >
                 {isSubmitting ? "Mengirim ke Admin..." : (
                   <><Rocket style={{ verticalAlign: "-0.125em" }} /> Submit Pengajuan</>
@@ -216,9 +236,12 @@ export default function PengajuanPendanaan() {
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem", minWidth: 240 }}>
             <div className={`${styles.sectionCard} glass`} style={{ padding: "1.25rem" }}>
               <h4 style={{ fontWeight: 800, color: "var(--text-color)", marginBottom: "0.75rem", fontSize: "0.9rem" }}><CheckCircle style={{ verticalAlign: "-0.125em" }} /> Syarat Kelayakan</h4>
-              {["Skor kredit ≥ 60", "Akun sudah KYC", "Tidak ada akad menunggak", "Data usaha lengkap"].map((s, i) => (
+              {["Skor kredit ≥ 60", "Akun sudah KYC", "Tidak ada akad menunggak"].map((s, i) => (
                 <p key={i} style={{ fontSize: "0.8rem", color: "#1d4ed8", fontWeight: 600, marginBottom: "0.35rem" }}><Check style={{ verticalAlign: "-0.125em" }} /> {s}</p>
               ))}
+              <p style={{ fontSize: "0.8rem", color: financeComplete === false ? "#ef4444" : "#1d4ed8", fontWeight: 600, marginBottom: "0.35rem" }}>
+                {financeComplete === false ? <XCircle style={{ verticalAlign: "-0.125em" }} /> : <Check style={{ verticalAlign: "-0.125em" }} />} Profil keuangan lengkap
+              </p>
             </div>
             <div className={`${styles.sectionCard} glass`} style={{ padding: "1.25rem" }}>
               <h4 style={{ fontWeight: 800, color: "var(--text-color)", marginBottom: "0.75rem", fontSize: "0.9rem" }}><Refresh style={{ verticalAlign: "-0.125em" }} /> Proses Review</h4>

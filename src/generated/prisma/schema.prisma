@@ -95,9 +95,26 @@ model UmkmProfile {
   fundingApplications FundingApplication[]
   media               UmkmMedia[]
   monitoringReports   MonitoringReport[]
+  akadVariables       AkadVariable[]
   user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("umkm_profiles")
+}
+
+model AkadVariable {
+  id              Int         @id @default(autoincrement())
+  umkmProfileId   String      @map("id_umkm")
+  asetLancar      Decimal     @map("aset_lancar") @db.Decimal(20, 2)
+  totalHutangKas  Decimal     @map("total_hutang_kas") @db.Decimal(20, 2)
+  labaBersih      Decimal     @map("laba_bersih") @db.Decimal(20, 2)
+  totalPendapatan Decimal     @map("total_pendapatan") @db.Decimal(20, 2)
+  totalBeban      Decimal     @map("total_beban") @db.Decimal(20, 2)
+  rataRataArusKas Decimal     @map("rata_rata_arus_kas") @db.Decimal(20, 2)
+  asetTidakLancar Decimal     @map("aset_tidak_lancar") @db.Decimal(20, 2)
+  umkmProfile     UmkmProfile @relation(fields: [umkmProfileId], references: [id], onDelete: Cascade)
+
+  @@index([umkmProfileId], map: "idx_akad_variable_id_umkm")
+  @@map("akad_variable")
 }
 
 model UmkmMedia {

@@ -184,6 +184,18 @@ exports.Prisma.UmkmProfileScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AkadVariableScalarFieldEnum = {
+  id: 'id',
+  umkmProfileId: 'umkmProfileId',
+  asetLancar: 'asetLancar',
+  totalHutangKas: 'totalHutangKas',
+  labaBersih: 'labaBersih',
+  totalPendapatan: 'totalPendapatan',
+  totalBeban: 'totalBeban',
+  rataRataArusKas: 'rataRataArusKas',
+  asetTidakLancar: 'asetTidakLancar'
+};
+
 exports.Prisma.UmkmMediaScalarFieldEnum = {
   id: 'id',
   umkmProfileId: 'umkmProfileId',
@@ -642,6 +654,7 @@ exports.Prisma.ModelName = {
   AdminProfile: 'AdminProfile',
   InvestorProfile: 'InvestorProfile',
   UmkmProfile: 'UmkmProfile',
+  AkadVariable: 'AkadVariable',
   UmkmMedia: 'UmkmMedia',
   KycDocument: 'KycDocument',
   CreditScore: 'CreditScore',

@@ -34,6 +34,11 @@ export type InvestorProfile = $Result.DefaultSelection<Prisma.$InvestorProfilePa
  */
 export type UmkmProfile = $Result.DefaultSelection<Prisma.$UmkmProfilePayload>
 /**
+ * Model AkadVariable
+ * 
+ */
+export type AkadVariable = $Result.DefaultSelection<Prisma.$AkadVariablePayload>
+/**
  * Model UmkmMedia
  * 
  */
@@ -543,6 +548,16 @@ export class PrismaClient<
     * ```
     */
   get umkmProfile(): Prisma.UmkmProfileDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.akadVariable`: Exposes CRUD operations for the **AkadVariable** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AkadVariables
+    * const akadVariables = await prisma.akadVariable.findMany()
+    * ```
+    */
+  get akadVariable(): Prisma.AkadVariableDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.umkmMedia`: Exposes CRUD operations for the **UmkmMedia** model.
@@ -1191,6 +1206,7 @@ export namespace Prisma {
     AdminProfile: 'AdminProfile',
     InvestorProfile: 'InvestorProfile',
     UmkmProfile: 'UmkmProfile',
+    AkadVariable: 'AkadVariable',
     UmkmMedia: 'UmkmMedia',
     KycDocument: 'KycDocument',
     CreditScore: 'CreditScore',
@@ -1227,7 +1243,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "adminProfile" | "investorProfile" | "umkmProfile" | "umkmMedia" | "kycDocument" | "creditScore" | "businessData" | "fundingApplication" | "campaign" | "investment" | "akad" | "profitSharing" | "wallet" | "transaction" | "dokuPayment" | "blockchainTransaction" | "fraudAlert" | "notification" | "businessUpdate" | "monitoringReport" | "otpVerification" | "auditLog" | "systemConfig" | "berita"
+      modelProps: "user" | "adminProfile" | "investorProfile" | "umkmProfile" | "akadVariable" | "umkmMedia" | "kycDocument" | "creditScore" | "businessData" | "fundingApplication" | "campaign" | "investment" | "akad" | "profitSharing" | "wallet" | "transaction" | "dokuPayment" | "blockchainTransaction" | "fraudAlert" | "notification" | "businessUpdate" | "monitoringReport" | "otpVerification" | "auditLog" | "systemConfig" | "berita"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1524,6 +1540,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UmkmProfileCountArgs<ExtArgs>
             result: $Utils.Optional<UmkmProfileCountAggregateOutputType> | number
+          }
+        }
+      }
+      AkadVariable: {
+        payload: Prisma.$AkadVariablePayload<ExtArgs>
+        fields: Prisma.AkadVariableFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AkadVariableFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AkadVariablePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AkadVariableFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AkadVariablePayload>
+          }
+          findFirst: {
+            args: Prisma.AkadVariableFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AkadVariablePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AkadVariableFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AkadVariablePayload>
+          }
+          findMany: {
+            args: Prisma.AkadVariableFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AkadVariablePayload>[]
+          }
+          create: {
+            args: Prisma.AkadVariableCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AkadVariablePayload>
+          }
+          createMany: {
+            args: Prisma.AkadVariableCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AkadVariableCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AkadVariablePayload>[]
+          }
+          delete: {
+            args: Prisma.AkadVariableDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AkadVariablePayload>
+          }
+          update: {
+            args: Prisma.AkadVariableUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AkadVariablePayload>
+          }
+          deleteMany: {
+            args: Prisma.AkadVariableDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AkadVariableUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AkadVariableUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AkadVariablePayload>[]
+          }
+          upsert: {
+            args: Prisma.AkadVariableUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AkadVariablePayload>
+          }
+          aggregate: {
+            args: Prisma.AkadVariableAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAkadVariable>
+          }
+          groupBy: {
+            args: Prisma.AkadVariableGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AkadVariableGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AkadVariableCountArgs<ExtArgs>
+            result: $Utils.Optional<AkadVariableCountAggregateOutputType> | number
           }
         }
       }
@@ -3193,6 +3283,7 @@ export namespace Prisma {
     adminProfile?: AdminProfileOmit
     investorProfile?: InvestorProfileOmit
     umkmProfile?: UmkmProfileOmit
+    akadVariable?: AkadVariableOmit
     umkmMedia?: UmkmMediaOmit
     kycDocument?: KycDocumentOmit
     creditScore?: CreditScoreOmit
@@ -3408,6 +3499,7 @@ export namespace Prisma {
     fundingApplications: number
     media: number
     monitoringReports: number
+    akadVariables: number
   }
 
   export type UmkmProfileCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3418,6 +3510,7 @@ export namespace Prisma {
     fundingApplications?: boolean | UmkmProfileCountOutputTypeCountFundingApplicationsArgs
     media?: boolean | UmkmProfileCountOutputTypeCountMediaArgs
     monitoringReports?: boolean | UmkmProfileCountOutputTypeCountMonitoringReportsArgs
+    akadVariables?: boolean | UmkmProfileCountOutputTypeCountAkadVariablesArgs
   }
 
   // Custom InputTypes
@@ -3478,6 +3571,13 @@ export namespace Prisma {
    */
   export type UmkmProfileCountOutputTypeCountMonitoringReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MonitoringReportWhereInput
+  }
+
+  /**
+   * UmkmProfileCountOutputType without action
+   */
+  export type UmkmProfileCountOutputTypeCountAkadVariablesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AkadVariableWhereInput
   }
 
 
@@ -7688,6 +7788,7 @@ export namespace Prisma {
     fundingApplications?: boolean | UmkmProfile$fundingApplicationsArgs<ExtArgs>
     media?: boolean | UmkmProfile$mediaArgs<ExtArgs>
     monitoringReports?: boolean | UmkmProfile$monitoringReportsArgs<ExtArgs>
+    akadVariables?: boolean | UmkmProfile$akadVariablesArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | UmkmProfileCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["umkmProfile"]>
@@ -7766,6 +7867,7 @@ export namespace Prisma {
     fundingApplications?: boolean | UmkmProfile$fundingApplicationsArgs<ExtArgs>
     media?: boolean | UmkmProfile$mediaArgs<ExtArgs>
     monitoringReports?: boolean | UmkmProfile$monitoringReportsArgs<ExtArgs>
+    akadVariables?: boolean | UmkmProfile$akadVariablesArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | UmkmProfileCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -7786,6 +7888,7 @@ export namespace Prisma {
       fundingApplications: Prisma.$FundingApplicationPayload<ExtArgs>[]
       media: Prisma.$UmkmMediaPayload<ExtArgs>[]
       monitoringReports: Prisma.$MonitoringReportPayload<ExtArgs>[]
+      akadVariables: Prisma.$AkadVariablePayload<ExtArgs>[]
       user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -8208,6 +8311,7 @@ export namespace Prisma {
     fundingApplications<T extends UmkmProfile$fundingApplicationsArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfile$fundingApplicationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FundingApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     media<T extends UmkmProfile$mediaArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfile$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UmkmMediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     monitoringReports<T extends UmkmProfile$monitoringReportsArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfile$monitoringReportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MonitoringReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    akadVariables<T extends UmkmProfile$akadVariablesArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfile$akadVariablesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AkadVariablePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -8825,6 +8929,30 @@ export namespace Prisma {
   }
 
   /**
+   * UmkmProfile.akadVariables
+   */
+  export type UmkmProfile$akadVariablesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AkadVariable
+     */
+    select?: AkadVariableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AkadVariable
+     */
+    omit?: AkadVariableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AkadVariableInclude<ExtArgs> | null
+    where?: AkadVariableWhereInput
+    orderBy?: AkadVariableOrderByWithRelationInput | AkadVariableOrderByWithRelationInput[]
+    cursor?: AkadVariableWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AkadVariableScalarFieldEnum | AkadVariableScalarFieldEnum[]
+  }
+
+  /**
    * UmkmProfile without action
    */
   export type UmkmProfileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8840,6 +8968,1183 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UmkmProfileInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AkadVariable
+   */
+
+  export type AggregateAkadVariable = {
+    _count: AkadVariableCountAggregateOutputType | null
+    _avg: AkadVariableAvgAggregateOutputType | null
+    _sum: AkadVariableSumAggregateOutputType | null
+    _min: AkadVariableMinAggregateOutputType | null
+    _max: AkadVariableMaxAggregateOutputType | null
+  }
+
+  export type AkadVariableAvgAggregateOutputType = {
+    id: number | null
+    asetLancar: Decimal | null
+    totalHutangKas: Decimal | null
+    labaBersih: Decimal | null
+    totalPendapatan: Decimal | null
+    totalBeban: Decimal | null
+    rataRataArusKas: Decimal | null
+    asetTidakLancar: Decimal | null
+  }
+
+  export type AkadVariableSumAggregateOutputType = {
+    id: number | null
+    asetLancar: Decimal | null
+    totalHutangKas: Decimal | null
+    labaBersih: Decimal | null
+    totalPendapatan: Decimal | null
+    totalBeban: Decimal | null
+    rataRataArusKas: Decimal | null
+    asetTidakLancar: Decimal | null
+  }
+
+  export type AkadVariableMinAggregateOutputType = {
+    id: number | null
+    umkmProfileId: string | null
+    asetLancar: Decimal | null
+    totalHutangKas: Decimal | null
+    labaBersih: Decimal | null
+    totalPendapatan: Decimal | null
+    totalBeban: Decimal | null
+    rataRataArusKas: Decimal | null
+    asetTidakLancar: Decimal | null
+  }
+
+  export type AkadVariableMaxAggregateOutputType = {
+    id: number | null
+    umkmProfileId: string | null
+    asetLancar: Decimal | null
+    totalHutangKas: Decimal | null
+    labaBersih: Decimal | null
+    totalPendapatan: Decimal | null
+    totalBeban: Decimal | null
+    rataRataArusKas: Decimal | null
+    asetTidakLancar: Decimal | null
+  }
+
+  export type AkadVariableCountAggregateOutputType = {
+    id: number
+    umkmProfileId: number
+    asetLancar: number
+    totalHutangKas: number
+    labaBersih: number
+    totalPendapatan: number
+    totalBeban: number
+    rataRataArusKas: number
+    asetTidakLancar: number
+    _all: number
+  }
+
+
+  export type AkadVariableAvgAggregateInputType = {
+    id?: true
+    asetLancar?: true
+    totalHutangKas?: true
+    labaBersih?: true
+    totalPendapatan?: true
+    totalBeban?: true
+    rataRataArusKas?: true
+    asetTidakLancar?: true
+  }
+
+  export type AkadVariableSumAggregateInputType = {
+    id?: true
+    asetLancar?: true
+    totalHutangKas?: true
+    labaBersih?: true
+    totalPendapatan?: true
+    totalBeban?: true
+    rataRataArusKas?: true
+    asetTidakLancar?: true
+  }
+
+  export type AkadVariableMinAggregateInputType = {
+    id?: true
+    umkmProfileId?: true
+    asetLancar?: true
+    totalHutangKas?: true
+    labaBersih?: true
+    totalPendapatan?: true
+    totalBeban?: true
+    rataRataArusKas?: true
+    asetTidakLancar?: true
+  }
+
+  export type AkadVariableMaxAggregateInputType = {
+    id?: true
+    umkmProfileId?: true
+    asetLancar?: true
+    totalHutangKas?: true
+    labaBersih?: true
+    totalPendapatan?: true
+    totalBeban?: true
+    rataRataArusKas?: true
+    asetTidakLancar?: true
+  }
+
+  export type AkadVariableCountAggregateInputType = {
+    id?: true
+    umkmProfileId?: true
+    asetLancar?: true
+    totalHutangKas?: true
+    labaBersih?: true
+    totalPendapatan?: true
+    totalBeban?: true
+    rataRataArusKas?: true
+    asetTidakLancar?: true
+    _all?: true
+  }
+
+  export type AkadVariableAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AkadVariable to aggregate.
+     */
+    where?: AkadVariableWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AkadVariables to fetch.
+     */
+    orderBy?: AkadVariableOrderByWithRelationInput | AkadVariableOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AkadVariableWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AkadVariables from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AkadVariables.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AkadVariables
+    **/
+    _count?: true | AkadVariableCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AkadVariableAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AkadVariableSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AkadVariableMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AkadVariableMaxAggregateInputType
+  }
+
+  export type GetAkadVariableAggregateType<T extends AkadVariableAggregateArgs> = {
+        [P in keyof T & keyof AggregateAkadVariable]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAkadVariable[P]>
+      : GetScalarType<T[P], AggregateAkadVariable[P]>
+  }
+
+
+
+
+  export type AkadVariableGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AkadVariableWhereInput
+    orderBy?: AkadVariableOrderByWithAggregationInput | AkadVariableOrderByWithAggregationInput[]
+    by: AkadVariableScalarFieldEnum[] | AkadVariableScalarFieldEnum
+    having?: AkadVariableScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AkadVariableCountAggregateInputType | true
+    _avg?: AkadVariableAvgAggregateInputType
+    _sum?: AkadVariableSumAggregateInputType
+    _min?: AkadVariableMinAggregateInputType
+    _max?: AkadVariableMaxAggregateInputType
+  }
+
+  export type AkadVariableGroupByOutputType = {
+    id: number
+    umkmProfileId: string
+    asetLancar: Decimal
+    totalHutangKas: Decimal
+    labaBersih: Decimal
+    totalPendapatan: Decimal
+    totalBeban: Decimal
+    rataRataArusKas: Decimal
+    asetTidakLancar: Decimal
+    _count: AkadVariableCountAggregateOutputType | null
+    _avg: AkadVariableAvgAggregateOutputType | null
+    _sum: AkadVariableSumAggregateOutputType | null
+    _min: AkadVariableMinAggregateOutputType | null
+    _max: AkadVariableMaxAggregateOutputType | null
+  }
+
+  type GetAkadVariableGroupByPayload<T extends AkadVariableGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AkadVariableGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AkadVariableGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AkadVariableGroupByOutputType[P]>
+            : GetScalarType<T[P], AkadVariableGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AkadVariableSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    umkmProfileId?: boolean
+    asetLancar?: boolean
+    totalHutangKas?: boolean
+    labaBersih?: boolean
+    totalPendapatan?: boolean
+    totalBeban?: boolean
+    rataRataArusKas?: boolean
+    asetTidakLancar?: boolean
+    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["akadVariable"]>
+
+  export type AkadVariableSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    umkmProfileId?: boolean
+    asetLancar?: boolean
+    totalHutangKas?: boolean
+    labaBersih?: boolean
+    totalPendapatan?: boolean
+    totalBeban?: boolean
+    rataRataArusKas?: boolean
+    asetTidakLancar?: boolean
+    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["akadVariable"]>
+
+  export type AkadVariableSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    umkmProfileId?: boolean
+    asetLancar?: boolean
+    totalHutangKas?: boolean
+    labaBersih?: boolean
+    totalPendapatan?: boolean
+    totalBeban?: boolean
+    rataRataArusKas?: boolean
+    asetTidakLancar?: boolean
+    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["akadVariable"]>
+
+  export type AkadVariableSelectScalar = {
+    id?: boolean
+    umkmProfileId?: boolean
+    asetLancar?: boolean
+    totalHutangKas?: boolean
+    labaBersih?: boolean
+    totalPendapatan?: boolean
+    totalBeban?: boolean
+    rataRataArusKas?: boolean
+    asetTidakLancar?: boolean
+  }
+
+  export type AkadVariableOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "umkmProfileId" | "asetLancar" | "totalHutangKas" | "labaBersih" | "totalPendapatan" | "totalBeban" | "rataRataArusKas" | "asetTidakLancar", ExtArgs["result"]["akadVariable"]>
+  export type AkadVariableInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
+  }
+  export type AkadVariableIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
+  }
+  export type AkadVariableIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    umkmProfile?: boolean | UmkmProfileDefaultArgs<ExtArgs>
+  }
+
+  export type $AkadVariablePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AkadVariable"
+    objects: {
+      umkmProfile: Prisma.$UmkmProfilePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      umkmProfileId: string
+      asetLancar: Prisma.Decimal
+      totalHutangKas: Prisma.Decimal
+      labaBersih: Prisma.Decimal
+      totalPendapatan: Prisma.Decimal
+      totalBeban: Prisma.Decimal
+      rataRataArusKas: Prisma.Decimal
+      asetTidakLancar: Prisma.Decimal
+    }, ExtArgs["result"]["akadVariable"]>
+    composites: {}
+  }
+
+  type AkadVariableGetPayload<S extends boolean | null | undefined | AkadVariableDefaultArgs> = $Result.GetResult<Prisma.$AkadVariablePayload, S>
+
+  type AkadVariableCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AkadVariableFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AkadVariableCountAggregateInputType | true
+    }
+
+  export interface AkadVariableDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AkadVariable'], meta: { name: 'AkadVariable' } }
+    /**
+     * Find zero or one AkadVariable that matches the filter.
+     * @param {AkadVariableFindUniqueArgs} args - Arguments to find a AkadVariable
+     * @example
+     * // Get one AkadVariable
+     * const akadVariable = await prisma.akadVariable.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AkadVariableFindUniqueArgs>(args: SelectSubset<T, AkadVariableFindUniqueArgs<ExtArgs>>): Prisma__AkadVariableClient<$Result.GetResult<Prisma.$AkadVariablePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AkadVariable that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AkadVariableFindUniqueOrThrowArgs} args - Arguments to find a AkadVariable
+     * @example
+     * // Get one AkadVariable
+     * const akadVariable = await prisma.akadVariable.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AkadVariableFindUniqueOrThrowArgs>(args: SelectSubset<T, AkadVariableFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AkadVariableClient<$Result.GetResult<Prisma.$AkadVariablePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AkadVariable that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AkadVariableFindFirstArgs} args - Arguments to find a AkadVariable
+     * @example
+     * // Get one AkadVariable
+     * const akadVariable = await prisma.akadVariable.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AkadVariableFindFirstArgs>(args?: SelectSubset<T, AkadVariableFindFirstArgs<ExtArgs>>): Prisma__AkadVariableClient<$Result.GetResult<Prisma.$AkadVariablePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AkadVariable that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AkadVariableFindFirstOrThrowArgs} args - Arguments to find a AkadVariable
+     * @example
+     * // Get one AkadVariable
+     * const akadVariable = await prisma.akadVariable.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AkadVariableFindFirstOrThrowArgs>(args?: SelectSubset<T, AkadVariableFindFirstOrThrowArgs<ExtArgs>>): Prisma__AkadVariableClient<$Result.GetResult<Prisma.$AkadVariablePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AkadVariables that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AkadVariableFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AkadVariables
+     * const akadVariables = await prisma.akadVariable.findMany()
+     * 
+     * // Get first 10 AkadVariables
+     * const akadVariables = await prisma.akadVariable.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const akadVariableWithIdOnly = await prisma.akadVariable.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AkadVariableFindManyArgs>(args?: SelectSubset<T, AkadVariableFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AkadVariablePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AkadVariable.
+     * @param {AkadVariableCreateArgs} args - Arguments to create a AkadVariable.
+     * @example
+     * // Create one AkadVariable
+     * const AkadVariable = await prisma.akadVariable.create({
+     *   data: {
+     *     // ... data to create a AkadVariable
+     *   }
+     * })
+     * 
+     */
+    create<T extends AkadVariableCreateArgs>(args: SelectSubset<T, AkadVariableCreateArgs<ExtArgs>>): Prisma__AkadVariableClient<$Result.GetResult<Prisma.$AkadVariablePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AkadVariables.
+     * @param {AkadVariableCreateManyArgs} args - Arguments to create many AkadVariables.
+     * @example
+     * // Create many AkadVariables
+     * const akadVariable = await prisma.akadVariable.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AkadVariableCreateManyArgs>(args?: SelectSubset<T, AkadVariableCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AkadVariables and returns the data saved in the database.
+     * @param {AkadVariableCreateManyAndReturnArgs} args - Arguments to create many AkadVariables.
+     * @example
+     * // Create many AkadVariables
+     * const akadVariable = await prisma.akadVariable.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AkadVariables and only return the `id`
+     * const akadVariableWithIdOnly = await prisma.akadVariable.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AkadVariableCreateManyAndReturnArgs>(args?: SelectSubset<T, AkadVariableCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AkadVariablePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AkadVariable.
+     * @param {AkadVariableDeleteArgs} args - Arguments to delete one AkadVariable.
+     * @example
+     * // Delete one AkadVariable
+     * const AkadVariable = await prisma.akadVariable.delete({
+     *   where: {
+     *     // ... filter to delete one AkadVariable
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AkadVariableDeleteArgs>(args: SelectSubset<T, AkadVariableDeleteArgs<ExtArgs>>): Prisma__AkadVariableClient<$Result.GetResult<Prisma.$AkadVariablePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AkadVariable.
+     * @param {AkadVariableUpdateArgs} args - Arguments to update one AkadVariable.
+     * @example
+     * // Update one AkadVariable
+     * const akadVariable = await prisma.akadVariable.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AkadVariableUpdateArgs>(args: SelectSubset<T, AkadVariableUpdateArgs<ExtArgs>>): Prisma__AkadVariableClient<$Result.GetResult<Prisma.$AkadVariablePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AkadVariables.
+     * @param {AkadVariableDeleteManyArgs} args - Arguments to filter AkadVariables to delete.
+     * @example
+     * // Delete a few AkadVariables
+     * const { count } = await prisma.akadVariable.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AkadVariableDeleteManyArgs>(args?: SelectSubset<T, AkadVariableDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AkadVariables.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AkadVariableUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AkadVariables
+     * const akadVariable = await prisma.akadVariable.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AkadVariableUpdateManyArgs>(args: SelectSubset<T, AkadVariableUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AkadVariables and returns the data updated in the database.
+     * @param {AkadVariableUpdateManyAndReturnArgs} args - Arguments to update many AkadVariables.
+     * @example
+     * // Update many AkadVariables
+     * const akadVariable = await prisma.akadVariable.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AkadVariables and only return the `id`
+     * const akadVariableWithIdOnly = await prisma.akadVariable.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AkadVariableUpdateManyAndReturnArgs>(args: SelectSubset<T, AkadVariableUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AkadVariablePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AkadVariable.
+     * @param {AkadVariableUpsertArgs} args - Arguments to update or create a AkadVariable.
+     * @example
+     * // Update or create a AkadVariable
+     * const akadVariable = await prisma.akadVariable.upsert({
+     *   create: {
+     *     // ... data to create a AkadVariable
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AkadVariable we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AkadVariableUpsertArgs>(args: SelectSubset<T, AkadVariableUpsertArgs<ExtArgs>>): Prisma__AkadVariableClient<$Result.GetResult<Prisma.$AkadVariablePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AkadVariables.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AkadVariableCountArgs} args - Arguments to filter AkadVariables to count.
+     * @example
+     * // Count the number of AkadVariables
+     * const count = await prisma.akadVariable.count({
+     *   where: {
+     *     // ... the filter for the AkadVariables we want to count
+     *   }
+     * })
+    **/
+    count<T extends AkadVariableCountArgs>(
+      args?: Subset<T, AkadVariableCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AkadVariableCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AkadVariable.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AkadVariableAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AkadVariableAggregateArgs>(args: Subset<T, AkadVariableAggregateArgs>): Prisma.PrismaPromise<GetAkadVariableAggregateType<T>>
+
+    /**
+     * Group by AkadVariable.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AkadVariableGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AkadVariableGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AkadVariableGroupByArgs['orderBy'] }
+        : { orderBy?: AkadVariableGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AkadVariableGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAkadVariableGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AkadVariable model
+   */
+  readonly fields: AkadVariableFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AkadVariable.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AkadVariableClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    umkmProfile<T extends UmkmProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UmkmProfileDefaultArgs<ExtArgs>>): Prisma__UmkmProfileClient<$Result.GetResult<Prisma.$UmkmProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AkadVariable model
+   */
+  interface AkadVariableFieldRefs {
+    readonly id: FieldRef<"AkadVariable", 'Int'>
+    readonly umkmProfileId: FieldRef<"AkadVariable", 'String'>
+    readonly asetLancar: FieldRef<"AkadVariable", 'Decimal'>
+    readonly totalHutangKas: FieldRef<"AkadVariable", 'Decimal'>
+    readonly labaBersih: FieldRef<"AkadVariable", 'Decimal'>
+    readonly totalPendapatan: FieldRef<"AkadVariable", 'Decimal'>
+    readonly totalBeban: FieldRef<"AkadVariable", 'Decimal'>
+    readonly rataRataArusKas: FieldRef<"AkadVariable", 'Decimal'>
+    readonly asetTidakLancar: FieldRef<"AkadVariable", 'Decimal'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AkadVariable findUnique
+   */
+  export type AkadVariableFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AkadVariable
+     */
+    select?: AkadVariableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AkadVariable
+     */
+    omit?: AkadVariableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AkadVariableInclude<ExtArgs> | null
+    /**
+     * Filter, which AkadVariable to fetch.
+     */
+    where: AkadVariableWhereUniqueInput
+  }
+
+  /**
+   * AkadVariable findUniqueOrThrow
+   */
+  export type AkadVariableFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AkadVariable
+     */
+    select?: AkadVariableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AkadVariable
+     */
+    omit?: AkadVariableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AkadVariableInclude<ExtArgs> | null
+    /**
+     * Filter, which AkadVariable to fetch.
+     */
+    where: AkadVariableWhereUniqueInput
+  }
+
+  /**
+   * AkadVariable findFirst
+   */
+  export type AkadVariableFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AkadVariable
+     */
+    select?: AkadVariableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AkadVariable
+     */
+    omit?: AkadVariableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AkadVariableInclude<ExtArgs> | null
+    /**
+     * Filter, which AkadVariable to fetch.
+     */
+    where?: AkadVariableWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AkadVariables to fetch.
+     */
+    orderBy?: AkadVariableOrderByWithRelationInput | AkadVariableOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AkadVariables.
+     */
+    cursor?: AkadVariableWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AkadVariables from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AkadVariables.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AkadVariables.
+     */
+    distinct?: AkadVariableScalarFieldEnum | AkadVariableScalarFieldEnum[]
+  }
+
+  /**
+   * AkadVariable findFirstOrThrow
+   */
+  export type AkadVariableFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AkadVariable
+     */
+    select?: AkadVariableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AkadVariable
+     */
+    omit?: AkadVariableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AkadVariableInclude<ExtArgs> | null
+    /**
+     * Filter, which AkadVariable to fetch.
+     */
+    where?: AkadVariableWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AkadVariables to fetch.
+     */
+    orderBy?: AkadVariableOrderByWithRelationInput | AkadVariableOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AkadVariables.
+     */
+    cursor?: AkadVariableWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AkadVariables from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AkadVariables.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AkadVariables.
+     */
+    distinct?: AkadVariableScalarFieldEnum | AkadVariableScalarFieldEnum[]
+  }
+
+  /**
+   * AkadVariable findMany
+   */
+  export type AkadVariableFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AkadVariable
+     */
+    select?: AkadVariableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AkadVariable
+     */
+    omit?: AkadVariableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AkadVariableInclude<ExtArgs> | null
+    /**
+     * Filter, which AkadVariables to fetch.
+     */
+    where?: AkadVariableWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AkadVariables to fetch.
+     */
+    orderBy?: AkadVariableOrderByWithRelationInput | AkadVariableOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AkadVariables.
+     */
+    cursor?: AkadVariableWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AkadVariables from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AkadVariables.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AkadVariables.
+     */
+    distinct?: AkadVariableScalarFieldEnum | AkadVariableScalarFieldEnum[]
+  }
+
+  /**
+   * AkadVariable create
+   */
+  export type AkadVariableCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AkadVariable
+     */
+    select?: AkadVariableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AkadVariable
+     */
+    omit?: AkadVariableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AkadVariableInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AkadVariable.
+     */
+    data: XOR<AkadVariableCreateInput, AkadVariableUncheckedCreateInput>
+  }
+
+  /**
+   * AkadVariable createMany
+   */
+  export type AkadVariableCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AkadVariables.
+     */
+    data: AkadVariableCreateManyInput | AkadVariableCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AkadVariable createManyAndReturn
+   */
+  export type AkadVariableCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AkadVariable
+     */
+    select?: AkadVariableSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AkadVariable
+     */
+    omit?: AkadVariableOmit<ExtArgs> | null
+    /**
+     * The data used to create many AkadVariables.
+     */
+    data: AkadVariableCreateManyInput | AkadVariableCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AkadVariableIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AkadVariable update
+   */
+  export type AkadVariableUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AkadVariable
+     */
+    select?: AkadVariableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AkadVariable
+     */
+    omit?: AkadVariableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AkadVariableInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AkadVariable.
+     */
+    data: XOR<AkadVariableUpdateInput, AkadVariableUncheckedUpdateInput>
+    /**
+     * Choose, which AkadVariable to update.
+     */
+    where: AkadVariableWhereUniqueInput
+  }
+
+  /**
+   * AkadVariable updateMany
+   */
+  export type AkadVariableUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AkadVariables.
+     */
+    data: XOR<AkadVariableUpdateManyMutationInput, AkadVariableUncheckedUpdateManyInput>
+    /**
+     * Filter which AkadVariables to update
+     */
+    where?: AkadVariableWhereInput
+    /**
+     * Limit how many AkadVariables to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AkadVariable updateManyAndReturn
+   */
+  export type AkadVariableUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AkadVariable
+     */
+    select?: AkadVariableSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AkadVariable
+     */
+    omit?: AkadVariableOmit<ExtArgs> | null
+    /**
+     * The data used to update AkadVariables.
+     */
+    data: XOR<AkadVariableUpdateManyMutationInput, AkadVariableUncheckedUpdateManyInput>
+    /**
+     * Filter which AkadVariables to update
+     */
+    where?: AkadVariableWhereInput
+    /**
+     * Limit how many AkadVariables to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AkadVariableIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AkadVariable upsert
+   */
+  export type AkadVariableUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AkadVariable
+     */
+    select?: AkadVariableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AkadVariable
+     */
+    omit?: AkadVariableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AkadVariableInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AkadVariable to update in case it exists.
+     */
+    where: AkadVariableWhereUniqueInput
+    /**
+     * In case the AkadVariable found by the `where` argument doesn't exist, create a new AkadVariable with this data.
+     */
+    create: XOR<AkadVariableCreateInput, AkadVariableUncheckedCreateInput>
+    /**
+     * In case the AkadVariable was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AkadVariableUpdateInput, AkadVariableUncheckedUpdateInput>
+  }
+
+  /**
+   * AkadVariable delete
+   */
+  export type AkadVariableDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AkadVariable
+     */
+    select?: AkadVariableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AkadVariable
+     */
+    omit?: AkadVariableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AkadVariableInclude<ExtArgs> | null
+    /**
+     * Filter which AkadVariable to delete.
+     */
+    where: AkadVariableWhereUniqueInput
+  }
+
+  /**
+   * AkadVariable deleteMany
+   */
+  export type AkadVariableDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AkadVariables to delete
+     */
+    where?: AkadVariableWhereInput
+    /**
+     * Limit how many AkadVariables to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AkadVariable without action
+   */
+  export type AkadVariableDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AkadVariable
+     */
+    select?: AkadVariableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AkadVariable
+     */
+    omit?: AkadVariableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AkadVariableInclude<ExtArgs> | null
   }
 
 
@@ -33857,6 +35162,21 @@ export namespace Prisma {
   export type UmkmProfileScalarFieldEnum = (typeof UmkmProfileScalarFieldEnum)[keyof typeof UmkmProfileScalarFieldEnum]
 
 
+  export const AkadVariableScalarFieldEnum: {
+    id: 'id',
+    umkmProfileId: 'umkmProfileId',
+    asetLancar: 'asetLancar',
+    totalHutangKas: 'totalHutangKas',
+    labaBersih: 'labaBersih',
+    totalPendapatan: 'totalPendapatan',
+    totalBeban: 'totalBeban',
+    rataRataArusKas: 'rataRataArusKas',
+    asetTidakLancar: 'asetTidakLancar'
+  };
+
+  export type AkadVariableScalarFieldEnum = (typeof AkadVariableScalarFieldEnum)[keyof typeof AkadVariableScalarFieldEnum]
+
+
   export const UmkmMediaScalarFieldEnum: {
     id: 'id',
     umkmProfileId: 'umkmProfileId',
@@ -34944,6 +36264,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationListRelationFilter
     media?: UmkmMediaListRelationFilter
     monitoringReports?: MonitoringReportListRelationFilter
+    akadVariables?: AkadVariableListRelationFilter
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -34973,6 +36294,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationOrderByRelationAggregateInput
     media?: UmkmMediaOrderByRelationAggregateInput
     monitoringReports?: MonitoringReportOrderByRelationAggregateInput
+    akadVariables?: AkadVariableOrderByRelationAggregateInput
     user?: UserOrderByWithRelationInput
   }
 
@@ -35005,6 +36327,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationListRelationFilter
     media?: UmkmMediaListRelationFilter
     monitoringReports?: MonitoringReportListRelationFilter
+    akadVariables?: AkadVariableListRelationFilter
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId">
 
@@ -35056,6 +36379,83 @@ export namespace Prisma {
     socialMedia?: StringNullableWithAggregatesFilter<"UmkmProfile"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"UmkmProfile"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"UmkmProfile"> | Date | string
+  }
+
+  export type AkadVariableWhereInput = {
+    AND?: AkadVariableWhereInput | AkadVariableWhereInput[]
+    OR?: AkadVariableWhereInput[]
+    NOT?: AkadVariableWhereInput | AkadVariableWhereInput[]
+    id?: IntFilter<"AkadVariable"> | number
+    umkmProfileId?: StringFilter<"AkadVariable"> | string
+    asetLancar?: DecimalFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    totalHutangKas?: DecimalFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    labaBersih?: DecimalFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    totalPendapatan?: DecimalFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    totalBeban?: DecimalFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    rataRataArusKas?: DecimalFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    asetTidakLancar?: DecimalFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    umkmProfile?: XOR<UmkmProfileScalarRelationFilter, UmkmProfileWhereInput>
+  }
+
+  export type AkadVariableOrderByWithRelationInput = {
+    id?: SortOrder
+    umkmProfileId?: SortOrder
+    asetLancar?: SortOrder
+    totalHutangKas?: SortOrder
+    labaBersih?: SortOrder
+    totalPendapatan?: SortOrder
+    totalBeban?: SortOrder
+    rataRataArusKas?: SortOrder
+    asetTidakLancar?: SortOrder
+    umkmProfile?: UmkmProfileOrderByWithRelationInput
+  }
+
+  export type AkadVariableWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: AkadVariableWhereInput | AkadVariableWhereInput[]
+    OR?: AkadVariableWhereInput[]
+    NOT?: AkadVariableWhereInput | AkadVariableWhereInput[]
+    umkmProfileId?: StringFilter<"AkadVariable"> | string
+    asetLancar?: DecimalFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    totalHutangKas?: DecimalFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    labaBersih?: DecimalFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    totalPendapatan?: DecimalFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    totalBeban?: DecimalFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    rataRataArusKas?: DecimalFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    asetTidakLancar?: DecimalFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    umkmProfile?: XOR<UmkmProfileScalarRelationFilter, UmkmProfileWhereInput>
+  }, "id">
+
+  export type AkadVariableOrderByWithAggregationInput = {
+    id?: SortOrder
+    umkmProfileId?: SortOrder
+    asetLancar?: SortOrder
+    totalHutangKas?: SortOrder
+    labaBersih?: SortOrder
+    totalPendapatan?: SortOrder
+    totalBeban?: SortOrder
+    rataRataArusKas?: SortOrder
+    asetTidakLancar?: SortOrder
+    _count?: AkadVariableCountOrderByAggregateInput
+    _avg?: AkadVariableAvgOrderByAggregateInput
+    _max?: AkadVariableMaxOrderByAggregateInput
+    _min?: AkadVariableMinOrderByAggregateInput
+    _sum?: AkadVariableSumOrderByAggregateInput
+  }
+
+  export type AkadVariableScalarWhereWithAggregatesInput = {
+    AND?: AkadVariableScalarWhereWithAggregatesInput | AkadVariableScalarWhereWithAggregatesInput[]
+    OR?: AkadVariableScalarWhereWithAggregatesInput[]
+    NOT?: AkadVariableScalarWhereWithAggregatesInput | AkadVariableScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"AkadVariable"> | number
+    umkmProfileId?: StringWithAggregatesFilter<"AkadVariable"> | string
+    asetLancar?: DecimalWithAggregatesFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    totalHutangKas?: DecimalWithAggregatesFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    labaBersih?: DecimalWithAggregatesFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    totalPendapatan?: DecimalWithAggregatesFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    totalBeban?: DecimalWithAggregatesFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    rataRataArusKas?: DecimalWithAggregatesFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    asetTidakLancar?: DecimalWithAggregatesFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
   }
 
   export type UmkmMediaWhereInput = {
@@ -37329,6 +38729,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
     media?: UmkmMediaCreateNestedManyWithoutUmkmProfileInput
     monitoringReports?: MonitoringReportCreateNestedManyWithoutUmkmProfileInput
+    akadVariables?: AkadVariableCreateNestedManyWithoutUmkmProfileInput
     user: UserCreateNestedOneWithoutUmkmProfileInput
   }
 
@@ -37358,6 +38759,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
     media?: UmkmMediaUncheckedCreateNestedManyWithoutUmkmProfileInput
     monitoringReports?: MonitoringReportUncheckedCreateNestedManyWithoutUmkmProfileInput
+    akadVariables?: AkadVariableUncheckedCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileUpdateInput = {
@@ -37385,6 +38787,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
     media?: UmkmMediaUpdateManyWithoutUmkmProfileNestedInput
     monitoringReports?: MonitoringReportUpdateManyWithoutUmkmProfileNestedInput
+    akadVariables?: AkadVariableUpdateManyWithoutUmkmProfileNestedInput
     user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
   }
 
@@ -37414,6 +38817,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
     media?: UmkmMediaUncheckedUpdateManyWithoutUmkmProfileNestedInput
     monitoringReports?: MonitoringReportUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    akadVariables?: AkadVariableUncheckedUpdateManyWithoutUmkmProfileNestedInput
   }
 
   export type UmkmProfileCreateManyInput = {
@@ -37476,6 +38880,86 @@ export namespace Prisma {
     socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AkadVariableCreateInput = {
+    asetLancar: Decimal | DecimalJsLike | number | string
+    totalHutangKas: Decimal | DecimalJsLike | number | string
+    labaBersih: Decimal | DecimalJsLike | number | string
+    totalPendapatan: Decimal | DecimalJsLike | number | string
+    totalBeban: Decimal | DecimalJsLike | number | string
+    rataRataArusKas: Decimal | DecimalJsLike | number | string
+    asetTidakLancar: Decimal | DecimalJsLike | number | string
+    umkmProfile: UmkmProfileCreateNestedOneWithoutAkadVariablesInput
+  }
+
+  export type AkadVariableUncheckedCreateInput = {
+    id?: number
+    umkmProfileId: string
+    asetLancar: Decimal | DecimalJsLike | number | string
+    totalHutangKas: Decimal | DecimalJsLike | number | string
+    labaBersih: Decimal | DecimalJsLike | number | string
+    totalPendapatan: Decimal | DecimalJsLike | number | string
+    totalBeban: Decimal | DecimalJsLike | number | string
+    rataRataArusKas: Decimal | DecimalJsLike | number | string
+    asetTidakLancar: Decimal | DecimalJsLike | number | string
+  }
+
+  export type AkadVariableUpdateInput = {
+    asetLancar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalHutangKas?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    labaBersih?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPendapatan?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalBeban?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    rataRataArusKas?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    asetTidakLancar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    umkmProfile?: UmkmProfileUpdateOneRequiredWithoutAkadVariablesNestedInput
+  }
+
+  export type AkadVariableUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    umkmProfileId?: StringFieldUpdateOperationsInput | string
+    asetLancar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalHutangKas?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    labaBersih?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPendapatan?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalBeban?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    rataRataArusKas?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    asetTidakLancar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type AkadVariableCreateManyInput = {
+    id?: number
+    umkmProfileId: string
+    asetLancar: Decimal | DecimalJsLike | number | string
+    totalHutangKas: Decimal | DecimalJsLike | number | string
+    labaBersih: Decimal | DecimalJsLike | number | string
+    totalPendapatan: Decimal | DecimalJsLike | number | string
+    totalBeban: Decimal | DecimalJsLike | number | string
+    rataRataArusKas: Decimal | DecimalJsLike | number | string
+    asetTidakLancar: Decimal | DecimalJsLike | number | string
+  }
+
+  export type AkadVariableUpdateManyMutationInput = {
+    asetLancar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalHutangKas?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    labaBersih?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPendapatan?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalBeban?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    rataRataArusKas?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    asetTidakLancar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type AkadVariableUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    umkmProfileId?: StringFieldUpdateOperationsInput | string
+    asetLancar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalHutangKas?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    labaBersih?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPendapatan?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalBeban?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    rataRataArusKas?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    asetTidakLancar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
   export type UmkmMediaCreateInput = {
@@ -40138,6 +41622,12 @@ export namespace Prisma {
     none?: MonitoringReportWhereInput
   }
 
+  export type AkadVariableListRelationFilter = {
+    every?: AkadVariableWhereInput
+    some?: AkadVariableWhereInput
+    none?: AkadVariableWhereInput
+  }
+
   export type BusinessDataOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -40163,6 +41653,10 @@ export namespace Prisma {
   }
 
   export type MonitoringReportOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AkadVariableOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -40271,16 +41765,101 @@ export namespace Prisma {
     _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
-  export type EnumMediaTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.MediaType | EnumMediaTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.MediaType[] | ListEnumMediaTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.MediaType[] | ListEnumMediaTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumMediaTypeFilter<$PrismaModel> | $Enums.MediaType
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type UmkmProfileScalarRelationFilter = {
     is?: UmkmProfileWhereInput
     isNot?: UmkmProfileWhereInput
+  }
+
+  export type AkadVariableCountOrderByAggregateInput = {
+    id?: SortOrder
+    umkmProfileId?: SortOrder
+    asetLancar?: SortOrder
+    totalHutangKas?: SortOrder
+    labaBersih?: SortOrder
+    totalPendapatan?: SortOrder
+    totalBeban?: SortOrder
+    rataRataArusKas?: SortOrder
+    asetTidakLancar?: SortOrder
+  }
+
+  export type AkadVariableAvgOrderByAggregateInput = {
+    id?: SortOrder
+    asetLancar?: SortOrder
+    totalHutangKas?: SortOrder
+    labaBersih?: SortOrder
+    totalPendapatan?: SortOrder
+    totalBeban?: SortOrder
+    rataRataArusKas?: SortOrder
+    asetTidakLancar?: SortOrder
+  }
+
+  export type AkadVariableMaxOrderByAggregateInput = {
+    id?: SortOrder
+    umkmProfileId?: SortOrder
+    asetLancar?: SortOrder
+    totalHutangKas?: SortOrder
+    labaBersih?: SortOrder
+    totalPendapatan?: SortOrder
+    totalBeban?: SortOrder
+    rataRataArusKas?: SortOrder
+    asetTidakLancar?: SortOrder
+  }
+
+  export type AkadVariableMinOrderByAggregateInput = {
+    id?: SortOrder
+    umkmProfileId?: SortOrder
+    asetLancar?: SortOrder
+    totalHutangKas?: SortOrder
+    labaBersih?: SortOrder
+    totalPendapatan?: SortOrder
+    totalBeban?: SortOrder
+    rataRataArusKas?: SortOrder
+    asetTidakLancar?: SortOrder
+  }
+
+  export type AkadVariableSumOrderByAggregateInput = {
+    id?: SortOrder
+    asetLancar?: SortOrder
+    totalHutangKas?: SortOrder
+    labaBersih?: SortOrder
+    totalPendapatan?: SortOrder
+    totalBeban?: SortOrder
+    rataRataArusKas?: SortOrder
+    asetTidakLancar?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type EnumMediaTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.MediaType | EnumMediaTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.MediaType[] | ListEnumMediaTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MediaType[] | ListEnumMediaTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumMediaTypeFilter<$PrismaModel> | $Enums.MediaType
   }
 
   export type UmkmMediaCountOrderByAggregateInput = {
@@ -40586,17 +42165,6 @@ export namespace Prisma {
     not?: NestedEnumAkadTypeFilter<$PrismaModel> | $Enums.AkadType
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type EnumFundingStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.FundingStatus | EnumFundingStatusFieldRefInput<$PrismaModel>
     in?: $Enums.FundingStatus[] | ListEnumFundingStatusFieldRefInput<$PrismaModel>
@@ -40675,22 +42243,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumAkadTypeFilter<$PrismaModel>
     _max?: NestedEnumAkadTypeFilter<$PrismaModel>
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type EnumFundingStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -42361,6 +43913,13 @@ export namespace Prisma {
     connect?: MonitoringReportWhereUniqueInput | MonitoringReportWhereUniqueInput[]
   }
 
+  export type AkadVariableCreateNestedManyWithoutUmkmProfileInput = {
+    create?: XOR<AkadVariableCreateWithoutUmkmProfileInput, AkadVariableUncheckedCreateWithoutUmkmProfileInput> | AkadVariableCreateWithoutUmkmProfileInput[] | AkadVariableUncheckedCreateWithoutUmkmProfileInput[]
+    connectOrCreate?: AkadVariableCreateOrConnectWithoutUmkmProfileInput | AkadVariableCreateOrConnectWithoutUmkmProfileInput[]
+    createMany?: AkadVariableCreateManyUmkmProfileInputEnvelope
+    connect?: AkadVariableWhereUniqueInput | AkadVariableWhereUniqueInput[]
+  }
+
   export type UserCreateNestedOneWithoutUmkmProfileInput = {
     create?: XOR<UserCreateWithoutUmkmProfileInput, UserUncheckedCreateWithoutUmkmProfileInput>
     connectOrCreate?: UserCreateOrConnectWithoutUmkmProfileInput
@@ -42414,6 +43973,13 @@ export namespace Prisma {
     connectOrCreate?: MonitoringReportCreateOrConnectWithoutUmkmProfileInput | MonitoringReportCreateOrConnectWithoutUmkmProfileInput[]
     createMany?: MonitoringReportCreateManyUmkmProfileInputEnvelope
     connect?: MonitoringReportWhereUniqueInput | MonitoringReportWhereUniqueInput[]
+  }
+
+  export type AkadVariableUncheckedCreateNestedManyWithoutUmkmProfileInput = {
+    create?: XOR<AkadVariableCreateWithoutUmkmProfileInput, AkadVariableUncheckedCreateWithoutUmkmProfileInput> | AkadVariableCreateWithoutUmkmProfileInput[] | AkadVariableUncheckedCreateWithoutUmkmProfileInput[]
+    connectOrCreate?: AkadVariableCreateOrConnectWithoutUmkmProfileInput | AkadVariableCreateOrConnectWithoutUmkmProfileInput[]
+    createMany?: AkadVariableCreateManyUmkmProfileInputEnvelope
+    connect?: AkadVariableWhereUniqueInput | AkadVariableWhereUniqueInput[]
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -42530,6 +44096,20 @@ export namespace Prisma {
     deleteMany?: MonitoringReportScalarWhereInput | MonitoringReportScalarWhereInput[]
   }
 
+  export type AkadVariableUpdateManyWithoutUmkmProfileNestedInput = {
+    create?: XOR<AkadVariableCreateWithoutUmkmProfileInput, AkadVariableUncheckedCreateWithoutUmkmProfileInput> | AkadVariableCreateWithoutUmkmProfileInput[] | AkadVariableUncheckedCreateWithoutUmkmProfileInput[]
+    connectOrCreate?: AkadVariableCreateOrConnectWithoutUmkmProfileInput | AkadVariableCreateOrConnectWithoutUmkmProfileInput[]
+    upsert?: AkadVariableUpsertWithWhereUniqueWithoutUmkmProfileInput | AkadVariableUpsertWithWhereUniqueWithoutUmkmProfileInput[]
+    createMany?: AkadVariableCreateManyUmkmProfileInputEnvelope
+    set?: AkadVariableWhereUniqueInput | AkadVariableWhereUniqueInput[]
+    disconnect?: AkadVariableWhereUniqueInput | AkadVariableWhereUniqueInput[]
+    delete?: AkadVariableWhereUniqueInput | AkadVariableWhereUniqueInput[]
+    connect?: AkadVariableWhereUniqueInput | AkadVariableWhereUniqueInput[]
+    update?: AkadVariableUpdateWithWhereUniqueWithoutUmkmProfileInput | AkadVariableUpdateWithWhereUniqueWithoutUmkmProfileInput[]
+    updateMany?: AkadVariableUpdateManyWithWhereWithoutUmkmProfileInput | AkadVariableUpdateManyWithWhereWithoutUmkmProfileInput[]
+    deleteMany?: AkadVariableScalarWhereInput | AkadVariableScalarWhereInput[]
+  }
+
   export type UserUpdateOneRequiredWithoutUmkmProfileNestedInput = {
     create?: XOR<UserCreateWithoutUmkmProfileInput, UserUncheckedCreateWithoutUmkmProfileInput>
     connectOrCreate?: UserCreateOrConnectWithoutUmkmProfileInput
@@ -42636,6 +44216,42 @@ export namespace Prisma {
     deleteMany?: MonitoringReportScalarWhereInput | MonitoringReportScalarWhereInput[]
   }
 
+  export type AkadVariableUncheckedUpdateManyWithoutUmkmProfileNestedInput = {
+    create?: XOR<AkadVariableCreateWithoutUmkmProfileInput, AkadVariableUncheckedCreateWithoutUmkmProfileInput> | AkadVariableCreateWithoutUmkmProfileInput[] | AkadVariableUncheckedCreateWithoutUmkmProfileInput[]
+    connectOrCreate?: AkadVariableCreateOrConnectWithoutUmkmProfileInput | AkadVariableCreateOrConnectWithoutUmkmProfileInput[]
+    upsert?: AkadVariableUpsertWithWhereUniqueWithoutUmkmProfileInput | AkadVariableUpsertWithWhereUniqueWithoutUmkmProfileInput[]
+    createMany?: AkadVariableCreateManyUmkmProfileInputEnvelope
+    set?: AkadVariableWhereUniqueInput | AkadVariableWhereUniqueInput[]
+    disconnect?: AkadVariableWhereUniqueInput | AkadVariableWhereUniqueInput[]
+    delete?: AkadVariableWhereUniqueInput | AkadVariableWhereUniqueInput[]
+    connect?: AkadVariableWhereUniqueInput | AkadVariableWhereUniqueInput[]
+    update?: AkadVariableUpdateWithWhereUniqueWithoutUmkmProfileInput | AkadVariableUpdateWithWhereUniqueWithoutUmkmProfileInput[]
+    updateMany?: AkadVariableUpdateManyWithWhereWithoutUmkmProfileInput | AkadVariableUpdateManyWithWhereWithoutUmkmProfileInput[]
+    deleteMany?: AkadVariableScalarWhereInput | AkadVariableScalarWhereInput[]
+  }
+
+  export type UmkmProfileCreateNestedOneWithoutAkadVariablesInput = {
+    create?: XOR<UmkmProfileCreateWithoutAkadVariablesInput, UmkmProfileUncheckedCreateWithoutAkadVariablesInput>
+    connectOrCreate?: UmkmProfileCreateOrConnectWithoutAkadVariablesInput
+    connect?: UmkmProfileWhereUniqueInput
+  }
+
+  export type UmkmProfileUpdateOneRequiredWithoutAkadVariablesNestedInput = {
+    create?: XOR<UmkmProfileCreateWithoutAkadVariablesInput, UmkmProfileUncheckedCreateWithoutAkadVariablesInput>
+    connectOrCreate?: UmkmProfileCreateOrConnectWithoutAkadVariablesInput
+    upsert?: UmkmProfileUpsertWithoutAkadVariablesInput
+    connect?: UmkmProfileWhereUniqueInput
+    update?: XOR<XOR<UmkmProfileUpdateToOneWithWhereWithoutAkadVariablesInput, UmkmProfileUpdateWithoutAkadVariablesInput>, UmkmProfileUncheckedUpdateWithoutAkadVariablesInput>
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type UmkmProfileCreateNestedOneWithoutMediaInput = {
     create?: XOR<UmkmProfileCreateWithoutMediaInput, UmkmProfileUncheckedCreateWithoutMediaInput>
     connectOrCreate?: UmkmProfileCreateOrConnectWithoutMediaInput
@@ -42724,14 +44340,6 @@ export namespace Prisma {
 
   export type EnumAkadTypeFieldUpdateOperationsInput = {
     set?: $Enums.AkadType
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type EnumFundingStatusFieldUpdateOperationsInput = {
@@ -43750,6 +45358,33 @@ export namespace Prisma {
     _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type NestedEnumMediaTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.MediaType | EnumMediaTypeFieldRefInput<$PrismaModel>
     in?: $Enums.MediaType[] | ListEnumMediaTypeFieldRefInput<$PrismaModel>
@@ -43765,17 +45400,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumMediaTypeFilter<$PrismaModel>
     _max?: NestedEnumMediaTypeFilter<$PrismaModel>
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -43862,22 +45486,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumAkadTypeFilter<$PrismaModel>
     _max?: NestedEnumAkadTypeFilter<$PrismaModel>
-  }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type NestedEnumFundingStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -44342,6 +45950,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
     media?: UmkmMediaCreateNestedManyWithoutUmkmProfileInput
     monitoringReports?: MonitoringReportCreateNestedManyWithoutUmkmProfileInput
+    akadVariables?: AkadVariableCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileUncheckedCreateWithoutUserInput = {
@@ -44369,6 +45978,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
     media?: UmkmMediaUncheckedCreateNestedManyWithoutUmkmProfileInput
     monitoringReports?: MonitoringReportUncheckedCreateNestedManyWithoutUmkmProfileInput
+    akadVariables?: AkadVariableUncheckedCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileCreateOrConnectWithoutUserInput = {
@@ -44691,6 +46301,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
     media?: UmkmMediaUpdateManyWithoutUmkmProfileNestedInput
     monitoringReports?: MonitoringReportUpdateManyWithoutUmkmProfileNestedInput
+    akadVariables?: AkadVariableUpdateManyWithoutUmkmProfileNestedInput
   }
 
   export type UmkmProfileUncheckedUpdateWithoutUserInput = {
@@ -44718,6 +46329,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
     media?: UmkmMediaUncheckedUpdateManyWithoutUmkmProfileNestedInput
     monitoringReports?: MonitoringReportUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    akadVariables?: AkadVariableUncheckedUpdateManyWithoutUmkmProfileNestedInput
   }
 
   export type WalletUpsertWithoutUserInput = {
@@ -45328,6 +46940,37 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AkadVariableCreateWithoutUmkmProfileInput = {
+    asetLancar: Decimal | DecimalJsLike | number | string
+    totalHutangKas: Decimal | DecimalJsLike | number | string
+    labaBersih: Decimal | DecimalJsLike | number | string
+    totalPendapatan: Decimal | DecimalJsLike | number | string
+    totalBeban: Decimal | DecimalJsLike | number | string
+    rataRataArusKas: Decimal | DecimalJsLike | number | string
+    asetTidakLancar: Decimal | DecimalJsLike | number | string
+  }
+
+  export type AkadVariableUncheckedCreateWithoutUmkmProfileInput = {
+    id?: number
+    asetLancar: Decimal | DecimalJsLike | number | string
+    totalHutangKas: Decimal | DecimalJsLike | number | string
+    labaBersih: Decimal | DecimalJsLike | number | string
+    totalPendapatan: Decimal | DecimalJsLike | number | string
+    totalBeban: Decimal | DecimalJsLike | number | string
+    rataRataArusKas: Decimal | DecimalJsLike | number | string
+    asetTidakLancar: Decimal | DecimalJsLike | number | string
+  }
+
+  export type AkadVariableCreateOrConnectWithoutUmkmProfileInput = {
+    where: AkadVariableWhereUniqueInput
+    create: XOR<AkadVariableCreateWithoutUmkmProfileInput, AkadVariableUncheckedCreateWithoutUmkmProfileInput>
+  }
+
+  export type AkadVariableCreateManyUmkmProfileInputEnvelope = {
+    data: AkadVariableCreateManyUmkmProfileInput | AkadVariableCreateManyUmkmProfileInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserCreateWithoutUmkmProfileInput = {
     id?: string
     email?: string | null
@@ -45607,6 +47250,37 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"MonitoringReport"> | Date | string
   }
 
+  export type AkadVariableUpsertWithWhereUniqueWithoutUmkmProfileInput = {
+    where: AkadVariableWhereUniqueInput
+    update: XOR<AkadVariableUpdateWithoutUmkmProfileInput, AkadVariableUncheckedUpdateWithoutUmkmProfileInput>
+    create: XOR<AkadVariableCreateWithoutUmkmProfileInput, AkadVariableUncheckedCreateWithoutUmkmProfileInput>
+  }
+
+  export type AkadVariableUpdateWithWhereUniqueWithoutUmkmProfileInput = {
+    where: AkadVariableWhereUniqueInput
+    data: XOR<AkadVariableUpdateWithoutUmkmProfileInput, AkadVariableUncheckedUpdateWithoutUmkmProfileInput>
+  }
+
+  export type AkadVariableUpdateManyWithWhereWithoutUmkmProfileInput = {
+    where: AkadVariableScalarWhereInput
+    data: XOR<AkadVariableUpdateManyMutationInput, AkadVariableUncheckedUpdateManyWithoutUmkmProfileInput>
+  }
+
+  export type AkadVariableScalarWhereInput = {
+    AND?: AkadVariableScalarWhereInput | AkadVariableScalarWhereInput[]
+    OR?: AkadVariableScalarWhereInput[]
+    NOT?: AkadVariableScalarWhereInput | AkadVariableScalarWhereInput[]
+    id?: IntFilter<"AkadVariable"> | number
+    umkmProfileId?: StringFilter<"AkadVariable"> | string
+    asetLancar?: DecimalFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    totalHutangKas?: DecimalFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    labaBersih?: DecimalFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    totalPendapatan?: DecimalFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    totalBeban?: DecimalFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    rataRataArusKas?: DecimalFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+    asetTidakLancar?: DecimalFilter<"AkadVariable"> | Decimal | DecimalJsLike | number | string
+  }
+
   export type UserUpsertWithoutUmkmProfileInput = {
     update: XOR<UserUpdateWithoutUmkmProfileInput, UserUncheckedUpdateWithoutUmkmProfileInput>
     create: XOR<UserCreateWithoutUmkmProfileInput, UserUncheckedCreateWithoutUmkmProfileInput>
@@ -45666,6 +47340,134 @@ export namespace Prisma {
     beritas?: BeritaUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
+  export type UmkmProfileCreateWithoutAkadVariablesInput = {
+    id?: string
+    ownerName: string
+    businessName: string
+    businessCategory: string
+    businessDescription?: string | null
+    location?: string | null
+    city?: string | null
+    province?: string | null
+    district?: string | null
+    postalCode?: string | null
+    establishedDate?: Date | string | null
+    employeeCount?: number | null
+    monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
+    website?: string | null
+    socialMedia?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    businessData?: BusinessDataCreateNestedManyWithoutUmkmProfileInput
+    businessUpdates?: BusinessUpdateCreateNestedManyWithoutUmkmProfileInput
+    campaigns?: CampaignCreateNestedManyWithoutUmkmProfileInput
+    creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
+    fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
+    media?: UmkmMediaCreateNestedManyWithoutUmkmProfileInput
+    monitoringReports?: MonitoringReportCreateNestedManyWithoutUmkmProfileInput
+    user: UserCreateNestedOneWithoutUmkmProfileInput
+  }
+
+  export type UmkmProfileUncheckedCreateWithoutAkadVariablesInput = {
+    id?: string
+    userId: string
+    ownerName: string
+    businessName: string
+    businessCategory: string
+    businessDescription?: string | null
+    location?: string | null
+    city?: string | null
+    province?: string | null
+    district?: string | null
+    postalCode?: string | null
+    establishedDate?: Date | string | null
+    employeeCount?: number | null
+    monthlyRevenue?: Decimal | DecimalJsLike | number | string | null
+    website?: string | null
+    socialMedia?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    businessData?: BusinessDataUncheckedCreateNestedManyWithoutUmkmProfileInput
+    businessUpdates?: BusinessUpdateUncheckedCreateNestedManyWithoutUmkmProfileInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutUmkmProfileInput
+    creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
+    fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
+    media?: UmkmMediaUncheckedCreateNestedManyWithoutUmkmProfileInput
+    monitoringReports?: MonitoringReportUncheckedCreateNestedManyWithoutUmkmProfileInput
+  }
+
+  export type UmkmProfileCreateOrConnectWithoutAkadVariablesInput = {
+    where: UmkmProfileWhereUniqueInput
+    create: XOR<UmkmProfileCreateWithoutAkadVariablesInput, UmkmProfileUncheckedCreateWithoutAkadVariablesInput>
+  }
+
+  export type UmkmProfileUpsertWithoutAkadVariablesInput = {
+    update: XOR<UmkmProfileUpdateWithoutAkadVariablesInput, UmkmProfileUncheckedUpdateWithoutAkadVariablesInput>
+    create: XOR<UmkmProfileCreateWithoutAkadVariablesInput, UmkmProfileUncheckedCreateWithoutAkadVariablesInput>
+    where?: UmkmProfileWhereInput
+  }
+
+  export type UmkmProfileUpdateToOneWithWhereWithoutAkadVariablesInput = {
+    where?: UmkmProfileWhereInput
+    data: XOR<UmkmProfileUpdateWithoutAkadVariablesInput, UmkmProfileUncheckedUpdateWithoutAkadVariablesInput>
+  }
+
+  export type UmkmProfileUpdateWithoutAkadVariablesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerName?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    businessCategory?: StringFieldUpdateOperationsInput | string
+    businessDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
+    monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    businessData?: BusinessDataUpdateManyWithoutUmkmProfileNestedInput
+    businessUpdates?: BusinessUpdateUpdateManyWithoutUmkmProfileNestedInput
+    campaigns?: CampaignUpdateManyWithoutUmkmProfileNestedInput
+    creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
+    fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
+    media?: UmkmMediaUpdateManyWithoutUmkmProfileNestedInput
+    monitoringReports?: MonitoringReportUpdateManyWithoutUmkmProfileNestedInput
+    user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
+  }
+
+  export type UmkmProfileUncheckedUpdateWithoutAkadVariablesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    ownerName?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    businessCategory?: StringFieldUpdateOperationsInput | string
+    businessDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    province?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    establishedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    employeeCount?: NullableIntFieldUpdateOperationsInput | number | null
+    monthlyRevenue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    socialMedia?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    businessData?: BusinessDataUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    businessUpdates?: BusinessUpdateUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    media?: UmkmMediaUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    monitoringReports?: MonitoringReportUncheckedUpdateManyWithoutUmkmProfileNestedInput
+  }
+
   export type UmkmProfileCreateWithoutMediaInput = {
     id?: string
     ownerName: string
@@ -45690,6 +47492,7 @@ export namespace Prisma {
     creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
     fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
     monitoringReports?: MonitoringReportCreateNestedManyWithoutUmkmProfileInput
+    akadVariables?: AkadVariableCreateNestedManyWithoutUmkmProfileInput
     user: UserCreateNestedOneWithoutUmkmProfileInput
   }
 
@@ -45718,6 +47521,7 @@ export namespace Prisma {
     creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
     fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
     monitoringReports?: MonitoringReportUncheckedCreateNestedManyWithoutUmkmProfileInput
+    akadVariables?: AkadVariableUncheckedCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileCreateOrConnectWithoutMediaInput = {
@@ -45760,6 +47564,7 @@ export namespace Prisma {
     creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
     fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
     monitoringReports?: MonitoringReportUpdateManyWithoutUmkmProfileNestedInput
+    akadVariables?: AkadVariableUpdateManyWithoutUmkmProfileNestedInput
     user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
   }
 
@@ -45788,6 +47593,7 @@ export namespace Prisma {
     creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
     fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
     monitoringReports?: MonitoringReportUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    akadVariables?: AkadVariableUncheckedUpdateManyWithoutUmkmProfileNestedInput
   }
 
   export type UserCreateWithoutKycDocumentsInput = {
@@ -45926,6 +47732,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
     media?: UmkmMediaCreateNestedManyWithoutUmkmProfileInput
     monitoringReports?: MonitoringReportCreateNestedManyWithoutUmkmProfileInput
+    akadVariables?: AkadVariableCreateNestedManyWithoutUmkmProfileInput
     user: UserCreateNestedOneWithoutUmkmProfileInput
   }
 
@@ -45954,6 +47761,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
     media?: UmkmMediaUncheckedCreateNestedManyWithoutUmkmProfileInput
     monitoringReports?: MonitoringReportUncheckedCreateNestedManyWithoutUmkmProfileInput
+    akadVariables?: AkadVariableUncheckedCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileCreateOrConnectWithoutCreditScoresInput = {
@@ -45996,6 +47804,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
     media?: UmkmMediaUpdateManyWithoutUmkmProfileNestedInput
     monitoringReports?: MonitoringReportUpdateManyWithoutUmkmProfileNestedInput
+    akadVariables?: AkadVariableUpdateManyWithoutUmkmProfileNestedInput
     user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
   }
 
@@ -46024,6 +47833,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
     media?: UmkmMediaUncheckedUpdateManyWithoutUmkmProfileNestedInput
     monitoringReports?: MonitoringReportUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    akadVariables?: AkadVariableUncheckedUpdateManyWithoutUmkmProfileNestedInput
   }
 
   export type UmkmProfileCreateWithoutBusinessDataInput = {
@@ -46050,6 +47860,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
     media?: UmkmMediaCreateNestedManyWithoutUmkmProfileInput
     monitoringReports?: MonitoringReportCreateNestedManyWithoutUmkmProfileInput
+    akadVariables?: AkadVariableCreateNestedManyWithoutUmkmProfileInput
     user: UserCreateNestedOneWithoutUmkmProfileInput
   }
 
@@ -46078,6 +47889,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
     media?: UmkmMediaUncheckedCreateNestedManyWithoutUmkmProfileInput
     monitoringReports?: MonitoringReportUncheckedCreateNestedManyWithoutUmkmProfileInput
+    akadVariables?: AkadVariableUncheckedCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileCreateOrConnectWithoutBusinessDataInput = {
@@ -46120,6 +47932,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
     media?: UmkmMediaUpdateManyWithoutUmkmProfileNestedInput
     monitoringReports?: MonitoringReportUpdateManyWithoutUmkmProfileNestedInput
+    akadVariables?: AkadVariableUpdateManyWithoutUmkmProfileNestedInput
     user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
   }
 
@@ -46148,6 +47961,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
     media?: UmkmMediaUncheckedUpdateManyWithoutUmkmProfileNestedInput
     monitoringReports?: MonitoringReportUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    akadVariables?: AkadVariableUncheckedUpdateManyWithoutUmkmProfileNestedInput
   }
 
   export type CampaignCreateWithoutFundingApplicationInput = {
@@ -46219,6 +48033,7 @@ export namespace Prisma {
     creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
     media?: UmkmMediaCreateNestedManyWithoutUmkmProfileInput
     monitoringReports?: MonitoringReportCreateNestedManyWithoutUmkmProfileInput
+    akadVariables?: AkadVariableCreateNestedManyWithoutUmkmProfileInput
     user: UserCreateNestedOneWithoutUmkmProfileInput
   }
 
@@ -46247,6 +48062,7 @@ export namespace Prisma {
     creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
     media?: UmkmMediaUncheckedCreateNestedManyWithoutUmkmProfileInput
     monitoringReports?: MonitoringReportUncheckedCreateNestedManyWithoutUmkmProfileInput
+    akadVariables?: AkadVariableUncheckedCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileCreateOrConnectWithoutFundingApplicationsInput = {
@@ -46340,6 +48156,7 @@ export namespace Prisma {
     creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
     media?: UmkmMediaUpdateManyWithoutUmkmProfileNestedInput
     monitoringReports?: MonitoringReportUpdateManyWithoutUmkmProfileNestedInput
+    akadVariables?: AkadVariableUpdateManyWithoutUmkmProfileNestedInput
     user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
   }
 
@@ -46368,6 +48185,7 @@ export namespace Prisma {
     creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
     media?: UmkmMediaUncheckedUpdateManyWithoutUmkmProfileNestedInput
     monitoringReports?: MonitoringReportUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    akadVariables?: AkadVariableUncheckedUpdateManyWithoutUmkmProfileNestedInput
   }
 
   export type AkadCreateWithoutCampaignInput = {
@@ -46493,6 +48311,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
     media?: UmkmMediaCreateNestedManyWithoutUmkmProfileInput
     monitoringReports?: MonitoringReportCreateNestedManyWithoutUmkmProfileInput
+    akadVariables?: AkadVariableCreateNestedManyWithoutUmkmProfileInput
     user: UserCreateNestedOneWithoutUmkmProfileInput
   }
 
@@ -46521,6 +48340,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
     media?: UmkmMediaUncheckedCreateNestedManyWithoutUmkmProfileInput
     monitoringReports?: MonitoringReportUncheckedCreateNestedManyWithoutUmkmProfileInput
+    akadVariables?: AkadVariableUncheckedCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileCreateOrConnectWithoutCampaignsInput = {
@@ -46690,6 +48510,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
     media?: UmkmMediaUpdateManyWithoutUmkmProfileNestedInput
     monitoringReports?: MonitoringReportUpdateManyWithoutUmkmProfileNestedInput
+    akadVariables?: AkadVariableUpdateManyWithoutUmkmProfileNestedInput
     user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
   }
 
@@ -46718,6 +48539,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
     media?: UmkmMediaUncheckedUpdateManyWithoutUmkmProfileNestedInput
     monitoringReports?: MonitoringReportUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    akadVariables?: AkadVariableUncheckedUpdateManyWithoutUmkmProfileNestedInput
   }
 
   export type InvestmentUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -48601,6 +50423,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
     media?: UmkmMediaCreateNestedManyWithoutUmkmProfileInput
     monitoringReports?: MonitoringReportCreateNestedManyWithoutUmkmProfileInput
+    akadVariables?: AkadVariableCreateNestedManyWithoutUmkmProfileInput
     user: UserCreateNestedOneWithoutUmkmProfileInput
   }
 
@@ -48629,6 +50452,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
     media?: UmkmMediaUncheckedCreateNestedManyWithoutUmkmProfileInput
     monitoringReports?: MonitoringReportUncheckedCreateNestedManyWithoutUmkmProfileInput
+    akadVariables?: AkadVariableUncheckedCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileCreateOrConnectWithoutBusinessUpdatesInput = {
@@ -48671,6 +50495,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
     media?: UmkmMediaUpdateManyWithoutUmkmProfileNestedInput
     monitoringReports?: MonitoringReportUpdateManyWithoutUmkmProfileNestedInput
+    akadVariables?: AkadVariableUpdateManyWithoutUmkmProfileNestedInput
     user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
   }
 
@@ -48699,6 +50524,7 @@ export namespace Prisma {
     fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
     media?: UmkmMediaUncheckedUpdateManyWithoutUmkmProfileNestedInput
     monitoringReports?: MonitoringReportUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    akadVariables?: AkadVariableUncheckedUpdateManyWithoutUmkmProfileNestedInput
   }
 
   export type UmkmProfileCreateWithoutMonitoringReportsInput = {
@@ -48725,6 +50551,7 @@ export namespace Prisma {
     creditScores?: CreditScoreCreateNestedManyWithoutUmkmProfileInput
     fundingApplications?: FundingApplicationCreateNestedManyWithoutUmkmProfileInput
     media?: UmkmMediaCreateNestedManyWithoutUmkmProfileInput
+    akadVariables?: AkadVariableCreateNestedManyWithoutUmkmProfileInput
     user: UserCreateNestedOneWithoutUmkmProfileInput
   }
 
@@ -48753,6 +50580,7 @@ export namespace Prisma {
     creditScores?: CreditScoreUncheckedCreateNestedManyWithoutUmkmProfileInput
     fundingApplications?: FundingApplicationUncheckedCreateNestedManyWithoutUmkmProfileInput
     media?: UmkmMediaUncheckedCreateNestedManyWithoutUmkmProfileInput
+    akadVariables?: AkadVariableUncheckedCreateNestedManyWithoutUmkmProfileInput
   }
 
   export type UmkmProfileCreateOrConnectWithoutMonitoringReportsInput = {
@@ -48795,6 +50623,7 @@ export namespace Prisma {
     creditScores?: CreditScoreUpdateManyWithoutUmkmProfileNestedInput
     fundingApplications?: FundingApplicationUpdateManyWithoutUmkmProfileNestedInput
     media?: UmkmMediaUpdateManyWithoutUmkmProfileNestedInput
+    akadVariables?: AkadVariableUpdateManyWithoutUmkmProfileNestedInput
     user?: UserUpdateOneRequiredWithoutUmkmProfileNestedInput
   }
 
@@ -48823,6 +50652,7 @@ export namespace Prisma {
     creditScores?: CreditScoreUncheckedUpdateManyWithoutUmkmProfileNestedInput
     fundingApplications?: FundingApplicationUncheckedUpdateManyWithoutUmkmProfileNestedInput
     media?: UmkmMediaUncheckedUpdateManyWithoutUmkmProfileNestedInput
+    akadVariables?: AkadVariableUncheckedUpdateManyWithoutUmkmProfileNestedInput
   }
 
   export type UserCreateWithoutOtpVerificationsInput = {
@@ -49591,6 +51421,17 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type AkadVariableCreateManyUmkmProfileInput = {
+    id?: number
+    asetLancar: Decimal | DecimalJsLike | number | string
+    totalHutangKas: Decimal | DecimalJsLike | number | string
+    labaBersih: Decimal | DecimalJsLike | number | string
+    totalPendapatan: Decimal | DecimalJsLike | number | string
+    totalBeban: Decimal | DecimalJsLike | number | string
+    rataRataArusKas: Decimal | DecimalJsLike | number | string
+    asetTidakLancar: Decimal | DecimalJsLike | number | string
+  }
+
   export type BusinessDataUpdateWithoutUmkmProfileInput = {
     id?: StringFieldUpdateOperationsInput | string
     reportDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -49853,6 +51694,38 @@ export namespace Prisma {
     catatan?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AkadVariableUpdateWithoutUmkmProfileInput = {
+    asetLancar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalHutangKas?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    labaBersih?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPendapatan?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalBeban?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    rataRataArusKas?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    asetTidakLancar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type AkadVariableUncheckedUpdateWithoutUmkmProfileInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    asetLancar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalHutangKas?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    labaBersih?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPendapatan?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalBeban?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    rataRataArusKas?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    asetTidakLancar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type AkadVariableUncheckedUpdateManyWithoutUmkmProfileInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    asetLancar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalHutangKas?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    labaBersih?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPendapatan?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalBeban?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    rataRataArusKas?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    asetTidakLancar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
   export type AkadCreateManyCampaignInput = {

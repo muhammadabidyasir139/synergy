@@ -8,6 +8,10 @@ interface DokuCallResult {
   rawText: string;
 }
 
+// Below nginx's default proxy_read_timeout (60s) so a slow DOKU sandbox fails
+// fast with our own JSON error instead of nginx returning a bare 502 first.
+const DOKU_TIMEOUT_MS = 20_000;
+
 async function dokuPost(path: string, body: Record<string, unknown>): Promise<DokuCallResult> {
   const { baseUrl, clientId, secretKey } = getDokuConfig();
   const rawBody = JSON.stringify(body);
@@ -20,6 +24,7 @@ async function dokuPost(path: string, body: Record<string, unknown>): Promise<Do
       ...headers,
     },
     body: rawBody,
+    signal: AbortSignal.timeout(DOKU_TIMEOUT_MS),
   });
 
   const rawText = await res.text();
@@ -122,7 +127,7 @@ export async function checkOrderStatus(invoiceNumber: string): Promise<DokuCallR
   const path = `/orders/v1/status/${invoiceNumber}`;
   const headers = buildGetRequestHeaders(path, clientId, secretKey);
 
-  const res = await fetch(`${baseUrl}${path}`, { method: "GET", headers });
+  const res = await fetch(`${baseUrl}${path}`, { method: "GET", headers, signal: AbortSignal.timeout(DOKU_TIMEOUT_MS) });
 
   const rawText = await res.text();
   let json: Record<string, unknown> | null = null;

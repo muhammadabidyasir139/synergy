@@ -1,0 +1,102 @@
+[
+  {
+    "name": "Profil - READ",
+    "ok": true,
+    "detail": "status=200 businessName=CRUD_TEST_AUTOMATION"
+  },
+  {
+    "name": "Profil - UPDATE",
+    "ok": true,
+    "detail": "status=200"
+  },
+  {
+    "name": "Profil - READ after UPDATE",
+    "ok": true,
+    "detail": "businessName=CRUD_TEST_AUTOMATION_UPDATED city=Bandung"
+  },
+  {
+    "name": "Finance - READ (empty)",
+    "ok": false,
+    "detail": "status=500 isComplete=undefined"
+  },
+  {
+    "name": "Finance - CREATE (first PUT)",
+    "ok": false,
+    "detail": "status=500"
+  },
+  {
+    "name": "Finance - READ after CREATE",
+    "ok": false,
+    "detail": "isComplete=undefined asetLancar=undefined"
+  },
+  {
+    "name": "Finance - UPDATE (second PUT)",
+    "ok": false,
+    "detail": "status=500"
+  },
+  {
+    "name": "Finance - READ after UPDATE",
+    "ok": false,
+    "detail": "labaBersih=undefined"
+  },
+  {
+    "name": "Finance - single row maintained (no duplicate on update)",
+    "ok": false,
+    "detail": "rowCount=0"
+  },
+  {
+    "name": "Finance - VALIDATION rejects negative value",
+    "ok": true,
+    "detail": "status=400"
+  },
+  {
+    "name": "Pengajuan - CREATE",
+    "ok": true,
+    "detail": "id=cmrqo4esn0000c426yiqwe9lg"
+  },
+  {
+    "name": "Pengajuan - READ",
+    "ok": true,
+    "detail": "requestedAmount=50000000"
+  },
+  {
+    "name": "Pengajuan - UPDATE (status -> APPROVED)",
+    "ok": true,
+    "detail": "status=APPROVED"
+  },
+  {
+    "name": "Pengajuan - DELETE",
+    "ok": true,
+    "detail": "gone=true"
+  },
+  {
+    "name": "Pengajuan - finance-completeness gate (isFinanceProfileComplete logic)",
+    "ok": false,
+    "detail": "financeExists=false"
+  },
+  {
+    "name": "Laporan - READ (empty)",
+    "ok": true,
+    "detail": "status=200 count=0"
+  },
+  {
+    "name": "Laporan - CREATE",
+    "ok": true,
+    "detail": "status=200 id=cmrqo4uta00002026aydoaprn"
+  },
+  {
+    "name": "Laporan - READ after CREATE",
+    "ok": true,
+    "detail": "count=1"
+  },
+  {
+    "name": "Laporan - UPDATE (data-layer only, no API route)",
+    "ok": true,
+    "detail": "catatan=updated via Prisma (no API route exists)"
+  },
+  {
+    "name": "Laporan - DELETE (data-layer only, no API route)",
+    "ok": true,
+    "detail": "gone=true"
+  }
+]
