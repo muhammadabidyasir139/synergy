@@ -43,7 +43,10 @@ async function callGateway<T = unknown>(
     }
     return { ok: true, data: data as T };
   } catch (err) {
-    return { ok: false, error: err instanceof Error ? err.message : "Unknown gateway error" };
+    let message = err instanceof Error ? err.message : "Unknown gateway error";
+    const cause = err instanceof Error ? (err.cause as Error | undefined) : undefined;
+    if (cause) message += ` (cause: ${cause.message ?? cause})`;
+    return { ok: false, error: message };
   } finally {
     clearTimeout(timeout);
   }
