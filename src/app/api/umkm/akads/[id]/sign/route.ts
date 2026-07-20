@@ -39,6 +39,8 @@ export async function PATCH(
       akadId: id,
       status: signed.status,
       blockchainStatus: signed.blockchainStatus,
+      blockchainHash: signed.blockchainHash,
+      contractAddress: signed.contractAddress,
     });
   } catch (err) {
     console.error(err);

@@ -15,7 +15,14 @@ function parseChainDate(value: string | undefined): Date | null {
 }
 
 export type SignAkadResult =
-  | { ok: true; status: AkadStatus; blockchainStatus: string; onChain: Record<string, unknown> }
+  | {
+      ok: true;
+      status: AkadStatus;
+      blockchainStatus: string;
+      blockchainHash: string | null;
+      contractAddress: string | null;
+      onChain: Record<string, unknown>;
+    }
   | { ok: false; error: string };
 
 /**
@@ -45,7 +52,7 @@ export async function signAkadAndSync(
   const isActive = onChain.status === "ACTIVE";
   const blockchainStatus = isActive ? "CONFIRMED" : "SUBMITTED";
 
-  await db.akad.update({
+  const updated = await db.akad.update({
     where: { id: akadId },
     data: {
       investorSignedAt: parseChainDate(onChain.investorSignedAt),
@@ -75,6 +82,10 @@ export async function signAkadAndSync(
     ok: true,
     status: isActive ? AkadStatus.ACTIVE : AkadStatus.PENDING,
     blockchainStatus,
+    // Diambil dari baris akad, bukan dibuat baru: gateway belum mengembalikan
+    // transaction ID Fabric, jadi tidak ada hash asli untuk ditulis di sini.
+    blockchainHash: updated.blockchainHash,
+    contractAddress: updated.contractAddress,
     onChain: onChain as unknown as Record<string, unknown>,
   };
 }

@@ -21,6 +21,9 @@ export async function PATCH(
     if (akad.investment?.investorProfileId !== investorProfileId) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
+    if (akad.investorSignedAt) {
+      return NextResponse.json({ error: "Akad sudah ditandatangani." }, { status: 400 });
+    }
 
     if (!akad.startDate) {
       await db.akad.update({ where: { id }, data: { startDate: new Date() } });
@@ -39,6 +42,8 @@ export async function PATCH(
       akadId: id,
       status: signed.status,
       blockchainStatus: signed.blockchainStatus,
+      blockchainHash: signed.blockchainHash,
+      contractAddress: signed.contractAddress,
     });
   } catch (err) {
     console.error(err);
