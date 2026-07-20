@@ -57,12 +57,12 @@ export default function AkadPage() {
       setAkads((prev) =>
         prev.map((a) =>
           a.id === akadId
-            ? { ...a, investorSigned: true, status: "ACTIVE", blockchainHash: data.blockchainHash, contractAddress: data.contractAddress }
+            ? { ...a, investorSigned: true, status: data.status, blockchainHash: data.blockchainHash, contractAddress: data.contractAddress }
             : a
         )
       );
       if (selectedAkad?.id === akadId) {
-        setSelectedAkad((prev) => prev ? { ...prev, investorSigned: true, status: "ACTIVE", blockchainHash: data.blockchainHash, contractAddress: data.contractAddress } : prev);
+        setSelectedAkad((prev) => prev ? { ...prev, investorSigned: true, status: data.status, blockchainHash: data.blockchainHash, contractAddress: data.contractAddress } : prev);
       }
     } catch {
       alert("Tidak dapat terhubung ke server.");

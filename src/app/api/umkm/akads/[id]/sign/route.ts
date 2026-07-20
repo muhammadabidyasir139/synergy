@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import crypto from "crypto";
 import { db } from "@/lib/db";
 import { AkadStatus } from "@/generated/prisma";
-import crypto from "crypto";
+import { requireUmkmProfileId } from "@/lib/auth-guard";
 import { signAkadOnChain } from "@/lib/fabric-gateway";
 
 export async function PATCH(
@@ -9,26 +10,27 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const investorProfileId = request.headers.get("x-investor-id");
-    if (!investorProfileId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const guard = await requireUmkmProfileId();
+    if (guard.error) return guard.error;
+    const umkmProfileId = guard.id;
 
     const { id } = await params;
 
     const akad = await db.akad.findUnique({
       where: { id },
-      include: { investment: true },
+      include: { campaign: true },
     });
 
     if (!akad) return NextResponse.json({ error: "Akad not found" }, { status: 404 });
-    if (akad.investment?.investorProfileId !== investorProfileId) {
+    if (akad.campaign.umkmProfileId !== umkmProfileId) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
-    if (akad.investorSignedAt) {
+    if (akad.umkmSignedAt) {
       return NextResponse.json({ error: "Akad sudah ditandatangani." }, { status: 400 });
     }
 
     // Notify the Hyperledger Fabric blockchain via the Synergy Fabric Gateway (BLOCKCHAIN_API_URL).
-    const signDeploy = await signAkadOnChain(akad.id, "INVESTOR", investorProfileId);
+    const signDeploy = await signAkadOnChain(akad.id, "UMKM", umkmProfileId);
     const signData = signDeploy.ok ? (signDeploy.data as Record<string, unknown>) : {};
 
     const blockchainHash =
@@ -41,18 +43,17 @@ export async function PATCH(
       null;
     const blockchainStatus = signDeploy.ok ? "CONFIRMED" : (akad.blockchainStatus ?? "PENDING_SYNC");
 
-    const bothSigned = !!akad.umkmSignedAt;
+    const bothSigned = !!akad.investorSignedAt;
 
     const updated = await db.akad.update({
       where: { id },
       data: {
-        investorSignedAt: new Date(),
+        umkmSignedAt: new Date(),
         status: bothSigned ? AkadStatus.ACTIVE : akad.status,
         blockchainHash,
         contractAddress,
         blockchainStatus,
         deployedAt: akad.deployedAt ?? (blockchainStatus === "CONFIRMED" ? new Date() : null),
-        startDate: akad.startDate ?? new Date(),
       },
     });
 
@@ -62,14 +63,14 @@ export async function PATCH(
           akadId: akad.id,
           txHash: blockchainHash,
           contractAddress,
-          eventType: "AKAD_INVESTOR_SIGNED",
+          eventType: "AKAD_UMKM_SIGNED",
           status: blockchainStatus,
           timestamp: new Date(),
-          rawData: { investorProfileId },
+          rawData: { umkmProfileId },
         },
       });
     } else if (!signDeploy.ok) {
-      console.error("Fabric gateway sign (INVESTOR) failed:", signDeploy.error);
+      console.error("Fabric gateway sign (UMKM) failed:", signDeploy.error);
     }
 
     return NextResponse.json({
