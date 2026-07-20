@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styles from "../page.module.css";
 import { CheckCircle, Chain, TrendingDown, Banknote, Handshake, Landmark, AlertTriangle, Refresh } from "@/components/icons";
 
@@ -13,44 +13,94 @@ interface WalletHistory {
   ket: string;
 }
 
+interface WalletData {
+  balance: number;
+  lockedBalance: number;
+  kycStatus: string;
+  stats: {
+    danaDiterima: number;
+    akadAktif: number;
+    bagiHasilDibayar: number;
+    profitSharingLunasCount: number;
+    totalWithdraw: number;
+  };
+  history: WalletHistory[];
+}
+
+const BANKS = ["BSI", "BCA", "MANDIRI", "BNI", "BRI"];
+
+const formatJt = (n: number) => {
+  const abs = Math.abs(n);
+  if (abs >= 1000000000) return `Rp ${(n / 1000000000).toFixed(2)} M`;
+  return `Rp ${(n / 1000000).toFixed(abs % 1000000 === 0 ? 0 : 2)} Jt`;
+};
+
 export default function Wallet() {
-  const [saldo] = useState(47260000);
+  const [data, setData] = useState<WalletData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
+
   const [isWithdrawOpen, setIsWithdrawOpen] = useState(false);
   const [withdrawAmount, setWithdrawAmount] = useState("");
+  const [bankCode, setBankCode] = useState("BSI");
+  const [accountNumber, setAccountNumber] = useState("");
+  const [accountName, setAccountName] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
-  const [walletSaldo, setWalletSaldo] = useState(saldo);
+  const [formError, setFormError] = useState("");
 
-  const [history, setHistory] = useState<WalletHistory[]>([
-    { id: "WLT-052", tanggal: "7 Jun 2026", tipe: "Dana Akad", jumlah: 75000000, status: "Pending", ket: "Dana investasi AKD-051 (menunggu TTD)" },
-    { id: "WLT-048", tanggal: "5 Jun 2026", tipe: "Bagi Hasil", jumlah: -8040000, status: "Selesai", ket: "Bagi hasil Apr 2026 ke 2 investor" },
-    { id: "WLT-044", tanggal: "15 Mei 2026", tipe: "Withdraw", jumlah: -20000000, status: "Selesai", ket: "Penarikan ke rekening BSI" },
-    { id: "WLT-040", tanggal: "1 Mei 2026", tipe: "Dana Akad", jumlah: 50000000, status: "Selesai", ket: "Dana investasi putaran 2 – AKD-042" },
-    { id: "WLT-036", tanggal: "15 Mar 2026", tipe: "Dana Akad", jumlah: 50000000, status: "Selesai", ket: "Dana investasi awal – AKD-038" },
-  ]);
+  const loadWallet = useCallback(async () => {
+    try {
+      const res = await fetch("/api/umkm/wallet");
+      const d = await res.json();
+      if (!res.ok) throw new Error(d.error ?? "Gagal memuat data wallet");
+      setData(d);
+      setLoadError("");
+    } catch (e) {
+      setLoadError(e instanceof Error ? e.message : "Gagal memuat data wallet");
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
-  const handleWithdraw = (e: React.FormEvent) => {
+  useEffect(() => { loadWallet(); }, [loadWallet]);
+
+  const walletSaldo = data?.balance ?? 0;
+
+  const handleWithdraw = async (e: React.FormEvent) => {
     e.preventDefault();
+    setFormError("");
     const amount = parseInt(withdrawAmount.replace(/\D/g, ""));
-    if (!amount || amount <= 0 || amount > walletSaldo) return;
+    if (!amount || amount < 100000) { setFormError("Minimal withdraw Rp 100.000."); return; }
+    if (amount > walletSaldo) { setFormError("Saldo tidak mencukupi."); return; }
+    if (!accountNumber || !accountName) { setFormError("Lengkapi detail rekening tujuan."); return; }
+
     setIsProcessing(true);
-    setTimeout(() => {
-      setWalletSaldo((prev) => prev - amount);
-      const newEntry: WalletHistory = {
-        id: `WLT-${Date.now()}`,
-        tanggal: new Date().toLocaleDateString("id-ID"),
-        tipe: "Withdraw",
-        jumlah: -amount,
-        status: "Selesai",
-        ket: "Penarikan dana ke rekening BSI",
-      };
-      setHistory((prev) => [newEntry, ...prev]);
-      setIsProcessing(false);
+    try {
+      const res = await fetch("/api/umkm/wallet/withdraw", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount, bankCode, accountNumber, accountName }),
+      });
+      const result = await res.json();
+      if (!res.ok) { setFormError(result.error ?? "Penarikan gagal."); return; }
+
+      await loadWallet();
       setIsWithdrawOpen(false);
       setWithdrawAmount("");
-    }, 2000);
+      setAccountNumber("");
+      setAccountName("");
+    } catch {
+      setFormError("Tidak dapat terhubung ke server.");
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const quickAmounts = [5000000, 10000000, 20000000, 50000000];
+
+  if (isLoading) return <div style={{ padding: "2rem" }}>Memuat data wallet...</div>;
+  if (loadError) return <div style={{ padding: "2rem", color: "#ef4444" }}>{loadError}</div>;
+  if (!data) return null;
 
   return (
     <div className={styles.container}>
@@ -58,7 +108,7 @@ export default function Wallet() {
         <div>
           <h1 className={styles.title}>Wallet & Withdraw Dana</h1>
           <p className={styles.subtitle}>
-            Kelola saldo wallet UMKM Anda. Penarikan dana akan ditransfer ke rekening bank terdaftar (BSI).
+            Kelola saldo wallet UMKM Anda. Penarikan dana akan ditransfer ke rekening bank tujuan.
           </p>
         </div>
       </header>
@@ -84,12 +134,16 @@ export default function Wallet() {
           </p>
           <div style={{ display: "flex", gap: "2rem", marginTop: "1.5rem" }}>
             <div>
-              <p style={{ fontSize: "0.75rem", opacity: 0.75 }}>Rekening Terdaftar</p>
-              <p style={{ fontWeight: 700 }}>BSI – 1234-5678-9012</p>
+              <p style={{ fontSize: "0.75rem", opacity: 0.75 }}>Saldo Terkunci</p>
+              <p style={{ fontWeight: 700 }}>Rp {data.lockedBalance.toLocaleString("id-ID")}</p>
             </div>
             <div>
               <p style={{ fontSize: "0.75rem", opacity: 0.75 }}>Status KYC</p>
-              <p style={{ fontWeight: 700 }}><CheckCircle style={{ verticalAlign: "-0.125em" }} /> Terverifikasi</p>
+              <p style={{ fontWeight: 700 }}>
+                {data.kycStatus === "APPROVED"
+                  ? <><CheckCircle style={{ verticalAlign: "-0.125em" }} /> Terverifikasi</>
+                  : data.kycStatus}
+              </p>
             </div>
             <div>
               <p style={{ fontSize: "0.75rem", opacity: 0.75 }}>Blockchain</p>
@@ -115,9 +169,9 @@ export default function Wallet() {
             <span className={styles.metricTitle}>Total Dana Diterima</span>
             <span className={styles.metricIcon}><Banknote /></span>
           </div>
-          <div className={styles.metricValue} style={{ color: "#1d4ed8" }}>Rp 175 Jt</div>
+          <div className={styles.metricValue} style={{ color: "#1d4ed8" }}>{formatJt(data.stats.danaDiterima)}</div>
           <div className={styles.metricFooter}>
-            <span className={styles.trendPositive}>3 akad aktif</span>
+            <span className={styles.trendPositive}>{data.stats.akadAktif} akad aktif</span>
           </div>
         </div>
         <div className={`${styles.metricCard} glass`}>
@@ -125,9 +179,9 @@ export default function Wallet() {
             <span className={styles.metricTitle}>Total Bagi Hasil Dibayar</span>
             <span className={styles.metricIcon}><Handshake /></span>
           </div>
-          <div className={styles.metricValue} style={{ color: "#ef4444" }}>Rp 16.08 Jt</div>
+          <div className={styles.metricValue} style={{ color: "#ef4444" }}>{formatJt(data.stats.bagiHasilDibayar)}</div>
           <div className={styles.metricFooter}>
-            <span style={{ color: "#ef4444", fontWeight: 700 }}>4 invoice lunas</span>
+            <span style={{ color: "#ef4444", fontWeight: 700 }}>{data.stats.profitSharingLunasCount} invoice lunas</span>
           </div>
         </div>
         <div className={`${styles.metricCard} glass`}>
@@ -135,9 +189,9 @@ export default function Wallet() {
             <span className={styles.metricTitle}>Total Withdraw</span>
             <span className={styles.metricIcon}><Landmark /></span>
           </div>
-          <div className={styles.metricValue} style={{ color: "var(--text-color)" }}>Rp 20 Jt</div>
+          <div className={styles.metricValue} style={{ color: "var(--text-color)" }}>{formatJt(data.stats.totalWithdraw)}</div>
           <div className={styles.metricFooter}>
-            <span className={styles.trendText}>ke rekening BSI</span>
+            <span className={styles.trendText}>ke rekening bank</span>
           </div>
         </div>
       </div>
@@ -160,7 +214,7 @@ export default function Wallet() {
               </tr>
             </thead>
             <tbody>
-              {history.map((h) => (
+              {data.history.map((h) => (
                 <tr key={h.id}>
                   <td style={{ fontFamily: "monospace", color: "var(--text-muted)", fontSize: "0.8rem" }}>{h.id}</td>
                   <td style={{ fontSize: "0.85rem" }}>{h.tanggal}</td>
@@ -183,6 +237,9 @@ export default function Wallet() {
                   </td>
                 </tr>
               ))}
+              {data.history.length === 0 && (
+                <tr><td colSpan={6} style={{ textAlign: "center", padding: "2rem", color: "var(--text-muted)" }}>Belum ada riwayat transaksi.</td></tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -232,12 +289,48 @@ export default function Wallet() {
                 </div>
 
                 <div className={styles.inputGroup}>
-                  <label>Tujuan Rekening</label>
-                  <input className={styles.input} value="BSI – 1234-5678-9012 (a.n. Ahmad Syarif)" disabled />
+                  <label>Bank Tujuan</label>
+                  <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                    {BANKS.map((b) => (
+                      <button
+                        type="button"
+                        key={b}
+                        onClick={() => setBankCode(b)}
+                        className={`${styles.btnSm} ${bankCode === b ? styles.btnSmBlue : ""}`}
+                        style={{ border: "1px solid var(--border-color)", cursor: "pointer" }}
+                      >
+                        {b}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
+                <div className={styles.inputGroup}>
+                  <label>Nomor Rekening</label>
+                  <input
+                    className={styles.input}
+                    placeholder="1234567890"
+                    value={accountNumber}
+                    onChange={(e) => setAccountNumber(e.target.value.replace(/\D/g, ""))}
+                    required
+                  />
+                </div>
+
+                <div className={styles.inputGroup}>
+                  <label>Nama Pemilik Rekening</label>
+                  <input
+                    className={styles.input}
+                    placeholder="Sesuai buku rekening"
+                    value={accountName}
+                    onChange={(e) => setAccountName(e.target.value)}
+                    required
+                  />
+                </div>
+
+                {formError && <p style={{ color: "#ef4444", fontSize: "0.85rem", fontWeight: 600 }}>{formError}</p>}
+
                 <div style={{ padding: "0.75rem 1rem", background: "rgba(245,158,11,0.08)", borderRadius: 10, border: "1px solid rgba(245,158,11,0.2)", fontSize: "0.8rem", color: "var(--text-muted)", lineHeight: 1.6 }}>
-                  <AlertTriangle style={{ verticalAlign: "-0.125em" }} /> Withdrawal akan diproses dalam 1x24 jam kerja. Pastikan nomor rekening BSI Anda sudah benar sebelum konfirmasi.
+                  <AlertTriangle style={{ verticalAlign: "-0.125em" }} /> Withdrawal akan diproses melalui DOKU. Pastikan detail rekening Anda sudah benar sebelum konfirmasi.
                 </div>
               </div>
               <div className={styles.modalFooter}>
