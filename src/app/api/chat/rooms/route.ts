@@ -102,6 +102,38 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: "investorProfileId wajib diisi." }, { status: 400 });
       }
       investorProfileId = body.investorProfileId;
+
+      // UMKM hanya boleh menghubungi investor yang benar-benar mendanai salah
+      // satu kampanyenya. Tanpa syarat ini, UMKM mana pun bisa membuka room ke
+      // investor mana pun. (Arah sebaliknya sengaja dibiarkan terbuka: investor
+      // memang perlu bertanya sebelum memutuskan berinvestasi.)
+      const hasInvested = await db.investment.findFirst({
+        where: {
+          investorProfileId,
+          campaign: { umkmProfileId: me.profileId },
+        },
+        select: { id: true },
+      });
+      if (!hasInvested) {
+        return NextResponse.json(
+          { error: "Investor ini belum mendanai kampanye Anda." },
+          { status: 403 }
+        );
+      }
+
+      // campaignId ikut disimpan agar room yang dibuka UMKM dan yang dibuka
+      // investor dari halaman kampanye bermuara ke room yang sama, bukan dua
+      // percakapan terpisah untuk pasangan yang sama.
+      if (body.campaignId) {
+        const campaign = await db.campaign.findUnique({
+          where: { id: body.campaignId },
+          select: { id: true, umkmProfileId: true },
+        });
+        if (!campaign || campaign.umkmProfileId !== me.profileId) {
+          return NextResponse.json({ error: "Kampanye tidak ditemukan." }, { status: 404 });
+        }
+        campaignId = campaign.id;
+      }
     }
 
     const counterpartExists =

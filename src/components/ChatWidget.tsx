@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./ChatWidget.module.css";
-import { MessageCircle, Send, X, ArrowLeft } from "@/components/icons";
+import { MessageCircle, Send, X, ArrowLeft, Plus } from "@/components/icons";
 
 interface RoomSummary {
   id: string;
@@ -19,6 +19,13 @@ interface Message {
   content: string;
   createdAt: string;
   mine: boolean;
+}
+
+interface Contact {
+  id: string;
+  name: string;
+  context: string;
+  campaignId: string;
 }
 
 function formatTime(iso: string | null) {
@@ -39,11 +46,17 @@ export default function ChatWidget() {
   const [draft, setDraft] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState("");
+  const [isPickingContact, setIsPickingContact] = useState(false);
+  const [contacts, setContacts] = useState<Contact[]>([]);
+  const [isLoadingContacts, setIsLoadingContacts] = useState(false);
 
   // Dibaca di dalam handler SSE yang dibuat sekali, jadi disimpan sebagai ref
   // agar handler selalu melihat room yang sedang dibuka.
   const activeRoomRef = useRef<RoomSummary | null>(null);
   const listEndRef = useRef<HTMLDivElement>(null);
+  // Peran pengguna baru diketahui setelah memuat kontak/pesan; disimpan di ref
+  // karena hanya dipakai di dalam handler, bukan untuk render.
+  const myRoleRef = useRef<"INVESTOR" | "UMKM" | null>(null);
 
   useEffect(() => {
     activeRoomRef.current = activeRoom;
@@ -76,6 +89,59 @@ export default function ChatWidget() {
       setError("Gagal memuat pesan.");
     }
   }, []);
+
+  const openContactPicker = useCallback(async () => {
+    setIsPickingContact(true);
+    setIsLoadingContacts(true);
+    setError("");
+    try {
+      const res = await fetch("/api/chat/contacts");
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      setContacts(data.contacts);
+      myRoleRef.current = data.myRole;
+    } catch {
+      setError("Gagal memuat daftar kontak.");
+    } finally {
+      setIsLoadingContacts(false);
+    }
+  }, []);
+
+  const startChatWith = useCallback(
+    async (contact: Contact) => {
+      setError("");
+      try {
+        // UMKM membuka room lewat id investor; investor lewat campaign agar
+        // negosiasi otomatis terikat ke konteks pendanaannya.
+        const body =
+          myRoleRef.current === "UMKM"
+            ? { investorProfileId: contact.id, campaignId: contact.campaignId }
+            : { campaignId: contact.campaignId };
+
+        const res = await fetch("/api/chat/rooms", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(data.error ?? "Gagal membuka ruang negosiasi.");
+        }
+        const created = await res.json();
+
+        const listRes = await fetch("/api/chat/rooms");
+        const list: RoomSummary[] = listRes.ok ? await listRes.json() : [];
+        setRooms(list);
+        setIsPickingContact(false);
+
+        const target = list.find((r) => r.id === created.id);
+        if (target) openRoom(target);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Gagal membuka ruang negosiasi.");
+      }
+    },
+    [openRoom]
+  );
 
   // Muat daftar room saat mount agar lencana belum-dibaca tampil tanpa dibuka.
   useEffect(() => {
@@ -234,19 +300,76 @@ export default function ChatWidget() {
                   {activeRoom.campaignTitle && <span>{activeRoom.campaignTitle}</span>}
                 </div>
               </>
+            ) : isPickingContact ? (
+              <>
+                <button
+                  type="button"
+                  className={styles.backButton}
+                  onClick={() => setIsPickingContact(false)}
+                  aria-label="Kembali ke daftar chat"
+                >
+                  <ArrowLeft size={18} />
+                </button>
+                <div className={styles.headerText}>
+                  <strong>Mulai Negosiasi</strong>
+                  <span>Pilih mitra yang ingin dihubungi</span>
+                </div>
+              </>
             ) : (
-              <div className={styles.headerText}>
-                <strong>Negosiasi Akad</strong>
-                <span>Diskusi langsung dengan mitra Anda</span>
-              </div>
+              <>
+                <div className={styles.headerText}>
+                  <strong>Negosiasi Akad</strong>
+                  <span>Diskusi langsung dengan mitra Anda</span>
+                </div>
+                <button
+                  type="button"
+                  className={styles.newChatButton}
+                  onClick={openContactPicker}
+                  aria-label="Mulai percakapan baru"
+                  title="Mulai percakapan baru"
+                >
+                  <Plus size={18} />
+                </button>
+              </>
             )}
           </header>
 
-          {!activeRoom ? (
+          {!activeRoom && isPickingContact ? (
+            <div className={styles.roomList}>
+              {isLoadingContacts ? (
+                <p className={styles.empty}>Memuat kontak…</p>
+              ) : contacts.length === 0 ? (
+                <p className={styles.empty}>
+                  Belum ada mitra untuk diajak negosiasi. Kontak muncul setelah ada
+                  investasi yang menghubungkan Anda.
+                </p>
+              ) : (
+                contacts.map((contact) => (
+                  <button
+                    key={contact.id}
+                    type="button"
+                    className={styles.roomItem}
+                    onClick={() => startChatWith(contact)}
+                  >
+                    <span className={styles.avatar}>
+                      {contact.name.charAt(0).toUpperCase()}
+                    </span>
+                    <span className={styles.roomBody}>
+                      <span className={styles.roomTop}>
+                        <strong>{contact.name}</strong>
+                      </span>
+                      <span className={styles.roomPreview}>{contact.context}</span>
+                    </span>
+                  </button>
+                ))
+              )}
+              {error && <p className={styles.error}>{error}</p>}
+            </div>
+          ) : !activeRoom ? (
             <div className={styles.roomList}>
               {rooms.length === 0 ? (
                 <p className={styles.empty}>
-                  Belum ada percakapan. Mulai negosiasi dari halaman kampanye.
+                  Belum ada percakapan. Tekan ＋ di atas untuk mulai negosiasi.
                 </p>
               ) : (
                 rooms.map((room) => (

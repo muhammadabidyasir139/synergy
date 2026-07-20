@@ -19,6 +19,15 @@ function base(props: IconProps) {
   };
 }
 
+export function Plus(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M12 5v14" />
+      <path d="M5 12h14" />
+    </svg>
+  );
+}
+
 export function MessageCircle(props: IconProps) {
   return (
     <svg {...base(props)}>
