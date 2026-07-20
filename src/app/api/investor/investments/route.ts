@@ -187,7 +187,7 @@ export async function POST(request: NextRequest) {
 
       if (akadDeploy.ok) {
         await linkAkadToInvestmentOnChain(result.inv.id, result.akad.id);
-        const signDeploy = await signAkadOnChain(result.akad.id, "INVESTOR", investorProfileId);
+        const signDeploy = await signAkadOnChain(result.akad.id, "investor", investorProfileId);
 
         const akadData = akadDeploy.data as Record<string, unknown>;
         const signData = signDeploy.ok ? (signDeploy.data as Record<string, unknown>) : {};
@@ -196,7 +196,10 @@ export async function POST(request: NextRequest) {
           (typeof akadData.txHash === "string" && akadData.txHash) ||
           null;
         contractAddress = (typeof akadData.contractAddress === "string" && akadData.contractAddress) || null;
-        blockchainStatus = signDeploy.ok ? "CONFIRMED" : "SUBMITTED";
+        // Only the investor signature exists at this point; the chaincode keeps the
+        // akad PENDING until umkm + admin also sign, so this is not a confirmation.
+        blockchainStatus = signDeploy.ok ? "INVESTOR_SIGNED" : "SUBMITTED";
+        if (!signDeploy.ok) deployError = signDeploy.error;
       } else {
         deployError = akadDeploy.error;
       }
@@ -212,8 +215,9 @@ export async function POST(request: NextRequest) {
         blockchainHash: txHash,
         contractAddress,
         blockchainStatus,
-        deployedAt: blockchainStatus !== "PENDING_SYNC" ? new Date() : null,
-        status: blockchainStatus === "CONFIRMED" ? AkadStatus.ACTIVE : undefined,
+        // deployedAt/ACTIVE are set by signAkadAndSync once the ledger reports
+        // ACTIVE, i.e. after all three signatures have been collected.
+        investorSignedAt: blockchainStatus === "INVESTOR_SIGNED" ? new Date() : undefined,
       },
     });
 

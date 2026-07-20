@@ -25,10 +25,13 @@ function describeGatewayError(err: unknown, depth = 0): string {
 function gatewayBaseUrl() {
   const raw = process.env.BLOCKCHAIN_API_URL;
   if (!raw) return null;
-  // Force https: the gateway host redirects http->https, and a 301 on a POST
+  // Force https on public hosts: they redirect http->https, and a 301 on a POST
   // is converted to a bodyless GET by fetch, silently dropping the payload.
-  const httpsUrl = raw.replace(/^http:\/\//i, "https://");
-  return httpsUrl.replace(/\/+$/, "") + "/api/v1";
+  // Loopback is exempt — the gateway listens on plain http there, and going
+  // through the public hostname adds a slow, flaky round trip for no benefit.
+  const isLoopback = /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(:|\/|$)/i.test(raw);
+  const normalized = isLoopback ? raw : raw.replace(/^http:\/\//i, "https://");
+  return normalized.replace(/\/+$/, "") + "/api/v1";
 }
 
 export type GatewayResult<T = unknown> =
@@ -105,6 +108,31 @@ export function linkAkadToInvestmentOnChain(investmentId: string, akadId: string
   return callGateway(`/investment/${investmentId}/link-akad`, "POST", { akadId });
 }
 
-export function signAkadOnChain(akadId: string, signer: string, signerId: string) {
+// The chaincode (AkadContract.SignAkad) matches these values verbatim and rejects
+// anything else with "unknown signer type", so the casing here is load-bearing.
+export type AkadSigner = "investor" | "umkm" | "admin";
+
+export function signAkadOnChain(akadId: string, signer: AkadSigner, signerId: string) {
   return callGateway(`/akad/${akadId}/sign`, "POST", { signer, signerId });
+}
+
+export interface OnChainAkad {
+  id: string;
+  status: string;
+  investorSignedAt: string;
+  umkmSignedAt: string;
+  approvedAt: string;
+  approvedBy: string;
+  deployedAt: string;
+}
+
+export function getAkadOnChain(akadId: string) {
+  return callGateway<OnChainAkad>(`/akad/${akadId}`, "GET");
+}
+
+// Chaincode only permits PENDING -> ACTIVE | CANCELLED, then ACTIVE -> COMPLETED | DEFAULTED.
+export type OnChainAkadStatus = "ACTIVE" | "CANCELLED" | "COMPLETED" | "DEFAULTED";
+
+export function updateAkadStatusOnChain(akadId: string, status: OnChainAkadStatus, actorId: string) {
+  return callGateway(`/akad/${akadId}/status`, "PATCH", { status, actorId });
 }
