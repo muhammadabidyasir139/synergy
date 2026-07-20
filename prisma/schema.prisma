@@ -69,6 +69,7 @@ model InvestorProfile {
   updatedAt      DateTime     @updatedAt
   investments    Investment[]
   user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chatRooms      ChatRoom[]
 
   @@map("investor_profiles")
 }
@@ -101,6 +102,7 @@ model UmkmProfile {
   monitoringReports   MonitoringReport[]
   akadVariables       AkadVariable[]
   user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chatRooms           ChatRoom[]
 
   @@map("umkm_profiles")
 }
@@ -228,6 +230,7 @@ model Campaign {
   fundingApplication   FundingApplication? @relation(fields: [fundingApplicationId], references: [id])
   umkmProfile          UmkmProfile         @relation(fields: [umkmProfileId], references: [id], onDelete: Cascade)
   investments          Investment[]
+  chatRooms            ChatRoom[]
 
   @@index([umkmProfileId], map: "idx_campaigns_umkmProfileId")
   @@map("campaigns")
@@ -520,6 +523,44 @@ model Berita {
 
   @@index([authorId], map: "idx_beritas_authorId")
   @@map("beritas")
+}
+
+/// Ruang negosiasi akad antara satu investor dan satu UMKM.
+/// Dapat dikaitkan ke sebuah campaign agar negosiasi punya konteks pendanaan.
+model ChatRoom {
+  id                String          @id @default(cuid())
+  investorProfileId String
+  umkmProfileId     String
+  campaignId        String?
+  lastMessageAt     DateTime?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  investorProfile   InvestorProfile @relation(fields: [investorProfileId], references: [id], onDelete: Cascade)
+  umkmProfile       UmkmProfile     @relation(fields: [umkmProfileId], references: [id], onDelete: Cascade)
+  campaign          Campaign?       @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  messages          ChatMessage[]
+
+  @@index([investorProfileId], map: "idx_chat_rooms_investorProfileId")
+  @@index([umkmProfileId], map: "idx_chat_rooms_umkmProfileId")
+  @@map("chat_rooms")
+}
+
+model ChatMessage {
+  id         String         @id @default(cuid())
+  roomId     String
+  senderRole ChatSenderRole
+  content    String
+  readAt     DateTime?
+  createdAt  DateTime       @default(now())
+  room       ChatRoom       @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@index([roomId, createdAt], map: "idx_chat_messages_room_createdAt")
+  @@map("chat_messages")
+}
+
+enum ChatSenderRole {
+  INVESTOR
+  UMKM
 }
 
 enum Role {

@@ -504,6 +504,25 @@ exports.Prisma.BeritaScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ChatRoomScalarFieldEnum = {
+  id: 'id',
+  investorProfileId: 'investorProfileId',
+  umkmProfileId: 'umkmProfileId',
+  campaignId: 'campaignId',
+  lastMessageAt: 'lastMessageAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ChatMessageScalarFieldEnum = {
+  id: 'id',
+  roomId: 'roomId',
+  senderRole: 'senderRole',
+  content: 'content',
+  readAt: 'readAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -653,6 +672,11 @@ exports.OtpPurpose = exports.$Enums.OtpPurpose = {
   TRANSACTION: 'TRANSACTION'
 };
 
+exports.ChatSenderRole = exports.$Enums.ChatSenderRole = {
+  INVESTOR: 'INVESTOR',
+  UMKM: 'UMKM'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   AdminProfile: 'AdminProfile',
@@ -679,7 +703,9 @@ exports.Prisma.ModelName = {
   OtpVerification: 'OtpVerification',
   AuditLog: 'AuditLog',
   SystemConfig: 'SystemConfig',
-  Berita: 'Berita'
+  Berita: 'Berita',
+  ChatRoom: 'ChatRoom',
+  ChatMessage: 'ChatMessage'
 };
 
 /**

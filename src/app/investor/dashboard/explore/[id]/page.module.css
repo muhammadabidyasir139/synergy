@@ -241,6 +241,34 @@
   box-shadow: 0 6px 18px rgba(29, 78, 216, 0.3);
 }
 
+.negotiateBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  width: 100%;
+  margin-top: 0.6rem;
+  padding: 0.8rem;
+  background: transparent;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  font-weight: 700;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.negotiateBtn:hover:not(:disabled) {
+  border-color: #0ea5e9;
+  color: #0ea5e9;
+}
+
+.negotiateBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .notFound {
   padding: 3rem;
   text-align: center;

@@ -5,6 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import styles from "./page.module.css";
 import ThemeToggle from "@/components/ThemeToggle";
+import ChatWidget from "@/components/ChatWidget";
 import { Menu, Chain, ArrowLeft, ArrowRight } from "@/components/icons";
 
 interface SidebarItem {
@@ -286,6 +287,7 @@ export default function UMKMLayout({ children }: { children: React.ReactNode }) 
         </header>
         <main className={styles.contentBody}>{children}</main>
       </div>
+      <ChatWidget />
     </div>
   );
 }

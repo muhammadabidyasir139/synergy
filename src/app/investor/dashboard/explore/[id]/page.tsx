@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import styles from "./page.module.css";
-import { ArrowLeft, Building, Lightbulb, TrendingUp } from "@/components/icons";
+import { ArrowLeft, Building, Lightbulb, TrendingUp, MessageCircle } from "@/components/icons";
 
 interface CampaignDetail {
   id: string;
@@ -57,6 +57,34 @@ export default function CampaignDetailPage() {
 
   const [data, setData] = useState<CampaignDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isStartingChat, setIsStartingChat] = useState(false);
+  const [chatError, setChatError] = useState("");
+
+  // Membuka (atau membuat) room negosiasi, lalu meminta widget chat menampilkannya.
+  const startNegotiation = async () => {
+    if (!data || isStartingChat) return;
+    setIsStartingChat(true);
+    setChatError("");
+    try {
+      const res = await fetch("/api/chat/rooms", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ campaignId: data.id }),
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error ?? "Gagal membuka ruang negosiasi.");
+      }
+      const room = await res.json();
+      window.dispatchEvent(
+        new CustomEvent("synergy:open-chat", { detail: { roomId: room.id } })
+      );
+    } catch (err) {
+      setChatError(err instanceof Error ? err.message : "Gagal membuka ruang negosiasi.");
+    } finally {
+      setIsStartingChat(false);
+    }
+  };
 
   useEffect(() => {
     fetch(`/api/investor/campaigns/${id}`)
@@ -296,6 +324,16 @@ export default function CampaignDetailPage() {
             <Link href={`/investor/dashboard/investasi?campaignId=${data.id}`} className={styles.investBtn}>
               Investasi Sekarang
             </Link>
+            <button
+              type="button"
+              className={styles.negotiateBtn}
+              onClick={startNegotiation}
+              disabled={isStartingChat}
+            >
+              <MessageCircle size={16} />
+              {isStartingChat ? "Membuka…" : "Negosiasi Akad"}
+            </button>
+            {chatError && <p className={styles.emptyNote}>{chatError}</p>}
           </div>
         </div>
       </div>

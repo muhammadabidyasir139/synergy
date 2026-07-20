@@ -5,6 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import styles from "./layout.module.css";
 import ThemeToggle from "@/components/ThemeToggle";
+import ChatWidget from "@/components/ChatWidget";
 import { Menu, Settings } from "@/components/icons";
 
 interface SessionData {
@@ -379,6 +380,7 @@ export default function InvestorLayout({
         </header>
         <main className={styles.contentBody}>{children}</main>
       </div>
+      <ChatWidget />
     </div>
   );
 }
