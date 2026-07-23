@@ -65,57 +65,6 @@ export default function Home() {
 
         <HeroSection />
 
-        {/* ── About Section ── */}
-        <section id="tentang" className={styles.about}>
-          <div className={styles.aboutInner}>
-            <ScrollReveal direction="left">
-              <div className={styles.aboutImageOuter}>
-                <div className={styles.aboutRing1} aria-hidden />
-                <div className={styles.aboutRing2} aria-hidden />
-                <div className={styles.aboutImageWrap}>
-                  <Image
-                    src="/source/tentang.png"
-                    alt="Tentang Synergy PKM KC"
-                    width={520}
-                    height={380}
-                    className={styles.aboutImage}
-                    style={{ objectFit: "cover" }}
-                  />
-                </div>
-              </div>
-            </ScrollReveal>
-            <ScrollReveal direction="right">
-              <div className={styles.aboutContent}>
-                <span className={styles.sectionLabel}>Tentang Kami</span>
-                <h2 className={styles.sectionTitle}>
-                  Inovasi PKM Karsa Cipta 2026
-                </h2>
-                <p className={styles.aboutText}>
-                  Program ini merupakan bagian dari kompetisi{" "}
-                  <strong>PKM (Pekan Kreativitas Mahasiswa)</strong> skema{" "}
-                  <strong>Karsa Cipta</strong>. Inovasi ini menggabungkan{" "}
-                  <strong>Blockchain</strong> dengan{" "}
-                  <strong>Kecerdasan Buatan</strong> yang dipadukan dengan
-                  konsep ekonomi syariah, mengimplementasikan akad{" "}
-                  <em>Musyarakah</em> dan <em>Mudharabah</em> pada pembiayaan
-                  UMKM.
-                </p>
-                <p className={styles.aboutText}>
-                  Kami hadir sebagai solusi untuk UMKM yang <em>unbankable</em>{" "}
-                  dalam memperoleh pembiayaan secara syariah yang adil,
-                  transparan, dan berbasis teknologi mutakhir.
-                </p>
-                <div className={styles.tagGroup}>
-                  <span className={styles.tag}>PKM-KC 2026</span>
-                  <span className={styles.tag}>Blockchain</span>
-                  <span className={styles.tag}>AI / XGBoost</span>
-                  <span className={styles.tag}>Ekonomi Syariah</span>
-                </div>
-              </div>
-            </ScrollReveal>
-          </div>
-        </section>
-
         {/* ── Problem & Solution Section ── */}
         <section id="teknologi" className={styles.problem}>
           <ScrollReveal>
@@ -459,36 +408,54 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Team Section ── */}
-        <section id="tim" className={styles.team}>
-          <ScrollReveal>
-            <div className={styles.teamInner}>
-              <span className={styles.sectionLabel}>Tim Kami</span>
-              <h2 className={styles.sectionTitle}>Penggagas SYNERGY</h2>
-              <p className={styles.sectionSubtitle}>
-                Mahasiswa lintas disiplin yang berdedikasi membangun ekosistem
-                keuangan digital yang inklusif.
-              </p>
-
-              <TeamLightbox
-                advisor={{
-                  name: "Prof. Ir. Slamet Riyadi, S.T., M.Sc., Ph.D.",
-                  title: "Dosen Pendamping PKM-KC 2026",
-                  role: "Dosen Pendamping",
-                  dept: "Teknik Elektro & Informatika",
-                  photo: "/source/Prof Slamet.png",
-                  ig: "https://www.instagram.com/theslam.id/",
-                }}
-                members={teamMembers}
-              />
-            </div>
-          </ScrollReveal>
-        </section>
-
         {/* ── News Section ── */}
         <ScrollReveal>
           <NewsCarousel />
         </ScrollReveal>
+
+        {/* ── Tentang Kami & Penggagas (gabungan, sebelum footer) ── */}
+        <section id="tentang" className={styles.team}>
+          <ScrollReveal>
+            <div className={styles.teamInner} id="tim">
+              <span className={styles.sectionLabel}>PKM Karsa Cipta 2026</span>
+              <h2 className={styles.sectionTitle}>Tentang Kami</h2>
+              <p className={styles.sectionSubtitle}>
+                SYNERGY lahir dari kompetisi{" "}
+                <strong>PKM (Pekan Kreativitas Mahasiswa)</strong> skema{" "}
+                <strong>Karsa Cipta</strong> — memadukan{" "}
+                <strong>Blockchain</strong>, <strong>Kecerdasan Buatan</strong>,
+                dan <strong>ekonomi syariah</strong> melalui akad{" "}
+                <em>Musyarakah</em> dan <em>Mudharabah</em> untuk pembiayaan UMKM.
+                Kami hadir sebagai solusi bagi UMKM <em>unbankable</em> agar dapat
+                memperoleh pembiayaan yang adil, transparan, dan berbasis
+                teknologi mutakhir.
+              </p>
+              <div
+                className={styles.tagGroup}
+                style={{ justifyContent: "center" }}
+              >
+                <span className={styles.tag}>PKM-KC 2026</span>
+                <span className={styles.tag}>Blockchain</span>
+                <span className={styles.tag}>AI / XGBoost</span>
+                <span className={styles.tag}>Ekonomi Syariah</span>
+              </div>
+
+              <div style={{ marginTop: "4rem" }}>
+                <TeamLightbox
+                  advisor={{
+                    name: "Prof. Ir. Slamet Riyadi, S.T., M.Sc., Ph.D.",
+                    title: "Dosen Pendamping PKM-KC 2026",
+                    role: "Dosen Pendamping",
+                    dept: "Teknik Elektro & Informatika",
+                    photo: "/source/Prof Slamet.png",
+                    ig: "https://www.instagram.com/theslam.id/",
+                  }}
+                  members={teamMembers}
+                />
+              </div>
+            </div>
+          </ScrollReveal>
+        </section>
       </main>
 
       {/* ── Footer ── */}
