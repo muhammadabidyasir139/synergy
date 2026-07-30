@@ -60,6 +60,44 @@ export async function GET(
         dailyExpense: b.dailyExpense ? Number(b.dailyExpense) : null,
       }));
 
+    // Ambil hasil scoring AI (XGBoost) terbaru dari engine synergy-ai (DB yang sama).
+    const AI_BASE = process.env.AI_API_URL || "http://127.0.0.1:8000";
+    let creditScoring: {
+      skorKelayakan: number;
+      akad: string;
+      analisisId: number;
+      currentRatio: number | null;
+      netProfitMargin: number | null;
+      operatingExpenseRatio: number | null;
+      cashflowStabilityRisk: number | null;
+      assetTurnoverRatio: number | null;
+      revenueGrowth: number | null;
+    } | null = null;
+    try {
+      const aiRes = await fetch(`${AI_BASE}/api/analisis/umkm/${umkmProfile.id}`, {
+        cache: "no-store",
+      });
+      if (aiRes.ok) {
+        const aiJson = await aiRes.json();
+        const latest = aiJson.data?.[0];
+        if (latest) {
+          creditScoring = {
+            skorKelayakan: Number(latest.skor_kelayakan),
+            akad: latest.akad,
+            analisisId: latest.id,
+            currentRatio: latest.current_ratio,
+            netProfitMargin: latest.net_profit_margin,
+            operatingExpenseRatio: latest.operating_expense_ratio,
+            cashflowStabilityRisk: latest.cashflow_stability_risk,
+            assetTurnoverRatio: latest.asset_turnover_ratio,
+            revenueGrowth: latest.revenue_growth,
+          };
+        }
+      }
+    } catch {
+      // AI engine tidak tersedia → creditScoring tetap null, halaman fallback ke skor lama.
+    }
+
     const financeVariable = umkmProfile.akadVariables[0];
     const financeProfile = financeVariable
       ? {
@@ -95,7 +133,8 @@ export async function GET(
       media,
       story: campaign.story,
       risk: latestScore?.riskLevel ?? "MEDIUM",
-      aiScore: Math.round(latestScore?.score ?? 50),
+      aiScore: Math.round(creditScoring?.skorKelayakan ?? latestScore?.score ?? 50),
+      creditScoring,
       keyFactors,
       recommendedActions,
       targetAmount: Number(campaign.targetAmount),

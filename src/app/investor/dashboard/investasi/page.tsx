@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import styles from "./page.module.css";
-import { Handshake, Clipboard, ArrowRight, ArrowLeft, Wallet, CheckCircle, Sparkles, Lock } from "@/components/icons";
+import { Handshake, Clipboard, ArrowRight, ArrowLeft, Wallet, CheckCircle, Sparkles, Lock, Building } from "@/components/icons";
 
 interface Campaign {
   id: string;
@@ -13,6 +13,9 @@ interface Campaign {
   durationMonths: number;
   akadType: string;
   nisbahInvestor?: number;
+  logoUrl?: string | null;
+  category?: string;
+  city?: string;
 }
 
 function getInvestorId() {
@@ -116,18 +119,41 @@ export default function InvestasiPage() {
 
           {step === "form" && (
             <form onSubmit={handleSimulate} className={styles.formCard}>
-              <h3 className={styles.formTitle}>Pilih UMKM & Input Investasi</h3>
+              <h3 className={styles.formTitle}>{preselect ? "Detail & Input Investasi" : "Pilih UMKM & Input Investasi"}</h3>
 
-              <div className={styles.field}>
-                <label className={styles.label}>Pilih UMKM</label>
-                <select className={styles.select} value={selectedId} onChange={(e) => {
-                  setSelectedId(e.target.value);
-                  const c = campaigns.find((x) => x.id === e.target.value);
-                  if (c) setAkadType(c.akadType as "MUSYARAKAH" | "MURABAHAH");
-                }}>
-                  {campaigns.map((c) => <option key={c.id} value={c.id}>{c.name} — ROI {c.estimatedRoi}%</option>)}
-                </select>
-              </div>
+              {preselect ? (
+                selected && (
+                  <div className={styles.field}>
+                    <label className={styles.label}>UMKM Tujuan Investasi</label>
+                    <div className={styles.selectedUmkmCard}>
+                      {selected.logoUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={selected.logoUrl} alt={selected.name} className={styles.selectedUmkmLogo} />
+                      ) : (
+                        <div className={styles.selectedUmkmLogoPlaceholder}><Building /></div>
+                      )}
+                      <div className={styles.selectedUmkmInfo}>
+                        <p className={styles.selectedUmkmName}>{selected.name}</p>
+                        <p className={styles.selectedUmkmMeta}>
+                          {[selected.category, selected.city].filter(Boolean).join(" • ")}
+                        </p>
+                      </div>
+                      <Link href="/investor/dashboard/explore" className={styles.selectedUmkmChange}>Ganti</Link>
+                    </div>
+                  </div>
+                )
+              ) : (
+                <div className={styles.field}>
+                  <label className={styles.label}>Pilih UMKM</label>
+                  <select className={styles.select} value={selectedId} onChange={(e) => {
+                    setSelectedId(e.target.value);
+                    const c = campaigns.find((x) => x.id === e.target.value);
+                    if (c) setAkadType(c.akadType as "MUSYARAKAH" | "MURABAHAH");
+                  }}>
+                    {campaigns.map((c) => <option key={c.id} value={c.id}>{c.name} — ROI {c.estimatedRoi}%</option>)}
+                  </select>
+                </div>
+              )}
 
               {selected && (
                 <div className={styles.umkmInfoBox}>

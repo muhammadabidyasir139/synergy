@@ -21,6 +21,17 @@ interface CampaignDetail {
   story: string;
   risk: string;
   aiScore: number;
+  creditScoring: {
+    skorKelayakan: number;
+    akad: string;
+    analisisId: number;
+    currentRatio: number | null;
+    netProfitMargin: number | null;
+    operatingExpenseRatio: number | null;
+    cashflowStabilityRisk: number | null;
+    assetTurnoverRatio: number | null;
+    revenueGrowth: number | null;
+  } | null;
   keyFactors: string[];
   recommendedActions: string[];
   targetAmount: number;
@@ -267,6 +278,36 @@ export default function CampaignDetailPage() {
                 style={{ width: `${data.aiScore}%` }}
               />
             </div>
+            {data.creditScoring ? (
+              <>
+                <div className={styles.aiScoreRow} style={{ marginTop: "0.75rem" }}>
+                  <span>Rekomendasi Akad</span>
+                  <strong>{data.creditScoring.akad}</strong>
+                </div>
+                <div className={styles.insightList}>
+                  {[
+                    { label: "Margin Laba Bersih", val: data.creditScoring.netProfitMargin, fmt: (v: number) => `${(v * 100).toFixed(1)}%` },
+                    { label: "Perputaran Aset", val: data.creditScoring.assetTurnoverRatio, fmt: (v: number) => `${v.toFixed(2)}×` },
+                    { label: "Current Ratio", val: data.creditScoring.currentRatio, fmt: (v: number) => v.toFixed(2) },
+                    { label: "Stabilitas Arus Kas", val: data.creditScoring.cashflowStabilityRisk, fmt: (v: number) => v.toFixed(3) },
+                    { label: "Rasio Beban Operasional", val: data.creditScoring.operatingExpenseRatio, fmt: (v: number) => `${(v * 100).toFixed(1)}%` },
+                    { label: "Pertumbuhan Pendapatan", val: data.creditScoring.revenueGrowth, fmt: (v: number) => `${(v * 100).toFixed(1)}%` },
+                  ].map((r, i) => (
+                    <div key={i} className={styles.aiScoreRow} style={{ fontSize: "0.85rem" }}>
+                      <span>{r.label}</span>
+                      <strong>{r.val == null ? "—" : r.fmt(r.val)}</strong>
+                    </div>
+                  ))}
+                </div>
+                <p style={{ fontSize: "0.72rem", opacity: 0.55, marginTop: "0.5rem" }}>
+                  Dihitung engine XGBoost · Analisis #{data.creditScoring.analisisId}
+                </p>
+              </>
+            ) : (
+              <p style={{ fontSize: "0.8rem", opacity: 0.6, marginTop: "0.5rem" }}>
+                Belum ada hasil analisis AI untuk UMKM ini.
+              </p>
+            )}
             {data.keyFactors.length > 0 && (
               <div className={styles.insightList}>
                 {data.keyFactors.map((f, i) => (

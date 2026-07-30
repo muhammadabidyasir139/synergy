@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createDataUsaha, getDataUsaha } from "../../actions/dataUsaha";
+import { createDataUsaha, getDataUsaha, bulkCreateDataUsaha } from "../../actions/dataUsaha";
 import styles from "../page.module.css";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -31,6 +31,7 @@ export default function DataUsaha() {
   const [activeTab, setActiveTab] = useState<"input" | "history" | "api">("input");
   const [isSaving, setIsSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
 
   const [form, setForm] = useState({ tanggal: "", omzet: "", pengeluaran: "", keterangan: "" });
 
@@ -96,6 +97,92 @@ export default function DataUsaha() {
     setApiConnected((prev) => ({ ...prev, [platform]: !prev[platform] }));
   };
 
+  const downloadTemplate = async () => {
+    const XLSX = await import("xlsx");
+    const ws = XLSX.utils.aoa_to_sheet([
+      ["Tanggal (YYYY-MM-DD)", "Omzet", "Pengeluaran", "Keterangan"],
+      ["2026-06-30", 7000000, 4500000, "Contoh: rekap Juni"],
+      ["2026-07-31", 8200000, 5000000, "Contoh: rekap Juli"],
+    ]);
+    ws["!cols"] = [{ wch: 22 }, { wch: 14 }, { wch: 14 }, { wch: 30 }];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Data Usaha");
+    XLSX.writeFile(wb, "template-data-usaha.xlsx");
+  };
+
+  const toISODate = (v: unknown): string => {
+    if (v instanceof Date) {
+      return `${v.getFullYear()}-${String(v.getMonth() + 1).padStart(2, "0")}-${String(v.getDate()).padStart(2, "0")}`;
+    }
+    const s = String(v ?? "").trim();
+    if (/^\d{4}-\d{1,2}-\d{1,2}$/.test(s)) {
+      const [y, m, d] = s.split("-").map(Number);
+      return `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+    }
+    // dukung DD/MM/YYYY
+    const m = s.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/);
+    if (m) return `${m[3]}-${m[2].padStart(2, "0")}-${m[1].padStart(2, "0")}`;
+    const parsed = new Date(s);
+    if (!isNaN(parsed.getTime())) return toISODate(parsed);
+    return "";
+  };
+
+  const handleImportFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    const umkmId = getUmkmId();
+    if (!umkmId) {
+      MySwal.fire({ title: "Sesi tidak ditemukan", text: "Silakan login ulang.", icon: "error" });
+      return;
+    }
+    setIsImporting(true);
+    try {
+      const XLSX = await import("xlsx");
+      const buf = await file.arrayBuffer();
+      const wb = XLSX.read(buf, { cellDates: true });
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const raw = XLSX.utils.sheet_to_json<Record<string, unknown>>(ws, { defval: "" });
+
+      const findKey = (obj: Record<string, unknown>, needle: string) =>
+        Object.keys(obj).find((k) => k.toLowerCase().includes(needle));
+
+      const rows = raw
+        .map((r) => {
+          const kT = findKey(r, "tanggal");
+          const kO = findKey(r, "omzet");
+          const kP = findKey(r, "pengeluaran");
+          const kK = findKey(r, "keterangan");
+          const tanggal = toISODate(kT ? r[kT] : "");
+          const omzet = parseInt(String(kO ? r[kO] : "").replace(/\D/g, "")) || 0;
+          const pengeluaran = parseInt(String(kP ? r[kP] : "").replace(/\D/g, "")) || 0;
+          const keterangan = kK ? String(r[kK] ?? "") : "";
+          return { tanggal, omzet, pengeluaran, keterangan };
+        })
+        .filter((r) => r.tanggal && r.omzet > 0);
+
+      if (rows.length === 0) {
+        MySwal.fire({ title: "Tidak ada data valid", text: "Pastikan kolom Tanggal & Omzet terisi sesuai template.", icon: "warning" });
+        return;
+      }
+
+      const res = await bulkCreateDataUsaha(umkmId, rows);
+      getDataUsaha(umkmId).then(setHistory);
+      MySwal.fire({
+        title: `Import selesai: ${res.inserted} baris masuk`,
+        html: res.errors.length
+          ? `<div style="text-align:left;font-size:0.85rem">${res.errors.slice(0, 8).join("<br>")}${res.errors.length > 8 ? "<br>…" : ""}</div>`
+          : "Semua baris berhasil disimpan & diakumulasi ke pendapatan bulanan untuk AI XGBoost.",
+        icon: res.errors.length ? "warning" : "success",
+        confirmButtonColor: "#1d4ed8",
+      });
+    } catch (err) {
+      MySwal.fire({ title: "Gagal impor", text: err instanceof Error ? err.message : "File tidak terbaca.", icon: "error" });
+    } finally {
+      setIsImporting(false);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -121,6 +208,42 @@ export default function DataUsaha() {
           <Link style={{ verticalAlign: "-0.125em" }} /> Integrasi API
         </button>
       </div>
+
+      {/* Import Excel */}
+      {activeTab === "input" && (
+        <div className={`${styles.sectionCard} glass`} style={{ marginBottom: "1.25rem" }}>
+          <div className={styles.sectionHeader}>
+            <h3>Import dari Excel</h3>
+            <span style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>Isi banyak bulan sekaligus (min. 2 bulan untuk scoring AI)</span>
+          </div>
+          <p style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginBottom: "1rem", lineHeight: 1.5 }}>
+            Unduh template, isi kolom <strong>Tanggal (YYYY-MM-DD)</strong>, <strong>Omzet</strong>, <strong>Pengeluaran</strong>, dan <strong>Keterangan</strong>, lalu unggah kembali. Omzet akan otomatis diakumulasi per bulan untuk analisis AI XGBoost.
+          </p>
+          <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+            <button
+              type="button"
+              onClick={downloadTemplate}
+              className={styles.btnSecondary}
+              style={{ padding: "0.6rem 1.15rem", borderRadius: 10, cursor: "pointer", fontWeight: 700, fontSize: "0.9rem" }}
+            >
+              <Save style={{ verticalAlign: "-0.125em" }} /> Unduh Template Excel
+            </button>
+            <label
+              className={styles.btnPrimary}
+              style={{ padding: "0.6rem 1.15rem", borderRadius: 10, cursor: isImporting ? "wait" : "pointer", fontWeight: 700, fontSize: "0.9rem", opacity: isImporting ? 0.7 : 1 }}
+            >
+              <Clipboard style={{ verticalAlign: "-0.125em" }} /> {isImporting ? "Mengimpor..." : "Upload File Excel"}
+              <input
+                type="file"
+                accept=".xlsx,.xls,.csv"
+                onChange={handleImportFile}
+                disabled={isImporting}
+                style={{ display: "none" }}
+              />
+            </label>
+          </div>
+        </div>
+      )}
 
       {/* Input Manual Tab */}
       {activeTab === "input" && (
