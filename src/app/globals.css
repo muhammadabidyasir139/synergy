@@ -86,3 +86,48 @@ button {
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
 }
+
+/* =====================================================================
+   Responsive layer (mobile) — berlaku untuk semua role (umkm/investor/admin)
+   Catatan: `grid-template-columns` hanya berefek pada elemen display:grid,
+   `flex-wrap` hanya pada display:flex — jadi selektor lebar di bawah aman
+   (tidak mengubah elemen non-grid/non-flex).
+   ===================================================================== */
+
+/* Tablet & bawah: grid 3–4 kolom jadi 2 kolom */
+@media (max-width: 900px) {
+  [style*="grid-template-columns"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  [class*="Grid"], [class*="grid"],
+  [class*="stats"], [class*="Stats"],
+  [class*="metrics"], [class*="Metrics"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+
+/* HP: semua susunan kolom jadi 1 kolom + tabel bisa di-scroll */
+@media (max-width: 640px) {
+  [style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+
+  [class*="Grid"], [class*="grid"],
+  [class*="cards"], [class*="Cards"],
+  [class*="stats"], [class*="Stats"],
+  [class*="metrics"], [class*="Metrics"],
+  [class*="Row"], [class*="row"] { grid-template-columns: 1fr !important; }
+
+  /* baris KPI/stat berbasis flex ikut turun ke bawah */
+  [class*="stat"], [class*="Stat"],
+  [class*="kpi"], [class*="Kpi"],
+  [class*="metric"], [class*="Metric"] { flex-wrap: wrap !important; }
+
+  /* tabel: geser horizontal daripada memaksa lebar layar */
+  [class*="tableWrapper"], [class*="TableWrapper"],
+  [class*="tableContainer"], [class*="tableScroll"] { overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
+
+  /* header/toolbar yang tadinya sejajar → turun */
+  [class*="header"], [class*="Header"],
+  [class*="toolbar"], [class*="Toolbar"] { flex-wrap: wrap !important; }
+}
+
+/* Media & chart tidak melebihi lebar layar */
+@media (max-width: 640px) {
+  img, svg, canvas, video { max-width: 100%; }
+  .glass { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+}

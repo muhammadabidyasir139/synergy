@@ -31,6 +31,10 @@ export default function InvestorLayout({
   const [session, setSession] = useState<SessionData | null>(null);
   const [isChecking, setIsChecking] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.innerWidth < 768) setIsSidebarOpen(false);
+  }, []);
   const [walletBalance, setWalletBalance] = useState<number | null>(null);
 
   useEffect(() => {

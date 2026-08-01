@@ -25,6 +25,10 @@ export default function AdminLayout({
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
+    if (typeof window !== "undefined" && window.innerWidth < 768) setIsSidebarOpen(false);
+  }, []);
+
+  useEffect(() => {
     if (typeof window === "undefined") return;
 
     const timeout = window.setTimeout(() => {

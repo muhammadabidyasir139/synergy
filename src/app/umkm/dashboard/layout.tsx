@@ -26,6 +26,10 @@ export default function UMKMLayout({ children }: { children: React.ReactNode }) 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.innerWidth < 768) setIsSidebarOpen(false);
+  }, []);
   const [session, setSession] = useState<UmkmSession | null>(null);
 
   useEffect(() => {
