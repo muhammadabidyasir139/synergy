@@ -20,8 +20,12 @@ export async function GET() {
         },
       },
     });
-    if (!profile?.user.wallet) return NextResponse.json({ error: "Wallet not found" }, { status: 404 });
-    const wallet = profile.user.wallet;
+    if (!profile) return NextResponse.json({ error: "Profile not found" }, { status: 404 });
+    // Auto-buat wallet kalau user belum punya (mis. UMKM baru) — hindari error "Wallet not found".
+    const wallet = profile.user.wallet ?? {
+      ...(await db.wallet.create({ data: { userId: profile.user.id } })),
+      transactions: [],
+    };
 
     const campaigns = await db.campaign.findMany({
       where: { umkmProfileId },
