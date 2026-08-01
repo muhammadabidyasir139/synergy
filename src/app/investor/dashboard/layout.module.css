@@ -396,3 +396,14 @@
     padding: 1rem;
   }
 }
+
+/* Backdrop klik-di-luar untuk close sidebar (mobile) */
+.sidebarBackdrop { display: none; }
+@media (max-width: 768px) {
+  .sidebarBackdrop {
+    display: block; position: fixed; inset: 0;
+    background: rgba(0, 0, 0, 0.45); z-index: 150;
+    animation: invFadeIn 0.2s ease;
+  }
+}
+@keyframes invFadeIn { from { opacity: 0; } to { opacity: 1; } }

@@ -210,6 +210,9 @@ export default function AdminLayout({
 
   return (
     <div className={styles.layoutContainer}>
+      {isSidebarOpen && (
+        <div className={styles.sidebarBackdrop} onClick={() => setIsSidebarOpen(false)} />
+      )}
       {/* Dynamic persistent sidebar */}
       <aside className={`${styles.sidebar} glass ${isSidebarOpen ? "" : styles.sidebarClosed}`}>
         <div className={styles.sidebarHeader}>

@@ -903,3 +903,18 @@
   .contentBody { padding: 1rem; }
   .dashboardRow { grid-template-columns: 1fr; }
 }
+
+/* Backdrop klik-di-luar untuk close sidebar (mobile) */
+.sidebarBackdrop { display: none; }
+@media (max-width: 768px) {
+  .sidebar { position: fixed; top: 0; left: 0; height: 100vh; z-index: 200; }
+  .sidebarBackdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 150;
+    animation: fadeIn 0.2s ease;
+  }
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }

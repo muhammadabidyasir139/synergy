@@ -288,6 +288,9 @@ export default function InvestorLayout({
 
   return (
     <div className={styles.layoutContainer}>
+      {isSidebarOpen && (
+        <div className={styles.sidebarBackdrop} onClick={() => setIsSidebarOpen(false)} />
+      )}
       <aside
         className={`${styles.sidebar} ${isSidebarOpen ? "" : styles.sidebarClosed}`}
       >

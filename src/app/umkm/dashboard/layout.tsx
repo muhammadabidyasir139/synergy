@@ -207,6 +207,9 @@ export default function UMKMLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <div className={styles.layoutContainer}>
+      {isSidebarOpen && (
+        <div className={styles.sidebarBackdrop} onClick={() => setIsSidebarOpen(false)} />
+      )}
       <aside className={`${styles.sidebar} glass ${isSidebarOpen ? "" : styles.sidebarClosed}`}>
         <div className={styles.sidebarHeader}>
           <div className={styles.logoGroup}>
