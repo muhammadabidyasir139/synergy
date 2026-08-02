@@ -6,6 +6,14 @@ function required(name: string): string {
   return value;
 }
 
+// True hanya jika kredensial DOKU asli sudah diisi (bukan placeholder "..." / kosong).
+export function isDokuConfigured(): boolean {
+  const id = process.env.DOKU_CLIENT_ID;
+  const secret = process.env.DOKU_SECRET_KEY;
+  const bad = (v?: string) => !v || v.trim() === "" || v.trim() === "...";
+  return !bad(id) && !bad(secret);
+}
+
 export function getDokuConfig() {
   return {
     clientId: required("DOKU_CLIENT_ID"),

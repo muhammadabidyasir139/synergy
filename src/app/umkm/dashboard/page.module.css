@@ -923,3 +923,11 @@
 @media (max-width: 640px) {
   .indicatorText { display: none; }
 }
+
+/* Fix modal kepotong di HP: body scroll penuh, footer/tombol tetap kelihatan */
+.modalBody { flex: 1 1 auto; min-height: 0; }
+@media (max-width: 640px) {
+  .modalOverlay { align-items: flex-end; }
+  .modal { max-height: 92vh; border-radius: 20px 20px 0 0; }
+  .modalFooter { position: sticky; bottom: 0; }
+}
