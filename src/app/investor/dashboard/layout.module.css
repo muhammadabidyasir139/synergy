@@ -407,3 +407,8 @@
   }
 }
 @keyframes invFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* HP: sembunyikan teks "Smart Contract Aktif" di navbar (dot tetap tampil) */
+@media (max-width: 640px) {
+  .networkIndicator span:not(.statusDot) { display: none; }
+}
