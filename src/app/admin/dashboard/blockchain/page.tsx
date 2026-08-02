@@ -58,7 +58,7 @@ export default function BlockchainExplorerPage() {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <h1 className={styles.title}>Blockchain Ledger Explorer</h1>
+        <h1 className={styles.title}>Riwayat Transaksi Aman</h1>
         <p className={styles.subtitle}>Monitor status node, latest blocks, dan transaksi dalam ekosistem Synergy.</p>
         <div className={styles.nodeStatus}>
           <span className={styles.statusDot} style={{ background: nodeStatus ? "#10b981" : "#ef4444" }}></span>

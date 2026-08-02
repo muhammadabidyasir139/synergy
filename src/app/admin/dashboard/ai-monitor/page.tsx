@@ -30,12 +30,12 @@ export default function AIMonitorPage() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}><Search style={{ verticalAlign: "-0.125em" }} /> Manajemen AI – Monitoring Credit Scoring</h1>
+      <h1 className={styles.title}><Search style={{ verticalAlign: "-0.125em" }} /> Monitoring Penilaian Usaha</h1>
       <table className={styles.table}>
         <thead>
           <tr>
             <th>UMKM</th>
-            <th>Skor AI (0‑100)</th>
+            <th>Skor Penilaian (0‑100)</th>
             <th>Risiko</th>
             <th>Aksi</th>
           </tr>

@@ -150,7 +150,7 @@ export default function RiskWarning() {
                   <span style={{ fontSize: "0.75rem", color: "var(--text-muted)", whiteSpace: "nowrap", marginLeft: "1rem" }}>{alert.tanggal}</span>
                 </div>
                 <div style={{ padding: "0.75rem 1rem", background: "rgba(255,255,255,0.5)", borderRadius: 10, borderLeft: `3px solid ${severityColor(alert.severity)}` }}>
-                  <p style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-color)", marginBottom: "0.2rem" }}><Lightbulb style={{ verticalAlign: "-0.125em" }} /> Rekomendasi AI:</p>
+                  <p style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-color)", marginBottom: "0.2rem" }}><Lightbulb style={{ verticalAlign: "-0.125em" }} /> Rekomendasi:</p>
                   <p style={{ fontSize: "0.85rem", color: "var(--text-muted)", lineHeight: 1.5 }}>{alert.rekomendasi}</p>
                 </div>
                 <div style={{ display: "flex", justifyContent: "flex-end" }}>

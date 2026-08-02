@@ -75,7 +75,7 @@ export default function DataUsaha() {
 
           MySwal.fire({
             title: "Berhasil!",
-            text: "Data usaha berhasil disimpan & dikirim ke AI XGBoost.",
+            text: "Data usaha berhasil disimpan & diproses otomatis.",
             icon: "success",
             confirmButtonColor: "#1d4ed8",
           });
@@ -172,7 +172,7 @@ export default function DataUsaha() {
         title: `Import selesai: ${res.inserted} baris masuk`,
         html: res.errors.length
           ? `<div style="text-align:left;font-size:0.85rem">${res.errors.slice(0, 8).join("<br>")}${res.errors.length > 8 ? "<br>…" : ""}</div>`
-          : "Semua baris berhasil disimpan & diakumulasi ke pendapatan bulanan untuk AI XGBoost.",
+          : "Semua baris berhasil disimpan & diakumulasi ke pendapatan bulanan untuk penilaian otomatis.",
         icon: res.errors.length ? "warning" : "success",
         confirmButtonColor: "#1d4ed8",
       });
@@ -193,7 +193,7 @@ export default function DataUsaha() {
           </p>
         </div>
         {saved && (
-          <span style={{ color: "#1d4ed8", fontWeight: 700, fontSize: "0.9rem" }}><CheckCircle style={{ verticalAlign: "-0.125em" }} /> Data tersimpan & dikirim ke AI!</span>
+          <span style={{ color: "#1d4ed8", fontWeight: 700, fontSize: "0.9rem" }}><CheckCircle style={{ verticalAlign: "-0.125em" }} /> Data berhasil disimpan!</span>
         )}
       </header>
 
@@ -214,10 +214,10 @@ export default function DataUsaha() {
         <div className={`${styles.sectionCard} glass`} style={{ marginBottom: "1.25rem" }}>
           <div className={styles.sectionHeader}>
             <h3>Import dari Excel</h3>
-            <span style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>Isi banyak bulan sekaligus (min. 2 bulan untuk scoring AI)</span>
+            <span style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>Isi minimal 2 bulan untuk penilaian usaha</span>
           </div>
           <p style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginBottom: "1rem", lineHeight: 1.5 }}>
-            Unduh template, isi kolom <strong>Tanggal (YYYY-MM-DD)</strong>, <strong>Omzet</strong>, <strong>Pengeluaran</strong>, dan <strong>Keterangan</strong>, lalu unggah kembali. Omzet akan otomatis diakumulasi per bulan untuk analisis AI XGBoost.
+            Unduh template, isi kolom <strong>Tanggal (YYYY-MM-DD)</strong>, <strong>Omzet</strong>, <strong>Pengeluaran</strong>, dan <strong>Keterangan</strong>, lalu unggah kembali. Omzet akan otomatis diakumulasi per bulan untuk analisis penilaian otomatis.
           </p>
           <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
             <button
@@ -250,7 +250,7 @@ export default function DataUsaha() {
         <form onSubmit={handleSubmit} className={`${styles.sectionCard} glass`}>
           <div className={styles.sectionHeader}>
             <h3>Input Data Harian</h3>
-            <span style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>Data akan diproses AI XGBoost secara real-time</span>
+            <span style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>Data langsung dinilai otomatis</span>
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }}>
@@ -319,7 +319,7 @@ export default function DataUsaha() {
               style={{ padding: "0.8rem 2rem", borderRadius: 10, border: "none", cursor: "pointer", fontWeight: 700, fontSize: "0.95rem" }}
             >
               {isSaving ? "Menyimpan ke Database AI..." : (
-                <><Save style={{ verticalAlign: "-0.125em" }} /> Simpan & Kirim ke AI</>
+                <><Save style={{ verticalAlign: "-0.125em" }} /> Simpan Data</>
               )}
             </button>
           </div>

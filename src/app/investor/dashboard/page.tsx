@@ -176,7 +176,7 @@ export default function InvestorDashboardHome() {
         </div>
         <div className={styles.metricCard}>
           <div className={styles.metricHeader}>
-            <span className={styles.metricLabel}>Akad Blockchain</span>
+            <span className={styles.metricLabel}>Akad Tersahkan</span>
             <span className={styles.metricIcon}>
               <Chain />
             </span>

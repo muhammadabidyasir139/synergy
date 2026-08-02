@@ -199,7 +199,7 @@ export default function BagiHasil() {
         <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
           <span style={{ fontSize: "2rem" }}><Chain /></span>
           <div>
-            <h4 style={{ fontWeight: 800, color: "var(--text-color)", marginBottom: "0.5rem" }}>Cara Kerja Pembayaran Smart Contract</h4>
+            <h4 style={{ fontWeight: 800, color: "var(--text-color)", marginBottom: "0.5rem" }}>Cara Kerja Pembayaran Bagi Hasil</h4>
             <p style={{ fontSize: "0.875rem", color: "var(--text-muted)", lineHeight: 1.65 }}>
               Setelah Anda mengklik <strong>&quot;Konfirmasi Bayar&quot;</strong>, smart contract secara otomatis menghitung dan mentransfer bagian bagi hasil
               ke wallet investor berdasarkan nisbah yang telah disepakati. Transaksi tercatat di blockchain sebagai bukti pembayaran yang

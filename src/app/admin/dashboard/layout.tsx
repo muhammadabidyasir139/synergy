@@ -89,7 +89,7 @@ export default function AdminLayout({
       ),
     },
     {
-      name: "Scoring AI (XGBoost)",
+      name: "Scoring Penilaian Cerdas",
       path: "/admin/dashboard/ai-scoring",
       icon: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -100,7 +100,7 @@ export default function AdminLayout({
       ),
     },
     {
-      name: "Monitoring AI",
+      name: "Monitoring Penilaian",
       path: "/admin/dashboard/ai-monitor",
       icon: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -109,7 +109,7 @@ export default function AdminLayout({
       ),
     },
 {
-      name: "Blockchain Ledger",
+      name: "Catatan Transaksi",
 
       path: "/admin/dashboard/blockchain",
       icon: (
@@ -164,7 +164,7 @@ export default function AdminLayout({
       ),
     },
     {
-      name: "Config Nisbah & AI",
+      name: "Konfigurasi Nisbah",
       path: "/admin/dashboard/configuration",
       icon: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -270,7 +270,7 @@ export default function AdminLayout({
             </div>
             <div className={styles.systemStatus}>
               <span className={styles.statusDot}></span>
-              <span>Blockchain & AI: Live</span>
+              <span>Sistem Aktif</span>
             </div>
           </div>
         )}
@@ -296,7 +296,7 @@ export default function AdminLayout({
           <div className={styles.headerActions}>
             <div className={styles.blockchainIndicator}>
               <span className={styles.indicatorIcon}><Chain /></span>
-              <span className={styles.indicatorText}>Secured Smart Contract</span>
+              <span className={styles.indicatorText}>Transaksi Aman</span>
             </div>
             <ThemeToggle />
           </div>

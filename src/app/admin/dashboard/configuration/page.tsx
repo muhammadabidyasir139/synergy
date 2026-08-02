@@ -76,7 +76,7 @@ export default function ConfigurationPage() {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}><Settings style={{ verticalAlign: "-0.125em" }} /> Konfigurasi Nisbah & AI</h1>
-      <p className={styles.subtitle}>Atur parameter bagi hasil, fee, dan threshold AI scoring</p>
+      <p className={styles.subtitle}>Atur parameter bagi hasil, fee, dan ambang penilaian</p>
 
       <div className={styles.configGrid}>
         {config.map((field) => (

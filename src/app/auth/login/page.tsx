@@ -83,7 +83,7 @@ function LoginForm() {
         <div className={`${styles.card} glass`}>
           <div className={styles.cardHeader}>
             <h1>Selamat Datang Kembali</h1>
-            <p>Pintu gerbang investasi syariah cerdas berbasis AI & Blockchain</p>
+            <p>Pintu gerbang investasi syariah cerdas yang aman & terpercaya</p>
           </div>
 
           {/* Role selector */}

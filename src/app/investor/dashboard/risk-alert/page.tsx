@@ -65,7 +65,7 @@ export default function RiskAlertPage() {
       <div className={styles.header}>
         <div className={styles.headerLeft}>
           <h2 className={styles.title}>Risk & Alert Monitor</h2>
-          <p className={styles.subtitle}>Sistem AI mendeteksi risiko secara real-time dari data performa UMKM yang Anda danai.</p>
+          <p className={styles.subtitle}>Sistem mendeteksi risiko secara otomatis dari data performa UMKM yang Anda danai.</p>
         </div>
         <div className={styles.countBadge}>
           <span className={styles.countDot}></span>

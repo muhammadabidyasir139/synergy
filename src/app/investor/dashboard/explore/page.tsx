@@ -86,7 +86,7 @@ export default function ExplorePage() {
           <select className={styles.select} value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
             <option value="popular">Terpopuler</option>
             <option value="roi">Return Tertinggi</option>
-            <option value="score">Skor AI Tertinggi</option>
+            <option value="score">Skor Tertinggi</option>
           </select>
         </div>
       </div>
@@ -117,7 +117,7 @@ export default function ExplorePage() {
             </div>
 
             <div className={styles.aiScoreRow}>
-              <span className={styles.aiLabel}>Skor AI XGBoost</span>
+              <span className={styles.aiLabel}>Skor penilaian otomatis</span>
               <span className={styles.aiScore}>{c.aiScore}/100</span>
             </div>
             <div className={styles.scoreBar}>

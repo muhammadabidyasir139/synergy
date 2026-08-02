@@ -80,7 +80,7 @@ export default function AIInsightPage() {
           <Bot />
         </div>
         <div>
-          <h2 className={styles.aiTitle}>AI Scoring</h2>
+          <h2 className={styles.aiTitle}>Penilaian Usaha</h2>
           <p className={styles.aiDesc}>
             Hasil scoring UMKM dipersonalisasi berdasarkan profil risiko Anda,
             dihasilkan oleh model XGBoost yang dilatih dengan 50.000+ data
@@ -131,7 +131,7 @@ export default function AIInsightPage() {
           </span>
           <div>
             <p className={styles.statVal}>50.000+</p>
-            <p className={styles.statLabel}>Data Training XGBoost</p>
+            <p className={styles.statLabel}>Data Penilaian</p>
           </div>
         </div>
         <div className={styles.statCard}>

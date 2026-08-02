@@ -90,8 +90,8 @@ export default function AdminDashboardHome() {
         <div className={styles.welcomeContent}>
           <h1>Assalamu&apos;alaikum, Super Admin</h1>
           <p>
-            Platform pembiayaan syariah cerdas berjalan lancar. Smart Contract aktif dan AI
-            XGBoost memproses data credit scoring secara optimal.
+            Platform pembiayaan syariah cerdas berjalan lancar. Sistem berjalan aman dan penilaian
+            usaha diproses secara optimal.
           </p>
         </div>
       </section>
@@ -122,12 +122,12 @@ export default function AdminDashboardHome() {
 
         <div className={styles.metricCard}>
           <div className={styles.metricHeader}>
-            <span className={styles.metricTitle}>Smart Contract Akad Aktif</span>
+            <span className={styles.metricTitle}>Akad Aktif</span>
             <span className={styles.metricIcon}><Chain /></span>
           </div>
           <div className={styles.metricValue}>{stats.activeAkads.toLocaleString("id-ID")}</div>
           <div className={styles.metricFooter}>
-            <span className={styles.trendText}>Terintegrasi Ledger</span>
+            <span className={styles.trendText}>Tercatat Aman</span>
           </div>
         </div>
 

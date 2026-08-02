@@ -254,7 +254,7 @@ export default function InvestasiPage() {
               <div className={styles.simActions}>
                 <button className={styles.secondaryBtn} onClick={() => setStep("simulation")}><ArrowLeft style={{ verticalAlign: "-0.125em" }} /> Kembali</button>
                 <button className={styles.primaryBtn} onClick={handleFinalConfirm} disabled={isSubmitting || !hasPin || pin.length !== 6}>
-                  {isSubmitting ? "Memproses..." : <><CheckCircle style={{ verticalAlign: "-0.125em" }} /> Konfirmasi & Deploy Smart Contract</>}
+                  {isSubmitting ? "Memproses..." : <><CheckCircle style={{ verticalAlign: "-0.125em" }} /> Konfirmasi & Bayar</>}
                 </button>
               </div>
             </div>

@@ -115,9 +115,9 @@ export default function Home() {
                   <p>
                     SYNERGY hadir sebagai solusi inovatif: memangkas kesenjangan
                     tersebut melalui ekosistem pembiayaan syariah berbasis{" "}
-                    <strong>Blockchain</strong> yang aman, serta skoring
+                    <strong>Keamanan</strong> yang aman, serta skoring
                     kelayakan UMKM yang akurat menggunakan{" "}
-                    <strong>AI (XGBoost)</strong> demi mewujudkan pemerataan
+                    <strong>Penilaian Cerdas</strong> demi mewujudkan pemerataan
                     ekonomi digital yang transparan.
                   </p>
                 </div>
@@ -139,7 +139,7 @@ export default function Home() {
             </ScrollReveal>
 
             <div className={styles.featureGrid}>
-              {/* AI Scoring */}
+              {/* Penilaian Usaha */}
               <ScrollReveal duration={1.5} delay={0}>
                 <div className={`${styles.featureCard} glass`}>
                   <div className={styles.featureIconWrap}>
@@ -223,10 +223,10 @@ export default function Home() {
                       />
                     </svg>
                   </div>
-                  <h3>AI Feasibility Scoring</h3>
+                  <h3>Penilaian Kelayakan Usaha</h3>
                   <p>
                     Menggunakan algoritma{" "}
-                    <strong>Extreme Gradient Boosting (XGBoost)</strong>{" "}
+                    <strong>Sistem Penilaian Otomatis</strong>{" "}
                     berbasis Python. Menganalisis data transaksi, listrik, dan
                     arus kas untuk skor kelayakan yang cepat, objektif, dan
                     akurat.
@@ -351,11 +351,11 @@ export default function Home() {
                       />
                     </svg>
                   </div>
-                  <h3>Smart Contract Blockchain</h3>
+                  <h3>Perjanjian Digital Aman</h3>
                   <p>
                     Transaksi dicatat menggunakan bahasa <strong>Golang</strong>{" "}
-                    ke dalam jaringan <em>Blockchain</em>. Data tersimpan di{" "}
-                    <em>Ledger</em> masing-masing pengguna, sehingga 100%
+                    ke dalam jaringan <em>Keamanan</em>. Data tersimpan di{" "}
+                    <em>Tercatat</em> masing-masing pengguna, sehingga 100%
                     transparan dan anti-manipulasi.
                   </p>
                 </div>
@@ -423,7 +423,7 @@ export default function Home() {
                 SYNERGY lahir dari kompetisi{" "}
                 <strong>PKM (Pekan Kreativitas Mahasiswa)</strong> skema{" "}
                 <strong>Karsa Cipta</strong> — memadukan{" "}
-                <strong>Blockchain</strong>, <strong>Kecerdasan Buatan</strong>,
+                <strong>Keamanan</strong>, <strong>Kecerdasan Buatan</strong>,
                 dan <strong>ekonomi syariah</strong> melalui akad{" "}
                 <em>Musyarakah</em> dan <em>Mudharabah</em> untuk pembiayaan UMKM.
                 Kami hadir sebagai solusi bagi UMKM <em>unbankable</em> agar dapat
@@ -435,8 +435,8 @@ export default function Home() {
                 style={{ justifyContent: "center" }}
               >
                 <span className={styles.tag}>PKM-KC 2026</span>
-                <span className={styles.tag}>Blockchain</span>
-                <span className={styles.tag}>AI / XGBoost</span>
+                <span className={styles.tag}>Keamanan</span>
+                <span className={styles.tag}>Penilaian Cerdas</span>
                 <span className={styles.tag}>Ekonomi Syariah</span>
               </div>
 

@@ -111,7 +111,7 @@ export default function InvestorLayout({
       ),
     },
     {
-      name: "AI Scoring",
+      name: "Penilaian Usaha",
       path: "/investor/dashboard/ai-insight",
 
       icon: (
@@ -380,7 +380,7 @@ export default function InvestorLayout({
           <div className={styles.headerActions}>
             <div className={styles.networkIndicator}>
               <span className={styles.statusDot}></span>
-              <span>Smart Contract Aktif</span>
+              <span>Transaksi Aman</span>
             </div>
             <ThemeToggle />
           </div>

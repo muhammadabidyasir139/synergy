@@ -161,7 +161,7 @@ export default function ManajemenAkad() {
                 <th>Dana</th>
                 <th>Nisbah</th>
                 <th>Periode</th>
-                <th>Blockchain Hash</th>
+                <th>Kode Verifikasi</th>
                 <th>Status</th>
                 <th style={{ textAlign: "right" }}>Aksi</th>
               </tr>
@@ -245,7 +245,7 @@ export default function ManajemenAkad() {
 
               {selectedAkad.blockchainHash && (
                 <div style={{ padding: "0.75rem 1rem", background: "rgba(29,78,216,0.08)", borderRadius: 10, marginTop: "0.5rem" }}>
-                  <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", fontWeight: 600, marginBottom: "0.25rem" }}>Blockchain Hash</p>
+                  <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", fontWeight: 600, marginBottom: "0.25rem" }}>Kode Verifikasi</p>
                   <p style={{ fontFamily: "monospace", fontSize: "0.85rem", color: "#1d4ed8" }}>{selectedAkad.blockchainHash}</p>
                 </div>
               )}
@@ -269,9 +269,9 @@ export default function ManajemenAkad() {
                   style={{ padding: "0.8rem 1.5rem", border: "none", borderRadius: 10, cursor: "pointer", fontWeight: 700 }}
                 >
                   {isSigning ? (
-                    <><Refresh style={{ verticalAlign: "-0.125em" }} /> Deploy Smart Contract...</>
+                    <><Refresh style={{ verticalAlign: "-0.125em" }} /> Memproses...</>
                   ) : (
-                    <><Pencil style={{ verticalAlign: "-0.125em" }} /> Tanda Tangan & Deploy Blockchain</>
+                    <><Pencil style={{ verticalAlign: "-0.125em" }} /> Tanda Tangan & Sahkan</>
                   )}
                 </button>
               </div>

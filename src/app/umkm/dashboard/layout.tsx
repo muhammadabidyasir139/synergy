@@ -92,7 +92,7 @@ export default function UMKMLayout({ children }: { children: React.ReactNode }) 
       ),
     },
     {
-      name: "Credit Scoring AI",
+      name: "Penilaian Usaha",
       path: "/umkm/dashboard/credit-scoring",
       icon: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -268,7 +268,7 @@ export default function UMKMLayout({ children }: { children: React.ReactNode }) 
             </div>
             <div className={styles.systemStatus}>
               <span className={styles.statusDot}></span>
-              <span>Akad & AI: Aktif</span>
+              <span>Layanan Aktif</span>
             </div>
           </div>
         )}
@@ -287,7 +287,7 @@ export default function UMKMLayout({ children }: { children: React.ReactNode }) 
           <div className={styles.headerActions}>
             <div className={styles.blockchainIndicator}>
               <span className={styles.indicatorIcon}><Chain /></span>
-              <span className={styles.indicatorText}>Smart Contract Aktif</span>
+              <span className={styles.indicatorText}>Transaksi Aman</span>
             </div>
             <ThemeToggle />
           </div>

@@ -131,7 +131,7 @@ export default function UMKMDashboardHome() {
       <section className={styles.metricsGrid}>
         <div className={styles.metricCard}>
           <div className={styles.metricHeader}>
-            <span className={styles.metricTitle}>Skor Kredit AI</span>
+            <span className={styles.metricTitle}>Skor Kelayakan Usaha</span>
             <span className={styles.metricIcon}><Bot /></span>
           </div>
           <div className={styles.metricValue}>
@@ -141,7 +141,7 @@ export default function UMKMDashboardHome() {
             <span className={styles.trendPositive}>
               {metrics.riskLevel ? riskLabel[metrics.riskLevel] ?? metrics.riskLevel : "Belum dinilai"}
             </span>
-            <span className={styles.trendText}>XGBoost Score</span>
+            <span className={styles.trendText}>Skor Penilaian</span>
           </div>
         </div>
 

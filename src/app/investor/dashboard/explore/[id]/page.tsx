@@ -267,9 +267,9 @@ export default function CampaignDetailPage() {
           </div>
 
           <div className={styles.card}>
-            <h3 className={styles.cardTitle}>XGBoost AI Insights</h3>
+            <h3 className={styles.cardTitle}>Faktor Penilaian</h3>
             <div className={styles.aiScoreRow}>
-              <span>Skor Kelayakan AI</span>
+              <span>Skor Kelayakan Usaha</span>
               <strong>{data.aiScore}/100</strong>
             </div>
             <div className={styles.scoreBar}>
@@ -300,7 +300,7 @@ export default function CampaignDetailPage() {
                   ))}
                 </div>
                 <p style={{ fontSize: "0.72rem", opacity: 0.55, marginTop: "0.5rem" }}>
-                  Dihitung engine XGBoost · Analisis #{data.creditScoring.analisisId}
+                  Dihitung otomatis · Analisis #{data.creditScoring.analisisId}
                 </p>
               </>
             ) : (

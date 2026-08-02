@@ -146,7 +146,7 @@ export default function Wallet() {
               </p>
             </div>
             <div>
-              <p style={{ fontSize: "0.75rem", opacity: 0.75 }}>Blockchain</p>
+              <p style={{ fontSize: "0.75rem", opacity: 0.75 }}>Keamanan</p>
               <p style={{ fontWeight: 700 }}><Chain style={{ verticalAlign: "-0.125em" }} /> Sinkron</p>
             </div>
           </div>

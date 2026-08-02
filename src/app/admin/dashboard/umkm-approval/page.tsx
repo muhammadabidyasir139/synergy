@@ -92,7 +92,7 @@ export default function UmkmApprovalPage() {
 
   const handleRetrainScoring = () => {
     if (selectedUmkm) {
-      toast("Memicu ulang model XGBoost AI untuk recalculation...");
+      toast("Menghitung ulang penilaian usaha...");
     }
   };
 
@@ -130,7 +130,7 @@ export default function UmkmApprovalPage() {
         <div className={styles.headerTitle}>
           <h1>Review & Approval Kelayakan UMKM</h1>
           <p>
-            Validasi hasil prediksi XGBoost AI sebelum mempublikasikan kampanye pendanaan ke
+            Validasi hasil penilaian sebelum mempublikasikan kampanye pendanaan ke
             Marketplace Investor.
           </p>
         </div>
@@ -195,7 +195,7 @@ export default function UmkmApprovalPage() {
               <h3>Pilih UMKM untuk dianalisis</h3>
               <p>
                 Pilih pengajuan dari daftar di sebelah kiri untuk melihat detail skor kelayakan
-                dari model XGBoost AI.
+                dari sistem penilaian.
               </p>
             </div>
           ) : (
@@ -261,7 +261,7 @@ export default function UmkmApprovalPage() {
                     </div>
                   )}
                   <div className={styles.riskBadgeWrapper}>
-                    <span className={styles.riskLabel}>Kategori Risiko AI:</span>
+                    <span className={styles.riskLabel}>Kategori Risiko:</span>
                     <span
                       className={styles.riskBadge}
                       style={{
@@ -281,7 +281,7 @@ export default function UmkmApprovalPage() {
                 </div>
 
                 <div className={styles.insightsContainer}>
-                  <h3>XGBoost AI Insights</h3>
+                  <h3>Faktor Penilaian</h3>
                   {selectedUmkm.insights && selectedUmkm.insights.length > 0 ? (
                     <ul className={styles.insightsList}>
                       {selectedUmkm.insights.map((insight, idx) => (
@@ -302,7 +302,7 @@ export default function UmkmApprovalPage() {
                       ))}
                     </ul>
                   ) : (
-                    <p style={{ opacity: 0.6 }}>Belum ada insight AI untuk pengajuan ini.</p>
+                    <p style={{ opacity: 0.6 }}>Belum ada penilaian untuk pengajuan ini.</p>
                   )}
                 </div>
               </div>

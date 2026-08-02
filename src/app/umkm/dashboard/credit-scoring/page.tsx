@@ -103,9 +103,9 @@ export default function CreditScoring() {
     <div className={styles.container}>
       <header className={styles.header}>
         <div>
-          <h1 className={styles.title}>Credit Scoring AI (XGBoost)</h1>
+          <h1 className={styles.title}>Penilaian Kelayakan Usaha</h1>
           <p className={styles.subtitle}>
-            Hasil analisis model AI XGBoost terhadap data usaha Anda. Skor dihitung dari data keuangan riil.
+            Hasil analisis model penilaian otomatis terhadap data usaha Anda. Skor dihitung dari data keuangan riil.
           </p>
         </div>
         <button
@@ -115,7 +115,7 @@ export default function CreditScoring() {
           style={{ padding: "0.65rem 1.25rem", border: "none", borderRadius: 10, cursor: "pointer", fontWeight: 700, fontSize: "0.9rem" }}
         >
           {isRefreshing ? (
-            <><Refresh style={{ verticalAlign: "-0.125em" }} /> Memproses AI...</>
+            <><Refresh style={{ verticalAlign: "-0.125em" }} /> Memproses...</>
           ) : (
             <><Refresh style={{ verticalAlign: "-0.125em" }} /> Trigger Scoring Ulang</>
           )}
@@ -175,7 +175,7 @@ export default function CreditScoring() {
           </div>
 
           <div style={{ marginTop: "1.5rem", fontSize: "0.75rem", color: "var(--text-muted)", textAlign: "center" }}>
-            <p>Model: <strong style={{ color: "var(--text-color)" }}>XGBoost</strong></p>
+            <p>Model: <strong style={{ color: "var(--text-color)" }}>Otomatis</strong></p>
             <p style={{ marginTop: "0.25rem" }}>Analisis #{latest.id}</p>
           </div>
         </div>
@@ -224,7 +224,7 @@ export default function CreditScoring() {
       <div className={`${styles.sectionCard} glass`}>
         <div className={styles.sectionHeader}>
           <h3><Lightbulb style={{ verticalAlign: "-0.125em" }} /> Rekomendasi Peningkatan Usaha</h3>
-          <span className={`${styles.badge} ${styles.badgeYellow}`}>AI Insights</span>
+          <span className={`${styles.badge} ${styles.badgeYellow}`}>Rekomendasi</span>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
           {recommendations.map((rec, i) => (

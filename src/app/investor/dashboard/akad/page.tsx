@@ -145,11 +145,11 @@ export default function AkadPage() {
                 <div className={styles.blockchainBox}>
                   <div className={styles.bcHeader}>
                     <span className={styles.bcIcon}><Chain /></span>
-                    <span className={styles.bcTitle}>Blockchain Record</span>
+                    <span className={styles.bcTitle}>Catatan Transaksi</span>
                     <span className={styles.bcStatus}><CheckCircle style={{ verticalAlign: "-0.125em" }} /> Confirmed</span>
                   </div>
                   <div className={styles.bcField}><span className={styles.bcLabel}>Transaction Hash</span><span className={styles.bcVal}>{selectedAkad.blockchainHash}</span></div>
-                  <div className={styles.bcField}><span className={styles.bcLabel}>Smart Contract Address</span><span className={styles.bcVal}>{selectedAkad.contractAddress}</span></div>
+                  <div className={styles.bcField}><span className={styles.bcLabel}>Kode Perjanjian</span><span className={styles.bcVal}>{selectedAkad.contractAddress}</span></div>
                 </div>
               )}
 

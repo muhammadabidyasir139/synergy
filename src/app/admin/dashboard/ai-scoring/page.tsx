@@ -33,8 +33,8 @@ export default function AIScoringPage() {
 
   return (
     <section className={styles.container}>
-      <h1 className={styles.title}>AI Scoring Dashboard</h1>
-      <p className={styles.subtitle}>Analisis kelayakan UMKM berbasis XGBoost AI</p>
+      <h1 className={styles.title}>Penilaian Usaha Dashboard</h1>
+      <p className={styles.subtitle}>Analisis kelayakan UMKM secara otomatis</p>
       <div className={styles.grid}>
         {scores.map((s) => (
           <div key={s.id} className={styles.card}>

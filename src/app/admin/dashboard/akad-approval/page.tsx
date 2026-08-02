@@ -60,7 +60,7 @@ export default function AkadApprovalPage() {
       setAkads((prev) =>
         prev.map((a) => (a.id === akad.id ? { ...a, uiStatus: "Deployed" } : a))
       );
-      showToast(`Smart Contract untuk ${akad.umkmName} berhasil di-deploy ke Blockchain Ledger!`, "success");
+      showToast(`Smart Contract untuk ${akad.umkmName} berhasil disahkan!`, "success");
       setTimeout(() => {
         setAkads((prev) => prev.filter((a) => a.id !== akad.id));
       }, 1500);
@@ -91,10 +91,10 @@ export default function AkadApprovalPage() {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <h1 className={styles.title}>Approval Akad & Smart Contract</h1>
+        <h1 className={styles.title}>Persetujuan Akad</h1>
         <p className={styles.subtitle}>
           Sahkan pendanaan kampanye UMKM yang telah memenuhi target 100% dan deploy perjanjian bagi
-          hasil ke dalam Immutable Blockchain Ledger.
+          hasil ke dalam sistem pencatatan yang aman & permanen.
         </p>
       </header>
 
@@ -108,7 +108,7 @@ export default function AkadApprovalPage() {
             <span className={styles.emptyIcon}><Sparkles /></span>
             <h3>Semua Akad Telah Disahkan</h3>
             <p>
-              Tidak ada kampanye UMKM yang menunggu persetujuan smart contract saat ini.
+              Tidak ada kampanye UMKM yang menunggu persetujuan akad saat ini.
             </p>
           </div>
         ) : (
@@ -159,7 +159,7 @@ export default function AkadApprovalPage() {
               <div className={styles.cardFooter}>
                 {akad.uiStatus === "Waiting Approval" && (
                   <button className={styles.deployBtn} onClick={() => handleDeploy(akad)}>
-                    <span className={styles.btnIcon}><Pencil /></span> Sahkan & Deploy Contract
+                    <span className={styles.btnIcon}><Pencil /></span> Sahkan Akad
                   </button>
                 )}
 
@@ -177,7 +177,7 @@ export default function AkadApprovalPage() {
                 {akad.uiStatus === "Deployed" && (
                   <div className={styles.deployedState}>
                     <span className={styles.successIcon}><Check /></span>
-                    <p className={styles.successText}>Akad Ter-deploy di Ledger</p>
+                    <p className={styles.successText}>Akad Tersahkan</p>
                   </div>
                 )}
               </div>
