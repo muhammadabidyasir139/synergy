@@ -78,6 +78,43 @@ export async function PATCH(
     },
   });
 
+  // Dana akad masuk ke SALDO WALLET UMKM (bisa ditarik lewat menu Withdraw).
+  // Idempotent: cuma kredit sekali per akad.
+  if (action === "approve") {
+    const cmp = await db.campaign.findUnique({
+      where: { id: updated.campaignId },
+      include: { umkmProfile: { include: { user: { include: { wallet: true } } } } },
+    });
+    const w = cmp?.umkmProfile.user.wallet;
+    if (w) {
+      const already = await db.transaction.findFirst({
+        where: { walletId: w.id, relatedEntityId: updated.id, type: TransactionType.DISBURSEMENT, status: "COMPLETED" },
+      });
+      if (!already) {
+        const before = Number(w.balance);
+        const amount = Number(updated.principalAmount);
+        const after = before + amount;
+        await db.$transaction([
+          db.wallet.update({ where: { id: w.id }, data: { balance: after } }),
+          db.transaction.create({
+            data: {
+              walletId: w.id,
+              type: TransactionType.DISBURSEMENT,
+              amount,
+              balanceBefore: before,
+              balanceAfter: after,
+              status: "COMPLETED",
+              description: `Dana akad masuk – ${cmp?.umkmProfile.businessName ?? ""}`,
+              relatedEntityId: updated.id,
+              relatedEntityType: "Akad",
+              processedAt: new Date(),
+            },
+          }),
+        ]);
+      }
+    }
+  }
+
   let disbursement = null;
   if (action === "approve") {
     if (!bankDetails?.bankCode || !bankDetails?.accountNumber || !bankDetails?.accountName) {
