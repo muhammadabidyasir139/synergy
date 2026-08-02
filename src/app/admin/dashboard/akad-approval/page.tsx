@@ -26,11 +26,11 @@ interface AkadItem {
 export default function AkadApprovalPage() {
   const [akads, setAkads] = useState<AkadItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [toast, setToast] = useState<{ show: boolean; msg: string }>({ show: false, msg: "" });
+  const [toast, setToast] = useState<{ show: boolean; msg: string; type: "success" | "error" }>({ show: false, msg: "", type: "success" });
 
-  const showToast = (msg: string) => {
-    setToast({ show: true, msg });
-    setTimeout(() => setToast({ show: false, msg: "" }), 4000);
+  const showToast = (msg: string, type: "success" | "error" = "success") => {
+    setToast({ show: true, msg, type });
+    setTimeout(() => setToast((t) => ({ ...t, show: false })), 4000);
   };
 
   const fetchAkads = useCallback(async () => {
@@ -60,7 +60,7 @@ export default function AkadApprovalPage() {
       setAkads((prev) =>
         prev.map((a) => (a.id === akad.id ? { ...a, uiStatus: "Deployed" } : a))
       );
-      showToast(`Smart Contract untuk ${akad.umkmName} berhasil di-deploy ke Blockchain Ledger!`);
+      showToast(`Smart Contract untuk ${akad.umkmName} berhasil di-deploy ke Blockchain Ledger!`, "success");
       setTimeout(() => {
         setAkads((prev) => prev.filter((a) => a.id !== akad.id));
       }, 1500);
@@ -68,7 +68,8 @@ export default function AkadApprovalPage() {
       setAkads((prev) =>
         prev.map((a) => (a.id === akad.id ? { ...a, uiStatus: "Waiting Approval" } : a))
       );
-      showToast("Gagal deploy akad. Coba lagi.");
+      const body = await res.json().catch(() => ({}));
+      showToast(body.error ? `Gagal deploy: ${body.error}` : "Gagal deploy akad. Coba lagi.", "error");
     }
   };
 
@@ -97,7 +98,7 @@ export default function AkadApprovalPage() {
         </p>
       </header>
 
-      <div className={`${styles.toast} ${toast.show ? styles.toastVisible : ""}`}>
+      <div className={`${styles.toast} ${toast.type === "error" ? styles.toastError : ""} ${toast.show ? styles.toastVisible : ""}`}>
         {toast.msg}
       </div>
 

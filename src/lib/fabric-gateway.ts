@@ -46,29 +46,48 @@ async function callGateway<T = unknown>(
   const base = gatewayBaseUrl();
   if (!base) return { ok: false, error: "BLOCKCHAIN_API_URL is not configured" };
 
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), GATEWAY_TIMEOUT_MS);
+  // Fabric gateway kadang gagal "collect enough endorsements" secara sementara
+  // (transient). Retry beberapa kali dgn backoff untuk error semacam itu saja;
+  // error non-transient (validasi 400, not found, dsb) langsung dikembalikan.
+  const TRANSIENT = /endorse|aborted|collect enough|ECONNRESET|ETIMEDOUT|socket hang up|timeout|EAI_AGAIN/i;
+  const MAX_ATTEMPTS = 4;
+  let lastError = "unknown gateway error";
 
-  try {
-    const res = await fetch(base + path, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: body ? JSON.stringify(body) : undefined,
-      signal: controller.signal,
-    });
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), GATEWAY_TIMEOUT_MS);
+    try {
+      const res = await fetch(base + path, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: body ? JSON.stringify(body) : undefined,
+        signal: controller.signal,
+      });
 
-    const text = await res.text();
-    const data = text ? JSON.parse(text) : {};
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : {};
 
-    if (!res.ok) {
-      return { ok: false, error: `Gateway ${method} ${path} responded ${res.status}: ${text.slice(0, 300)}` };
+      if (!res.ok) {
+        lastError = `Gateway ${method} ${path} responded ${res.status}: ${text.slice(0, 300)}`;
+        if (attempt < MAX_ATTEMPTS && TRANSIENT.test(text)) {
+          await new Promise((r) => setTimeout(r, attempt * 1500));
+          continue;
+        }
+        return { ok: false, error: lastError };
+      }
+      return { ok: true, data: data as T };
+    } catch (err) {
+      lastError = describeGatewayError(err);
+      if (attempt < MAX_ATTEMPTS && TRANSIENT.test(lastError)) {
+        await new Promise((r) => setTimeout(r, attempt * 1500));
+        continue;
+      }
+      return { ok: false, error: lastError };
+    } finally {
+      clearTimeout(timeout);
     }
-    return { ok: true, data: data as T };
-  } catch (err) {
-    return { ok: false, error: describeGatewayError(err) };
-  } finally {
-    clearTimeout(timeout);
   }
+  return { ok: false, error: lastError };
 }
 
 export interface DeployInvestmentInput {
