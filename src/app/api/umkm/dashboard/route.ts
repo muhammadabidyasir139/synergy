@@ -64,14 +64,33 @@ export async function GET() {
         omzet: Number(d.monthlyRevenue ?? 0),
       }));
 
+    // Skor kredit diambil dari engine AI (akad_analisis) agar konsisten dgn halaman Credit Scoring.
+    // Fallback ke tabel credit_scores lama kalau engine tidak tersedia / belum ada analisis.
+    let aiScore: number | null = latestScore ? Math.round(latestScore.score) : null;
+    let aiRisk: string | null = latestScore?.riskLevel ?? null;
+    try {
+      const AI_BASE = process.env.AI_API_URL || "http://127.0.0.1:8000";
+      const aiRes = await fetch(`${AI_BASE}/api/analisis/umkm/${umkmProfileId}`, { cache: "no-store" });
+      if (aiRes.ok) {
+        const aiJson = await aiRes.json();
+        const latest = aiJson.data?.[0];
+        if (latest) {
+          aiScore = Math.round(Number(latest.skor_kelayakan));
+          aiRisk = aiScore >= 70 ? "LOW" : aiScore >= 50 ? "MEDIUM" : "HIGH";
+        }
+      }
+    } catch {
+      // engine AI tidak tersedia → pakai fallback di atas
+    }
+
     return NextResponse.json({
       profile: {
         businessName: profile.businessName,
         ownerName: profile.ownerName,
       },
       metrics: {
-        creditScore: latestScore ? Math.round(latestScore.score) : null,
-        riskLevel: latestScore?.riskLevel ?? null,
+        creditScore: aiScore,
+        riskLevel: aiRisk,
         danaDiterima: Number(disbursedAgg._sum.amount ?? 0),
         akadAktif: activeAkads.length,
         akadTotal: akads.length,
