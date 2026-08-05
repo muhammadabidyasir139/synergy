@@ -18,28 +18,33 @@
 
 .advisorCard {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
-  padding: 1.4rem 2rem;
-  border-radius: 16px;
+  text-align: center;
+  gap: 1.2rem;
+  padding: 2rem 2.5rem;
+  border-radius: 20px;
   cursor: pointer;
-  background: linear-gradient(135deg, rgba(0, 82, 204, 0.15), rgba(0, 210, 255, 0.04));
+  background: linear-gradient(135deg, rgba(0, 82, 204, 0.12), rgba(0, 210, 255, 0.04));
   border: 1px solid rgba(0, 82, 204, 0.25);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  max-width: 480px;
+  width: 100%;
 }
 
 .advisorCard:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 82, 204, 0.18);
+  box-shadow: 0 16px 44px rgba(0, 82, 204, 0.2);
 }
 
 .advisorPhotoWrap {
   flex-shrink: 0;
-  width: 160px;
-  height: 200px;
-  border-radius: 12px;
+  width: 150px;
+  height: 180px;
+  border-radius: 16px;
   overflow: hidden;
-  border: 2px solid var(--primary);
+  border: 2.5px solid var(--primary);
+  box-shadow: 0 8px 24px rgba(0, 82, 204, 0.2);
 }
 
 .advisorPhoto {
@@ -49,16 +54,26 @@
   object-position: center top;
 }
 
+.advisorInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.4rem;
+}
+
 .advisorName {
-  font-size: 1.1rem;
-  font-weight: 700;
+  font-size: 1.15rem;
+  font-weight: 800;
   color: var(--text-color);
-  margin-bottom: 0.3rem;
+  margin: 0;
+  line-height: 1.35;
 }
 
 .advisorTitle {
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   color: var(--text-muted);
+  margin: 0;
 }
 
 .clickHint {
@@ -73,21 +88,42 @@
 .advisorActions {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
-  margin-top: 0.6rem;
+  margin-top: 0.4rem;
 }
 
 .igLink {
-  color: var(--text-muted);
-  display: flex;
+  color: var(--text-color);
+  background: var(--surface-bg);
+  border: 1px solid var(--border-color);
+  padding: 8px 18px;
+  border-radius: 24px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s, transform 0.2s;
+  gap: 0.6rem;
+  transition: all 0.25s ease;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.igLink svg {
+  color: #E1306C;
+  flex-shrink: 0;
 }
 
 .igLink:hover {
-  color: #E1306C;
-  transform: scale(1.1);
+  color: #fff;
+  background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(225, 48, 108, 0.35);
+}
+
+.igLink:hover svg {
+  color: #fff;
 }
 
 /* ── Team grid ── */
@@ -124,16 +160,17 @@
 .photoWrap {
   position: relative;
   width: 100%;
-  height: 340px;
+  height: 380px;
   overflow: hidden;
   border-radius: 16px;
+  background: var(--surface-2);
 }
 
 .photo {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center 15%;
   transition: transform 0.4s ease;
 }
 
@@ -150,6 +187,8 @@
   background: linear-gradient(to top, rgba(0, 30, 90, 0.95) 0%, rgba(0, 82, 204, 0.4) 55%, transparent 100%);
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   z-index: 2;
   pointer-events: none;
 }
@@ -177,7 +216,7 @@
   border-radius: 10px;
   border: 1px solid rgba(0, 210, 255, 0.3);
   display: inline-block;
-  align-self: flex-start;
+  align-self: center;
 }
 
 .photoOverlay {

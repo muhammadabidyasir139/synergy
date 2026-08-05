@@ -37,6 +37,11 @@ export default function AdminLogin() {
         }),
       });
 
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Respon server tidak valid (bukan JSON). Silakan periksa koneksi server.");
+      }
+
       const data = await response.json();
 
       if (!response.ok) {

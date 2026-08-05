@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./page.module.css";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -36,6 +37,12 @@ function LoginForm() {
         body: JSON.stringify({ identifier: email, password, role: role.toUpperCase() }),
       });
 
+      const contentType = res.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        setError("Respon server tidak valid (bukan JSON). Silakan periksa server.");
+        return;
+      }
+
       const data = await res.json();
 
       if (!res.ok) {
@@ -69,12 +76,18 @@ function LoginForm() {
 
       {/* Header element */}
       <header className={styles.header}>
-        <div className={styles.logoGroup}>
-          <Link href="/" className={styles.logo}>
-            SYNERGY
-          </Link>
+        <Link href="/" className={styles.logoGroup}>
+          <Image
+            src="/source/Logo-Synergy.png"
+            alt="Synergy Logo"
+            width={40}
+            height={40}
+            style={{ objectFit: "contain" }}
+            priority
+          />
+          <span className={styles.logoText}>SYNERGY</span>
           <span className={styles.badge}>PKM KC</span>
-        </div>
+        </Link>
         <ThemeToggle />
       </header>
 
@@ -124,10 +137,7 @@ function LoginForm() {
             </div>
 
             <div className={styles.inputGroup}>
-              <div className={styles.labelRow}>
-                <label htmlFor="password">Kata Sandi</label>
-                <a href="#forgot" className={styles.forgotLink}>Lupa kata sandi?</a>
-              </div>
+              <label htmlFor="password">Kata Sandi</label>
               <div className={styles.passwordWrapper}>
                 <input
                   id="password"
@@ -166,6 +176,10 @@ function LoginForm() {
                 `Masuk sebagai ${role === "investor" ? "Investor" : "UMKM"}`
               )}
             </button>
+
+            <Link href="/" className={styles.backHomeFullBtn}>
+              ← Kembali ke Beranda
+            </Link>
           </form>
 
           <div className={styles.cardFooter}>
@@ -175,14 +189,6 @@ function LoginForm() {
                 Daftar Sekarang
               </Link>
             </p>
-          </div>
-
-          {/* Elegant and subtle link to Admin portal */}
-          <div className={styles.adminPortalLink}>
-            <Link href="/admin/login" className={styles.adminBtn}>
-              <span className={styles.adminIcon}><Lock /></span>
-              <span>Portal Admin</span>
-            </Link>
           </div>
         </div>
       </main>

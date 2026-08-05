@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
 }
 
 model User {
@@ -140,7 +140,7 @@ model KycDocument {
   id           String    @id @default(cuid())
   userId       String
   documentType String
-  documentUrl  String
+  documentUrl  String    @db.Text
   status       KycStatus @default(PENDING)
   reviewedBy   String?
   reviewedAt   DateTime?

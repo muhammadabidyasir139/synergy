@@ -1,5 +1,5 @@
 :root {
-  --bg-color: #F4F7FA;
+  --bg-color: #FFFFFF;
   --text-color: #0A2540;
   --text-muted: #4A6080;
 
@@ -11,16 +11,16 @@
   --accent-glow: rgba(0, 210, 255, 0.25);
 
   --surface-bg: #FFFFFF;
-  --surface-2: #EBF4FF;
-  --border-color: #D1E3F8;
+  --surface-2: #E6F0FA;
+  --border-color: #CBE0F5;
 
-  --glass-bg: rgba(255, 255, 255, 0.72);
-  --glass-border: rgba(255, 255, 255, 0.55);
-  --nav-bg: rgba(244, 247, 250, 0.88);
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(0, 82, 204, 0.15);
+  --nav-bg: rgba(255, 255, 255, 0.92);
 }
 
 .dark {
-  --bg-color: #060D1A;
+  --bg-color: #050B14;
   --text-color: #E8F4FD;
   --text-muted: #7A9FC0;
 
@@ -31,13 +31,13 @@
   --accent-hover: #00D2FF;
   --accent-glow: rgba(0, 240, 255, 0.2);
 
-  --surface-bg: #0D1F3C;
-  --surface-2: #0F2444;
-  --border-color: #1A3A5C;
+  --surface-bg: #0C1A30;
+  --surface-2: #122544;
+  --border-color: #1E3E66;
 
-  --glass-bg: rgba(10, 37, 64, 0.75);
-  --glass-border: rgba(0, 210, 255, 0.12);
-  --nav-bg: rgba(6, 13, 26, 0.9);
+  --glass-bg: rgba(12, 26, 48, 0.82);
+  --glass-border: rgba(0, 210, 255, 0.18);
+  --nav-bg: rgba(5, 11, 20, 0.92);
 }
 
 html {

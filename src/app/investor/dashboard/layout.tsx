@@ -40,16 +40,14 @@ export default function InvestorLayout({
   useEffect(() => {
     if (typeof window === "undefined") return;
     const raw = sessionStorage.getItem("synergy_investor_session");
-    if (!raw) {
-      router.replace("/investor/login");
-      return;
-    }
+    let parsed: SessionData | null = null;
     try {
-      const parsed = JSON.parse(raw) as SessionData;
-      if (!parsed.investorProfileId) {
-        router.replace("/investor/login");
-        return;
-      }
+      parsed = raw ? (JSON.parse(raw) as SessionData) : null;
+    } catch {
+      parsed = null;
+    }
+
+    if (parsed?.investorProfileId) {
       setSession(parsed);
       setIsChecking(false);
 
@@ -62,8 +60,38 @@ export default function InvestorLayout({
           if (d.balance !== undefined) setWalletBalance(d.balance);
         })
         .catch(() => {});
-    } catch {
-      router.replace("/investor/login");
+    } else {
+      // Fallback: fetch investor profile using cookie session
+      fetch("/api/investor/profile")
+        .then(async (res) => {
+          if (res.ok) {
+            const data = await res.json();
+            const restoredSession: SessionData = {
+              investorProfileId: data.id || "",
+              userId: data.userId || "",
+              fullName: data.fullName || "Investor",
+            };
+            sessionStorage.setItem("synergy_investor_session", JSON.stringify(restoredSession));
+            setSession(restoredSession);
+
+            fetch("/api/investor/wallet", {
+              headers: { "x-investor-id": restoredSession.investorProfileId },
+            })
+              .then((r) => r.json())
+              .then((d) => {
+                if (d.balance !== undefined) setWalletBalance(d.balance);
+              })
+              .catch(() => {});
+          } else {
+            router.replace("/investor/login");
+          }
+        })
+        .catch(() => {
+          router.replace("/investor/login");
+        })
+        .finally(() => {
+          setIsChecking(false);
+        });
     }
   }, [router]);
 

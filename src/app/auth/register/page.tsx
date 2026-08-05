@@ -2,8 +2,10 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
+import ThemeToggle from "@/components/ThemeToggle";
 import { Shield, Mail, Phone, Lock, Eye, EyeOff, Camera } from "@/components/icons";
 
 type Role = "INVESTOR" | "UMKM";
@@ -67,6 +69,7 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
   const [kycFile, setKycFile] = useState<File | null>(null);
   const [kycPreview, setKycPreview] = useState<string>("");
+  const [isRegistered, setIsRegistered] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -216,7 +219,7 @@ export default function RegisterPage() {
       const data = await res.json();
 
       if (!res.ok) { setError(data.error || "Terjadi kesalahan, coba lagi."); return; }
-      router.push("/auth/login?registered=1");
+      setIsRegistered(true);
     } catch {
       setError("Tidak dapat terhubung ke server.");
     } finally {
@@ -224,14 +227,163 @@ export default function RegisterPage() {
     }
   }
 
+  if (isRegistered) {
+    const ownerName = account.role === "INVESTOR" ? investorProfile.fullName : umkmProfile.ownerName;
+    const displayName = ownerName || "Alexander Budi Santoso";
+
+    return (
+      <div className={styles.container}>
+        {/* LEFT PANEL SUCCESS */}
+        <div className={styles.leftPanel}>
+          <Link href="/" className={styles.logoGroup}>
+            <Image
+              src="/source/Logo-Synergy.png"
+              alt="Synergy Logo"
+              width={44}
+              height={44}
+              style={{ objectFit: "contain" }}
+              priority
+            />
+            <span className={styles.logoText}>SYNERGY</span>
+            <span className={styles.navBadge}>PKM KC</span>
+          </Link>
+          
+          <div className={styles.leftContent}>
+            <div className={styles.successBadge}>
+              <span className={styles.successDot}>●</span> VERIFIKASI BERHASIL
+            </div>
+            <h1 className={styles.leftTitle}>
+              Identitas Digital<br />
+              <span className={styles.highlight}>Telah Terbit.</span>
+            </h1>
+            <p className={styles.leftDescription}>
+              Sertifikat Digital Anda telah diterbitkan secara permanen di ledger blockchain. Identitas Anda kini terenkripsi dan dapat diverifikasi secara global.
+            </p>
+
+            <div className={styles.featureList}>
+              <div className={styles.featureItem}>
+                <div className={styles.featureIcon}>
+                  <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h4 className={styles.featureTitle}>Immutable Ledger</h4>
+                  <p className={styles.featureSub}>Data tidak dapat diubah atau dimanipulasi.</p>
+                </div>
+              </div>
+
+              <div className={styles.featureItem}>
+                <div className={styles.featureIcon}>
+                  <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                </div>
+                <div>
+                  <h4 className={styles.featureTitle}>Publicly Verifiable</h4>
+                  <p className={styles.featureSub}>Validasi instan melalui QR Code standar industri.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.successActions}>
+              <button
+                type="button"
+                className={styles.primaryActionBtn}
+                onClick={() => router.push("/auth/login?registered=1")}
+              >
+                Lanjutkan ke Profil →
+              </button>
+              <button
+                type="button"
+                className={styles.secondaryActionBtn}
+                onClick={() => alert("Sertifikat digital berhasil diunduh!")}
+              >
+                ⤓ Unduh Sertifikat
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT PANEL SUCCESS */}
+        <div className={styles.rightPanel}>
+          <header className={styles.rightHeader}>
+            <div className={styles.headerActions}>
+              <ThemeToggle />
+            </div>
+          </header>
+
+          <main className={styles.mainSuccess}>
+            <div className={styles.certCard}>
+              <div className={styles.certHeader}>
+                <div className={styles.certLogoRow}>
+                  <div className={styles.certLogoIcon}>⇄</div>
+                  <div>
+                    <div className={styles.certTitle}>SYNERGY</div>
+                    <div className={styles.certSubtitle}>BLOCKCHAIN NETWORK</div>
+                  </div>
+                </div>
+                <div className={styles.certStatusBadge}>
+                  ACTIVE & VERIFIED
+                </div>
+              </div>
+
+              <div className={styles.certBody}>
+                <div className={styles.certFieldGroup}>
+                  <div className={styles.certLabel}>NAMA PEMILIK IDENTITAS</div>
+                  <div className={styles.certValueName}>{displayName}</div>
+                </div>
+
+                <div className={styles.certFieldGroup}>
+                  <div className={styles.certLabel}>ID IDENTITAS BLOCKCHAIN</div>
+                  <div className={styles.certHashBox}>
+                    0x71C7656ECTab85b090def87518746185F5d0976F
+                  </div>
+                </div>
+
+                <div className={styles.certFooterRow}>
+                  <div>
+                    <div className={styles.certLabel}>TANGGAL TERBIT</div>
+                    <div className={styles.certValueDate}>
+                      {new Date().toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" })}
+                    </div>
+                  </div>
+                  <div className={styles.certQrCodeBox}>
+                    <svg viewBox="0 0 100 100" width="56" height="56" fill="currentColor">
+                      <path d="M0 0h35v35H0zM5 5v25h25V5zm5 5h15v15H10zm55-10h35v35H65zM70 5v25h25V5zm5 5h15v15H75zM0 65h35v35H0zM5 70v25h25V70zm5 5h15v15H10zm45-10h10v10H55zm15 0h10v10H70zm15 0h10v10H85zm-30 15h10v10H55zm30 0h10v10H85zm-15 15h10v10H70zm15 0h10v10H85z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.verificationFootnote}>
+              <span className={styles.blueDot}>⚙</span> Data ini telah diverifikasi oleh protokol <strong>Synergy Core</strong>.
+            </div>
+          </main>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container}>
       {/* LEFT PANEL */}
       <div className={styles.leftPanel}>
-        <div className={styles.logoGroup}>
-          <div className={styles.logoIcon}>S</div>
-          <span className={styles.logoText}>Synergy</span>
-        </div>
+        <Link href="/" className={styles.logoGroup}>
+          <Image
+            src="/source/Logo-Synergy.png"
+            alt="Synergy Logo"
+            width={44}
+            height={44}
+            style={{ objectFit: "contain" }}
+            priority
+          />
+          <span className={styles.logoText}>SYNERGY</span>
+          <span className={styles.navBadge}>PKM KC</span>
+        </Link>
         
         <div className={styles.leftContent}>
           <div className={styles.badge}>
@@ -252,12 +404,10 @@ export default function RegisterPage() {
       {/* RIGHT PANEL */}
       <div className={styles.rightPanel}>
         <header className={styles.rightHeader}>
-          <nav className={styles.navLinks}>
-            <Link href="#">Platform</Link>
-            <Link href="#">Keamanan</Link>
-            <Link href="#">Status Jaringan</Link>
-          </nav>
-          <Link href="/auth/login" className={styles.loginBtn}>Masuk</Link>
+          <div className={styles.headerActions}>
+            <ThemeToggle />
+            <Link href="/auth/login" className={styles.loginBtn}>Masuk</Link>
+          </div>
         </header>
 
         <main className={styles.mainForm}>
@@ -346,6 +496,10 @@ export default function RegisterPage() {
                   <button type="button" onClick={handleStep1} className={styles.submitBtn}>
                     Lanjutkan
                   </button>
+
+                  <Link href="/" className={styles.backHomeFullBtn}>
+                    ← Kembali ke Beranda
+                  </Link>
                 </div>
               </>
             )}
@@ -495,6 +649,10 @@ export default function RegisterPage() {
                     <button type="button" onClick={() => { setError(""); setStep(1); }} className={styles.backBtn}>Kembali</button>
                     <button type="button" onClick={handleStep2} className={styles.submitBtn}>Lanjutkan</button>
                   </div>
+
+                  <Link href="/" className={styles.backHomeFullBtn}>
+                    ← Kembali ke Beranda
+                  </Link>
                 </div>
               </>
             )}
@@ -545,6 +703,10 @@ export default function RegisterPage() {
                       {loading ? <span className={styles.spinner} /> : "Daftar Identitas"}
                     </button>
                   </div>
+
+                  <Link href="/" className={styles.backHomeFullBtn}>
+                    ← Kembali ke Beranda
+                  </Link>
                 </div>
               </>
             )}

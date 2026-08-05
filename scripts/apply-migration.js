@@ -83,7 +83,24 @@ async function run() {
         [id, "manual", folder, started]
       );
       console.log(`  ▶ Applying ${folder} …`);
-      await conn.query(sql);
+      const statements = sql
+        .split(";")
+        .map((s) => s.trim())
+        .filter((s) => s.length > 0);
+
+      for (const statement of statements) {
+        try {
+          await conn.query(statement);
+        } catch (stmtErr) {
+          // Ignore ER_DUP_FIELDNAME (1060), ER_TABLE_EXISTS_ERROR (1050), ER_DUP_KEYNAME (1061)
+          if ([1060, 1050, 1061, 1091].includes(stmtErr.errno)) {
+            console.log(`    ℹ Skipping statement due to existing schema object (${stmtErr.code})`);
+          } else {
+            throw stmtErr;
+          }
+        }
+      }
+
       await conn.query(
         "UPDATE `_prisma_migrations` SET finished_at = ?, applied_steps_count = 1 WHERE id = ?",
         [new Date(), id]

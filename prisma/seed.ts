@@ -16,13 +16,19 @@ import {
   FraudStatus,
   OtpPurpose,
 } from "../src/generated/prisma";
-import { Pool } from "pg";
-import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-const adapter = new PrismaPg(pool);
+const adapter = new PrismaMariaDb({
+  host: process.env.DB_HOST!,
+  port: parseInt(process.env.DB_PORT ?? "3306"),
+  user: process.env.DB_USER!,
+  password: process.env.DB_PASSWORD!,
+  database: process.env.DB_NAME!,
+  connectionLimit: 10,
+  connectTimeout: 30000,
+});
 
 const prisma = new PrismaClient({ adapter });
 

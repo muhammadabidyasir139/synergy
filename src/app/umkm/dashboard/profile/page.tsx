@@ -103,11 +103,14 @@ export default function ProfilUsaha() {
 
   const loadFinance = () => {
     const id = getUmkmId();
-    Promise.resolve()
-      .then(() => {
-        if (!id) return null;
-        return fetch("/api/umkm/profile/finance", { headers: { "x-umkm-id": id } })
-          .then(async (r) => (r.ok ? ((await r.json()) as FinanceData) : null));
+    const headers: Record<string, string> = {};
+    if (id) headers["x-umkm-id"] = id;
+
+    fetch("/api/umkm/profile/finance", { headers })
+      .then(async (r) => {
+        if (r.ok) return (await r.json()) as FinanceData;
+        const retryRes = await fetch("/api/umkm/profile/finance");
+        return retryRes.ok ? ((await retryRes.json()) as FinanceData) : null;
       })
       .then((d: FinanceData | null) => {
         if (d) {
@@ -129,9 +132,12 @@ export default function ProfilUsaha() {
     setFinanceError("");
     try {
       const id = getUmkmId();
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (id) headers["x-umkm-id"] = id;
+
       const res = await fetch("/api/umkm/profile/finance", {
         method: "PUT",
-        headers: { "Content-Type": "application/json", "x-umkm-id": id },
+        headers,
         body: JSON.stringify(financeForm),
       });
       if (!res.ok) {
@@ -152,11 +158,14 @@ export default function ProfilUsaha() {
 
   const loadProfile = () => {
     const id = getUmkmId();
-    Promise.resolve()
-      .then(() => {
-        if (!id) return null;
-        return fetch("/api/umkm/profile", { headers: { "x-umkm-id": id } })
-          .then(async (r) => (r.ok ? ((await r.json()) as ProfileData) : null));
+    const headers: Record<string, string> = {};
+    if (id) headers["x-umkm-id"] = id;
+
+    fetch("/api/umkm/profile", { headers })
+      .then(async (r) => {
+        if (r.ok) return (await r.json()) as ProfileData;
+        const retryRes = await fetch("/api/umkm/profile");
+        return retryRes.ok ? ((await retryRes.json()) as ProfileData) : null;
       })
       .then((d: ProfileData | null) => { if (d) setProfile(d); else setError("Gagal memuat profil."); })
       .catch(console.error)
@@ -172,9 +181,12 @@ export default function ProfilUsaha() {
     setError("");
     try {
       const id = getUmkmId();
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (id) headers["x-umkm-id"] = id;
+
       const res = await fetch("/api/umkm/profile", {
         method: "PATCH",
-        headers: { "Content-Type": "application/json", "x-umkm-id": id },
+        headers,
         body: JSON.stringify(profile),
       });
       if (!res.ok) {
@@ -199,10 +211,13 @@ export default function ProfilUsaha() {
     setError("");
     try {
       const id = getUmkmId();
+      const headers: Record<string, string> = {};
+      if (id) headers["x-umkm-id"] = id;
+
       const formData = new FormData();
       formData.append("file", file);
       formData.append("type", "LOGO");
-      const res = await fetch("/api/umkm/profile/media", { method: "POST", headers: { "x-umkm-id": id }, body: formData });
+      const res = await fetch("/api/umkm/profile/media", { method: "POST", headers, body: formData });
       if (!res.ok) {
         const data = await res.json();
         setError(data.error ?? "Gagal mengunggah logo.");
@@ -225,13 +240,16 @@ export default function ProfilUsaha() {
     setError("");
     try {
       const id = getUmkmId();
+      const headers: Record<string, string> = {};
+      if (id) headers["x-umkm-id"] = id;
+
       const failures: string[] = [];
       for (const file of files) {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("type", "GALLERY");
         try {
-          const res = await fetch("/api/umkm/profile/media", { method: "POST", headers: { "x-umkm-id": id }, body: formData });
+          const res = await fetch("/api/umkm/profile/media", { method: "POST", headers, body: formData });
           if (!res.ok) {
             const data = await res.json();
             failures.push(`${file.name}: ${data.error ?? "gagal diunggah"}`);
@@ -252,8 +270,11 @@ export default function ProfilUsaha() {
 
   const handleDeleteGalleryPhoto = async (mediaId: string) => {
     const id = getUmkmId();
+    const headers: Record<string, string> = {};
+    if (id) headers["x-umkm-id"] = id;
+
     setProfile((p) => p ? { ...p, gallery: p.gallery.filter((g) => g.id !== mediaId) } : p);
-    await fetch(`/api/umkm/profile/media/${mediaId}`, { method: "DELETE", headers: { "x-umkm-id": id } });
+    await fetch(`/api/umkm/profile/media/${mediaId}`, { method: "DELETE", headers });
   };
 
   const handleKycUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {

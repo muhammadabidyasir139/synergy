@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getSignedMediaUrl } from "@/lib/s3";
+import { requireUmkmProfileId } from "@/lib/auth-guard";
 
 export async function GET(request: NextRequest) {
   try {
-    const umkmProfileId = request.headers.get("x-umkm-id");
-    if (!umkmProfileId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const guard = await requireUmkmProfileId(request);
+    if (guard.error) return guard.error;
+    const umkmProfileId = guard.id;
 
     const profile = await db.umkmProfile.findUnique({
       where: { id: umkmProfileId },
@@ -65,8 +67,9 @@ export async function GET(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
-    const umkmProfileId = request.headers.get("x-umkm-id");
-    if (!umkmProfileId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const guard = await requireUmkmProfileId(request);
+    if (guard.error) return guard.error;
+    const umkmProfileId = guard.id;
 
     const profile = await db.umkmProfile.findUnique({ where: { id: umkmProfileId } });
     if (!profile) return NextResponse.json({ error: "Profile not found" }, { status: 404 });

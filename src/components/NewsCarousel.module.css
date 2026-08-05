@@ -2,6 +2,8 @@
   padding: 80px 0 60px;
   position: relative;
   z-index: 1;
+  background: var(--surface-2);
+  transition: background-color 0.3s ease;
 }
 
 .inner {
@@ -35,7 +37,7 @@
 .sectionTitle {
   font-size: clamp(22px, 3vw, 34px);
   font-weight: 700;
-  color: #112344;
+  color: var(--text-color);
   margin: 0;
   line-height: 1.18;
 }
@@ -50,21 +52,21 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1.5px solid rgba(47,111,224,0.28);
-  background: #fff;
-  color: #1e64d8;
+  border: 1.5px solid var(--border-color);
+  background: var(--surface-bg);
+  color: var(--primary);
   font-size: 22px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
-  transition: background 0.2s, border-color 0.2s;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
 }
 .navBtn:hover {
-  background: #2f86ff;
+  background: var(--primary);
   color: #fff;
-  border-color: #2f86ff;
+  border-color: var(--primary);
 }
 
 /* ── Cards grid ── */
@@ -82,11 +84,14 @@
   flex-direction: column;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   animation: cardIn 0.35s ease both;
+  background: var(--glass-bg);
+  border: 1px solid var(--border-color);
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 14px 40px rgba(30, 60, 110, 0.12);
+  box-shadow: 0 14px 40px rgba(0, 82, 204, 0.12);
+  border-color: var(--primary);
 }
 
 @keyframes cardIn {
@@ -99,7 +104,7 @@
   height: 180px;
   overflow: hidden;
   flex-shrink: 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .cardImage {
@@ -196,13 +201,13 @@
 
 .date {
   font-size: 11px;
-  color: #94a3b8;
+  color: var(--text-muted);
 }
 
 .cardTitle {
   font-size: 15px;
   font-weight: 700;
-  color: #112344;
+  color: var(--text-color);
   line-height: 1.35;
   margin: 0;
   display: -webkit-box;
@@ -213,7 +218,7 @@
 
 .cardExcerpt {
   font-size: 13px;
-  color: #51607a;
+  color: var(--text-muted);
   line-height: 1.6;
   flex: 1;
   margin: 0;
@@ -226,13 +231,13 @@
 .cardFooter {
   margin-top: 4px;
   padding-top: 10px;
-  border-top: 1px solid rgba(100,116,139,0.1);
+  border-top: 1px solid var(--border-color);
 }
 
 .author {
   font-size: 12px;
   font-weight: 600;
-  color: #94a3b8;
+  color: var(--text-muted);
 }
 
 /* ── Skeleton loading ── */

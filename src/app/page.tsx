@@ -65,18 +65,14 @@ export default function Home() {
 
         <HeroSection />
 
-        {/* ── Problem & Solution Section ── */}
-        <section id="teknologi" className={styles.problem}>
+        {/* ── Masalah & Solusi Section ── */}
+        <section id="masalah" className={styles.problem}>
           <ScrollReveal>
             <div className={styles.problemInner}>
-              <span className={styles.sectionLabel}>Masalah &amp; Solusi</span>
-              <h2 className={styles.sectionTitle}>
-                Mengapa Indonesia Butuh SYNERGY?
-              </h2>
+              <span className={styles.sectionLabel}>Latar Belakang</span>
+              <h2 className={styles.sectionTitle}>Masalah &amp; Solusi</h2>
               <p className={styles.sectionSubtitle}>
-                Sektor UMKM adalah pilar penting mencapai target pertumbuhan
-                ekonomi nasional sebesar 8%, namun tiga hambatan kritis
-                menghambat inklusivitas keuangan.
+                Sektor UMKM adalah pilar utama ekonomi nasional, namun tantangan aksesibilitas modal masih menjadi hambatan terbesar.
               </p>
 
               <div className={styles.statsGrid}>
@@ -84,26 +80,21 @@ export default function Home() {
                   <div className={styles.statNumber}>Rp2.400 T</div>
                   <div className={styles.statLabel}>Financing Gap</div>
                   <p className={styles.statDesc}>
-                    Angka kesenjangan modal yang masif bagi pelaku UMKM di
-                    Indonesia akibat kendala administratif dan agunan formal
-                    (unbankable).
+                    Kesenjangan pendanaan yang dihadapi pelaku UMKM di Indonesia akibat belum memenuhi standar agunan formal bank.
                   </p>
                 </div>
                 <div className={`${styles.statCard} glass`}>
                   <div className={styles.statNumber}><AlertTriangle style={{ verticalAlign: "-0.125em" }} /> Risiko</div>
                   <div className={styles.statLabel}>Sentralisasi Data</div>
                   <p className={styles.statDesc}>
-                    Sistem perbankan konvensional rawan terhadap kegagalan
-                    sistem tunggal dan ancaman kebocoran data terpusat.
+                    Sistem perbankan terpusat memiliki risiko kegagalan sistem tunggal serta ancaman manipulasi data.
                   </p>
                 </div>
                 <div className={`${styles.statCard} glass`}>
                   <div className={styles.statNumber}>0%</div>
-                  <div className={styles.statLabel}>Sistem Kredit Inklusif</div>
+                  <div className={styles.statLabel}>Sistem Inklusif</div>
                   <p className={styles.statDesc}>
-                    Belum adanya sistem penilaian risiko otomatis yang
-                    transparan dan inklusif bagi pelaku usaha tanpa riwayat
-                    kredit bank.
+                    Keterbatasan instrumen penilaian risiko otomatis bagi UMKM tanpa riwayat kredit perbankan resmi.
                   </p>
                 </div>
               </div>
@@ -113,12 +104,7 @@ export default function Home() {
                 <div>
                   <h3>Solusi SYNERGY</h3>
                   <p>
-                    SYNERGY hadir sebagai solusi inovatif: memangkas kesenjangan
-                    tersebut melalui ekosistem pembiayaan syariah berbasis{" "}
-                    <strong>Blockchain</strong> yang aman, serta skoring
-                    kelayakan UMKM yang akurat menggunakan{" "}
-                    <strong>AI (XGBoost)</strong> demi mewujudkan pemerataan
-                    ekonomi digital yang transparan.
+                    SYNERGY hadir memangkas kesenjangan tersebut melalui ekosistem pembiayaan syariah berbasis <strong>Blockchain</strong> yang transparan serta skoring kelayakan presisi tinggi dengan <strong>AI (XGBoost)</strong>.
                   </p>
                 </div>
               </div>
@@ -130,282 +116,147 @@ export default function Home() {
         <section id="fitur" className={styles.features}>
           <div className={styles.featuresInner}>
             <ScrollReveal>
-              <span className={styles.sectionLabel}>Keunggulan Platform</span>
+              <span className={styles.sectionLabel}>Platform SYNERGY</span>
+              <h2 className={styles.sectionTitle}>Keunggulan & Fitur Utama</h2>
+              <p className={styles.sectionSubtitle}>
+                Solusi terlengkap yang menggabungkan kecerdasan buatan, keamanan blockchain, dan skema syariah murni untuk pemberdayaan UMKM Indonesia.
+              </p>
+            </ScrollReveal>
+
+            <div className={styles.featureGrid}>
+              <div className={`${styles.featureCard} glass`}>
+                <div className={styles.featureIconWrap}>
+                  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="44" height="44">
+                    <circle cx="24" cy="24" r="20" stroke="#00D2FF" strokeWidth="1.8" />
+                    <circle cx="24" cy="24" r="5" fill="#00D2FF" />
+                  </svg>
+                </div>
+                <h3>Penilaian Kelayakan Otomatis</h3>
+                <p>
+                  Proses evaluasi UMKM cepat dan inklusif berdasarkan analitik data usaha tanpa syarat agunan formal perbankan konvensional.
+                </p>
+              </div>
+
+              <div className={`${styles.featureCard} glass`}>
+                <div className={styles.featureIconWrap}>
+                  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="44" height="44">
+                    <rect x="10" y="14" width="28" height="20" rx="3" stroke="#00D2FF" strokeWidth="1.8" />
+                  </svg>
+                </div>
+                <h3>Pencatatan Transparan & Immutable</h3>
+                <p>
+                  Setiap pendanaan dan distribusi hasil tersimpan secara permanen pada ledger terdistribusi yang aman dari kecurangan.
+                </p>
+              </div>
+
+              <div className={`${styles.featureCard} glass`}>
+                <div className={styles.featureIconWrap}>
+                  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="44" height="44">
+                    <path d="M24 6 L38 14 L38 28 C38 36 24 42 24 42 Z" stroke="#00D2FF" strokeWidth="1.8" />
+                  </svg>
+                </div>
+                <h3>Bagi Hasil Bebas Riba</h3>
+                <p>
+                  Sistem investasi yang adil dan transparan dengan bagi hasil berbasis nisbah realisasi keuntungan usaha.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Teknologi Section ── */}
+        <section id="teknologi" className={styles.teknologi}>
+          <div className={styles.featuresInner}>
+            <ScrollReveal>
+              <span className={styles.sectionLabel}>Arsitektur Sistem</span>
               <h2 className={styles.sectionTitle}>Teknologi Inti SYNERGY</h2>
               <p className={styles.sectionSubtitle}>
-                Ekosistem pembiayaan yang lebih adil, transparan, aman, dan
-                berkelanjutan.
+                Perpaduan Machine Learning dan Blockchain untuk keamanan serta objektivitas keputusan keuangan.
               </p>
             </ScrollReveal>
 
             <div className={styles.featureGrid}>
               {/* AI Scoring */}
-              <ScrollReveal duration={1.5} delay={0}>
+              <ScrollReveal duration={1.2} delay={0}>
                 <div className={`${styles.featureCard} glass`}>
                   <div className={styles.featureIconWrap}>
-                    <svg
-                      viewBox="0 0 48 48"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="44"
-                      height="44"
-                    >
-                      <circle
-                        cx="24"
-                        cy="24"
-                        r="20"
-                        stroke="#00D2FF"
-                        strokeWidth="1.8"
-                      />
-                      <path
-                        d="M24 10 C24 10 34 17 34 24 C34 31 24 38 24 38 C24 38 14 31 14 24 C14 17 24 10 24 10Z"
-                        stroke="#00D2FF"
-                        strokeWidth="1.4"
-                        fill="none"
-                        opacity="0.5"
-                      />
+                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="44" height="44">
+                      <circle cx="24" cy="24" r="20" stroke="#00D2FF" strokeWidth="1.8" />
+                      <path d="M24 10 C24 10 34 17 34 24 C34 31 24 38 24 38 C24 38 14 31 14 24 C14 17 24 10 24 10Z" stroke="#00D2FF" strokeWidth="1.4" fill="none" opacity="0.5" />
                       <circle cx="24" cy="24" r="3.5" fill="#00D2FF" />
-                      <line
-                        x1="24"
-                        y1="12"
-                        x2="24"
-                        y2="17"
-                        stroke="#00D2FF"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                      <line
-                        x1="24"
-                        y1="31"
-                        x2="24"
-                        y2="36"
-                        stroke="#00D2FF"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                      <line
-                        x1="12"
-                        y1="24"
-                        x2="17"
-                        y2="24"
-                        stroke="#00D2FF"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                      <line
-                        x1="31"
-                        y1="24"
-                        x2="36"
-                        y2="24"
-                        stroke="#00D2FF"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                      <line
-                        x1="15.5"
-                        y1="15.5"
-                        x2="19"
-                        y2="19"
-                        stroke="#00D2FF"
-                        strokeWidth="1.2"
-                        strokeLinecap="round"
-                        opacity="0.7"
-                      />
-                      <line
-                        x1="29"
-                        y1="29"
-                        x2="32.5"
-                        y2="32.5"
-                        stroke="#00D2FF"
-                        strokeWidth="1.2"
-                        strokeLinecap="round"
-                        opacity="0.7"
-                      />
+                      <line x1="24" y1="12" x2="24" y2="17" stroke="#00D2FF" strokeWidth="1.5" strokeLinecap="round" />
+                      <line x1="24" y1="31" x2="24" y2="36" stroke="#00D2FF" strokeWidth="1.5" strokeLinecap="round" />
+                      <line x1="12" y1="24" x2="17" y2="24" stroke="#00D2FF" strokeWidth="1.5" strokeLinecap="round" />
+                      <line x1="31" y1="24" x2="36" y2="24" stroke="#00D2FF" strokeWidth="1.5" strokeLinecap="round" />
                     </svg>
                   </div>
                   <h3>AI Feasibility Scoring</h3>
                   <p>
-                    Menggunakan algoritma{" "}
-                    <strong>Extreme Gradient Boosting (XGBoost)</strong>{" "}
-                    berbasis Python. Menganalisis data transaksi, listrik, dan
-                    arus kas untuk skor kelayakan yang cepat, objektif, dan
-                    akurat.
+                    Algoritma <strong>Extreme Gradient Boosting (XGBoost)</strong> berbasis Python yang mengevaluasi data operasional, arus kas, dan variabel bisnis secara objektif.
                   </p>
                 </div>
               </ScrollReveal>
 
               {/* Smart Contract */}
-              <ScrollReveal duration={1.5} delay={0.2}>
+              <ScrollReveal duration={1.2} delay={0.2}>
                 <div className={`${styles.featureCard} glass`}>
                   <div className={styles.featureIconWrap}>
-                    <svg
-                      viewBox="0 0 48 48"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="44"
-                      height="44"
-                    >
-                      <rect
-                        x="9"
-                        y="19"
-                        width="12"
-                        height="10"
-                        rx="3"
-                        stroke="#00D2FF"
-                        strokeWidth="1.8"
-                      />
-                      <rect
-                        x="27"
-                        y="19"
-                        width="12"
-                        height="10"
-                        rx="3"
-                        stroke="#00D2FF"
-                        strokeWidth="1.8"
-                      />
-                      <rect
-                        x="18"
-                        y="7"
-                        width="12"
-                        height="10"
-                        rx="3"
-                        stroke="#00D2FF"
-                        strokeWidth="1.8"
-                      />
-                      <rect
-                        x="18"
-                        y="31"
-                        width="12"
-                        height="10"
-                        rx="3"
-                        stroke="#00D2FF"
-                        strokeWidth="1.8"
-                      />
-                      <line
-                        x1="24"
-                        y1="17"
-                        x2="21"
-                        y2="19"
-                        stroke="#00D2FF"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                      <line
-                        x1="24"
-                        y1="17"
-                        x2="27"
-                        y2="19"
-                        stroke="#00D2FF"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                      <line
-                        x1="21"
-                        y1="29"
-                        x2="24"
-                        y2="31"
-                        stroke="#00D2FF"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                      <line
-                        x1="27"
-                        y1="29"
-                        x2="24"
-                        y2="31"
-                        stroke="#00D2FF"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                      <line
-                        x1="21"
-                        y1="24"
-                        x2="9"
-                        y2="24"
-                        stroke="#00D2FF"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                      <line
-                        x1="27"
-                        y1="24"
-                        x2="39"
-                        y2="24"
-                        stroke="#00D2FF"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                      <circle
-                        cx="9"
-                        cy="24"
-                        r="2"
-                        fill="#00D2FF"
-                        opacity="0.6"
-                      />
-                      <circle
-                        cx="39"
-                        cy="24"
-                        r="2"
-                        fill="#00D2FF"
-                        opacity="0.6"
-                      />
+                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="44" height="44">
+                      <rect x="9" y="19" width="12" height="10" rx="3" stroke="#00D2FF" strokeWidth="1.8" />
+                      <rect x="27" y="19" width="12" height="10" rx="3" stroke="#00D2FF" strokeWidth="1.8" />
+                      <rect x="18" y="7" width="12" height="10" rx="3" stroke="#00D2FF" strokeWidth="1.8" />
+                      <rect x="18" y="31" width="12" height="10" rx="3" stroke="#00D2FF" strokeWidth="1.8" />
                     </svg>
                   </div>
                   <h3>Smart Contract Blockchain</h3>
                   <p>
-                    Transaksi dicatat menggunakan bahasa <strong>Golang</strong>{" "}
-                    ke dalam jaringan <em>Blockchain</em>. Data tersimpan di{" "}
-                    <em>Ledger</em> masing-masing pengguna, sehingga 100%
-                    transparan dan anti-manipulasi.
-                  </p>
-                </div>
-              </ScrollReveal>
-
-              {/* Akad Syariah */}
-              <ScrollReveal duration={1.5} delay={0.4}>
-                <div className={`${styles.featureCard} glass`} id="akad">
-                  <div className={styles.featureIconWrap}>
-                    <svg
-                      viewBox="0 0 48 48"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="44"
-                      height="44"
-                    >
-                      <path
-                        d="M24 6 L38 14 L38 28 C38 36 24 42 24 42 C24 42 10 36 10 28 L10 14 Z"
-                        stroke="#00D2FF"
-                        strokeWidth="1.8"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M18 24 L22 28 L30 20"
-                        stroke="#00D2FF"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <circle
-                        cx="24"
-                        cy="24"
-                        r="10"
-                        stroke="#00D2FF"
-                        strokeWidth="0.8"
-                        opacity="0.3"
-                      />
-                    </svg>
-                  </div>
-                  <h3>Akad Syariah Digital</h3>
-                  <p>
-                    Terintegrasi dengan sistem{" "}
-                    <strong>Musyarakah &amp; Mudharabah</strong> yang
-                    didigitalisasikan, memastikan seluruh proses investasi
-                    selaras dengan prinsip-prinsip ekonomi Islam.
+                    Kontrak pintar berbasis <strong>Golang / Hyperledger Fabric</strong>. Menyimpan persetujuan dan riwayat transaksi secara aman, transparan, dan anti-tamper.
                   </p>
                 </div>
               </ScrollReveal>
             </div>
           </div>
+        </section>
+
+        {/* ── Akad Syariah Section ── */}
+        <section id="akad" className={styles.akad}>
+          <ScrollReveal>
+            <div className={styles.problemInner}>
+              <span className={styles.sectionLabel}>Prinsip Ekonomi Islam</span>
+              <h2 className={styles.sectionTitle}>Skema Akad Syariah Digital</h2>
+              <p className={styles.sectionSubtitle}>
+                SYNERGY menjamin seluruh aktivitas pembiayaan bebas dari Riba, Gharar, dan Masyir dengan kesepakatan rasio nisbah yang transparan.
+              </p>
+
+              <div className={styles.featureGrid}>
+                <div className={`${styles.featureCard} glass`}>
+                  <div className={styles.featureIconWrap}>
+                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="44" height="44">
+                      <path d="M24 6 L38 14 L38 28 C38 36 24 42 24 42 C24 42 10 36 10 28 L10 14 Z" stroke="#00D2FF" strokeWidth="1.8" strokeLinejoin="round" />
+                      <path d="M18 24 L22 28 L30 20" stroke="#00D2FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+                  <h3>Akad Musyarakah (Kemitraan Modal)</h3>
+                  <p>
+                    Kerja sama investasi di mana investor dan UMKM bersama-sama menyertakan modal. Keuntungan dan risiko dibagikan proporsional sesuai rasio nisbah kesepakatan awal yang terkunci di Smart Contract.
+                  </p>
+                </div>
+
+                <div className={`${styles.featureCard} glass`}>
+                  <div className={styles.featureIconWrap}>
+                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="44" height="44">
+                      <rect x="10" y="14" width="28" height="24" rx="4" stroke="#00D2FF" strokeWidth="1.8" />
+                      <path d="M16 24h16M16 30h10" stroke="#00D2FF" strokeWidth="1.5" strokeLinecap="round" />
+                    </svg>
+                  </div>
+                  <h3>Akad Mudharabah (Bagi Hasil Usaha)</h3>
+                  <p>
+                    Investor (Shahibul Maal) menyediakan 100% modal usaha, sementara UMKM (Mudharib) mengelola proyek secara penuh. Pembagian hasil usaha dilakukan secara berkala dan otomatis berbasis realisasi keuntungan.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
         </section>
 
         {/* ── News Section ── */}
@@ -529,17 +380,18 @@ export default function Home() {
               {/* Nav links */}
               <div className={styles.footerLinks}>
                 <h4>Platform</h4>
+                <Link href="#masalah">Solusi</Link>
                 <Link href="#fitur">Fitur</Link>
                 <Link href="#teknologi">Teknologi</Link>
-                <Link href="#akad">Akad Syariah</Link>
+                <Link href="#akad">Akad</Link>
+                <Link href="#berita">Berita</Link>
                 <Link href="/auth/login">Masuk</Link>
                 <Link href="/auth/register">Daftar</Link>
               </div>
 
               <div className={styles.footerLinks}>
                 <h4>Tentang</h4>
-                <Link href="#tentang">Tentang Kami</Link>
-                <Link href="#tim">Tim</Link>
+                <Link href="#tentang">About Us</Link>
                 <a
                   href="https://www.instagram.com/pkmkc.synergy/"
                   target="_blank"

@@ -33,8 +33,11 @@ export default function ExplorePage() {
   useEffect(() => {
     fetch("/api/investor/campaigns")
       .then((r) => r.json())
-      .then((d: Campaign[]) => setCampaigns(d))
-      .catch(console.error)
+      .then((d) => setCampaigns(Array.isArray(d) ? d : []))
+      .catch((err) => {
+        console.error(err);
+        setCampaigns([]);
+      })
       .finally(() => setIsLoading(false));
   }, []);
 

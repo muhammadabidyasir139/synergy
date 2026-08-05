@@ -1,12 +1,18 @@
 import { PrismaClient } from "@/generated/prisma";
-import { Pool } from "pg";
-import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
 
 function createPrismaClient() {
-  const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-  const adapter = new PrismaPg(pool);
+  const adapter = new PrismaMariaDb({
+    host: process.env.DB_HOST!,
+    port: parseInt(process.env.DB_PORT ?? "3306"),
+    user: process.env.DB_USER!,
+    password: process.env.DB_PASSWORD!,
+    database: process.env.DB_NAME!,
+    connectionLimit: 10,
+    connectTimeout: 30000,
+  });
 
   return new PrismaClient({
     adapter,

@@ -21,6 +21,9 @@ export default function Navbar() {
         </Link>
 
         <div className={styles.navLinks}>
+          <Link href="#masalah" className={styles.link}>
+            Solusi
+          </Link>
           <Link href="#fitur" className={styles.link}>
             Fitur
           </Link>
@@ -29,6 +32,12 @@ export default function Navbar() {
           </Link>
           <Link href="#akad" className={styles.link}>
             Akad
+          </Link>
+          <Link href="#berita" className={styles.link}>
+            Berita
+          </Link>
+          <Link href="#tentang" className={styles.link}>
+            About Us
           </Link>
         </div>
 

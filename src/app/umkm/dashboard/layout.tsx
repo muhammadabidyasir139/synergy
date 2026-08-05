@@ -47,7 +47,29 @@ export default function UMKMLayout({ children }: { children: React.ReactNode }) 
         setIsAuthenticated(true);
         setIsChecking(false);
       } else {
-        router.replace("/auth/login");
+        // Fallback: fetch profile from backend using cookie session
+        fetch("/api/umkm/profile")
+          .then(async (res) => {
+            if (res.ok) {
+              const data = await res.json();
+              const restoredSession: UmkmSession = {
+                userId: data.userId || "",
+                fullName: data.businessName || data.ownerName || "UMKM",
+                umkmProfileId: data.id || "",
+              };
+              sessionStorage.setItem("synergy_umkm_session", JSON.stringify(restoredSession));
+              setSession(restoredSession);
+              setIsAuthenticated(true);
+            } else {
+              router.replace("/auth/login");
+            }
+          })
+          .catch(() => {
+            router.replace("/auth/login");
+          })
+          .finally(() => {
+            setIsChecking(false);
+          });
       }
     }
   }, [router]);

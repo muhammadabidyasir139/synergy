@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { requireUmkmProfileId } from "@/lib/auth-guard";
 
 const FIELDS = [
   "asetLancar",
@@ -15,8 +16,9 @@ type FinanceField = (typeof FIELDS)[number];
 
 export async function GET(request: NextRequest) {
   try {
-    const umkmProfileId = request.headers.get("x-umkm-id");
-    if (!umkmProfileId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const guard = await requireUmkmProfileId(request);
+    if (guard.error) return guard.error;
+    const umkmProfileId = guard.id;
 
     const variable = await db.akadVariable.findFirst({
       where: { umkmProfileId },
@@ -41,8 +43,9 @@ export async function GET(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const umkmProfileId = request.headers.get("x-umkm-id");
-    if (!umkmProfileId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const guard = await requireUmkmProfileId(request);
+    if (guard.error) return guard.error;
+    const umkmProfileId = guard.id;
 
     const profile = await db.umkmProfile.findUnique({ where: { id: umkmProfileId } });
     if (!profile) return NextResponse.json({ error: "Profile not found" }, { status: 404 });
