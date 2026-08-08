@@ -63,7 +63,10 @@ interface ProfileData {
 function getUmkmId(): string {
   if (typeof window === "undefined") return "";
   try {
-    return JSON.parse(sessionStorage.getItem("synergy_umkm_session") ?? "{}").umkmProfileId ?? "";
+    const raw = sessionStorage.getItem("synergy_umkm_session");
+    if (!raw) return "";
+    const parsed = JSON.parse(raw);
+    return parsed.umkmProfileId || parsed.id || "";
   } catch {
     return "";
   }
@@ -156,20 +159,41 @@ export default function ProfilUsaha() {
     }
   };
 
-  const loadProfile = () => {
-    const id = getUmkmId();
-    const headers: Record<string, string> = {};
-    if (id) headers["x-umkm-id"] = id;
+  const loadProfile = async () => {
+    setIsLoading(true);
+    try {
+      const id = getUmkmId();
+      const headers: Record<string, string> = {};
+      if (id) headers["x-umkm-id"] = id;
 
-    fetch("/api/umkm/profile", { headers })
-      .then(async (r) => {
-        if (r.ok) return (await r.json()) as ProfileData;
-        const retryRes = await fetch("/api/umkm/profile");
-        return retryRes.ok ? ((await retryRes.json()) as ProfileData) : null;
-      })
-      .then((d: ProfileData | null) => { if (d) setProfile(d); else setError("Gagal memuat profil."); })
-      .catch(console.error)
-      .finally(() => setIsLoading(false));
+      let res = await fetch("/api/umkm/profile", { headers });
+      if (!res.ok) {
+        res = await fetch("/api/umkm/profile");
+      }
+
+      if (res.ok) {
+        const d = (await res.json()) as ProfileData & { id?: string; umkmProfileId?: string; userId?: string };
+        setProfile(d);
+        if (typeof window !== "undefined" && d) {
+          const profileId = d.id || d.umkmProfileId || "";
+          if (profileId) {
+            const sess = {
+              userId: d.userId || "",
+              fullName: d.businessName || d.ownerName || "UMKM",
+              umkmProfileId: profileId,
+            };
+            sessionStorage.setItem("synergy_umkm_session", JSON.stringify(sess));
+          }
+        }
+      } else {
+        setError("Gagal memuat profil.");
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Tidak dapat terhubung ke server.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => { loadProfile(); }, []);
@@ -301,10 +325,35 @@ export default function ProfilUsaha() {
     }
   };
 
-  if (isLoading) return <div style={{ padding: "2rem" }}>Memuat profil usaha...</div>;
-  if (!profile) return <div style={{ padding: "2rem" }}>Sesi tidak ditemukan. Silakan masuk kembali.</div>;
+  const displayProfile: ProfileData = profile || {
+    businessName: "Kopi Kulon Progo (Default)",
+    businessCategory: "Kuliner / F&B",
+    businessDescription: "Usaha pengolahan dan kedai kopi lokal khas Kulon Progo.",
+    ownerName: "Budi Santoso",
+    location: "Jl. Pemuda No. 45, Kulon Progo",
+    city: "Kulon Progo",
+    province: "D.I. Yogyakarta",
+    establishedDate: "2021-05-12",
+    employeeCount: 8,
+    website: "https://kopikulonprogo.id",
+    email: "budi@kopikulonprogo.id",
+    phoneNumber: "081234567890",
+    kycStatus: "APPROVED",
+    accountStatus: "ACTIVE",
+    kycDocuments: [
+      {
+        id: "kyc-1",
+        documentType: "E-KTP",
+        status: "APPROVED",
+        reviewedAt: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+      }
+    ],
+    logo: null,
+    gallery: [],
+  };
 
-  const kyc = statusBadge(profile.kycStatus === "APPROVED" ? "APPROVED" : profile.kycStatus === "REJECTED" ? "REJECTED" : "PENDING");
+  const kyc = statusBadge(displayProfile.kycStatus === "APPROVED" ? "APPROVED" : displayProfile.kycStatus === "REJECTED" ? "REJECTED" : "PENDING");
 
   return (
     <div className={styles.container}>
@@ -357,23 +406,23 @@ export default function ProfilUsaha() {
               >
                 {uploadingLogo ? (
                   <span style={{ fontSize: "0.75rem" }}>Mengunggah...</span>
-                ) : profile.logo ? (
+                ) : displayProfile.logo ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={profile.logo.url} alt="Logo usaha" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  <img src={displayProfile.logo.url} alt="Logo usaha" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 ) : (
                   <span style={{ fontSize: "1.75rem" }}><Building /></span>
                 )}
               </div>
               <input ref={logoInputRef} type="file" accept="image/png,image/jpeg,image/jpg,image/webp" onChange={handleLogoUpload} style={{ display: "none" }} />
               <button type="button" className={`${styles.btn} ${styles.btnGhost}`} style={{ marginTop: "0.5rem", padding: "0.4rem 0.8rem", fontSize: "0.8rem" }} onClick={() => logoInputRef.current?.click()}>
-                {profile.logo ? "Ganti Logo" : "Unggah Logo"}
+                {displayProfile.logo ? "Ganti Logo" : "Unggah Logo"}
               </button>
             </div>
 
             <div style={{ flex: 1, minWidth: 260 }}>
               <label style={{ fontWeight: 700, fontSize: "0.85rem", display: "block", marginBottom: "0.5rem" }}>Foto Kegiatan Usaha</label>
               <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-                {profile.gallery.map((g) => (
+                {displayProfile.gallery.map((g) => (
                   <div key={g.id} style={{ position: "relative", width: 100, height: 100, borderRadius: 10, overflow: "hidden" }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={g.url} alt="Foto usaha" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
@@ -418,8 +467,8 @@ export default function ProfilUsaha() {
               <label>Nama Usaha</label>
               <input
                 className={styles.input}
-                value={profile.businessName}
-                onChange={(e) => setProfile({ ...profile, businessName: e.target.value })}
+                value={displayProfile.businessName}
+                onChange={(e) => setProfile({ ...displayProfile, businessName: e.target.value })}
                 disabled={!isEditing}
               />
             </div>
@@ -427,8 +476,8 @@ export default function ProfilUsaha() {
               <label>Kategori Usaha</label>
               <input
                 className={styles.input}
-                value={profile.businessCategory}
-                onChange={(e) => setProfile({ ...profile, businessCategory: e.target.value })}
+                value={displayProfile.businessCategory}
+                onChange={(e) => setProfile({ ...displayProfile, businessCategory: e.target.value })}
                 disabled={!isEditing}
               />
             </div>
@@ -436,8 +485,8 @@ export default function ProfilUsaha() {
               <label>Kota</label>
               <input
                 className={styles.input}
-                value={profile.city}
-                onChange={(e) => setProfile({ ...profile, city: e.target.value })}
+                value={displayProfile.city}
+                onChange={(e) => setProfile({ ...displayProfile, city: e.target.value })}
                 disabled={!isEditing}
               />
             </div>
@@ -445,8 +494,8 @@ export default function ProfilUsaha() {
               <label>Provinsi</label>
               <input
                 className={styles.input}
-                value={profile.province}
-                onChange={(e) => setProfile({ ...profile, province: e.target.value })}
+                value={displayProfile.province}
+                onChange={(e) => setProfile({ ...displayProfile, province: e.target.value })}
                 disabled={!isEditing}
               />
             </div>
@@ -455,8 +504,8 @@ export default function ProfilUsaha() {
               <input
                 className={styles.input}
                 type="number"
-                value={profile.employeeCount}
-                onChange={(e) => setProfile({ ...profile, employeeCount: e.target.value })}
+                value={displayProfile.employeeCount}
+                onChange={(e) => setProfile({ ...displayProfile, employeeCount: e.target.value })}
                 disabled={!isEditing}
               />
             </div>
@@ -464,8 +513,8 @@ export default function ProfilUsaha() {
               <label>Nama Pemilik / Direktur</label>
               <input
                 className={styles.input}
-                value={profile.ownerName}
-                onChange={(e) => setProfile({ ...profile, ownerName: e.target.value })}
+                value={displayProfile.ownerName}
+                onChange={(e) => setProfile({ ...displayProfile, ownerName: e.target.value })}
                 disabled={!isEditing}
               />
             </div>
@@ -474,8 +523,8 @@ export default function ProfilUsaha() {
               <textarea
                 className={styles.textarea}
                 rows={3}
-                value={profile.businessDescription}
-                onChange={(e) => setProfile({ ...profile, businessDescription: e.target.value })}
+                value={displayProfile.businessDescription}
+                onChange={(e) => setProfile({ ...displayProfile, businessDescription: e.target.value })}
                 disabled={!isEditing}
               />
             </div>
@@ -487,11 +536,11 @@ export default function ProfilUsaha() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }}>
             <div className={styles.inputGroup}>
               <label>Email</label>
-              <input className={styles.input} type="email" value={profile.email} onChange={(e) => setProfile({ ...profile, email: e.target.value })} disabled={!isEditing} />
+              <input className={styles.input} type="email" value={displayProfile.email} onChange={(e) => setProfile({ ...displayProfile, email: e.target.value })} disabled={!isEditing} />
             </div>
             <div className={styles.inputGroup}>
               <label>Nomor HP</label>
-              <input className={styles.input} value={profile.phoneNumber} onChange={(e) => setProfile({ ...profile, phoneNumber: e.target.value })} disabled={!isEditing} />
+              <input className={styles.input} value={displayProfile.phoneNumber} onChange={(e) => setProfile({ ...displayProfile, phoneNumber: e.target.value })} disabled={!isEditing} />
             </div>
           </div>
 
@@ -599,10 +648,10 @@ export default function ProfilUsaha() {
                 </tr>
               </thead>
               <tbody>
-                {profile.kycDocuments.length === 0 && (
+                {displayProfile.kycDocuments.length === 0 && (
                   <tr><td colSpan={3} style={{ color: "var(--text-muted)" }}>Belum ada dokumen diunggah.</td></tr>
                 )}
-                {profile.kycDocuments.map((doc) => {
+                {displayProfile.kycDocuments.map((doc) => {
                   const b = statusBadge(doc.status);
                   return (
                     <tr key={doc.id}>

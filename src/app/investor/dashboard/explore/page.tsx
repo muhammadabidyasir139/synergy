@@ -22,6 +22,8 @@ interface Campaign {
   investorCount: number;
 }
 
+
+
 export default function ExplorePage() {
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -33,10 +35,13 @@ export default function ExplorePage() {
   useEffect(() => {
     fetch("/api/investor/campaigns")
       .then((r) => r.json())
-      .then((d) => setCampaigns(Array.isArray(d) ? d : []))
+      .then((d) => {
+        if (Array.isArray(d)) {
+          setCampaigns(d);
+        }
+      })
       .catch((err) => {
         console.error(err);
-        setCampaigns([]);
       })
       .finally(() => setIsLoading(false));
   }, []);

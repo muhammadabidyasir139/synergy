@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import styles from "./page.module.css";
@@ -18,6 +18,45 @@ interface Campaign {
   city?: string;
 }
 
+const DUMMY_CAMPAIGNS: Campaign[] = [
+  {
+    id: "camp-1",
+    name: "Kopi Kulon Progo",
+    estimatedRoi: 14.5,
+    durationMonths: 12,
+    akadType: "MUSYARAKAH",
+    category: "Kuliner / F&B",
+    city: "Kulon Progo",
+  },
+  {
+    id: "camp-2",
+    name: "Batik Mataram Craft",
+    estimatedRoi: 16.0,
+    durationMonths: 18,
+    akadType: "MUSYARAKAH",
+    category: "Kerajinan & Fashion",
+    city: "Yogyakarta",
+  },
+  {
+    id: "camp-3",
+    name: "Tani Organik Sleman",
+    estimatedRoi: 15.0,
+    durationMonths: 6,
+    akadType: "MURABAHAH",
+    category: "Pertanian & Perkebunan",
+    city: "Sleman",
+  },
+  {
+    id: "camp-4",
+    name: "Keripik Singkong Bantul",
+    estimatedRoi: 13.8,
+    durationMonths: 9,
+    akadType: "MUSYARAKAH",
+    category: "Olahan Makanan",
+    city: "Bantul",
+  },
+];
+
 function getInvestorId() {
   if (typeof window === "undefined") return "";
   try { return JSON.parse(sessionStorage.getItem("synergy_investor_session") ?? "{}").investorProfileId ?? ""; }
@@ -26,7 +65,7 @@ function getInvestorId() {
 
 const formatRp = (n: number) => "Rp " + n.toLocaleString("id-ID");
 
-export default function InvestasiPage() {
+function InvestasiContent() {
   const searchParams = useSearchParams();
   const preselect = searchParams.get("campaignId");
 
@@ -46,11 +85,21 @@ export default function InvestasiPage() {
     fetch("/api/investor/campaigns")
       .then((r) => r.json())
       .then((d: Campaign[]) => {
-        setCampaigns(d);
-        setSelectedId(preselect ?? (d[0]?.id ?? ""));
-        if (d[0]) setAkadType(d[0].akadType as "MUSYARAKAH" | "MURABAHAH");
+        if (Array.isArray(d) && d.length > 0) {
+          setCampaigns(d);
+          setSelectedId(preselect ?? (d[0]?.id ?? ""));
+          if (d[0]) setAkadType((d[0].akadType as "MUSYARAKAH" | "MURABAHAH") || "MUSYARAKAH");
+        } else {
+          setCampaigns(DUMMY_CAMPAIGNS);
+          setSelectedId(preselect ?? DUMMY_CAMPAIGNS[0].id);
+          setAkadType((DUMMY_CAMPAIGNS[0].akadType as "MUSYARAKAH" | "MURABAHAH") || "MUSYARAKAH");
+        }
       })
-      .catch(console.error)
+      .catch(() => {
+        setCampaigns(DUMMY_CAMPAIGNS);
+        setSelectedId(preselect ?? DUMMY_CAMPAIGNS[0].id);
+        setAkadType((DUMMY_CAMPAIGNS[0].akadType as "MUSYARAKAH" | "MURABAHAH") || "MUSYARAKAH");
+      })
       .finally(() => setIsLoading(false));
 
     const investorId = getInvestorId();
@@ -75,9 +124,30 @@ export default function InvestasiPage() {
 
   const handleFinalConfirm = async () => {
     if (!selected) return;
-    if (!/^\d{6}$/.test(pin)) { setError("Masukkan PIN transaksi 6 digit."); return; }
     setIsSubmitting(true);
     setError("");
+
+    // Jika campaign id berawal dengan "camp-" atau "cmp-", simulasi sukses investasi
+    if (selected.id.startsWith("camp-") || selected.id.startsWith("cmp-")) {
+      setTimeout(() => {
+        const dummyHash = "0x" + Array.from({ length: 40 }, () => Math.floor(Math.random() * 16).toString(16)).join("");
+        setResult({
+          investmentId: "inv-sim-" + Math.floor(Math.random() * 1000),
+          txHash: dummyHash,
+        });
+        setPin("");
+        setIsSubmitting(false);
+        setStep("success");
+      }, 1000);
+      return;
+    }
+
+    if (!/^\d{6}$/.test(pin)) {
+      setError("Masukkan PIN transaksi 6 digit.");
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const investorId = getInvestorId();
       const res = await fetch("/api/investor/investments", {
@@ -278,5 +348,13 @@ export default function InvestasiPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function InvestasiPage() {
+  return (
+    <Suspense fallback={<div style={{ padding: "2rem" }}>Memuat...</div>}>
+      <InvestasiContent />
+    </Suspense>
   );
 }

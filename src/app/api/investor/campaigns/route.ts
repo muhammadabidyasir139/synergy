@@ -64,6 +64,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(signed);
   } catch (err) {
     console.error(err);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    return NextResponse.json({ error: err instanceof Error ? err.message : "Server error", stack: err instanceof Error ? err.stack : undefined }, { status: 500 });
   }
 }

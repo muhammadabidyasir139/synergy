@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -70,12 +71,18 @@ export default function AdminLogin() {
 
       {/* Header element */}
       <header className={styles.header}>
-        <div className={styles.logoGroup}>
-          <Link href="/" className={styles.logo}>
-            SYNERGY
-          </Link>
+        <Link href="/" className={styles.logoGroup}>
+          <Image
+            src="/source/Logo-Synergy.png"
+            alt="Synergy Logo"
+            width={40}
+            height={40}
+            style={{ objectFit: "contain" }}
+            priority
+          />
+          <span className={styles.logoText}>SYNERGY</span>
           <span className={styles.badge}>PKM KC</span>
-        </div>
+        </Link>
         <ThemeToggle />
       </header>
 

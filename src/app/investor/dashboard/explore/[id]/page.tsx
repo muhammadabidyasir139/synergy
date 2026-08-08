@@ -62,6 +62,8 @@ interface CampaignDetail {
 
 const formatRp = (n: number) => "Rp " + n.toLocaleString("id-ID");
 
+
+
 export default function CampaignDetailPage() {
   const params = useParams();
   const id = params.id as string;
@@ -77,7 +79,7 @@ export default function CampaignDetailPage() {
     setIsStartingChat(true);
     setChatError("");
     try {
-      const res = await fetch("/api/chat/rooms", {
+      const res = await fetch("/api/chat/rooms?role=INVESTOR", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ campaignId: data.id }),
@@ -100,7 +102,13 @@ export default function CampaignDetailPage() {
   useEffect(() => {
     fetch(`/api/investor/campaigns/${id}`)
       .then((r) => r.json())
-      .then((d) => setData(d.error ? null : d))
+      .then((d) => {
+        if (d && !d.error) {
+          setData(d);
+        } else {
+          setData(null);
+        }
+      })
       .catch(() => setData(null))
       .finally(() => setIsLoading(false));
   }, [id]);

@@ -7,11 +7,11 @@ const MAX_MESSAGE_LENGTH = 2000;
 
 /** Riwayat pesan sebuah room; sekaligus menandai pesan lawan sebagai terbaca. */
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const me = await getChatParticipant();
+    const me = await getChatParticipant(request);
     if (!me) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const { id } = await params;
@@ -50,7 +50,7 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const me = await getChatParticipant();
+    const me = await getChatParticipant(request);
     if (!me) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const { id } = await params;

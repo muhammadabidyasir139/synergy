@@ -511,7 +511,7 @@ model Berita {
   title       String
   slug        String    @unique
   excerpt     String
-  content     String
+  content     String    @db.Text
   coverImage  String?
   category    String?
   authorId    String
@@ -549,7 +549,7 @@ model ChatMessage {
   id         String         @id @default(cuid())
   roomId     String
   senderRole ChatSenderRole
-  content    String
+  content    String         @db.Text
   readAt     DateTime?
   createdAt  DateTime       @default(now())
   room       ChatRoom       @relation(fields: [roomId], references: [id], onDelete: Cascade)

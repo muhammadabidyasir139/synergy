@@ -28,13 +28,34 @@ function LoginForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setSuccess("");
+
+    // Client-side validation
+    if (!email.trim()) {
+      setError("Email wajib diisi.");
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      setError("Format email tidak valid. Contoh: nama@email.com");
+      return;
+    }
+    if (!password) {
+      setError("Kata sandi wajib diisi.");
+      return;
+    }
+    if (password.length < 6) {
+      setError("Kata sandi minimal 6 karakter.");
+      return;
+    }
+
     setLoading(true);
 
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ identifier: email, password, role: role.toUpperCase() }),
+        body: JSON.stringify({ identifier: email.trim(), password, role: role.toUpperCase() }),
       });
 
       const contentType = res.headers.get("content-type");
@@ -46,7 +67,7 @@ function LoginForm() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "Terjadi kesalahan, coba lagi.");
+        setError(data.error || "Email atau kata sandi salah. Silakan coba lagi.");
         return;
       }
 
@@ -60,7 +81,7 @@ function LoginForm() {
 
       router.push(userRole === "umkm" ? "/umkm/dashboard" : "/investor/dashboard");
     } catch {
-      setError("Tidak dapat terhubung ke server.");
+      setError("Tidak dapat terhubung ke server. Periksa koneksi internet Anda.");
     } finally {
       setLoading(false);
     }

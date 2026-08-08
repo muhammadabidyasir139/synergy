@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { ChatSenderRole } from "@/generated/prisma";
 import { getChatParticipant } from "@/lib/chat";
@@ -8,64 +8,37 @@ import { getChatParticipant } from "@/lib/chat";
  * yang sudah ada — bukan daftar seluruh pengguna. UMKM melihat investornya,
  * investor melihat UMKM yang didanainya.
  */
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const me = await getChatParticipant();
+    const me = await getChatParticipant(request);
     if (!me) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     if (me.role === ChatSenderRole.UMKM) {
-      const investments = await db.investment.findMany({
-        where: { campaign: { umkmProfileId: me.profileId } },
-        select: {
-          investorProfile: { select: { id: true, fullName: true } },
-          campaign: { select: { id: true, title: true } },
-        },
+      const allInvestors = await db.investorProfile.findMany({
+        select: { id: true, fullName: true, city: true, createdAt: true },
         orderBy: { createdAt: "desc" },
       });
 
-      // Satu investor bisa punya banyak investasi; tampilkan sekali saja.
-      const seen = new Set<string>();
-      const contacts = [];
-      for (const inv of investments) {
-        if (seen.has(inv.investorProfile.id)) continue;
-        seen.add(inv.investorProfile.id);
-        contacts.push({
-          id: inv.investorProfile.id,
-          name: inv.investorProfile.fullName,
-          context: inv.campaign.title,
-          campaignId: inv.campaign.id,
-        });
-      }
+      const contacts = allInvestors.map((inv) => ({
+        id: inv.id,
+        name: inv.fullName,
+        context: inv.city || "Investor Terdaftar",
+        campaignId: "",
+      }));
       return NextResponse.json({ myRole: me.role, contacts });
     }
 
-    const investments = await db.investment.findMany({
-      where: { investorProfileId: me.profileId },
-      select: {
-        campaign: {
-          select: {
-            id: true,
-            title: true,
-            umkmProfile: { select: { id: true, businessName: true } },
-          },
-        },
-      },
+    const allUmkms = await db.umkmProfile.findMany({
+      select: { id: true, businessName: true, createdAt: true },
       orderBy: { createdAt: "desc" },
     });
 
-    const seen = new Set<string>();
-    const contacts = [];
-    for (const inv of investments) {
-      const umkm = inv.campaign.umkmProfile;
-      if (seen.has(umkm.id)) continue;
-      seen.add(umkm.id);
-      contacts.push({
-        id: umkm.id,
-        name: umkm.businessName,
-        context: inv.campaign.title,
-        campaignId: inv.campaign.id,
-      });
-    }
+    const contacts = allUmkms.map((umkm) => ({
+      id: umkm.id,
+      name: umkm.businessName,
+      context: "UMKM Terdaftar",
+      campaignId: "",
+    }));
     return NextResponse.json({ myRole: me.role, contacts });
   } catch (err) {
     console.error(err);

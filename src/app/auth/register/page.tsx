@@ -148,29 +148,59 @@ export default function RegisterPage() {
   }
 
   function validateStep1(): string {
-    if (!account.email) return "Email wajib diisi.";
-    if (!account.phoneNumber) return "Nomor HP wajib diisi.";
+    // Email validation
+    if (!account.email.trim()) return "Email wajib diisi.";
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(account.email.trim())) return "Format email tidak valid. Contoh: nama@email.com";
+
+    // Phone validation
+    if (!account.phoneNumber.trim()) return "Nomor HP wajib diisi.";
+    if (account.phoneNumber.length < 9) return "Nomor HP minimal 9 digit.";
+    if (account.phoneNumber.length > 15) return "Nomor HP maksimal 15 digit.";
+    if (!/^\d+$/.test(account.phoneNumber)) return "Nomor HP hanya boleh berisi angka.";
+
+    // Password validation
+    if (!account.password) return "Kata sandi wajib diisi.";
     if (account.password.length < 8) return "Kata sandi minimal 8 karakter.";
+    if (!/[A-Z]/.test(account.password)) return "Kata sandi harus mengandung minimal 1 huruf besar.";
+    if (!/[a-z]/.test(account.password)) return "Kata sandi harus mengandung minimal 1 huruf kecil.";
+    if (!/[0-9]/.test(account.password)) return "Kata sandi harus mengandung minimal 1 angka.";
+
+    // Confirm password
+    if (!account.confirmPassword) return "Konfirmasi kata sandi wajib diisi.";
     if (account.password !== account.confirmPassword) return "Konfirmasi kata sandi tidak cocok.";
     return "";
   }
 
   function validateStep2(): string {
     if (account.role === "INVESTOR") {
-      if (!investorProfile.fullName) return "Nama lengkap wajib diisi.";
+      if (!investorProfile.fullName.trim()) return "Nama lengkap wajib diisi.";
+      if (/\d/.test(investorProfile.fullName)) return "Nama lengkap tidak boleh mengandung angka.";
+      if (investorProfile.fullName.trim().length < 3) return "Nama lengkap minimal 3 karakter.";
       if (!investorProfile.dateOfBirth) return "Tanggal lahir wajib diisi.";
+      // Age validation: must be at least 17 years old
+      const birthDate = new Date(investorProfile.dateOfBirth);
+      const today = new Date();
+      const age = today.getFullYear() - birthDate.getFullYear();
+      if (age < 17) return "Usia minimal 17 tahun untuk mendaftar.";
+      if (age > 120) return "Tanggal lahir tidak valid.";
       if (!investorProfile.province) return "Provinsi wajib dipilih.";
-      if (!investorProfile.city) return "Kota wajib diisi.";
+      if (!investorProfile.city) return "Kota/Kabupaten wajib dipilih.";
       if (!investorProfile.district) return "Kecamatan wajib dipilih.";
+      if (!investorProfile.postalCode) return "Kode pos wajib diisi.";
       if (!/^\d{5}$/.test(investorProfile.postalCode)) return "Kode pos harus 5 digit angka.";
     } else {
-      if (!umkmProfile.ownerName) return "Nama pemilik wajib diisi.";
-      if (!umkmProfile.businessName) return "Nama usaha wajib diisi.";
+      if (!umkmProfile.ownerName.trim()) return "Nama pemilik usaha wajib diisi.";
+      if (/\d/.test(umkmProfile.ownerName)) return "Nama pemilik tidak boleh mengandung angka.";
+      if (umkmProfile.ownerName.trim().length < 3) return "Nama pemilik minimal 3 karakter.";
+      if (!umkmProfile.businessName.trim()) return "Nama usaha wajib diisi.";
+      if (umkmProfile.businessName.trim().length < 2) return "Nama usaha minimal 2 karakter.";
       if (!umkmProfile.businessCategory) return "Kategori usaha wajib dipilih.";
       if (umkmProfile.businessCategory === "Lainnya" && !businessCategoryOther.trim()) return "Sebutkan kategori usaha Anda.";
       if (!umkmProfile.province) return "Provinsi wajib dipilih.";
-      if (!umkmProfile.city) return "Kota wajib diisi.";
+      if (!umkmProfile.city) return "Kota/Kabupaten wajib dipilih.";
       if (!umkmProfile.district) return "Kecamatan wajib dipilih.";
+      if (!umkmProfile.postalCode) return "Kode pos wajib diisi.";
       if (!/^\d{5}$/.test(umkmProfile.postalCode)) return "Kode pos harus 5 digit angka.";
     }
     return "";

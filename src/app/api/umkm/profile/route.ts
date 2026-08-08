@@ -30,6 +30,8 @@ export async function GET(request: NextRequest) {
     ]);
 
     return NextResponse.json({
+      id: profile.id,
+      userId: profile.userId,
       businessName: profile.businessName,
       businessCategory: profile.businessCategory,
       businessDescription: profile.businessDescription ?? "",

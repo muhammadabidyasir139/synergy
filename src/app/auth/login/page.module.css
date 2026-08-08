@@ -6,7 +6,6 @@
   position: relative;
   background-color: var(--bg-color);
   color: var(--text-color);
-  overflow-y: auto;
 }
 
 /* Background floating orbs */

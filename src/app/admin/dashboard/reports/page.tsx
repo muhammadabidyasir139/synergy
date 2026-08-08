@@ -37,8 +37,23 @@ export default function ReportsPage() {
     setExporting(true);
     setTimeout(() => {
       setExporting(false);
-      alert(`${selectedReport} berhasil di-export sebagai ${format}!`);
-    }, 1500);
+      
+      // Buat data CSV mock untuk simulasi laporan
+      const csvContent = "Periode,Indikator,Nilai\n"
+        + `${dateFrom} s/d ${dateTo},Total UMKM,1248\n`
+        + `${dateFrom} s/d ${dateTo},Total Investor,3562\n`
+        + `${dateFrom} s/d ${dateTo},Dana Terhimpun,Rp 12.400.000.000\n`;
+        
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `Synergy_Laporan_${selectedReport.replace(/\s+/g, '_')}_${format}.${format === 'Excel' ? 'csv' : 'pdf'}`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }, 1000);
   };
 
   return (

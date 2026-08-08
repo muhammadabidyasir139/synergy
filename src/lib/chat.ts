@@ -13,11 +13,22 @@ export interface ChatParticipant {
  * Mengembalikan identitas peserta chat dari sesi aktif.
  * Admin bukan peserta negosiasi, jadi sengaja tidak didukung.
  */
-export async function getChatParticipant(): Promise<ChatParticipant | null> {
-  const session = await getSession();
+export async function getChatParticipant(request?: Request): Promise<ChatParticipant | null> {
+  let requestedRole: string | undefined = undefined;
+  if (request) {
+    const url = new URL(request.url);
+    const roleOverride = url.searchParams.get("role");
+    if (roleOverride === "INVESTOR" || roleOverride === "UMKM") {
+      requestedRole = roleOverride;
+    }
+  }
+
+  const session = await getSession(requestedRole);
   if (!session) return null;
 
-  if (session.role === "INVESTOR") {
+  const activeRole = requestedRole || session.role;
+
+  if (activeRole === "INVESTOR") {
     const profile = await db.investorProfile.findUnique({
       where: { userId: session.userId },
       select: { id: true },
@@ -27,7 +38,7 @@ export async function getChatParticipant(): Promise<ChatParticipant | null> {
       : null;
   }
 
-  if (session.role === "UMKM") {
+  if (activeRole === "UMKM") {
     const profile = await db.umkmProfile.findUnique({
       where: { userId: session.userId },
       select: { id: true },

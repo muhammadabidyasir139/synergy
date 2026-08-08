@@ -75,7 +75,9 @@ export async function POST(request: NextRequest) {
 
     const res = NextResponse.json({ success: true, role: user.role, session: sessionData }, { status: 200 });
     const opts = sessionCookieOptions(token);
+    const roleOpts = sessionCookieOptions(token, user.role);
     res.cookies.set(opts);
+    res.cookies.set(roleOpts);
 
     return res;
   } catch (err) {

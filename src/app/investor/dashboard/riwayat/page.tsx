@@ -60,6 +60,40 @@ export default function RiwayatPage() {
     return -tx.amount;
   };
 
+  const handleExport = () => {
+    if (filtered.length === 0) {
+      setExportMsg("Tidak ada data untuk diekspor.");
+      setTimeout(() => setExportMsg(""), 3000);
+      return;
+    }
+    const headers = ["ID", "Tipe", "Deskripsi", "Jumlah", "Status", "Tanggal", "Referensi"];
+    const csvRows = [headers.join(",")];
+    for (const tx of filtered) {
+      const signed = getAmountSign(tx);
+      const row = [
+        tx.id,
+        typeLabel[tx.type] ?? tx.type,
+        `"${tx.description}"`,
+        signed,
+        tx.status,
+        new Date(tx.createdAt).toISOString().split("T")[0],
+        tx.reference ?? ""
+      ];
+      csvRows.push(row.join(","));
+    }
+    const blob = new Blob([csvRows.join("\n")], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `Riwayat_Transaksi_${new Date().toISOString().split("T")[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    setExportMsg("Laporan diekspor sebagai Excel (CSV).");
+    setTimeout(() => setExportMsg(""), 3000);
+  };
+
   if (isLoading) return <div style={{ padding: "2rem" }}>Memuat riwayat transaksi...</div>;
 
   return (
@@ -72,8 +106,8 @@ export default function RiwayatPage() {
             </button>
           ))}
         </div>
-        <button className={styles.exportBtn} onClick={() => { setExportMsg("Riwayat diekspor sebagai PDF."); setTimeout(() => setExportMsg(""), 3000); }}>
-          <ArrowDownTray style={{ verticalAlign: "-0.125em" }} /> Export
+        <button className={styles.exportBtn} onClick={handleExport}>
+          <ArrowDownTray style={{ verticalAlign: "-0.125em" }} /> Export Excel
         </button>
       </div>
 

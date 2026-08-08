@@ -67,21 +67,21 @@ export async function POST(request: NextRequest) {
     }
 
     // Helper for safe date parsing
-    const parseSafeDate = (d: any): Date | null => {
+    const parseSafeDate = (d: unknown): Date | null => {
       if (!d) return null;
-      const ts = Date.parse(d);
+      const ts = Date.parse(d as string);
       return isNaN(ts) ? null : new Date(ts);
     };
 
     // Helper for safe int parsing
-    const parseSafeInt = (val: any): number | null => {
+    const parseSafeInt = (val: unknown): number | null => {
       if (val === undefined || val === null || val === "") return null;
       const num = parseInt(String(val), 10);
       return isNaN(num) ? null : num;
     };
 
     // Helper for safe float parsing
-    const parseSafeFloat = (val: any): number | null => {
+    const parseSafeFloat = (val: unknown): number | null => {
       if (val === undefined || val === null || val === "") return null;
       const num = parseFloat(String(val));
       return isNaN(num) ? null : num;
@@ -133,7 +133,7 @@ export async function POST(request: NextRequest) {
             monthlyRevenue: parseSafeFloat(profile.monthlyRevenue),
             website: profile.website || null,
             socialMedia: profile.socialMedia && Array.isArray(profile.socialMedia)
-              ? JSON.stringify(profile.socialMedia.filter((sm: any) => sm.platform && sm.handle))
+              ? JSON.stringify(profile.socialMedia.filter((sm: { platform?: string; handle?: string }) => sm.platform && sm.handle))
               : null,
           },
         });
@@ -153,10 +153,10 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json({ success: true, userId: user.id }, { status: 201 });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("[REGISTER ERROR]", err);
     return NextResponse.json(
-      { error: err?.message || "Terjadi kesalahan server saat memproses pendaftaran." },
+      { error: err instanceof Error ? err.message : "Terjadi kesalahan server saat memproses pendaftaran." },
       { status: 500 }
     );
   }

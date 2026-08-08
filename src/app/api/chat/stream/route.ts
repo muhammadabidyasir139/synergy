@@ -13,7 +13,7 @@ const HEARTBEAT_MS = 25000;
  * Klien memakainya lewat EventSource dan otomatis reconnect bila terputus.
  */
 export async function GET(request: Request) {
-  const me = await getChatParticipant();
+  const me = await getChatParticipant(request);
   if (!me) return new Response("Unauthorized", { status: 401 });
 
   const encoder = new TextEncoder();

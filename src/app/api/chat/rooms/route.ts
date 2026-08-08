@@ -4,9 +4,9 @@ import { ChatSenderRole } from "@/generated/prisma";
 import { getChatParticipant, roomScopeFor, counterpartRole } from "@/lib/chat";
 
 /** Daftar room milik pengguna aktif, terbaru di atas, lengkap dengan jumlah belum dibaca. */
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const me = await getChatParticipant();
+    const me = await getChatParticipant(request);
     if (!me) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const rooms = await db.chatRoom.findMany({
@@ -62,7 +62,7 @@ export async function GET() {
  */
 export async function POST(request: NextRequest) {
   try {
-    const me = await getChatParticipant();
+    const me = await getChatParticipant(request);
     if (!me) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const body = (await request.json()) as {
@@ -103,23 +103,7 @@ export async function POST(request: NextRequest) {
       }
       investorProfileId = body.investorProfileId;
 
-      // UMKM hanya boleh menghubungi investor yang benar-benar mendanai salah
-      // satu kampanyenya. Tanpa syarat ini, UMKM mana pun bisa membuka room ke
-      // investor mana pun. (Arah sebaliknya sengaja dibiarkan terbuka: investor
-      // memang perlu bertanya sebelum memutuskan berinvestasi.)
-      const hasInvested = await db.investment.findFirst({
-        where: {
-          investorProfileId,
-          campaign: { umkmProfileId: me.profileId },
-        },
-        select: { id: true },
-      });
-      if (!hasInvested) {
-        return NextResponse.json(
-          { error: "Investor ini belum mendanai kampanye Anda." },
-          { status: 403 }
-        );
-      }
+      // UMKM bebas menghubungi investor mana pun (sesuai permintaan user).
 
       // campaignId ikut disimpan agar room yang dibuka UMKM dan yang dibuka
       // investor dari halaman kampanye bermuara ke room yang sama, bukan dua
@@ -147,11 +131,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Lawan bicara tidak ditemukan." }, { status: 404 });
     }
 
-    // Satu room per pasangan investor-UMKM per campaign. campaignId nullable,
-    // sehingga unique constraint tidak bisa diandalkan di Postgres (NULL selalu
-    // dianggap berbeda) — karena itu dicari manual lebih dulu.
+    // Satu room per pasangan investor-UMKM, hiraukan campaignId yang mungkin berbeda.
     const existing = await db.chatRoom.findFirst({
-      where: { investorProfileId, umkmProfileId, campaignId },
+      where: { investorProfileId, umkmProfileId },
+      orderBy: { createdAt: "desc" }
     });
     if (existing) return NextResponse.json({ id: existing.id, created: false });
 

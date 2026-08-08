@@ -58,6 +58,42 @@ export default function ProfitSharingPage() {
   const statusStyle = (s: string) =>
     s === "PAID" ? styles.statusPaid : s === "PENDING" ? styles.statusPending : styles.statusOverdue;
 
+  const handleExport = () => {
+    if (filtered.length === 0) {
+      setExportMsg("Tidak ada data untuk diekspor.");
+      setTimeout(() => setExportMsg(""), 3000);
+      return;
+    }
+    const headers = ["ID", "UMKM", "Periode Mulai", "Periode Selesai", "Jatuh Tempo", "Gross Revenue", "Bagian Anda", "Platform Fee", "Status", "Dibayar Pada"];
+    const csvRows = [headers.join(",")];
+    for (const p of filtered) {
+      const row = [
+        p.id,
+        `"${p.umkm}"`,
+        p.periodStart.split("T")[0],
+        p.periodEnd.split("T")[0],
+        p.dueDate.split("T")[0],
+        p.grossRevenue,
+        p.investorShare,
+        p.platformFee,
+        p.status,
+        p.paidAt ? p.paidAt.split("T")[0] : ""
+      ];
+      csvRows.push(row.join(","));
+    }
+    const blob = new Blob([csvRows.join("\n")], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `Laporan_Bagi_Hasil_${new Date().toISOString().split("T")[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    setExportMsg("Laporan diekspor sebagai Excel (CSV).");
+    setTimeout(() => setExportMsg(""), 3000);
+  };
+
   if (isLoading) return <div style={{ padding: "2rem" }}>Memuat data bagi hasil...</div>;
 
   return (
@@ -85,8 +121,8 @@ export default function ProfitSharingPage() {
             <button key={f} className={`${styles.tab} ${filter === f ? styles.tabActive : ""}`} onClick={() => setFilter(f)}>{f}</button>
           ))}
         </div>
-        <button className={styles.exportBtn} onClick={() => { setExportMsg("Laporan diekspor sebagai PDF."); setTimeout(() => setExportMsg(""), 3000); }}>
-          <ArrowDownTray style={{ verticalAlign: "-0.125em" }} /> Export PDF
+        <button className={styles.exportBtn} onClick={handleExport}>
+          <ArrowDownTray style={{ verticalAlign: "-0.125em" }} /> Export Excel
         </button>
       </div>
 

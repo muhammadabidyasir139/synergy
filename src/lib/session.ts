@@ -62,16 +62,27 @@ export async function verifySessionToken(token: string): Promise<SessionPayload 
   }
 }
 
-export async function getSession(): Promise<SessionPayload | null> {
+export async function getSession(role?: string): Promise<SessionPayload | null> {
   const cookieStore = await cookies();
-  const token = cookieStore.get(COOKIE)?.value;
+  let token = undefined;
+  
+  // Jika role spesifik diminta, prioritaskan mencari cookie khusus role tersebut terlebih dahulu
+  if (role) {
+    token = cookieStore.get(`${COOKIE}_${role.toLowerCase()}`)?.value;
+  }
+  
+  // Fallback ke cookie global jika tidak ada cookie khusus role
+  if (!token) {
+    token = cookieStore.get(COOKIE)?.value;
+  }
+  
   if (!token) return null;
   return verifySessionToken(token);
 }
 
-export function sessionCookieOptions(token: string) {
+export function sessionCookieOptions(token: string, role?: string) {
   return {
-    name: COOKIE,
+    name: role ? `${COOKIE}_${role.toLowerCase()}` : COOKIE,
     value: token,
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",

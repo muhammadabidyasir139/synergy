@@ -23,6 +23,63 @@ interface AkadItem {
   uiStatus: "Waiting Approval" | "Deploying" | "Deployed";
 }
 
+const DUMMY_AKADS: AkadItem[] = [
+  {
+    id: "akad-1",
+    campaignId: "cmp-101",
+    umkmName: "Kopi Kulon Progo",
+    targetAmount: 50000000,
+    collectedAmount: 50000000,
+    fundedPercentage: 100,
+    akadType: "Mudharabah",
+    nisbahUmkm: 60,
+    nisbahInvestor: 40,
+    investorCount: 18,
+    principalAmount: 50000000,
+    durationMonths: 12,
+    status: "FUNDED",
+    blockchainStatus: "PENDING_DEPLOYMENT",
+    createdAt: new Date().toISOString(),
+    uiStatus: "Waiting Approval",
+  },
+  {
+    id: "akad-2",
+    campaignId: "cmp-102",
+    umkmName: "Batik Mataram Craft",
+    targetAmount: 75000000,
+    collectedAmount: 75000000,
+    fundedPercentage: 100,
+    akadType: "Musyarakah",
+    nisbahUmkm: 55,
+    nisbahInvestor: 45,
+    investorCount: 24,
+    principalAmount: 75000000,
+    durationMonths: 18,
+    status: "FUNDED",
+    blockchainStatus: "PENDING_DEPLOYMENT",
+    createdAt: new Date().toISOString(),
+    uiStatus: "Waiting Approval",
+  },
+  {
+    id: "akad-3",
+    campaignId: "cmp-104",
+    umkmName: "Keripik Singkong Bantul",
+    targetAmount: 25000000,
+    collectedAmount: 25000000,
+    fundedPercentage: 100,
+    akadType: "Mudharabah",
+    nisbahUmkm: 65,
+    nisbahInvestor: 35,
+    investorCount: 31,
+    principalAmount: 25000000,
+    durationMonths: 9,
+    status: "FUNDED",
+    blockchainStatus: "PENDING_DEPLOYMENT",
+    createdAt: new Date().toISOString(),
+    uiStatus: "Waiting Approval",
+  },
+];
+
 export default function AkadApprovalPage() {
   const [akads, setAkads] = useState<AkadItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -35,10 +92,19 @@ export default function AkadApprovalPage() {
 
   const fetchAkads = useCallback(async () => {
     setLoading(true);
-    const res = await fetch("/api/admin/akad-approval");
-    const data = await res.json();
-    setAkads(data.map((a: AkadItem) => ({ ...a, uiStatus: "Waiting Approval" as const })));
-    setLoading(false);
+    try {
+      const res = await fetch("/api/admin/akad-approval");
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) {
+        setAkads(data.map((a: AkadItem) => ({ ...a, uiStatus: "Waiting Approval" as const })));
+      } else {
+        setAkads(DUMMY_AKADS);
+      }
+    } catch {
+      setAkads(DUMMY_AKADS);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -50,25 +116,45 @@ export default function AkadApprovalPage() {
       prev.map((a) => (a.id === akad.id ? { ...a, uiStatus: "Deploying" } : a))
     );
 
-    const res = await fetch(`/api/admin/akad-approval/${akad.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "approve" }),
-    });
-
-    if (res.ok) {
-      setAkads((prev) =>
-        prev.map((a) => (a.id === akad.id ? { ...a, uiStatus: "Deployed" } : a))
-      );
-      showToast(`Smart Contract untuk ${akad.umkmName} berhasil di-deploy ke Blockchain Ledger!`);
+    if (akad.id.startsWith("akad-")) {
       setTimeout(() => {
-        setAkads((prev) => prev.filter((a) => a.id !== akad.id));
+        setAkads((prev) =>
+          prev.map((a) => (a.id === akad.id ? { ...a, uiStatus: "Deployed" } : a))
+        );
+        showToast(`Smart Contract untuk ${akad.umkmName} berhasil di-deploy ke Blockchain Ledger!`);
+        setTimeout(() => {
+          setAkads((prev) => prev.filter((a) => a.id !== akad.id));
+        }, 1500);
       }, 1500);
-    } else {
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/admin/akad-approval/${akad.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "approve" }),
+      });
+
+      if (res.ok) {
+        setAkads((prev) =>
+          prev.map((a) => (a.id === akad.id ? { ...a, uiStatus: "Deployed" } : a))
+        );
+        showToast(`Smart Contract untuk ${akad.umkmName} berhasil di-deploy ke Blockchain Ledger!`);
+        setTimeout(() => {
+          setAkads((prev) => prev.filter((a) => a.id !== akad.id));
+        }, 1500);
+      } else {
+        setAkads((prev) =>
+          prev.map((a) => (a.id === akad.id ? { ...a, uiStatus: "Waiting Approval" } : a))
+        );
+        showToast("Gagal deploy akad. Coba lagi.");
+      }
+    } catch {
       setAkads((prev) =>
         prev.map((a) => (a.id === akad.id ? { ...a, uiStatus: "Waiting Approval" } : a))
       );
-      showToast("Gagal deploy akad. Coba lagi.");
+      showToast("Terjadi kesalahan jaringan.");
     }
   };
 

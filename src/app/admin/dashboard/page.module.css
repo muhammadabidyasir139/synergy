@@ -324,6 +324,27 @@
   gap: 1.5rem;
 }
 
+.headerLogoutBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.headerLogoutBtn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  transform: translateY(-1px);
+}
+
 .blockchainIndicator {
   display: flex;
   align-items: center;

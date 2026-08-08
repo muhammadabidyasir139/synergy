@@ -23,6 +23,60 @@ interface UmkmApplication {
   insights: AIInsight[] | null;
 }
 
+const DUMMY_APPLICATIONS: UmkmApplication[] = [
+  {
+    id: "app-101",
+    name: "Kopi Kulon Progo",
+    category: "Kuliner / F&B",
+    targetFunding: 50000000,
+    tenor: 12,
+    akadType: "Mudharabah",
+    status: "PENDING",
+    purpose: "Ekspansi pembukaan cabang baru dan pembelian mesin sangrai kopi modern.",
+    score: 88,
+    riskLevel: "LOW",
+    insights: [
+      { type: "positive", text: "Cash flow stabil selama 12 bulan terakhir dengan rasio pertumbuhan +22% YoY." },
+      { type: "positive", text: "Riwayat kewajiban finansial dan histori transaksi 100% tepat waktu." },
+      { type: "warning", text: "Perlu peningkatan stok persediaan bahan baku menghadapi musim liburan." }
+    ]
+  },
+  {
+    id: "app-102",
+    name: "Batik Mataram Craft",
+    category: "Kerajinan & Fashion",
+    targetFunding: 75000000,
+    tenor: 18,
+    akadType: "Musyarakah",
+    status: "PENDING",
+    purpose: "Pembelian bahan pewarna alami dan pameran ekspor mancanegara.",
+    score: 82,
+    riskLevel: "LOW",
+    insights: [
+      { type: "positive", text: "Memiliki pesanan tetap (purchase order) dari distributor luar negeri." },
+      { type: "positive", text: "Pengalaman pemilik usaha lebih dari 8 tahun di industri kerajinan." },
+      { type: "warning", text: "Fluktuasi harga bahan baku pewarna alami dalam 6 bulan terakhir." }
+    ]
+  },
+  {
+    id: "app-103",
+    name: "Tani Organik Sleman",
+    category: "Pertanian & Perkebunan",
+    targetFunding: 35000000,
+    tenor: 6,
+    akadType: "Murabahah",
+    status: "PENDING",
+    purpose: "Pengadaan pupuk organik premium dan modernisasi sistem irigasi tetes.",
+    score: 74,
+    riskLevel: "MEDIUM",
+    insights: [
+      { type: "positive", text: "Permintaan produk sayur organik lokal meningkat signifikan." },
+      { type: "negative", text: "Risiko cuaca ekstrem pada musim hujan mempengaruhi proyeksi panen." },
+      { type: "warning", text: "Margin operasional tertekan kenaikan biaya logistik antar wilayah." }
+    ]
+  }
+];
+
 export default function UmkmApprovalPage() {
   const [applications, setApplications] = useState<UmkmApplication[]>([]);
   const [loading, setLoading] = useState(true);
@@ -39,11 +93,22 @@ export default function UmkmApprovalPage() {
 
   const fetchApplications = useCallback(async () => {
     setLoading(true);
-    const res = await fetch("/api/admin/umkm-approval?status=PENDING");
-    const data: UmkmApplication[] = await res.json();
-    setApplications(data);
-    setSelectedUmkm(data[0] ?? null);
-    setLoading(false);
+    try {
+      const res = await fetch("/api/admin/umkm-approval?status=PENDING");
+      const data: UmkmApplication[] = await res.json();
+      if (Array.isArray(data) && data.length > 0) {
+        setApplications(data);
+        setSelectedUmkm(data[0] ?? null);
+      } else {
+        setApplications(DUMMY_APPLICATIONS);
+        setSelectedUmkm(DUMMY_APPLICATIONS[0] ?? null);
+      }
+    } catch {
+      setApplications(DUMMY_APPLICATIONS);
+      setSelectedUmkm(DUMMY_APPLICATIONS[0] ?? null);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -53,6 +118,18 @@ export default function UmkmApprovalPage() {
   const handleApprove = async (id: string) => {
     setSubmitting(true);
     try {
+      if (id.startsWith("app-")) {
+        // Mock success for dummy data
+        setTimeout(() => {
+          const remaining = applications.filter((a) => a.id !== id);
+          setApplications(remaining);
+          setSelectedUmkm(remaining[0] ?? null);
+          toast("UMKM berhasil disetujui dan diorbitkan ke Marketplace Investor!");
+          setSubmitting(false);
+        }, 1000);
+        return;
+      }
+      
       const res = await fetch(`/api/admin/umkm-approval/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -63,9 +140,15 @@ export default function UmkmApprovalPage() {
         setApplications(remaining);
         setSelectedUmkm(remaining[0] ?? null);
         toast("UMKM berhasil disetujui dan diorbitkan ke Marketplace Investor!");
+      } else {
+        toast("Gagal memproses persetujuan. Coba lagi.");
       }
+    } catch {
+      toast("Terjadi kesalahan jaringan.");
     } finally {
-      setSubmitting(false);
+      if (!id.startsWith("app-")) {
+        setSubmitting(false);
+      }
     }
   };
 

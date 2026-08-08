@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./ChatWidget.module.css";
-import { MessageCircle, Send, X, ArrowLeft, Plus } from "@/components/icons";
+import { MessageCircle, Send, X, ArrowLeft, Plus, Trash } from "@/components/icons";
 
 interface RoomSummary {
   id: string;
@@ -38,6 +38,43 @@ function formatTime(iso: string | null) {
     : d.toLocaleDateString("id-ID", { day: "numeric", month: "short" });
 }
 
+const playNotificationSound = () => {
+  try {
+    const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(800, audioCtx.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.1);
+    
+    gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+    
+    oscillator.start();
+    oscillator.stop(audioCtx.currentTime + 0.1);
+  } catch (e) {
+    // Ignore if audio fails
+  }
+};
+
+const showNotification = (title: string, body: string) => {
+  if (typeof window !== "undefined" && "Notification" in window) {
+    if (Notification.permission === "granted") {
+      new Notification(title, { body });
+    } else if (Notification.permission !== "denied") {
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          new Notification(title, { body });
+        }
+      });
+    }
+  }
+};
+
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [rooms, setRooms] = useState<RoomSummary[]>([]);
@@ -59,25 +96,47 @@ export default function ChatWidget() {
   const myRoleRef = useRef<"INVESTOR" | "UMKM" | null>(null);
 
   useEffect(() => {
+    if (typeof window !== "undefined" && "Notification" in window && Notification.permission === "default") {
+      Notification.requestPermission();
+    }
+  }, []);
+
+  const getRoleQuery = useCallback(() => {
+    let role = myRoleRef.current;
+    if (!role) {
+      if (typeof window !== "undefined") {
+        const inv = sessionStorage.getItem("synergy_investor_session");
+        if (inv) role = "INVESTOR";
+        else {
+          const umkm = sessionStorage.getItem("synergy_umkm_session");
+          if (umkm) role = "UMKM";
+        }
+      }
+      myRoleRef.current = role as "INVESTOR" | "UMKM" | null;
+    }
+    return role ? `?role=${role}` : "";
+  }, []);
+
+  useEffect(() => {
     activeRoomRef.current = activeRoom;
   }, [activeRoom]);
 
   const loadRooms = useCallback(async () => {
     try {
-      const res = await fetch("/api/chat/rooms");
+      const res = await fetch("/api/chat/rooms" + getRoleQuery());
       if (!res.ok) return;
       setRooms(await res.json());
     } catch {
       // Diamkan: daftar akan dimuat ulang saat widget dibuka lagi.
     }
-  }, []);
+  }, [getRoleQuery]);
 
   const openRoom = useCallback(async (room: RoomSummary) => {
     setActiveRoom(room);
     setMessages([]);
     setError("");
     try {
-      const res = await fetch(`/api/chat/rooms/${room.id}/messages`);
+      const res = await fetch(`/api/chat/rooms/${room.id}/messages` + getRoleQuery());
       if (!res.ok) throw new Error();
       const data = await res.json();
       setMessages(data.messages);
@@ -88,14 +147,14 @@ export default function ChatWidget() {
     } catch {
       setError("Gagal memuat pesan.");
     }
-  }, []);
+  }, [getRoleQuery]);
 
   const openContactPicker = useCallback(async () => {
     setIsPickingContact(true);
     setIsLoadingContacts(true);
     setError("");
     try {
-      const res = await fetch("/api/chat/contacts");
+      const res = await fetch("/api/chat/contacts" + getRoleQuery());
       if (!res.ok) throw new Error();
       const data = await res.json();
       setContacts(data.contacts);
@@ -105,20 +164,20 @@ export default function ChatWidget() {
     } finally {
       setIsLoadingContacts(false);
     }
-  }, []);
+  }, [getRoleQuery]);
 
   const startChatWith = useCallback(
     async (contact: Contact) => {
       setError("");
       try {
-        // UMKM membuka room lewat id investor; investor lewat campaign agar
-        // negosiasi otomatis terikat ke konteks pendanaannya.
+        // Baik UMKM maupun Investor bebas membuka obrolan ke akun lawan secara langsung
+        // via ID profil jika tidak ada campaign yang spesifik (seperti saat klik dari daftar UMKM Terdaftar).
         const body =
           myRoleRef.current === "UMKM"
-            ? { investorProfileId: contact.id, campaignId: contact.campaignId }
-            : { campaignId: contact.campaignId };
+            ? { investorProfileId: contact.id, campaignId: contact.campaignId || undefined }
+            : { umkmProfileId: contact.id, campaignId: contact.campaignId || undefined };
 
-        const res = await fetch("/api/chat/rooms", {
+        const res = await fetch("/api/chat/rooms" + getRoleQuery(), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
@@ -129,7 +188,7 @@ export default function ChatWidget() {
         }
         const created = await res.json();
 
-        const listRes = await fetch("/api/chat/rooms");
+        const listRes = await fetch("/api/chat/rooms" + getRoleQuery());
         const list: RoomSummary[] = listRes.ok ? await listRes.json() : [];
         setRooms(list);
         setIsPickingContact(false);
@@ -140,15 +199,28 @@ export default function ChatWidget() {
         setError(err instanceof Error ? err.message : "Gagal membuka ruang negosiasi.");
       }
     },
-    [openRoom]
+    [openRoom, getRoleQuery]
   );
+
+  const deleteRoom = useCallback(async (roomId: string) => {
+    if (!confirm("Hapus percakapan ini secara permanen?")) return;
+    setError("");
+    try {
+      const res = await fetch(`/api/chat/rooms/${roomId}` + getRoleQuery(), { method: "DELETE" });
+      if (!res.ok) throw new Error();
+      setRooms((prev) => prev.filter((r) => r.id !== roomId));
+      setActiveRoom(null);
+    } catch {
+      setError("Gagal menghapus percakapan.");
+    }
+  }, [getRoleQuery]);
 
   // Muat daftar room saat mount agar lencana belum-dibaca tampil tanpa dibuka.
   useEffect(() => {
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch("/api/chat/rooms");
+        const res = await fetch("/api/chat/rooms" + getRoleQuery());
         if (!res.ok || cancelled) return;
         setRooms(await res.json());
       } catch {
@@ -158,24 +230,35 @@ export default function ChatWidget() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [getRoleQuery]);
 
   // Satu koneksi SSE untuk seluruh sesi; EventSource otomatis reconnect.
   useEffect(() => {
-    const source = new EventSource("/api/chat/stream");
+    const roleQuery = getRoleQuery();
+    const source = new EventSource("/api/chat/stream" + roleQuery);
 
     source.onmessage = (event) => {
       const incoming = JSON.parse(event.data) as Message & { roomId: string };
       const current = activeRoomRef.current;
+      const isMine = incoming.senderRole === myRoleRef.current;
+      
+      if (!isMine) {
+        playNotificationSound();
+      }
 
       if (current && incoming.roomId === current.id) {
         setMessages((prev) =>
           prev.some((m) => m.id === incoming.id)
             ? prev
-            : [...prev, { ...incoming, mine: false }]
+            : [...prev, { ...incoming, mine: isMine }]
         );
-        // Room sedang terbuka, jadi langsung tandai terbaca di server.
-        fetch(`/api/chat/rooms/${incoming.roomId}/messages`).catch(() => {});
+        // Room sedang terbuka, jadi langsung tandai terbaca di server (jika bukan dari diri sendiri).
+        if (!isMine) {
+          fetch(`/api/chat/rooms/${incoming.roomId}/messages` + roleQuery).catch(() => {});
+        }
+      } else if (!isMine) {
+        // Room tidak terbuka, tampilkan notifikasi push
+        showNotification("Pesan Baru Synergy", incoming.content.slice(0, 50) + "...");
       }
 
       setRooms((prev) => {
@@ -204,7 +287,7 @@ export default function ChatWidget() {
     };
 
     return () => source.close();
-  }, [loadRooms]);
+  }, [loadRooms, getRoleQuery]);
 
   useEffect(() => {
     listEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -218,7 +301,7 @@ export default function ChatWidget() {
       if (!roomId) return;
 
       setIsOpen(true);
-      const res = await fetch("/api/chat/rooms");
+      const res = await fetch("/api/chat/rooms" + getRoleQuery());
       if (!res.ok) return;
       const list: RoomSummary[] = await res.json();
       setRooms(list);
@@ -229,7 +312,7 @@ export default function ChatWidget() {
 
     window.addEventListener("synergy:open-chat", handler);
     return () => window.removeEventListener("synergy:open-chat", handler);
-  }, [openRoom]);
+  }, [openRoom, getRoleQuery]);
 
   const sendMessage = async () => {
     const content = draft.trim();
@@ -238,7 +321,7 @@ export default function ChatWidget() {
     setIsSending(true);
     setError("");
     try {
-      const res = await fetch(`/api/chat/rooms/${activeRoom.id}/messages`, {
+      const res = await fetch(`/api/chat/rooms/${activeRoom.id}/messages` + getRoleQuery(), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content }),
@@ -248,7 +331,11 @@ export default function ChatWidget() {
         throw new Error(data.error ?? "Gagal mengirim pesan.");
       }
       const message: Message = await res.json();
-      setMessages((prev) => [...prev, message]);
+      setMessages((prev) =>
+        prev.some((m) => m.id === message.id)
+          ? prev.map((m) => (m.id === message.id ? { ...m, mine: true } : m))
+          : [...prev, message]
+      );
       setDraft("");
       setRooms((prev) =>
         prev.map((r) =>
@@ -299,6 +386,16 @@ export default function ChatWidget() {
                   <strong>{activeRoom.title}</strong>
                   {activeRoom.campaignTitle && <span>{activeRoom.campaignTitle}</span>}
                 </div>
+                <button
+                  type="button"
+                  className={styles.newChatButton}
+                  style={{ marginLeft: "auto", marginRight: "0.5rem" }}
+                  onClick={() => deleteRoom(activeRoom.id)}
+                  aria-label="Hapus percakapan"
+                  title="Hapus percakapan"
+                >
+                  <Trash size={16} />
+                </button>
               </>
             ) : isPickingContact ? (
               <>
