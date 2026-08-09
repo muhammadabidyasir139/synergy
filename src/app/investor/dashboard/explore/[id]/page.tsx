@@ -70,6 +70,27 @@ export default function CampaignDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isStartingChat, setIsStartingChat] = useState(false);
   const [chatError, setChatError] = useState("");
+  const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
+  const [zoom, setZoom] = useState(1);
+
+  const openLightbox = (url: string) => {
+    setLightboxUrl(url);
+    setZoom(1);
+  };
+  const closeLightbox = () => {
+    setLightboxUrl(null);
+    setZoom(1);
+  };
+
+  // Tutup lightbox dengan tombol Escape.
+  useEffect(() => {
+    if (!lightboxUrl) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeLightbox();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [lightboxUrl]);
 
   // Membuka (atau membuat) room negosiasi, lalu meminta widget chat menampilkannya.
   const startNegotiation = async () => {
@@ -121,7 +142,8 @@ export default function CampaignDetailPage() {
     );
   }
 
-  const cover = data.media.find((m) => m.type === "GALLERY");
+  const gallery = data.media.filter((m) => m.type === "GALLERY");
+  const cover = gallery[0];
   const logo = data.media.find((m) => m.type === "LOGO");
   const omzetChartData = data.omzetHistory.slice(-6);
   const maxOmzet = Math.max(...omzetChartData.map((r) => r.omzet), 1);
@@ -190,6 +212,50 @@ export default function CampaignDetailPage() {
                 <span className={styles.factVal}>{data.website ?? "-"}</span>
               </div>
             </div>
+          </div>
+
+          <div className={styles.card}>
+            <h3 className={styles.cardTitle}>Galeri Kegiatan Usaha</h3>
+            {gallery.length === 0 ? (
+              <p className={styles.emptyNote}>UMKM belum mengunggah foto kegiatan.</p>
+            ) : (
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))",
+                  gap: "0.75rem",
+                }}
+              >
+                {gallery.map((m, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => openLightbox(m.url)}
+                    style={{
+                      padding: 0,
+                      border: "none",
+                      background: "none",
+                      cursor: "pointer",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "0.35rem",
+                      textAlign: "left",
+                    }}
+                    title={m.caption ?? "Foto kegiatan usaha"}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={m.url}
+                      alt={m.caption ?? `Foto kegiatan ${data.name} #${i + 1}`}
+                      style={{ width: "100%", height: 110, objectFit: "cover", borderRadius: 10, display: "block" }}
+                    />
+                    {m.caption && (
+                      <span style={{ fontSize: "0.75rem", opacity: 0.7, lineHeight: 1.3 }}>{m.caption}</span>
+                    )}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className={styles.card}>
@@ -378,6 +444,37 @@ export default function CampaignDetailPage() {
           </div>
         </div>
       </div>
+
+      {lightboxUrl && (
+        <div className={styles.lightboxOverlay} onClick={closeLightbox}>
+          <button
+            type="button"
+            className={styles.lightboxClose}
+            onClick={closeLightbox}
+            aria-label="Tutup"
+          >
+            ×
+          </button>
+          <div
+            className={styles.lightboxStage}
+            onClick={(e) => e.stopPropagation()}
+            onWheel={(e) => {
+              setZoom((z) => Math.min(4, Math.max(1, +(z - e.deltaY * 0.002).toFixed(2))));
+            }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={lightboxUrl}
+              alt="Foto kegiatan usaha"
+              className={`${styles.lightboxImg} ${zoom > 1 ? styles.zoomed : ""}`}
+              style={{ transform: `scale(${zoom})` }}
+              onClick={() => setZoom((z) => (z > 1 ? 1 : 2))}
+              draggable={false}
+            />
+          </div>
+          <span className={styles.lightboxHint}>Klik foto untuk zoom · scroll untuk perbesar · Esc untuk tutup</span>
+        </div>
+      )}
     </div>
   );
 }
